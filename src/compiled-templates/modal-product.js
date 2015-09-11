@@ -5,7 +5,7 @@ try {
   module = angular.module('foodbox.utils.templates', []);
 }
 module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('/partials/modal-product.html',
+  $templateCache.put('/templates/modal-product.html',
     '<div class="modal-header">\n' +
     '  <button type="button" class="close" data-dismiss="modal" ng-click="ctrl.close()"><span aria-hidden="true">&times;</span></button>\n' +
     '  <div class="modal-title">\n' +

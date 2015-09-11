@@ -12,7 +12,7 @@ gulp.task('templates', function () {
   gulp.src(templatesSources)
      .pipe(ngHtml2Js({
         moduleName: "foodbox.utils.templates",
-        prefix: "/partials/"
+        prefix: "/templates/"
       }))
      .pipe(gulp.dest("./src/compiled-templates"));
 });

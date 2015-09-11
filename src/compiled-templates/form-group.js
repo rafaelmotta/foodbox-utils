@@ -5,7 +5,7 @@ try {
   module = angular.module('foodbox.utils.templates', []);
 }
 module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('/partials/form-group.html',
+  $templateCache.put('/templates/form-group.html',
     '<div class="form-group" >\n' +
     '  <div ng-if="!vertical">\n' +
     '    <label for="{{ id }}" class="col-sm-3 control-label">{{ label }}\n' +

@@ -5,7 +5,7 @@ try {
   module = angular.module('foodbox.utils.templates', []);
 }
 module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('/partials/no-results.html',
+  $templateCache.put('/templates/no-results.html',
     '<div class="row table-empty">\n' +
     '  <div class="col-md-3">\n' +
     '    <i class="icon icon-{{ icon }}"></i>\n' +

@@ -5,7 +5,7 @@ try {
   module = angular.module('foodbox.utils.templates', []);
 }
 module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('/partials/experience-points.html',
+  $templateCache.put('/templates/experience-points.html',
     '<div class="experience-points-container">\n' +
     '  <div class="total-points"><i class="icon icon-shirtsinbulk"></i>3000 pontos</div>\n' +
     '  <div class="progress">\n' +
