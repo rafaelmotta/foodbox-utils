@@ -5,11 +5,11 @@ var ngHtml2Js = require("gulp-ng-html2js");
 var uglify = require('gulp-uglify');
 
 
-var destination, source;
-source = "./src/**/*.js";
+var templatesSources = ['./src/templates/*.html']
+var sources = ["./src/foodboox-utils.js", "./src/**/*.js"];
 
 gulp.task('templates', function () {
-  gulp.src('src/templates/*.html')
+  gulp.src(templatesSources)
      .pipe(ngHtml2Js({
         moduleName: "foodbox.utils.templates",
         prefix: "/partials/"
@@ -18,7 +18,7 @@ gulp.task('templates', function () {
 });
 
 gulp.task('babel', function () {
-  gulp.src('src/*/*.js')
+  gulp.src(sources)
     .pipe(babel())
     .pipe(concat('foodbox-utils.js'))
     .pipe(uglify())
@@ -28,7 +28,7 @@ gulp.task('babel', function () {
 
 
 gulp.task('watch', function() {
-  return gulp.watch(source, ['babel']);
+  return gulp.watch(sources, ['babel']);
 });
 
 gulp.task('default', ['babel', 'watch']);

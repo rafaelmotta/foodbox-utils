@@ -1,1 +1,1 @@
-angular.module('foodbox.utils', [])
+var app = angular.module('foodbox.utils', []);
