@@ -6,7 +6,7 @@ var uglify = require('gulp-uglify');
 
 
 var destination, source;
-source = "./src/*/*.js";
+source = "./src/**/*.js";
 
 gulp.task('templates', function () {
   gulp.src('src/templates/*.html')
@@ -20,7 +20,7 @@ gulp.task('templates', function () {
 gulp.task('babel', function () {
   gulp.src('src/*/*.js')
     .pipe(babel())
-    .pipe(concat('foodboox-utils.js'))
+    .pipe(concat('foodbox-utils.js'))
     .pipe(uglify())
     .pipe(gulp.dest('./'));
 });
