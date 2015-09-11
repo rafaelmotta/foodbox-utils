@@ -1,1 +1,603 @@
-"use strict";function _classCallCheck(n,t){if(!(n instanceof t))throw new TypeError("Cannot call a class as a function")}function _classCallCheck(n,t){if(!(n instanceof t))throw new TypeError("Cannot call a class as a function")}function _classCallCheck(n,t){if(!(n instanceof t))throw new TypeError("Cannot call a class as a function")}function _classCallCheck(n,t){if(!(n instanceof t))throw new TypeError("Cannot call a class as a function")}function _classCallCheck(n,t){if(!(n instanceof t))throw new TypeError("Cannot call a class as a function")}function _classCallCheck(n,t){if(!(n instanceof t))throw new TypeError("Cannot call a class as a function")}var app=angular.module("foodbox.utils",[]);!function(n){try{n=angular.module("foodbox.utils.templates")}catch(t){n=angular.module("foodbox.utils.templates",[])}n.run(["$templateCache",function(n){n.put("/partials/box.html",'<div class="box-container">\n  <div class="box-header" ng-hide="hideHeader">\n    <h2>\n      <i class="icon icon-{{ icon }}"></i>\n      {{ title }}\n    </h2>\n  </div>\n  <div ng-transclude class="box-content {{ sizeClass }} {{ hideHeader ? \'box-hide-header\' : \'\' }}">\n  </div>\n</div>')}])}(),function(n){try{n=angular.module("foodbox.utils.templates")}catch(t){n=angular.module("foodbox.utils.templates",[])}n.run(["$templateCache",function(n){n.put("/partials/delete_button.html",'<button class="{{ class || \'btn btn-default btn-xs\' }}" type="button">\n  <i class="icon icon-{{ icon || \'trash-o\' }}"></i>\n</button>\n\n\n')}])}(),function(n){try{n=angular.module("foodbox.utils.templates")}catch(t){n=angular.module("foodbox.utils.templates",[])}n.run(["$templateCache",function(n){n.put("/partials/edit_button.html",'<button class="btn btn-warning btn-xs" type="button">\n  <i class="icon icon-{{ icon || \'pencil\' }}"></i>\n</button>')}])}(),function(n){try{n=angular.module("foodbox.utils.templates")}catch(t){n=angular.module("foodbox.utils.templates",[])}n.run(["$templateCache",function(n){n.put("/partials/experience-points.html",'<div class="experience-points-container">\n  <div class="total-points"><i class="icon icon-shirtsinbulk"></i>3000 pontos</div>\n  <div class="progress">\n    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">\n      <span class="sr-only">60% Complete</span>\n    </div>\n  </div>\n  <div class="level-container">\n    <div class="current-level">\n      Level 5\n    </div>\n    <div class="next-level">\n      <span>165 pontos para</span>\n      Level 6\n    </div>\n  </div>\n</div>')}])}(),function(n){try{n=angular.module("foodbox.utils.templates")}catch(t){n=angular.module("foodbox.utils.templates",[])}n.run(["$templateCache",function(n){n.put("/partials/form-group.html",'<div class="form-group" >\n  <div ng-if="!vertical">\n    <label for="{{ id }}" class="col-sm-3 control-label">{{ label }}\n      <span ng-show="required" tooltip="Campo obrigatório" class="required-marker">*</span>\n    </label>\n    <div class="col-sm-4" ng-transclude></div>\n  </div>\n  <div ng-if="vertical">\n    <label for="{{ id }}" class="control-label">{{ label }}</label>\n    <div ng-transclude></div>\n  </div>\n</div>')}])}(),function(n){try{n=angular.module("foodbox.utils.templates")}catch(t){n=angular.module("foodbox.utils.templates",[])}n.run(["$templateCache",function(n){n.put("/partials/form.html",'<div class="form-group" >\n  <div ng-if="!vertical">\n    <label for="{{ id }}" class="col-sm-3 control-label">{{ label }}\n      <span ng-show="required" tooltip="Campo obrigatório" class="required-marker">*</span>\n    </label>\n    <div class="col-sm-4" ng-transclude></div>\n  </div>\n  <div ng-if="vertical">\n    <label for="{{ id }}" class="control-label">{{ label }}</label>\n    <div ng-transclude></div>\n  </div>\n</div>')}])}(),function(n){try{n=angular.module("foodbox.utils.templates")}catch(t){n=angular.module("foodbox.utils.templates",[])}n.run(["$templateCache",function(n){n.put("/partials/limit.html",'<p class="help-block">Restando <strong>{{ maxlength - length }}</strong> caracteres</p>')}])}(),function(n){try{n=angular.module("foodbox.utils.templates")}catch(t){n=angular.module("foodbox.utils.templates",[])}n.run(["$templateCache",function(n){n.put("/partials/modal-address.html","<h2>lorem</h2>\n<h2>lorem</h2>\n<h2>lorem</h2>")}])}(),function(n){try{n=angular.module("foodbox.utils.templates")}catch(t){n=angular.module("foodbox.utils.templates",[])}n.run(["$templateCache",function(n){n.put("/partials/modal-product.html",'<div class="modal-header">\n  <button type="button" class="close" data-dismiss="modal" ng-click="ctrl.close()"><span aria-hidden="true">&times;</span></button>\n  <div class="modal-title">\n    <i class="icon icon-shopping-cart"></i>\n    {{ product.name }}\n  </div>\n  <div class="product-total-price">\n    {{ cartItem.total | currency: "R$" }}\n  </div>\n</div>\n\n<div class="modal-body clearfix">\n\n  <aside class="pull-left">\n    <img class="product-image img-thumbnail" ng-src="http://lorempixel.com/280/280/food/" width="280" height="280" alt="Foto do produto com nome {{ product.name }}">\n    <p class="product-description">\n      <i class="icon icon-shopping-cart"></i>\n      {{ product.name }}\n    </p>\n    <p class="product-description">\n      <i class="icon icon-info-circle"></i>\n      {{ product.description }}\n    </p>\n    <p class="product-description">\n      <i class="icon icon-money"></i>\n      A partir de {{ product.price | currency: "R$" }}\n    </p>\n    <p class="product-sps">\n      <i class="icon icon-trophy"></i>\n      Dá direito a <b><a href="">30 sps</a></b>\n    </p>\n  </aside>\n\n  <div class="product-options pull-right">\n\n    <label for="cart-item-amount">Selecione a quantidade:</label>\n    <select id="cart-item-amount" ng-model="cartItem.amount" ng-options="i as i for i in [1,2,3,4,5,6,7,8,9,10]"></select>\n\n    <hr ng-show="product.addon_categories.length > 0">\n\n    <div ng-repeat="addonCategory in product.addon_categories" class="addon-categories-list">\n\n      <div class="addon-category-name">\n        {{ addonCategory.name }}\n        <small ng-show="addonCategory.max_itens > 0">\n          Escolha até {{ addonCategory.max_itens }}\n          <span ng-show="addonCategory.max_itens > 1">\n            itens\n          </span>\n          <span ng-show="addonCategory.max_itens === 1">\n            item\n          </span>\n        </small>\n        <small ng-show="addonCategory.max_itens === 0">\n          Escolha quantos itens você desejar\n        </small>\n      </div>\n\n      <div class="addons-list">\n        <div ng-repeat="addon in addonCategory.addons" class="addon-item">\n          <label ng-if="addonCategory.max_itens === 1" ng-disabled="!addon.available">\n            <input type="radio" ng-disabled="!addon.available" ng-value="addon.id"  ng-model="cartItem.customization_fields[addonCategory.id]">\n            {{ addon.name }}\n            <span class="addon-price" ng-show="addon.price > 0 && addon.available">({{ addon.price | currency: "R$" }})</span>\n            <span class="addon-unavailable" ng-show="!addon.available">Item não disponível</span>\n          </label>\n          <label ng-if="addonCategory.max_itens === 0" ng-disabled="!addon.available">\n            <input type="checkbox" ng-disabled="!addon.available" ng-model="cartItem.customization_fields[addonCategory.id][addon.id]" ng-init="cartItem.customization_fields[addonCategory.id][addon.id] = cartItem.customization_fields[addonCategory.id][addon.id] && addon.available ? true : false" />\n            {{ addon.name }}\n            <span class="addon-price" ng-show="addon.price > 0 && addon.available">({{ addon.price | currency: "R$" }})</span>\n            <span class="addon-unavailable" ng-show="!addon.available">Item não disponível</span>\n          </label>\n        </div>\n      </div>\n    </div>\n\n    <hr>\n    <label for="cart-item-note">Deseja fazer alguma observação?</label>\n    <textarea id="cart-item-note" rows="3" ng-model="cartItem.note"></textarea>\n    <limit maxlength="150" model="cartItem.note"></limit>\n  </div>\n</div>\n\n<div class="modal-footer">\n  <button class="btn btn-success" ng-click="ctrl.add()" ng-show="!isEditing">\n    <i class="icon icon-plus-square"></i>\n    Adicionar\n  </button>\n  <button class="btn btn-success" ng-click="ctrl.add()" ng-show="isEditing">\n    <i class="icon icon-pencil"></i>\n    Confirmar edição\n  </button>\n  <button class="btn btn-default" ng-click="ctrl.close()">\n    Cancelar\n  </button>\n</div>')}])}(),function(n){try{n=angular.module("foodbox.utils.templates")}catch(t){n=angular.module("foodbox.utils.templates",[])}n.run(["$templateCache",function(n){n.put("/partials/no-results.html",'<div class="row table-empty">\n  <div class="col-md-3">\n    <i class="icon icon-{{ icon }}"></i>\n  </div>\n  <div class="col-md-9">\n    <p>{{ text }}</p>\n  </div>\n</div>\n')}])}();var _createClass=function(){function n(n,t){for(var a=0;a<t.length;a++){var e=t[a];e.enumerable=e.enumerable||!1,e.configurable=!0,"value"in e&&(e.writable=!0),Object.defineProperty(n,e.key,e)}}return function(t,a,e){return a&&n(t.prototype,a),e&&n(t,e),t}}(),modalProductCtrl=function(n,t,a,e,o,i,r){return new(function(){function l(){_classCallCheck(this,l),n.product=i,n.cart=o,n.cartItem=r,new a(n,r)}return _createClass(l,[{key:"add",value:function(){e[this._getCartMethod()]({cart_id:n.cart.id},n.cartItem).then(function(n){t.close({cart:n.plain()})})}},{key:"close",value:function(){t.dismiss("close")}},{key:"_getCartMethod",value:function(){return n.cartItem.id?"update":"create"}}]),l}())};angular.module("foodbox.utils").controller("ModalProductCtrl",modalProductCtrl);var directive=function(){return{restrict:"E",require:"^form",transclude:!0,replace:!0,templateUrl:"directives/form-group.html",priority:1e4,scope:{label:"@",vertical:"@"},link:function(n,t,a){n.id="field-"+Math.floor(5e4*Math.random()+1)}}};angular.module("foodbox.utils").directive("formGroup",directive);var directive=function(){return{restrict:"E",link:function(n,t,a){var e=t[0];"radio"!==e.type&&"checkbox"!==e.type&&e.classList.add("form-control")}}};angular.module("foodbox.utils").directive("input",directive);var directive=function(){return{restrict:"E",link:function(n,t,a){t[0].classList.add("form-control")}}};angular.module("foodbox.utils").directive("select",directive);var directive=function(){return{restrict:"E",link:function(n,t,a){var e=t[0];e.classList.add("form-control")}}};angular.module("foodbox.utils").directive("textarea",directive);var _createClass=function(){function n(n,t){for(var a=0;a<t.length;a++){var e=t[a];e.enumerable=e.enumerable||!1,e.configurable=!0,"value"in e&&(e.writable=!0),Object.defineProperty(n,e.key,e)}}return function(t,a,e){return a&&n(t.prototype,a),e&&n(t,e),t}}(),hint=function(n,t,a,e){return new(function(){function n(){return _classCallCheck(this,n),this.notifications={},this.timeout=5e3,this.notification=window.Notification||window.mozNotification||window.webkitNotification,this.sound={success:e.load("/audios/success_notification.mp3"),info:e.load("/audios/success_notification.mp3"),error:e.load("/audios/error_notification.mp3")},this.notification?void this.notification.requestPermission():!1}return _createClass(n,[{key:"success",value:function(n){var t=arguments.length<=1||void 0===arguments[1]?{}:arguments[1];this._notify("success","Sucesso :)",n,t)}},{key:"error",value:function(n){var t=arguments.length<=1||void 0===arguments[1]?{}:arguments[1];this._notify("error","Ops...",n,t)}},{key:"info",value:function(n){var t=arguments.length<=1||void 0===arguments[1]?{}:arguments[1];this._notify("info","Atenção",n,t)}},{key:"_notify",value:function(n,a,e,o){var i=this;o.timeout||(o.timeout=this.timeout),o.autoClose||(o.autoClose=!0),"granted"===this.notification&&!function(){var r={body:e,icon:"/assets/app/icon-"+n+".png"},l=new i.notification(a,r);o.autoClose&&!function(){var n=i._randonNumber();i.notifications[n]=l,t(function(){delete i.notifications[n],l.close()},o.timeout)}()}(),this.sound[n].play()}},{key:"_randonNumber",value:function(){return Math.floor(99999999*Math.random())+1}}]),n}())};angular.module("foodbox.utils").factory("hint",hint);var _createClass=function(){function n(n,t){for(var a=0;a<t.length;a++){var e=t[a];e.enumerable=e.enumerable||!1,e.configurable=!0,"value"in e&&(e.writable=!0),Object.defineProperty(n,e.key,e)}}return function(t,a,e){return a&&n(t.prototype,a),e&&n(t,e),t}}(),modalProduct=function(n,t){return function(){function a(){_classCallCheck(this,a)}return _createClass(a,[{key:"open",value:function(a,e){var o=arguments.length<=2||void 0===arguments[2]?!1:arguments[2];return n.open({templateUrl:"templates/modal-product.html",controller:"ModalProductCtrl as ctrl",windowClass:"modal-product",resolve:{cartResolved:function(){return a},storeProductResolved:function(){return t.show(e).then(function(n){return n.plain()})},cartItemResolved:function(){return o}}})}}]),a}()};angular.module("foodbox.utils").factory("ModalProduct",modalProduct);var _createClass=function(){function n(n,t){for(var a=0;a<t.length;a++){var e=t[a];e.enumerable=e.enumerable||!1,e.configurable=!0,"value"in e&&(e.writable=!0),Object.defineProperty(n,e.key,e)}}return function(t,a,e){return a&&n(t.prototype,a),e&&n(t,e),t}}(),popup=function(n,t){return new(function(){function a(){_classCallCheck(this,a)}return _createClass(a,[{key:"open",value:function(a,e,o){t(function(t,i){var r=Number(screen.width/2-e/2),l=Number(screen.height/2-o/2),s=n.open(a,"","toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width="+e+", height="+o+", top="+l+", left="+r);t(s)})}}]),a}())};angular.module("foodbox.utils").factory("popup",popup);var _createClass=function(){function n(n,t){for(var a=0;a<t.length;a++){var e=t[a];e.enumerable=e.enumerable||!1,e.configurable=!0,"value"in e&&(e.writable=!0),Object.defineProperty(n,e.key,e)}}return function(t,a,e){return a&&n(t.prototype,a),e&&n(t,e),t}}(),storage=function(n,t){return new(function(){function a(){_classCallCheck(this,a)}return _createClass(a,[{key:"get",value:function(a){return t(function(t,e){var o=n[a]||null;t(o)})}},{key:"set",value:function(a,e){return t(function(t,o){n[a]=e,t()})}},{key:"remove",value:function(a){return t(function(t,e){delete n[a];var o=n[a]||null;t(o)})}}]),a}())};angular.module("foodbox.utils").factory("storage",storage);var _createClass=function(){function n(n,t){for(var a=0;a<t.length;a++){var e=t[a];e.enumerable=e.enumerable||!1,e.configurable=!0,"value"in e&&(e.writable=!0),Object.defineProperty(n,e.key,e)}}return function(t,a,e){return a&&n(t.prototype,a),e&&n(t,e),t}}(),tempCart=function(){return function(){function n(t,a){_classCallCheck(this,n),this.$scope=t,t.isEditing=a?!0:!1,t.isEditing&&(a.customization_fields=JSON.parse(a.customization_fields)),t.cartItem=a||{amount:1,note:null,total:1*t.product.price,product:t.product,customization_fields:{},addons:[]},this._setCustomizationFields(),this._listenScopeEvents()}return _createClass(n,[{key:"_setCustomizationFields",value:function(){if(this.$scope.isEditing)return!1;var n=!0,t=!1,a=void 0;try{for(var e,o=this.$scope.product.addon_categories[Symbol.iterator]();!(n=(e=o.next()).done);n=!0){var i=e.value;this.$scope.cartItem.customization_fields[i.id]={};var r=!0,l=!1,s=void 0;try{for(var c,u=i.addons[Symbol.iterator]();!(r=(c=u.next()).done);r=!0){var d=c.value;if(1===i.max_itens)this.$scope.cartItem.customization_fields[i.id]=i.addons[0].id;else{var p=i.auto_fill&&!parseFloat(d.price)&&d.available?!0:!1;this.$scope.cartItem.customization_fields[i.id][d.id]=p}}}catch(f){l=!0,s=f}finally{try{!r&&u["return"]&&u["return"]()}finally{if(l)throw s}}}}catch(f){t=!0,a=f}finally{try{!n&&o["return"]&&o["return"]()}finally{if(t)throw a}}}},{key:"_listenScopeEvents",value:function(){var n=this,t=function(t){var a=null;return angular.forEach(n.$scope.product.addon_categories,function(n){var e=_.findWhere(n.addons,{id:parseInt(t,10)});e&&(a=e)}),a?void n.$scope.cartItem.addons.push({id:a.id,name:a.name,price:a.price,product_addon_id:a.product_addon_id}):!1};this.$scope.$watch("cartItem",function(a,e){n.$scope.cartItem.addons=[],angular.forEach(n.$scope.cartItem.customization_fields,function(n){return _.isObject(n)?void angular.forEach(n,function(n,a){return n?t(a):!1}):t(n)})},!0),this.$scope.$watch("cartItem",function(t,a){var e=0;angular.forEach(n.$scope.cartItem.addons,function(n){e+=parseFloat(n.price)}),n.$scope.cartItem.total=(parseFloat(n.$scope.product.price)+e)*n.$scope.cartItem.amount},!0)}}]),n}()};angular.module("foodbox.utils").factory("TempCart",tempCart);
+'use strict';
+
+var app = angular.module('foodbox.utils', []);
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('foodbox.utils.templates');
+  } catch (e) {
+    module = angular.module('foodbox.utils.templates', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/partials/box.html', '<div class="box-container">\n' + '  <div class="box-header" ng-hide="hideHeader">\n' + '    <h2>\n' + '      <i class="icon icon-{{ icon }}"></i>\n' + '      {{ title }}\n' + '    </h2>\n' + '  </div>\n' + '  <div ng-transclude class="box-content {{ sizeClass }} {{ hideHeader ? \'box-hide-header\' : \'\' }}">\n' + '  </div>\n' + '</div>');
+  }]);
+})();
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('foodbox.utils.templates');
+  } catch (e) {
+    module = angular.module('foodbox.utils.templates', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/partials/delete_button.html', '<button class="{{ class || \'btn btn-default btn-xs\' }}" type="button">\n' + '  <i class="icon icon-{{ icon || \'trash-o\' }}"></i>\n' + '</button>\n' + '\n' + '\n' + '');
+  }]);
+})();
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('foodbox.utils.templates');
+  } catch (e) {
+    module = angular.module('foodbox.utils.templates', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/partials/edit_button.html', '<button class="btn btn-warning btn-xs" type="button">\n' + '  <i class="icon icon-{{ icon || \'pencil\' }}"></i>\n' + '</button>');
+  }]);
+})();
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('foodbox.utils.templates');
+  } catch (e) {
+    module = angular.module('foodbox.utils.templates', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/partials/experience-points.html', '<div class="experience-points-container">\n' + '  <div class="total-points"><i class="icon icon-shirtsinbulk"></i>3000 pontos</div>\n' + '  <div class="progress">\n' + '    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">\n' + '      <span class="sr-only">60% Complete</span>\n' + '    </div>\n' + '  </div>\n' + '  <div class="level-container">\n' + '    <div class="current-level">\n' + '      Level 5\n' + '    </div>\n' + '    <div class="next-level">\n' + '      <span>165 pontos para</span>\n' + '      Level 6\n' + '    </div>\n' + '  </div>\n' + '</div>');
+  }]);
+})();
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('foodbox.utils.templates');
+  } catch (e) {
+    module = angular.module('foodbox.utils.templates', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/partials/form-group.html', '<div class="form-group" >\n' + '  <div ng-if="!vertical">\n' + '    <label for="{{ id }}" class="col-sm-3 control-label">{{ label }}\n' + '      <span ng-show="required" tooltip="Campo obrigatório" class="required-marker">*</span>\n' + '    </label>\n' + '    <div class="col-sm-4" ng-transclude></div>\n' + '  </div>\n' + '  <div ng-if="vertical">\n' + '    <label for="{{ id }}" class="control-label">{{ label }}</label>\n' + '    <div ng-transclude></div>\n' + '  </div>\n' + '</div>');
+  }]);
+})();
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('foodbox.utils.templates');
+  } catch (e) {
+    module = angular.module('foodbox.utils.templates', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/partials/form.html', '<div class="form-group" >\n' + '  <div ng-if="!vertical">\n' + '    <label for="{{ id }}" class="col-sm-3 control-label">{{ label }}\n' + '      <span ng-show="required" tooltip="Campo obrigatório" class="required-marker">*</span>\n' + '    </label>\n' + '    <div class="col-sm-4" ng-transclude></div>\n' + '  </div>\n' + '  <div ng-if="vertical">\n' + '    <label for="{{ id }}" class="control-label">{{ label }}</label>\n' + '    <div ng-transclude></div>\n' + '  </div>\n' + '</div>');
+  }]);
+})();
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('foodbox.utils.templates');
+  } catch (e) {
+    module = angular.module('foodbox.utils.templates', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/partials/limit.html', '<p class="help-block">Restando <strong>{{ maxlength - length }}</strong> caracteres</p>');
+  }]);
+})();
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('foodbox.utils.templates');
+  } catch (e) {
+    module = angular.module('foodbox.utils.templates', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/partials/modal-address.html', '<h2>lorem</h2>\n' + '<h2>lorem</h2>\n' + '<h2>lorem</h2>');
+  }]);
+})();
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('foodbox.utils.templates');
+  } catch (e) {
+    module = angular.module('foodbox.utils.templates', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/partials/modal-product.html', '<div class="modal-header">\n' + '  <button type="button" class="close" data-dismiss="modal" ng-click="ctrl.close()"><span aria-hidden="true">&times;</span></button>\n' + '  <div class="modal-title">\n' + '    <i class="icon icon-shopping-cart"></i>\n' + '    {{ product.name }}\n' + '  </div>\n' + '  <div class="product-total-price">\n' + '    {{ cartItem.total | currency: "R$" }}\n' + '  </div>\n' + '</div>\n' + '\n' + '<div class="modal-body clearfix">\n' + '\n' + '  <aside class="pull-left">\n' + '    <img class="product-image img-thumbnail" ng-src="http://lorempixel.com/280/280/food/" width="280" height="280" alt="Foto do produto com nome {{ product.name }}">\n' + '    <p class="product-description">\n' + '      <i class="icon icon-shopping-cart"></i>\n' + '      {{ product.name }}\n' + '    </p>\n' + '    <p class="product-description">\n' + '      <i class="icon icon-info-circle"></i>\n' + '      {{ product.description }}\n' + '    </p>\n' + '    <p class="product-description">\n' + '      <i class="icon icon-money"></i>\n' + '      A partir de {{ product.price | currency: "R$" }}\n' + '    </p>\n' + '    <p class="product-sps">\n' + '      <i class="icon icon-trophy"></i>\n' + '      Dá direito a <b><a href="">30 sps</a></b>\n' + '    </p>\n' + '  </aside>\n' + '\n' + '  <div class="product-options pull-right">\n' + '\n' + '    <label for="cart-item-amount">Selecione a quantidade:</label>\n' + '    <select id="cart-item-amount" ng-model="cartItem.amount" ng-options="i as i for i in [1,2,3,4,5,6,7,8,9,10]"></select>\n' + '\n' + '    <hr ng-show="product.addon_categories.length > 0">\n' + '\n' + '    <div ng-repeat="addonCategory in product.addon_categories" class="addon-categories-list">\n' + '\n' + '      <div class="addon-category-name">\n' + '        {{ addonCategory.name }}\n' + '        <small ng-show="addonCategory.max_itens > 0">\n' + '          Escolha até {{ addonCategory.max_itens }}\n' + '          <span ng-show="addonCategory.max_itens > 1">\n' + '            itens\n' + '          </span>\n' + '          <span ng-show="addonCategory.max_itens === 1">\n' + '            item\n' + '          </span>\n' + '        </small>\n' + '        <small ng-show="addonCategory.max_itens === 0">\n' + '          Escolha quantos itens você desejar\n' + '        </small>\n' + '      </div>\n' + '\n' + '      <div class="addons-list">\n' + '        <div ng-repeat="addon in addonCategory.addons" class="addon-item">\n' + '          <label ng-if="addonCategory.max_itens === 1" ng-disabled="!addon.available">\n' + '            <input type="radio" ng-disabled="!addon.available" ng-value="addon.id"  ng-model="cartItem.customization_fields[addonCategory.id]">\n' + '            {{ addon.name }}\n' + '            <span class="addon-price" ng-show="addon.price > 0 && addon.available">({{ addon.price | currency: "R$" }})</span>\n' + '            <span class="addon-unavailable" ng-show="!addon.available">Item não disponível</span>\n' + '          </label>\n' + '          <label ng-if="addonCategory.max_itens === 0" ng-disabled="!addon.available">\n' + '            <input type="checkbox" ng-disabled="!addon.available" ng-model="cartItem.customization_fields[addonCategory.id][addon.id]" ng-init="cartItem.customization_fields[addonCategory.id][addon.id] = cartItem.customization_fields[addonCategory.id][addon.id] && addon.available ? true : false" />\n' + '            {{ addon.name }}\n' + '            <span class="addon-price" ng-show="addon.price > 0 && addon.available">({{ addon.price | currency: "R$" }})</span>\n' + '            <span class="addon-unavailable" ng-show="!addon.available">Item não disponível</span>\n' + '          </label>\n' + '        </div>\n' + '      </div>\n' + '    </div>\n' + '\n' + '    <hr>\n' + '    <label for="cart-item-note">Deseja fazer alguma observação?</label>\n' + '    <textarea id="cart-item-note" rows="3" ng-model="cartItem.note"></textarea>\n' + '    <limit maxlength="150" model="cartItem.note"></limit>\n' + '  </div>\n' + '</div>\n' + '\n' + '<div class="modal-footer">\n' + '  <button class="btn btn-success" ng-click="ctrl.add()" ng-show="!isEditing">\n' + '    <i class="icon icon-plus-square"></i>\n' + '    Adicionar\n' + '  </button>\n' + '  <button class="btn btn-success" ng-click="ctrl.add()" ng-show="isEditing">\n' + '    <i class="icon icon-pencil"></i>\n' + '    Confirmar edição\n' + '  </button>\n' + '  <button class="btn btn-default" ng-click="ctrl.close()">\n' + '    Cancelar\n' + '  </button>\n' + '</div>');
+  }]);
+})();
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('foodbox.utils.templates');
+  } catch (e) {
+    module = angular.module('foodbox.utils.templates', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/partials/no-results.html', '<div class="row table-empty">\n' + '  <div class="col-md-3">\n' + '    <i class="icon icon-{{ icon }}"></i>\n' + '  </div>\n' + '  <div class="col-md-9">\n' + '    <p>{{ text }}</p>\n' + '  </div>\n' + '</div>\n' + '');
+  }]);
+})();
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var modalProductCtrl = function modalProductCtrl($scope, $modalInstance, TempCart, meCartItemApi, cartResolved, storeProductResolved, cartItemResolved) {
+
+  return new ((function () {
+    function ModalProductCustomizationCtrl() {
+      _classCallCheck(this, ModalProductCustomizationCtrl);
+
+      $scope.product = storeProductResolved;
+      $scope.cart = cartResolved;
+      $scope.cartItem = cartItemResolved;
+
+      new TempCart($scope, cartItemResolved);
+    }
+
+    _createClass(ModalProductCustomizationCtrl, [{
+      key: 'add',
+      value: function add() {
+        meCartItemApi[this._getCartMethod()]({ cart_id: $scope.cart.id }, $scope.cartItem).then(function (cart) {
+          $modalInstance.close({ cart: cart.plain() });
+        });
+      }
+    }, {
+      key: 'close',
+      value: function close() {
+        $modalInstance.dismiss('close');
+      }
+    }, {
+      key: '_getCartMethod',
+      value: function _getCartMethod() {
+        return $scope.cartItem.id ? 'update' : 'create';
+      }
+    }]);
+
+    return ModalProductCustomizationCtrl;
+  })())();
+};
+
+angular.module('foodbox.utils').controller('ModalProductCtrl', modalProductCtrl);
+"use strict";
+"use strict";
+'use strict';
+
+var directive = function directive() {
+  return {
+    restrict: 'E',
+    require: '^form',
+    transclude: true,
+    replace: true,
+    templateUrl: 'directives/form-group.html',
+    priority: 10000,
+    scope: {
+      label: '@',
+      vertical: '@'
+    },
+    link: function link(scope, $el, attrs) {
+      scope.id = 'field-' + Math.floor(Math.random() * 50000 + 1);
+    }
+  };
+};
+
+angular.module("foodbox.utils").directive('formGroup', directive);
+'use strict';
+
+var directive = function directive() {
+  return {
+    restrict: 'E',
+    link: function link(scope, $el, attrs) {
+      var el = $el[0];
+
+      if (el.type !== 'radio' && el.type !== 'checkbox') {
+        el.classList.add('form-control');
+      }
+    }
+  };
+};
+
+angular.module('foodbox.utils').directive('input', directive);
+"use strict";
+"use strict";
+"use strict";
+'use strict';
+
+var directive = function directive() {
+  return {
+    restrict: 'E',
+    link: function link(scope, $el, attrs) {
+      $el[0].classList.add('form-control');
+    }
+  };
+};
+
+angular.module('foodbox.utils').directive('select', directive);
+"use strict";
+"use strict";
+'use strict';
+
+var directive = function directive() {
+  return {
+    restrict: 'E',
+    link: function link(scope, $el, attrs) {
+      var el = $el[0];
+      el.classList.add('form-control');
+    }
+  };
+};
+
+angular.module('foodbox.utils').directive('textarea', directive);
+"use strict";
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var hint = function hint(toaster, $timeout, $window, ngAudio) {
+
+  return new ((function () {
+    function Hint() {
+      _classCallCheck(this, Hint);
+
+      this.notifications = {};
+      this.timeout = 5000;
+      this.notification = window.Notification || window.mozNotification || window.webkitNotification;
+
+      this.sound = {
+        success: ngAudio.load('/audios/success_notification.mp3'),
+        info: ngAudio.load('/audios/success_notification.mp3'),
+        error: ngAudio.load('/audios/error_notification.mp3')
+      };
+
+      if (!this.notification) {
+        return false;
+      }
+
+      this.notification.requestPermission();
+    }
+
+    _createClass(Hint, [{
+      key: 'success',
+      value: function success(message) {
+        var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+        this._notify('success', 'Sucesso :)', message, options);
+      }
+    }, {
+      key: 'error',
+      value: function error(message) {
+        var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+        this._notify('error', 'Ops...', message, options);
+      }
+    }, {
+      key: 'info',
+      value: function info(message) {
+        var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+        this._notify('info', 'Atenção', message, options);
+      }
+    }, {
+      key: '_notify',
+      value: function _notify(type, title, message, options) {
+        var _this = this;
+
+        if (!options.timeout) {
+          options.timeout = this.timeout;
+        }
+
+        if (!options.autoClose) {
+          options.autoClose = true;
+        }
+
+        if (this.notification === 'granted') {
+          (function () {
+            var settings = {
+              body: message,
+              icon: '/assets/app/icon-' + type + '.png'
+            };
+
+            var n = new _this.notification(title, settings);
+
+            if (options.autoClose) {
+              (function () {
+                var number = _this._randonNumber();
+                _this.notifications[number] = n;
+
+                $timeout(function () {
+                  delete _this.notifications[number];
+                  n.close();
+                }, options.timeout);
+              })();
+            }
+          })();
+        }
+
+        this.sound[type].play();
+      }
+    }, {
+      key: '_randonNumber',
+      value: function _randonNumber() {
+        return Math.floor(Math.random() * (99999999 - 1 + 1)) + 1;
+      }
+    }]);
+
+    return Hint;
+  })())();
+};
+
+angular.module('foodbox.utils').factory('hint', hint);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var modalProduct = function modalProduct($modal, storeProductApi) {
+  return (function () {
+    function ModalProduct() {
+      _classCallCheck(this, ModalProduct);
+    }
+
+    _createClass(ModalProduct, [{
+      key: 'open',
+      value: function open(cart, storeProduct) {
+        var cartItem = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
+
+        return $modal.open({
+          templateUrl: 'templates/modal-product.html',
+          controller: 'ModalProductCtrl as ctrl',
+          windowClass: 'modal-product',
+          resolve: {
+            cartResolved: function cartResolved() {
+              return cart;
+            },
+            storeProductResolved: function storeProductResolved() {
+              return storeProductApi.show(storeProduct).then(function (storeProduct) {
+                return storeProduct.plain();
+              });
+            },
+            cartItemResolved: function cartItemResolved() {
+              return cartItem;
+            }
+          }
+        });
+      }
+    }]);
+
+    return ModalProduct;
+  })();
+};
+
+angular.module('foodbox.utils').factory('ModalProduct', modalProduct);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var popup = function popup($window, $q) {
+  return new ((function () {
+    function Popup() {
+      _classCallCheck(this, Popup);
+    }
+
+    _createClass(Popup, [{
+      key: 'open',
+      value: function open(pageURL, width, height) {
+        $q(function (resolve, reject) {
+          var left = Number(screen.width / 2 - width / 2);
+          var top = Number(screen.height / 2 - height / 2);
+
+          var popup = $window.open(pageURL, '', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' + width + ', height=' + height + ', top=' + top + ', left=' + left);
+          resolve(popup);
+        });
+      }
+    }]);
+
+    return Popup;
+  })())();
+};
+
+angular.module('foodbox.utils').factory('popup', popup);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var storage = function storage($localStorage, $q) {
+  return new ((function () {
+    function Storage() {
+      _classCallCheck(this, Storage);
+    }
+
+    _createClass(Storage, [{
+      key: 'get',
+      value: function get(key) {
+        return $q(function (resolve, reject) {
+          var response = $localStorage[key] || null;
+          resolve(response);
+        });
+      }
+    }, {
+      key: 'set',
+      value: function set(key, value) {
+        return $q(function (resolve, reject) {
+          $localStorage[key] = value;
+          resolve();
+        });
+      }
+    }, {
+      key: 'remove',
+      value: function remove(key) {
+        return $q(function (resolve, reject) {
+          delete $localStorage[key];
+          var response = $localStorage[key] || null;
+          resolve(response);
+        });
+      }
+    }]);
+
+    return Storage;
+  })())();
+};
+
+angular.module('foodbox.utils').factory('storage', storage);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var tempCart = function tempCart() {
+  return (function () {
+    function TempCart($scope, cartItem) {
+      _classCallCheck(this, TempCart);
+
+      this.$scope = $scope;
+      $scope.isEditing = cartItem ? true : false;
+
+      if ($scope.isEditing) {
+        cartItem.customization_fields = JSON.parse(cartItem.customization_fields);
+      }
+
+      $scope.cartItem = cartItem || { amount: 1, note: null, total: $scope.product.price * 1, product: $scope.product, customization_fields: {}, addons: [] };
+
+      this._setCustomizationFields();
+      this._listenScopeEvents();
+    }
+
+    _createClass(TempCart, [{
+      key: '_setCustomizationFields',
+      value: function _setCustomizationFields() {
+        if (this.$scope.isEditing) {
+          return false;
+        }
+
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
+        try {
+          for (var _iterator = this.$scope.product.addon_categories[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var addonCategory = _step.value;
+
+            this.$scope.cartItem.customization_fields[addonCategory.id] = {};
+
+            var _iteratorNormalCompletion2 = true;
+            var _didIteratorError2 = false;
+            var _iteratorError2 = undefined;
+
+            try {
+              for (var _iterator2 = addonCategory.addons[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                var addon = _step2.value;
+
+                if (addonCategory.max_itens === 1) {
+                  this.$scope.cartItem.customization_fields[addonCategory.id] = addonCategory.addons[0].id;
+                } else {
+                  var fill = addonCategory.auto_fill && !parseFloat(addon.price) && addon.available ? true : false;
+                  this.$scope.cartItem.customization_fields[addonCategory.id][addon.id] = fill;
+                }
+              }
+            } catch (err) {
+              _didIteratorError2 = true;
+              _iteratorError2 = err;
+            } finally {
+              try {
+                if (!_iteratorNormalCompletion2 && _iterator2['return']) {
+                  _iterator2['return']();
+                }
+              } finally {
+                if (_didIteratorError2) {
+                  throw _iteratorError2;
+                }
+              }
+            }
+          }
+        } catch (err) {
+          _didIteratorError = true;
+          _iteratorError = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion && _iterator['return']) {
+              _iterator['return']();
+            }
+          } finally {
+            if (_didIteratorError) {
+              throw _iteratorError;
+            }
+          }
+        }
+
+        ;
+      }
+    }, {
+      key: '_listenScopeEvents',
+      value: function _listenScopeEvents() {
+        var _this = this;
+
+        var findAndInsert = function findAndInsert(addonId) {
+          var _addon = null;
+
+          angular.forEach(_this.$scope.product.addon_categories, function (addonCategory) {
+            var find = _.findWhere(addonCategory.addons, { id: parseInt(addonId, 10) });
+            if (find) {
+              _addon = find;
+            }
+          });
+
+          if (!_addon) {
+            return false;
+          }
+
+          _this.$scope.cartItem.addons.push({
+            id: _addon.id,
+            name: _addon.name,
+            price: _addon.price,
+            product_addon_id: _addon.product_addon_id
+          });
+        };
+
+        this.$scope.$watch('cartItem', function (newObject, oldObject) {
+          _this.$scope.cartItem.addons = [];
+
+          angular.forEach(_this.$scope.cartItem.customization_fields, function (addon) {
+            if (!_.isObject(addon)) {
+              return findAndInsert(addon);
+            }
+
+            angular.forEach(addon, function (checked, addonId) {
+              if (!checked) {
+                return false;
+              }
+
+              return findAndInsert(addonId);
+            });
+          });
+        }, true);
+
+        this.$scope.$watch('cartItem', function (newValue, oldValue) {
+          var addonsPrice = 0;
+
+          angular.forEach(_this.$scope.cartItem.addons, function (addon) {
+            addonsPrice += parseFloat(addon.price);
+          });
+
+          _this.$scope.cartItem.total = (parseFloat(_this.$scope.product.price) + addonsPrice) * _this.$scope.cartItem.amount;
+        }, true);
+      }
+    }]);
+
+    return TempCart;
+  })();
+};
+
+angular.module('foodbox.utils').factory('TempCart', tempCart);

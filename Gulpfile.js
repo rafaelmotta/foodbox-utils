@@ -21,7 +21,6 @@ gulp.task('babel', function () {
   gulp.src(sources)
     .pipe(babel())
     .pipe(concat('foodbox-utils.js'))
-    .pipe(uglify())
     .pipe(gulp.dest('./'));
 });
 
