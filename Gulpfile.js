@@ -11,7 +11,7 @@ var sources = ["./src/foodboox-utils.js", "./src/**/*.js"];
 gulp.task('templates', function () {
   gulp.src(templatesSources)
      .pipe(ngHtml2Js({
-        moduleName: "foodbox.utils.templates",
+        moduleName: "foodbox.utils",
         prefix: "/templates/"
       }))
      .pipe(gulp.dest("./src/compiled-templates"));
