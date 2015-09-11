@@ -2,7 +2,7 @@ let modalProduct = ($modal, storeProductApi, $templateCache) => {
   return class ModalProduct {
     open(cart, storeProduct, cartItem = false){
       return $modal.open({
-        templateUrl: $templateCache.get('templates/modal-product.html'),
+        templateUrl: $templateCache.get('/templates/modal-product.html'),
         controller: 'ModalProductCtrl as ctrl',
         windowClass: 'modal-product',
         resolve: {

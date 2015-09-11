@@ -1,10 +1,10 @@
-let directive = () => {
+let directive = ($templateCache) => {
   return {
     restrict: 'E',
     require: '^form',
     transclude: true,
     replace: true,
-    templateUrl: 'directives/form-group.html',
+    template: $templateCache.get('/templates/form-group.html'),
     priority: 10000,
     scope: {
       label: '@',
