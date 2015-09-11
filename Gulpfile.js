@@ -22,7 +22,7 @@ gulp.task('babel', function () {
     .pipe(babel())
     .pipe(concat('foodboox-utils.js'))
     .pipe(uglify())
-    .pipe(gulp.dest('dist'));
+    .pipe(gulp.dest('./'));
 });
 
 
