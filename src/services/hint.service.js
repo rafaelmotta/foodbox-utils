@@ -50,20 +50,18 @@ let hint = ($timeout, $window, ngAudio) => {
 
         // Só adiciona um hint se não houver nenhum hint com o mesmo conteudi
         if(!this._hasMessage(settings.body)) {
-          let n = new this.notification(title, settings);
-          this.notifications.push(n);
+          var _notification = new this.notification(title, settings);
+          this.notifications.push(_notification);
 
           if(options.autoClose) {
             $timeout(() => {
 
               // Acha posicão da notificação no array
-              let index = this.notifications.indexOf(n);
-
-              // Pega notificação
-              let n = this.notifications[index];
+              let index = this.notifications.indexOf(_notification);
+              _notification = this.notifications[index];
 
               // Força fechamento
-              n.close();
+              _notification.close();
 
               // Remove do array
               this.notifications.splice(index, 1);
@@ -76,13 +74,15 @@ let hint = ($timeout, $window, ngAudio) => {
     }
 
     _hasMessage(message) {
-      for(n of this.notifications) {
-        if(message === n.body) {
-          break;
-          return false;
+      let hasMessage = false;
+
+      angular.forEach(this.notifications, (notification) => {
+        if(notification.body === message) {
+          hasMessage = true;
         }
-      }
-      return true;
+      });
+
+      return hasMessage;
     }
 
     _randonNumber() {
