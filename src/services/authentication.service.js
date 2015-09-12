@@ -6,6 +6,7 @@ let Authentication = ($q, $state, $http, hint, storage) => {
 
     constructor(userKey) {
       this._setUserKey(userKey);
+      return this;
     }
 
     get() {
