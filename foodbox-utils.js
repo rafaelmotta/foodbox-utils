@@ -3,119 +3,6 @@
 var app = angular.module('foodbox.utils', []);
 'use strict';
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var modalProductCtrl = function modalProductCtrl($scope, $modalInstance, TempCart, meCartItemApi, cartResolved, storeProductResolved, cartItemResolved) {
-
-  return new ((function () {
-    function ModalProductCustomizationCtrl() {
-      _classCallCheck(this, ModalProductCustomizationCtrl);
-
-      $scope.product = storeProductResolved;
-      $scope.cart = cartResolved;
-      $scope.cartItem = cartItemResolved;
-
-      new TempCart($scope, cartItemResolved);
-    }
-
-    _createClass(ModalProductCustomizationCtrl, [{
-      key: 'add',
-      value: function add() {
-        meCartItemApi[this._getCartMethod()]({ cart_id: $scope.cart.id }, $scope.cartItem).then(function (cart) {
-          $modalInstance.close({ cart: cart.plain() });
-        });
-      }
-    }, {
-      key: 'close',
-      value: function close() {
-        $modalInstance.dismiss('close');
-      }
-    }, {
-      key: '_getCartMethod',
-      value: function _getCartMethod() {
-        return $scope.cartItem.id ? 'update' : 'create';
-      }
-    }]);
-
-    return ModalProductCustomizationCtrl;
-  })())();
-};
-
-angular.module('foodbox.utils').controller('ModalProductCtrl', modalProductCtrl);
-"use strict";
-"use strict";
-'use strict';
-
-var directive = function directive($templateCache) {
-  return {
-    restrict: 'E',
-    require: '^form',
-    transclude: true,
-    replace: true,
-    template: $templateCache.get('/templates/form-group.html'),
-    priority: 10000,
-    scope: {
-      label: '@',
-      vertical: '@'
-    },
-    link: function link(scope, $el, attrs) {
-      scope.id = 'field-' + Math.floor(Math.random() * 50000 + 1);
-    }
-  };
-};
-
-angular.module("foodbox.utils").directive('formGroup', directive);
-'use strict';
-
-var directive = function directive() {
-  return {
-    restrict: 'E',
-    link: function link(scope, $el, attrs) {
-      var el = $el[0];
-
-      if (el.type !== 'radio' && el.type !== 'checkbox') {
-        el.classList.add('form-control');
-      }
-    }
-  };
-};
-
-angular.module('foodbox.utils').directive('input', directive);
-"use strict";
-"use strict";
-"use strict";
-'use strict';
-
-var directive = function directive() {
-  return {
-    restrict: 'E',
-    link: function link(scope, $el, attrs) {
-      $el[0].classList.add('form-control');
-    }
-  };
-};
-
-angular.module('foodbox.utils').directive('select', directive);
-"use strict";
-"use strict";
-'use strict';
-
-var directive = function directive() {
-  return {
-    restrict: 'E',
-    link: function link(scope, $el, attrs) {
-      var el = $el[0];
-      el.classList.add('form-control');
-    }
-  };
-};
-
-angular.module('foodbox.utils').directive('textarea', directive);
-"use strict";
-'use strict';
-
 (function (module) {
   try {
     module = angular.module('foodbox.utils');
@@ -240,7 +127,209 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var hint = function hint(toaster, $timeout, $window, ngAudio) {
+var modalProductCtrl = function modalProductCtrl($scope, $modalInstance, TempCart, meCartItemApi, cartResolved, storeProductResolved, cartItemResolved) {
+
+  return new ((function () {
+    function ModalProductCustomizationCtrl() {
+      _classCallCheck(this, ModalProductCustomizationCtrl);
+
+      $scope.product = storeProductResolved;
+      $scope.cart = cartResolved;
+      $scope.cartItem = cartItemResolved;
+
+      new TempCart($scope, cartItemResolved);
+    }
+
+    _createClass(ModalProductCustomizationCtrl, [{
+      key: 'add',
+      value: function add() {
+        meCartItemApi[this._getCartMethod()]({ cart_id: $scope.cart.id }, $scope.cartItem).then(function (cart) {
+          $modalInstance.close({ cart: cart.plain() });
+        });
+      }
+    }, {
+      key: 'close',
+      value: function close() {
+        $modalInstance.dismiss('close');
+      }
+    }, {
+      key: '_getCartMethod',
+      value: function _getCartMethod() {
+        return $scope.cartItem.id ? 'update' : 'create';
+      }
+    }]);
+
+    return ModalProductCustomizationCtrl;
+  })())();
+};
+
+angular.module('foodbox.utils').controller('ModalProductCtrl', modalProductCtrl);
+"use strict";
+"use strict";
+'use strict';
+
+var directive = function directive($templateCache) {
+  return {
+    restrict: 'E',
+    require: '^form',
+    transclude: true,
+    replace: true,
+    template: $templateCache.get('/templates/form-group.html'),
+    priority: 10000,
+    scope: {
+      label: '@',
+      vertical: '@'
+    },
+    link: function link(scope, $el, attrs) {
+      scope.id = 'field-' + Math.floor(Math.random() * 50000 + 1);
+    }
+  };
+};
+
+angular.module("foodbox.utils").directive('formGroup', directive);
+'use strict';
+
+var directive = function directive() {
+  return {
+    restrict: 'E',
+    link: function link(scope, $el, attrs) {
+      var el = $el[0];
+
+      if (el.type !== 'radio' && el.type !== 'checkbox') {
+        el.classList.add('form-control');
+      }
+    }
+  };
+};
+
+angular.module('foodbox.utils').directive('input', directive);
+"use strict";
+"use strict";
+"use strict";
+'use strict';
+
+var directive = function directive() {
+  return {
+    restrict: 'E',
+    link: function link(scope, $el, attrs) {
+      $el[0].classList.add('form-control');
+    }
+  };
+};
+
+angular.module('foodbox.utils').directive('select', directive);
+"use strict";
+"use strict";
+'use strict';
+
+var directive = function directive() {
+  return {
+    restrict: 'E',
+    link: function link(scope, $el, attrs) {
+      var el = $el[0];
+      el.classList.add('form-control');
+    }
+  };
+};
+
+angular.module('foodbox.utils').directive('textarea', directive);
+"use strict";
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var authentication = function authentication($q, $state, $http, hint, storage) {
+
+  return (function () {
+    function Authentication() {
+      var userKey = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+
+      _classCallCheck(this, Authentication);
+
+      this._setUserKey(userKey);
+    }
+
+    _createClass(Authentication, [{
+      key: 'get',
+      value: function get() {
+        return storage.get('current' + this.key).then(function (currentUser) {
+          return currentUser;
+        });
+      }
+    }, {
+      key: 'login',
+      value: function login() {
+        var _this = this;
+
+        var params = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+        return $q(function (resolve, reject) {
+          $http.defaults.headers.common['X-{this.key}-Email'] = params.currentEmployee.email;
+          $http.defaults.headers.common['X-{this.key}-Token'] = params.currentEmployee.authentication_token;
+
+          storage.set('current' + _this.key, params.user);
+
+          resolve(_this.get());
+        });
+
+        // if(!params['current${this.key}') {
+        //   params.currentEmployee = null;
+        // }
+
+        // if(!params.stateToGo) {
+        //   params.stateToGo = this.stateToGo;
+        // }
+
+        // if(!params.currentEmployee.email || !params.currentEmployee.authentication_token || !params.currentEmployee.id) {
+        //   return storage.remove('currentEmployee');
+        // }
+
+        //$scope.currentEmployee = params.currentEmployee;
+        //$rootScope.currentStore = $scope.currentEmployee.current_store;
+
+        // if(params.stateToGo) {
+        //   return $state.go(params.stateToGo);
+        // }
+      }
+    }, {
+      key: 'logout',
+      value: function logout() {
+        var _this2 = this;
+
+        return $q(function (resolve, reject) {
+          storage.remove('current' + _this2.key).then(function () {
+            delete $http.defaults.headers.common['X-' + _this2.key + '-Email'];
+            delete $http.defaults.headers.common['X-' + _this2.key + '-Token'];
+            resolve();
+          });
+        });
+      }
+    }, {
+      key: '_setUserKey',
+      value: function _setUserKey() {
+        var key = arguments.length <= 0 || arguments[0] === undefined ? 'Employee' : arguments[0];
+
+        if (key !== 'Employee' && key !== 'Costumer') {
+          throw new Error('Chave para uso do service de autenticação deve ter os valores employee ou costumer');
+        }
+        this.key = key;
+      }
+    }]);
+
+    return Authentication;
+  })();
+};
+
+angular.module('foodbox.utils').factory('authentication', authentication);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var hint = function hint($timeout, $window, ngAudio) {
 
   return new ((function () {
     function Hint() {
@@ -352,7 +441,7 @@ var modalProduct = function modalProduct($modal, storeProductApi, $templateCache
         var cartItem = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
 
         return $modal.open({
-          template: $templateCache.get('/templates/modal-product.html'),
+          templateUrl: $templateCache.get('/templates/modal-product.html'),
           controller: 'ModalProductCtrl as ctrl',
           windowClass: 'modal-product',
           resolve: {

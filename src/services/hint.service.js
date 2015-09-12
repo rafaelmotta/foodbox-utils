@@ -1,4 +1,4 @@
-let hint = (toaster, $timeout, $window, ngAudio) => {
+let hint = ($timeout, $window, ngAudio) => {
 
   return new class Hint {
     constructor() {
