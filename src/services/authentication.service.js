@@ -1,10 +1,10 @@
-let authentication = ($q, $state, $http, hint, storage) => {
+let Authentication = ($q, $state, $http, hint, storage) => {
 
   return class Authentication {
 
     stateToGo: 'dashboard.sales'
 
-    constructor(userKey = null) {
+    constructor(userKey) {
       this._setUserKey(userKey);
     }
 
@@ -64,4 +64,4 @@ let authentication = ($q, $state, $http, hint, storage) => {
 
 };
 
-angular.module('foodbox.utils').factory('authentication', authentication);
+angular.module('foodbox.utils').factory('Authentication', Authentication);

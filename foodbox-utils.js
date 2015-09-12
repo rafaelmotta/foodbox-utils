@@ -240,12 +240,10 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var authentication = function authentication($q, $state, $http, hint, storage) {
+var Authentication = function Authentication($q, $state, $http, hint, storage) {
 
   return (function () {
-    function Authentication() {
-      var userKey = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
-
+    function Authentication(userKey) {
       _classCallCheck(this, Authentication);
 
       this._setUserKey(userKey);
@@ -322,7 +320,7 @@ var authentication = function authentication($q, $state, $http, hint, storage) {
   })();
 };
 
-angular.module('foodbox.utils').factory('authentication', authentication);
+angular.module('foodbox.utils').factory('Authentication', Authentication);
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
