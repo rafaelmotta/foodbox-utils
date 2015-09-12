@@ -1,10 +1,11 @@
 let hint = ($timeout, $window, ngAudio) => {
 
   return new class Hint {
+
     constructor() {
-      this.notifications = {};
+      this.notifications = [];
       this.timeout = 5000;
-      this.notification = window.Notification || window.mozNotification || window.webkitNotification;
+      this.notification = $window.Notification || $window.mozNotification || $window.webkitNotification
 
       this.sound = {
         success: ngAudio.load('/audios/success_notification.mp3'),
@@ -40,26 +41,48 @@ let hint = ($timeout, $window, ngAudio) => {
         options.autoClose = true;
       }
 
-      if(this.notification === 'granted') {
+      if(this.notification.permission === 'granted') {
+
         let settings = {
           body: message,
           icon: `/assets/app/icon-${type}.png`
         };
 
-        let n = new this.notification(title, settings);
+        // Só adiciona um hint se não houver nenhum hint com o mesmo conteudi
+        if(!this._hasMessage(settings.body)) {
+          let n = new this.notification(title, settings);
+          this.notifications.push(n);
 
-        if(options.autoClose) {
-          let number = this._randonNumber();
-          this.notifications[number] = n;
+          if(options.autoClose) {
+            $timeout(() => {
 
-          $timeout(() => {
-            delete this.notifications[number];
-            n.close();
-          }, options.timeout);
+              // Acha posicão da notificação no array
+              let index = this.notifications.indexOf(n);
+
+              // Pega notificação
+              let n = this.notifications[index];
+
+              // Força fechamento
+              n.close();
+
+              // Remove do array
+              this.notifications.splice(index, 1);
+            }, options.timeout);
+          }
         }
       }
 
       this.sound[type].play();
+    }
+
+    _hasMessage(message) {
+      for(n of this.notifications) {
+        if(message === n.body) {
+          break;
+          return false;
+        }
+      }
+      return true;
     }
 
     _randonNumber() {

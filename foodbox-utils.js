@@ -247,6 +247,7 @@ var Authentication = function Authentication($q, $state, $http, hint, storage) {
       _classCallCheck(this, Authentication);
 
       this._setUserKey(userKey);
+      return this;
     }
 
     _createClass(Authentication, [{
@@ -333,9 +334,9 @@ var hint = function hint($timeout, $window, ngAudio) {
     function Hint() {
       _classCallCheck(this, Hint);
 
-      this.notifications = {};
+      this.notifications = [];
       this.timeout = 5000;
-      this.notification = window.Notification || window.mozNotification || window.webkitNotification;
+      this.notification = $window.Notification || $window.mozNotification || $window.webkitNotification;
 
       this.sound = {
         success: ngAudio.load('/audios/success_notification.mp3'),
@@ -384,30 +385,71 @@ var hint = function hint($timeout, $window, ngAudio) {
           options.autoClose = true;
         }
 
-        if (this.notification === 'granted') {
-          (function () {
-            var settings = {
-              body: message,
-              icon: '/assets/app/icon-' + type + '.png'
-            };
+        if (this.notification.permission === 'granted') {
 
-            var n = new _this.notification(title, settings);
+          var settings = {
+            body: message,
+            icon: '/assets/app/icon-' + type + '.png'
+          };
+
+          // Só adiciona um hint se não houver nenhum hint com o mesmo conteudi
+          if (!this._hasMessage(settings.body)) {
+            var _n = new this.notification(title, settings);
+            this.notifications.push(_n);
 
             if (options.autoClose) {
-              (function () {
-                var number = _this._randonNumber();
-                _this.notifications[number] = n;
+              $timeout(function () {
 
-                $timeout(function () {
-                  delete _this.notifications[number];
-                  n.close();
-                }, options.timeout);
-              })();
+                // Acha posicão da notificação no array
+                var index = _this.notifications.indexOf(n);
+
+                // Pega notificação
+                var n = _this.notifications[index];
+
+                // Força fechamento
+                n.close();
+
+                // Remove do array
+                _this.notifications.splice(index, 1);
+              }, options.timeout);
             }
-          })();
+          }
         }
 
         this.sound[type].play();
+      }
+    }, {
+      key: '_hasMessage',
+      value: function _hasMessage(message) {
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
+        try {
+          for (var _iterator = this.notifications[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            n = _step.value;
+
+            if (message === n.body) {
+              break;
+              return false;
+            }
+          }
+        } catch (err) {
+          _didIteratorError = true;
+          _iteratorError = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion && _iterator['return']) {
+              _iterator['return']();
+            }
+          } finally {
+            if (_didIteratorError) {
+              throw _iteratorError;
+            }
+          }
+        }
+
+        return true;
       }
     }, {
       key: '_randonNumber',
