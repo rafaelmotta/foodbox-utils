@@ -394,20 +394,18 @@ var hint = function hint($timeout, $window, ngAudio) {
 
           // Só adiciona um hint se não houver nenhum hint com o mesmo conteudi
           if (!this._hasMessage(settings.body)) {
-            var _n = new this.notification(title, settings);
-            this.notifications.push(_n);
+            var _notification = new this.notification(title, settings);
+            this.notifications.push(_notification);
 
             if (options.autoClose) {
               $timeout(function () {
 
                 // Acha posicão da notificação no array
-                var index = _this.notifications.indexOf(n);
-
-                // Pega notificação
-                var n = _this.notifications[index];
+                var index = _this.notifications.indexOf(_notification);
+                _notification = _this.notifications[index];
 
                 // Força fechamento
-                n.close();
+                _notification.close();
 
                 // Remove do array
                 _this.notifications.splice(index, 1);
@@ -421,35 +419,15 @@ var hint = function hint($timeout, $window, ngAudio) {
     }, {
       key: '_hasMessage',
       value: function _hasMessage(message) {
-        var _iteratorNormalCompletion = true;
-        var _didIteratorError = false;
-        var _iteratorError = undefined;
+        var hasMessage = false;
 
-        try {
-          for (var _iterator = this.notifications[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-            n = _step.value;
-
-            if (message === n.body) {
-              break;
-              return false;
-            }
+        angular.forEach(this.notifications, function (notification) {
+          if (notification.body === message) {
+            hasMessage = true;
           }
-        } catch (err) {
-          _didIteratorError = true;
-          _iteratorError = err;
-        } finally {
-          try {
-            if (!_iteratorNormalCompletion && _iterator['return']) {
-              _iterator['return']();
-            }
-          } finally {
-            if (_didIteratorError) {
-              throw _iteratorError;
-            }
-          }
-        }
+        });
 
-        return true;
+        return hasMessage;
       }
     }, {
       key: '_randonNumber',
