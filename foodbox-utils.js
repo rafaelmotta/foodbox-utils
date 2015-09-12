@@ -499,7 +499,7 @@ var popup = function popup($window, $q) {
     _createClass(Popup, [{
       key: 'open',
       value: function open(pageURL, width, height) {
-        $q(function (resolve, reject) {
+        return $q(function (resolve, reject) {
           var left = Number(screen.width / 2 - width / 2);
           var top = Number(screen.height / 2 - height / 2);
 

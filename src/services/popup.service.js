@@ -1,7 +1,7 @@
 let popup = ($window, $q) => {
   return new class Popup {
     open(pageURL, width, height) {
-      $q((resolve, reject) => {
+      return $q((resolve, reject) => {
         let left = Number(screen.width / 2 - (width / 2));
         let top = Number(screen.height / 2 - (height / 2));
 
