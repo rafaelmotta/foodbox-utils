@@ -240,7 +240,21 @@ var directive = function directive() {
 };
 
 angular.module('foodbox.utils').directive('mask', directive);
-"use strict";
+'use strict';
+
+var directive = function directive($templateCache) {
+  return {
+    restrict: 'E',
+    replace: true,
+    template: $templateCache.get('/templates/no-results.html'),
+    scope: {
+      text: '@',
+      icon: '@'
+    }
+  };
+};
+
+angular.module('foodbox.utils').directive('noResults', directive);
 'use strict';
 
 var directive = function directive() {
