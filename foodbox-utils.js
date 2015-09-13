@@ -370,6 +370,21 @@ var HttpToken = function HttpToken($q, $state, $http, hint, storage) {
     }
 
     _createClass(HttpToken, [{
+      key: 'initialize',
+      value: function initialize() {
+        var _this = this;
+
+        return $q(function (resolve, reject) {
+          return _this.get().then(function (user) {
+            if (!user) return reject();
+
+            _this.set(user).then(function (user) {
+              resolve(user);
+            });
+          });
+        });
+      }
+    }, {
       key: 'get',
       value: function get() {
         return storage.get('current' + this.key).then(function (currentUser) {
@@ -379,26 +394,26 @@ var HttpToken = function HttpToken($q, $state, $http, hint, storage) {
     }, {
       key: 'set',
       value: function set(user) {
-        var _this = this;
+        var _this2 = this;
 
         return $q(function (resolve, reject) {
-          $http.defaults.headers.common['X-' + _this.key + '-Email'] = user.email;
-          $http.defaults.headers.common['X-' + _this.key + '-Token'] = user.authentication_token;
+          $http.defaults.headers.common['X-' + _this2.key + '-Email'] = user.email;
+          $http.defaults.headers.common['X-' + _this2.key + '-Token'] = user.authentication_token;
 
-          storage.set('current' + _this.key, user);
+          storage.set('current' + _this2.key, user);
 
-          resolve(_this.get());
+          resolve(_this2.get());
         });
       }
     }, {
       key: 'remove',
       value: function remove() {
-        var _this2 = this;
+        var _this3 = this;
 
         return $q(function (resolve, reject) {
-          storage.remove('current' + _this2.key).then(function () {
-            delete $http.defaults.headers.common['X-' + _this2.key + '-Email'];
-            delete $http.defaults.headers.common['X-' + _this2.key + '-Token'];
+          return storage.remove('current' + _this3.key).then(function () {
+            delete $http.defaults.headers.common['X-' + _this3.key + '-Email'];
+            delete $http.defaults.headers.common['X-' + _this3.key + '-Token'];
             resolve();
           });
         });

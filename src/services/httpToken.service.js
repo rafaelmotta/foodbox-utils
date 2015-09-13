@@ -7,6 +7,18 @@ let HttpToken = ($q, $state, $http, hint, storage) => {
       return this;
     }
 
+    initialize() {
+      return $q((resolve, reject) => {
+        return this.get().then((user) => {
+          if(!user) return reject();
+
+          this.set(user).then((user) => {
+            resolve(user);
+          });
+        });
+      });
+    }
+
     get() {
       return storage.get(`current${this.key}`).then((currentUser) => {
         return currentUser;
@@ -26,7 +38,7 @@ let HttpToken = ($q, $state, $http, hint, storage) => {
 
     remove() {
       return $q((resolve, reject) => {
-        storage.remove(`current${this.key}`).then(() => {
+        return storage.remove(`current${this.key}`).then(() => {
           delete $http.defaults.headers.common[`X-${this.key}-Email`];
           delete $http.defaults.headers.common[`X-${this.key}-Token`];
           resolve();
