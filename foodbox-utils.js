@@ -204,7 +204,25 @@ var directive = function directive() {
 
 angular.module('foodbox.utils').directive('input', directive);
 "use strict";
-"use strict";
+'use strict';
+
+var directive = function directive() {
+  return {
+    restrict: 'A',
+    link: function link(scope, $el, attrs) {
+      if (attrs.mask === 'phone') {
+        return $el.inputmask("(99) 9999-9999[9]");
+      } else {
+        if (attrs.mask === 'date') {
+          return $el.inputmask("99/99/9999");
+        }
+      }
+      $el.inputmask(attrs.mask, { autoUnmask: attrs.autoUnmask || false });
+    }
+  };
+};
+
+angular.module('foodbox.utils').directive('mask', directive);
 "use strict";
 'use strict';
 
@@ -220,6 +238,17 @@ var directive = function directive() {
 angular.module('foodbox.utils').directive('select', directive);
 "use strict";
 "use strict";
+
+var directive = function directive() {
+  return {
+    restrict: 'E',
+    link: function link(scope, $el, attrs) {
+      $el.addClass("table table-hover table-striped").wrap("<div class='table-responsive'></div>");
+    }
+  };
+};
+
+angular.module('foodbox.utils').directive('table', directive);
 'use strict';
 
 var directive = function directive() {
@@ -233,7 +262,43 @@ var directive = function directive() {
 };
 
 angular.module('foodbox.utils').directive('textarea', directive);
-"use strict";
+'use strict';
+
+var directive = function directive() {
+  return {
+    restrict: 'A',
+    scope: {
+      zipcode: '&ngModel',
+      model: '=zipcodeModel'
+    },
+    link: function link(scope, $el, attrs) {
+      var _zipcode = null;
+
+      scope.$watch(scope.zipcode, function (value, oldValue) {
+        if (value === oldValue) return false;
+        if (!value) return false;
+        if (value.length !== 8) return false;
+        if (_zipcode === value) return false;
+
+        _zipcode = value;
+
+        var number = scope.model.number ? scope.model.number : null;
+
+        zipcode.get(_zipcode, number).then(function (data) {
+          scope.model.latitude = data.latitude;
+          scope.model.longitude = data.longitude;
+          scope.model.neighborhood = data.neighborhood;
+          scope.model.city = data.city;
+          scope.model.street = data.street;
+          scope.model.city_id = data.city.id;
+          scope.model.neighborhood_id = data.neighborhood.id;
+
+          $el.parents('.form-group').siblings().find("input[ng-model='address.number']").focus();
+        });
+      });
+    }
+  };
+};
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
