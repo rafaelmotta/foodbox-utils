@@ -240,94 +240,6 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var Authentication = function Authentication($q, $state, $http, hint, storage) {
-
-  return (function () {
-    function Authentication(userKey) {
-      _classCallCheck(this, Authentication);
-
-      this._setUserKey(userKey);
-      return this;
-    }
-
-    _createClass(Authentication, [{
-      key: 'get',
-      value: function get() {
-        return storage.get('current' + this.key).then(function (currentUser) {
-          return currentUser;
-        });
-      }
-    }, {
-      key: 'login',
-      value: function login() {
-        var _this = this;
-
-        var params = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
-        return $q(function (resolve, reject) {
-          $http.defaults.headers.common['X-{this.key}-Email'] = params.currentEmployee.email;
-          $http.defaults.headers.common['X-{this.key}-Token'] = params.currentEmployee.authentication_token;
-
-          storage.set('current' + _this.key, params.user);
-
-          resolve(_this.get());
-        });
-
-        // if(!params['current${this.key}') {
-        //   params.currentEmployee = null;
-        // }
-
-        // if(!params.stateToGo) {
-        //   params.stateToGo = this.stateToGo;
-        // }
-
-        // if(!params.currentEmployee.email || !params.currentEmployee.authentication_token || !params.currentEmployee.id) {
-        //   return storage.remove('currentEmployee');
-        // }
-
-        //$scope.currentEmployee = params.currentEmployee;
-        //$rootScope.currentStore = $scope.currentEmployee.current_store;
-
-        // if(params.stateToGo) {
-        //   return $state.go(params.stateToGo);
-        // }
-      }
-    }, {
-      key: 'logout',
-      value: function logout() {
-        var _this2 = this;
-
-        return $q(function (resolve, reject) {
-          storage.remove('current' + _this2.key).then(function () {
-            delete $http.defaults.headers.common['X-' + _this2.key + '-Email'];
-            delete $http.defaults.headers.common['X-' + _this2.key + '-Token'];
-            resolve();
-          });
-        });
-      }
-    }, {
-      key: '_setUserKey',
-      value: function _setUserKey() {
-        var key = arguments.length <= 0 || arguments[0] === undefined ? 'Employee' : arguments[0];
-
-        if (key !== 'Employee' && key !== 'Costumer') {
-          throw new Error('Chave para uso do service de autenticação deve ter os valores employee ou costumer');
-        }
-        this.key = key;
-      }
-    }]);
-
-    return Authentication;
-  })();
-};
-
-angular.module('foodbox.utils').factory('Authentication', Authentication);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
 var hint = function hint($timeout, $window, ngAudio) {
 
   return new ((function () {
@@ -441,6 +353,73 @@ var hint = function hint($timeout, $window, ngAudio) {
 };
 
 angular.module('foodbox.utils').factory('hint', hint);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var HttpToken = function HttpToken($rootscope, $q, $state, $http, hint, storage) {
+
+  return (function () {
+    function HttpToken(userKey) {
+      _classCallCheck(this, HttpToken);
+
+      this._setUserKey(userKey);
+      return this;
+    }
+
+    _createClass(HttpToken, [{
+      key: 'get',
+      value: function get() {
+        return storage.get('current' + this.key).then(function (currentUser) {
+          return currentUser;
+        });
+      }
+    }, {
+      key: 'set',
+      value: function set(user) {
+        var _this = this;
+
+        return $q(function (resolve, reject) {
+          $http.defaults.headers.common['X-{this.key}-Email'] = user.email;
+          $http.defaults.headers.common['X-{this.key}-Token'] = user.authentication_token;
+
+          storage.set('current' + _this.key, user);
+
+          resolve(_this.get());
+        });
+      }
+    }, {
+      key: 'remove',
+      value: function remove() {
+        var _this2 = this;
+
+        return $q(function (resolve, reject) {
+          storage.remove('current' + _this2.key).then(function () {
+            delete $http.defaults.headers.common['X-' + _this2.key + '-Email'];
+            delete $http.defaults.headers.common['X-' + _this2.key + '-Token'];
+            resolve();
+          });
+        });
+      }
+    }, {
+      key: '_setUserKey',
+      value: function _setUserKey() {
+        var key = arguments.length <= 0 || arguments[0] === undefined ? 'Employee' : arguments[0];
+
+        if (key !== 'Employee' && key !== 'Costumer') {
+          throw new Error('Chave para uso do service de autenticação deve ter os valores employee ou costumer');
+        }
+        this.key = key;
+      }
+    }]);
+
+    return HttpToken;
+  })();
+};
+
+angular.module('foodbox.utils').factory('HttpToken', HttpToken);
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
