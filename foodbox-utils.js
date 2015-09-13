@@ -359,7 +359,7 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var HttpToken = function HttpToken($rootscope, $q, $state, $http, hint, storage) {
+var HttpToken = function HttpToken($q, $state, $http, hint, storage) {
 
   return (function () {
     function HttpToken(userKey) {
@@ -409,7 +409,7 @@ var HttpToken = function HttpToken($rootscope, $q, $state, $http, hint, storage)
         var key = arguments.length <= 0 || arguments[0] === undefined ? 'Employee' : arguments[0];
 
         if (key !== 'Employee' && key !== 'Costumer') {
-          throw new Error('Chave para uso do service de autenticação deve ter os valores employee ou costumer');
+          throw new Error('Chave para uso do serviço HttpToken deve ter os valores Employee ou Costumer');
         }
         this.key = key;
       }
