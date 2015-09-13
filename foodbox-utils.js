@@ -382,8 +382,8 @@ var HttpToken = function HttpToken($q, $state, $http, hint, storage) {
         var _this = this;
 
         return $q(function (resolve, reject) {
-          $http.defaults.headers.common['X-{this.key}-Email'] = user.email;
-          $http.defaults.headers.common['X-{this.key}-Token'] = user.authentication_token;
+          $http.defaults.headers.common['X-' + _this.key + '-Email'] = user.email;
+          $http.defaults.headers.common['X-' + _this.key + '-Token'] = user.authentication_token;
 
           storage.set('current' + _this.key, user);
 

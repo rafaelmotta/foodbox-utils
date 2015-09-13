@@ -15,8 +15,8 @@ let HttpToken = ($q, $state, $http, hint, storage) => {
 
     set(user) {
       return $q((resolve, reject) => {
-        $http.defaults.headers.common[`X-{this.key}-Email`] = user.email;
-        $http.defaults.headers.common[`X-{this.key}-Token`] = user.authentication_token;
+        $http.defaults.headers.common[`X-${this.key}-Email`] = user.email;
+        $http.defaults.headers.common[`X-${this.key}-Token`] = user.authentication_token;
 
         storage.set(`current${this.key}`, user);
 
@@ -41,7 +41,6 @@ let HttpToken = ($q, $state, $http, hint, storage) => {
       this.key = key;
     }
   }
-
 };
 
 angular.module('foodbox.utils').factory('HttpToken', HttpToken);
