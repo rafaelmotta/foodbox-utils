@@ -1,4 +1,4 @@
-let directive = () => {
+let directive = ($templateCache) => {
   return {
     restrict: 'E',
     replace: true,

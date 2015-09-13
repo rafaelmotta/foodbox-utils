@@ -166,7 +166,7 @@ var modalProductCtrl = function modalProductCtrl($scope, $modalInstance, TempCar
 angular.module('foodbox.utils').controller('ModalProductCtrl', modalProductCtrl);
 'use strict';
 
-var directive = function directive() {
+var directive = function directive($templateCache) {
   return {
     restrict: 'E',
     replace: true,
