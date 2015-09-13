@@ -1,4 +1,4 @@
-let HttpToken = ($rootscope, $q, $state, $http, hint, storage) => {
+let HttpToken = ($q, $state, $http, hint, storage) => {
 
   return class HttpToken {
 
