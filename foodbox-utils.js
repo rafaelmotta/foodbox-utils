@@ -453,7 +453,7 @@ var modalProduct = function modalProduct($modal, storeProductApi, $templateCache
         var cartItem = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
 
         return $modal.open({
-          templateUrl: $templateCache.get('/templates/modal-product.html'),
+          template: $templateCache.get('/templates/modal-product.html'),
           controller: 'ModalProductCtrl as ctrl',
           windowClass: 'modal-product',
           resolve: {
