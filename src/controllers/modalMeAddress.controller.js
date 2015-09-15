@@ -10,7 +10,7 @@ let modalMeAddressCtrl = ($scope, $modalInstance, meAddressApi, addressResolved)
       let method = this._getMethod();
 
       meAddressApi[method]($scope.address).then((address) => {
-        $modalInstance.close({ address: address, method: method });
+        $modalInstance.close({ address: address.plain(), method: method });
       });
     }
 
