@@ -11,7 +11,7 @@ module.run(['$templateCache', function($templateCache) {
     '    <label for="{{ id }}" class="col-sm-3 control-label">{{ label }}\n' +
     '      <span ng-show="required" tooltip="Campo obrigatório" class="required-marker">*</span>\n' +
     '    </label>\n' +
-    '    <div class="col-sm-4" ng-transclude></div>\n' +
+    '    <div class="col-sm-6" ng-transclude></div>\n' +
     '  </div>\n' +
     '  <div ng-if="vertical">\n' +
     '    <label for="{{ id }}" class="control-label">{{ label }}</label>\n' +

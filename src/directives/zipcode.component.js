@@ -10,7 +10,7 @@ let directive = () => {
 
       scope.$watch(scope.zipcode, (value, oldValue) => {
         if(value === oldValue) return false;
-        if(!value) return false;
+        if(!value)             return false;
         if(value.length !== 8) return false;
         if(_zipcode === value) return false;
 
@@ -37,3 +37,5 @@ let directive = () => {
     }
   };
 };
+
+angular.module('foodbox.utils').directive('zipcode', directive);

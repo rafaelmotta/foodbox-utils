@@ -3,7 +3,7 @@ let modalMeAddressCtrl = ($scope, $modalInstance, meAddressApi, addressResolved)
   return new class ModalMeAddressCtrl {
 
     constructor(onSubmit) {
-      $scope.address = addressesResolved;
+      $scope.address = addressResolved;
     }
 
     submit() {

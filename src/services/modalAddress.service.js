@@ -1,4 +1,4 @@
-let modalAddres = ($modal, $templateCache) => {
+let modalAddress = ($modal, $templateCache) => {
   return class ModalAddress {
     open(address, meCtrl = true){
       return $modal.open({
@@ -15,4 +15,4 @@ let modalAddres = ($modal, $templateCache) => {
   };
 };
 
-angular.module('foodbox.utils').factory('ModalAddress', modalAddres);
+angular.module('foodbox.utils').factory('ModalAddress', modalAddress);

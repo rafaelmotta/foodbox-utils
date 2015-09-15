@@ -22,30 +22,6 @@ var app = angular.module('foodbox.utils', []);
     module = angular.module('foodbox.utils', []);
   }
   module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/templates/delete_button.html', '<button class="{{ class || \'btn btn-default btn-xs\' }}" type="button">\n' + '  <i class="icon icon-{{ icon || \'trash-o\' }}"></i>\n' + '</button>\n' + '\n' + '\n' + '');
-  }]);
-})();
-'use strict';
-
-(function (module) {
-  try {
-    module = angular.module('foodbox.utils');
-  } catch (e) {
-    module = angular.module('foodbox.utils', []);
-  }
-  module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/templates/edit_button.html', '<button class="btn btn-warning btn-xs" type="button">\n' + '  <i class="icon icon-{{ icon || \'pencil\' }}"></i>\n' + '</button>');
-  }]);
-})();
-'use strict';
-
-(function (module) {
-  try {
-    module = angular.module('foodbox.utils');
-  } catch (e) {
-    module = angular.module('foodbox.utils', []);
-  }
-  module.run(['$templateCache', function ($templateCache) {
     $templateCache.put('/templates/experience-points.html', '<div class="experience-points-container">\n' + '  <div class="total-points"><i class="icon icon-shirtsinbulk"></i>3000 pontos</div>\n' + '  <div class="progress">\n' + '    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">\n' + '      <span class="sr-only">60% Complete</span>\n' + '    </div>\n' + '  </div>\n' + '  <div class="level-container">\n' + '    <div class="current-level">\n' + '      Level 5\n' + '    </div>\n' + '    <div class="next-level">\n' + '      <span>165 pontos para</span>\n' + '      Level 6\n' + '    </div>\n' + '  </div>\n' + '</div>');
   }]);
 })();
@@ -58,19 +34,7 @@ var app = angular.module('foodbox.utils', []);
     module = angular.module('foodbox.utils', []);
   }
   module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/templates/form-group.html', '<div class="form-group" >\n' + '  <div ng-if="!vertical">\n' + '    <label for="{{ id }}" class="col-sm-3 control-label">{{ label }}\n' + '      <span ng-show="required" tooltip="Campo obrigatório" class="required-marker">*</span>\n' + '    </label>\n' + '    <div class="col-sm-4" ng-transclude></div>\n' + '  </div>\n' + '  <div ng-if="vertical">\n' + '    <label for="{{ id }}" class="control-label">{{ label }}</label>\n' + '    <div ng-transclude></div>\n' + '  </div>\n' + '</div>');
-  }]);
-})();
-'use strict';
-
-(function (module) {
-  try {
-    module = angular.module('foodbox.utils');
-  } catch (e) {
-    module = angular.module('foodbox.utils', []);
-  }
-  module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/templates/form.html', '<div class="form-group" >\n' + '  <div ng-if="!vertical">\n' + '    <label for="{{ id }}" class="col-sm-3 control-label">{{ label }}\n' + '      <span ng-show="required" tooltip="Campo obrigatório" class="required-marker">*</span>\n' + '    </label>\n' + '    <div class="col-sm-4" ng-transclude></div>\n' + '  </div>\n' + '  <div ng-if="vertical">\n' + '    <label for="{{ id }}" class="control-label">{{ label }}</label>\n' + '    <div ng-transclude></div>\n' + '  </div>\n' + '</div>');
+    $templateCache.put('/templates/form-group.html', '<div class="form-group" >\n' + '  <div ng-if="!vertical">\n' + '    <label for="{{ id }}" class="col-sm-3 control-label">{{ label }}\n' + '      <span ng-show="required" tooltip="Campo obrigatório" class="required-marker">*</span>\n' + '    </label>\n' + '    <div class="col-sm-6" ng-transclude></div>\n' + '  </div>\n' + '  <div ng-if="vertical">\n' + '    <label for="{{ id }}" class="control-label">{{ label }}</label>\n' + '    <div ng-transclude></div>\n' + '  </div>\n' + '</div>');
   }]);
 })();
 'use strict';
@@ -123,89 +87,170 @@ var app = angular.module('foodbox.utils', []);
 })();
 'use strict';
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var modalMeAddressCtrl = function modalMeAddressCtrl($scope, $modalInstance, meAddressApi, addressResolved) {
-
-  return new ((function () {
-    function ModalMeAddressCtrl(onSubmit) {
-      _classCallCheck(this, ModalMeAddressCtrl);
-
-      $scope.address = addressesResolved;
+var directive = function directive($templateCache) {
+  return {
+    restrict: 'E',
+    replace: true,
+    transclude: true,
+    template: $templateCache.get('/templates/box.html'),
+    scope: {
+      title: '@',
+      icon: '@',
+      containerClass: '@'
     }
-
-    _createClass(ModalMeAddressCtrl, [{
-      key: 'submit',
-      value: function submit() {
-        var method = this._getMethod();
-
-        meAddressApi[method]($scope.address).then(function (address) {
-          hint.success(method === 'update' ? 'Endereço editado' : 'Endereço adicionado');
-          $modalInstance.close({ address: address });
-        });
-      }
-    }, {
-      key: 'close',
-      value: function close() {
-        $modalInstance.dismiss('close');
-      }
-    }, {
-      key: '_getMethod',
-      value: function _getMethod() {
-        return $scope.address.id ? 'update' : 'create';
-      }
-    }]);
-
-    return ModalMeAddressCtrl;
-  })())();
+  };
 };
 
-angular.module('foodbox.utils').controller('ModalMeAddressCtrl', modalMeAddressCtrl);
+angular.module('foodbox.utils').directive('box', directive);
 'use strict';
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var modalProductCtrl = function modalProductCtrl($scope, $modalInstance, TempCart, meCartItemApi, cartResolved, storeProductResolved, cartItemResolved) {
-
-  return new ((function () {
-    function ModalProductCustomizationCtrl() {
-      _classCallCheck(this, ModalProductCustomizationCtrl);
-
-      $scope.product = storeProductResolved;
-      $scope.cart = cartResolved;
-      $scope.cartItem = cartItemResolved;
-
-      new TempCart($scope, cartItemResolved);
+var directive = function directive($templateCache) {
+  return {
+    restrict: 'E',
+    require: '^form',
+    transclude: true,
+    replace: true,
+    template: $templateCache.get('/templates/form-group.html'),
+    priority: 10000,
+    scope: {
+      label: '@',
+      vertical: '@'
+    },
+    link: function link(scope, $el, attrs) {
+      scope.id = 'field-' + Math.floor(Math.random() * 50000 + 1);
     }
-
-    _createClass(ModalProductCustomizationCtrl, [{
-      key: 'add',
-      value: function add() {
-        meCartItemApi[this._getCartMethod()]({ cart_id: $scope.cart.id }, $scope.cartItem).then(function (cart) {
-          $modalInstance.close({ cart: cart.plain() });
-        });
-      }
-    }, {
-      key: 'close',
-      value: function close() {
-        $modalInstance.dismiss('close');
-      }
-    }, {
-      key: '_getCartMethod',
-      value: function _getCartMethod() {
-        return $scope.cartItem.id ? 'update' : 'create';
-      }
-    }]);
-
-    return ModalProductCustomizationCtrl;
-  })())();
+  };
 };
 
-angular.module('foodbox.utils').controller('ModalProductCtrl', modalProductCtrl);
+angular.module("foodbox.utils").directive('formGroup', directive);
+'use strict';
+
+var directive = function directive() {
+  return {
+    restrict: 'E',
+    link: function link(scope, $el, attrs) {
+      var el = $el[0];
+
+      if (el.type !== 'radio' && el.type !== 'checkbox') {
+        el.classList.add('form-control');
+      }
+    }
+  };
+};
+
+angular.module('foodbox.utils').directive('input', directive);
+"use strict";
+'use strict';
+
+var directive = function directive() {
+  return {
+    restrict: 'A',
+    link: function link(scope, $el, attrs) {
+      if (attrs.mask === 'phone') {
+        return $el.inputmask("(99) 9999-9999[9]");
+      } else {
+        if (attrs.mask === 'date') {
+          return $el.inputmask("99/99/9999");
+        }
+      }
+      $el.inputmask(attrs.mask, { autoUnmask: attrs.autoUnmask || false });
+    }
+  };
+};
+
+angular.module('foodbox.utils').directive('mask', directive);
+'use strict';
+
+var directive = function directive($templateCache) {
+  return {
+    restrict: 'E',
+    replace: true,
+    template: $templateCache.get('/templates/no-results.html'),
+    scope: {
+      text: '@',
+      icon: '@'
+    }
+  };
+};
+
+angular.module('foodbox.utils').directive('noResults', directive);
+'use strict';
+
+var directive = function directive() {
+  return {
+    restrict: 'E',
+    link: function link(scope, $el, attrs) {
+      $el[0].classList.add('form-control');
+    }
+  };
+};
+
+angular.module('foodbox.utils').directive('select', directive);
+"use strict";
+"use strict";
+
+var directive = function directive() {
+  return {
+    restrict: 'E',
+    link: function link(scope, $el, attrs) {
+      $el.addClass("table table-hover table-striped").wrap("<div class='table-responsive'></div>");
+    }
+  };
+};
+
+angular.module('foodbox.utils').directive('table', directive);
+'use strict';
+
+var directive = function directive() {
+  return {
+    restrict: 'E',
+    link: function link(scope, $el, attrs) {
+      var el = $el[0];
+      el.classList.add('form-control');
+    }
+  };
+};
+
+angular.module('foodbox.utils').directive('textarea', directive);
+'use strict';
+
+var directive = function directive() {
+  return {
+    restrict: 'A',
+    scope: {
+      zipcode: '&ngModel',
+      model: '=zipcodeModel'
+    },
+    link: function link(scope, $el, attrs) {
+      var _zipcode = null;
+
+      scope.$watch(scope.zipcode, function (value, oldValue) {
+        if (value === oldValue) return false;
+        if (!value) return false;
+        if (value.length !== 8) return false;
+        if (_zipcode === value) return false;
+
+        _zipcode = value;
+
+        var number = scope.model.number ? scope.model.number : null;
+
+        zipcode.get(_zipcode, number).then(function (data) {
+          scope.model.latitude = data.latitude;
+          scope.model.longitude = data.longitude;
+          scope.model.neighborhood = data.neighborhood;
+          scope.model.city = data.city;
+          scope.model.street = data.street;
+          scope.model.city_id = data.city.id;
+          scope.model.neighborhood_id = data.neighborhood.id;
+
+          $el.parents('.form-group').siblings().find("input[ng-model='address.number']").focus();
+        });
+      });
+    }
+  };
+};
+
+angular.module('foodbox.utils').directive('zipcode', directive);
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -413,7 +458,7 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var modalAddres = function modalAddres($modal, $templateCache) {
+var modalAddress = function modalAddress($modal, $templateCache) {
   return (function () {
     function ModalAddress() {
       _classCallCheck(this, ModalAddress);
@@ -441,7 +486,7 @@ var modalAddres = function modalAddres($modal, $templateCache) {
   })();
 };
 
-angular.module('foodbox.utils').factory('ModalAddress', modalAddres);
+angular.module('foodbox.utils').factory('ModalAddress', modalAddress);
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -711,165 +756,86 @@ var tempCart = function tempCart() {
 angular.module('foodbox.utils').factory('TempCart', tempCart);
 'use strict';
 
-var directive = function directive($templateCache) {
-  return {
-    restrict: 'E',
-    replace: true,
-    transclude: true,
-    template: $templateCache.get('/templates/box.html'),
-    scope: {
-      title: '@',
-      icon: '@',
-      containerClass: '@'
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var modalMeAddressCtrl = function modalMeAddressCtrl($scope, $modalInstance, meAddressApi, addressResolved) {
+
+  return new ((function () {
+    function ModalMeAddressCtrl(onSubmit) {
+      _classCallCheck(this, ModalMeAddressCtrl);
+
+      $scope.address = addressResolved;
     }
-  };
-};
 
-angular.module('foodbox.utils').directive('box', directive);
-'use strict';
+    _createClass(ModalMeAddressCtrl, [{
+      key: 'submit',
+      value: function submit() {
+        var method = this._getMethod();
 
-var directive = function directive($templateCache) {
-  return {
-    restrict: 'E',
-    require: '^form',
-    transclude: true,
-    replace: true,
-    template: $templateCache.get('/templates/form-group.html'),
-    priority: 10000,
-    scope: {
-      label: '@',
-      vertical: '@'
-    },
-    link: function link(scope, $el, attrs) {
-      scope.id = 'field-' + Math.floor(Math.random() * 50000 + 1);
-    }
-  };
-};
-
-angular.module("foodbox.utils").directive('formGroup', directive);
-'use strict';
-
-var directive = function directive() {
-  return {
-    restrict: 'E',
-    link: function link(scope, $el, attrs) {
-      var el = $el[0];
-
-      if (el.type !== 'radio' && el.type !== 'checkbox') {
-        el.classList.add('form-control');
-      }
-    }
-  };
-};
-
-angular.module('foodbox.utils').directive('input', directive);
-"use strict";
-'use strict';
-
-var directive = function directive() {
-  return {
-    restrict: 'A',
-    link: function link(scope, $el, attrs) {
-      if (attrs.mask === 'phone') {
-        return $el.inputmask("(99) 9999-9999[9]");
-      } else {
-        if (attrs.mask === 'date') {
-          return $el.inputmask("99/99/9999");
-        }
-      }
-      $el.inputmask(attrs.mask, { autoUnmask: attrs.autoUnmask || false });
-    }
-  };
-};
-
-angular.module('foodbox.utils').directive('mask', directive);
-'use strict';
-
-var directive = function directive($templateCache) {
-  return {
-    restrict: 'E',
-    replace: true,
-    template: $templateCache.get('/templates/no-results.html'),
-    scope: {
-      text: '@',
-      icon: '@'
-    }
-  };
-};
-
-angular.module('foodbox.utils').directive('noResults', directive);
-'use strict';
-
-var directive = function directive() {
-  return {
-    restrict: 'E',
-    link: function link(scope, $el, attrs) {
-      $el[0].classList.add('form-control');
-    }
-  };
-};
-
-angular.module('foodbox.utils').directive('select', directive);
-"use strict";
-"use strict";
-
-var directive = function directive() {
-  return {
-    restrict: 'E',
-    link: function link(scope, $el, attrs) {
-      $el.addClass("table table-hover table-striped").wrap("<div class='table-responsive'></div>");
-    }
-  };
-};
-
-angular.module('foodbox.utils').directive('table', directive);
-'use strict';
-
-var directive = function directive() {
-  return {
-    restrict: 'E',
-    link: function link(scope, $el, attrs) {
-      var el = $el[0];
-      el.classList.add('form-control');
-    }
-  };
-};
-
-angular.module('foodbox.utils').directive('textarea', directive);
-'use strict';
-
-var directive = function directive() {
-  return {
-    restrict: 'A',
-    scope: {
-      zipcode: '&ngModel',
-      model: '=zipcodeModel'
-    },
-    link: function link(scope, $el, attrs) {
-      var _zipcode = null;
-
-      scope.$watch(scope.zipcode, function (value, oldValue) {
-        if (value === oldValue) return false;
-        if (!value) return false;
-        if (value.length !== 8) return false;
-        if (_zipcode === value) return false;
-
-        _zipcode = value;
-
-        var number = scope.model.number ? scope.model.number : null;
-
-        zipcode.get(_zipcode, number).then(function (data) {
-          scope.model.latitude = data.latitude;
-          scope.model.longitude = data.longitude;
-          scope.model.neighborhood = data.neighborhood;
-          scope.model.city = data.city;
-          scope.model.street = data.street;
-          scope.model.city_id = data.city.id;
-          scope.model.neighborhood_id = data.neighborhood.id;
-
-          $el.parents('.form-group').siblings().find("input[ng-model='address.number']").focus();
+        meAddressApi[method]($scope.address).then(function (address) {
+          hint.success(method === 'update' ? 'Endereço editado' : 'Endereço adicionado');
+          $modalInstance.close({ address: address });
         });
-      });
-    }
-  };
+      }
+    }, {
+      key: 'close',
+      value: function close() {
+        $modalInstance.dismiss('close');
+      }
+    }, {
+      key: '_getMethod',
+      value: function _getMethod() {
+        return $scope.address.id ? 'update' : 'create';
+      }
+    }]);
+
+    return ModalMeAddressCtrl;
+  })())();
 };
+
+angular.module('foodbox.utils').controller('ModalMeAddressCtrl', modalMeAddressCtrl);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var modalProductCtrl = function modalProductCtrl($scope, $modalInstance, TempCart, meCartItemApi, cartResolved, storeProductResolved, cartItemResolved) {
+
+  return new ((function () {
+    function ModalProductCustomizationCtrl() {
+      _classCallCheck(this, ModalProductCustomizationCtrl);
+
+      $scope.product = storeProductResolved;
+      $scope.cart = cartResolved;
+      $scope.cartItem = cartItemResolved;
+
+      new TempCart($scope, cartItemResolved);
+    }
+
+    _createClass(ModalProductCustomizationCtrl, [{
+      key: 'add',
+      value: function add() {
+        meCartItemApi[this._getCartMethod()]({ cart_id: $scope.cart.id }, $scope.cartItem).then(function (cart) {
+          $modalInstance.close({ cart: cart.plain() });
+        });
+      }
+    }, {
+      key: 'close',
+      value: function close() {
+        $modalInstance.dismiss('close');
+      }
+    }, {
+      key: '_getCartMethod',
+      value: function _getCartMethod() {
+        return $scope.cartItem.id ? 'update' : 'create';
+      }
+    }]);
+
+    return ModalProductCustomizationCtrl;
+  })())();
+};
+
+angular.module('foodbox.utils').controller('ModalProductCtrl', modalProductCtrl);
