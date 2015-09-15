@@ -58,7 +58,7 @@ var app = angular.module('foodbox.utils', []);
     module = angular.module('foodbox.utils', []);
   }
   module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/templates/modal-address.html', '<div class="modal-header">\n' + '  <h4 class="modal-title" ng-hide="address.id">Adicionar</h4>\n' + '  <h4 class="modal-title" ng-show="address.id">Editar</h4>\n' + '</div>\n' + '<div class="modal-body clearfix">\n' + '  <form name="addressForm" class="form-horizontal" ng-submit="ctrl.submit()">\n' + '    <form-group label="Nome" required="true">\n' + '      <input type="text" tabindex="1" ng-model="address.name" autofocus />\n' + '    </form-group>\n' + '    <form-group label="CEP" required="true">\n' + '      <input type="text" tabindex="2" ng-model="address.zipcode" required mask="99999-999" auto-unmask="true" zipcode zipcode-model="address" />\n' + '    </form-group>\n' + '    <form-group label="Cidade" required="true">\n' + '      <input type="text" tabindex="3" ng-model="address.city.name" disabled required />\n' + '    </form-group>\n' + '    <form-group label="Bairro" required="true">\n' + '      <input type="text" tabindex="4" ng-model="address.neighborhood.name" disabled required />\n' + '    </form-group>\n' + '    <form-group label="Rua" required="true">\n' + '      <input type="text" tabindex="5" ng-model="address.street" disabled required />\n' + '    </form-group>\n' + '    <form-group label="Número" required="true">\n' + '      <input type="text" tabindex="6" ng-model="address.number" required />\n' + '    </form-group>\n' + '    <form-group label="Complemento">\n' + '      <textarea ng-model="address.complement" tabindex="7" rows="3"></textarea>\n' + '    </form-group>\n' + '    <div class="modal-footer">\n' + '      <button class="btn btn-success" ng-click="ctrl.submit()">Salvar</button>\n' + '      <button class="btn btn-default" type="button" ng-click="ctrl.close()">Cancelar</button>\n' + '    </div>\n' + '  </form>\n' + '</div>\n' + '');
+    $templateCache.put('/templates/modal-address.html', '<div class="modal-header">\n' + '  <h4 class="modal-title" ng-hide="address.id">Adicionar</h4>\n' + '  <h4 class="modal-title" ng-show="address.id">Editar</h4>\n' + '</div>\n' + '<div class="modal-body clearfix">\n' + '  <form name="addressForm" class="form-horizontal" ng-submit="ctrl.submit()">\n' + '    <form-group label="Nome" required="true">\n' + '      <input type="text" tabindex="1" ng-model="address.name" autofocus />\n' + '    </form-group>\n' + '    <form-group label="CEP" required="true">\n' + '      <input type="text" tabindex="2" ng-model="address.zipcode" required mask="99999-999" auto-unmask="true" zipcode zipcode-model="address" />\n' + '    </form-group>\n' + '    <form-group label="Cidade" required="true">\n' + '      <input type="text" tabindex="3" ng-model="address.city.name" disabled required />\n' + '    </form-group>\n' + '    <form-group label="Bairro" required="true">\n' + '      <input type="text" tabindex="4" ng-model="address.neighborhood.name" disabled required />\n' + '    </form-group>\n' + '    <form-group label="Rua" required="true">\n' + '      <input type="text" tabindex="5" ng-model="address.street" disabled required />\n' + '    </form-group>\n' + '    <form-group label="Número" required="true">\n' + '      <input type="text" tabindex="6" ng-model="address.number" required />\n' + '    </form-group>\n' + '    <form-group label="Complemento">\n' + '      <textarea ng-model="address.complement" tabindex="7" rows="3"></textarea>\n' + '    </form-group>\n' + '    <div class="modal-footer">\n' + '      <button class="btn btn-success">Salvar</button>\n' + '      <button class="btn btn-default" type="button" ng-click="ctrl.close()">Cancelar</button>\n' + '    </div>\n' + '  </form>\n' + '</div>\n' + '');
   }]);
 })();
 'use strict';
@@ -91,7 +91,7 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var modalMeAddressCtrl = function modalMeAddressCtrl($scope, $modalInstance, hint, meAddressApi, addressResolved) {
+var modalMeAddressCtrl = function modalMeAddressCtrl($scope, $modalInstance, meAddressApi, addressResolved) {
 
   return new ((function () {
     function ModalMeAddressCtrl(onSubmit) {
@@ -106,8 +106,7 @@ var modalMeAddressCtrl = function modalMeAddressCtrl($scope, $modalInstance, hin
         var method = this._getMethod();
 
         meAddressApi[method]($scope.address).then(function (address) {
-          hint.success(method === 'update' ? 'Endereço editado' : 'Endereço adicionado');
-          $modalInstance.close({ address: address });
+          $modalInstance.close({ address: address, method: method });
         });
       }
     }, {
@@ -170,172 +169,6 @@ var modalProductCtrl = function modalProductCtrl($scope, $modalInstance, TempCar
 };
 
 angular.module('foodbox.utils').controller('ModalProductCtrl', modalProductCtrl);
-'use strict';
-
-var directive = function directive($templateCache) {
-  return {
-    restrict: 'E',
-    replace: true,
-    transclude: true,
-    template: $templateCache.get('/templates/box.html'),
-    scope: {
-      title: '@',
-      icon: '@',
-      containerClass: '@'
-    }
-  };
-};
-
-angular.module('foodbox.utils').directive('box', directive);
-'use strict';
-
-var directive = function directive($templateCache) {
-  return {
-    restrict: 'E',
-    require: '^form',
-    transclude: true,
-    replace: true,
-    template: $templateCache.get('/templates/form-group.html'),
-    priority: 10000,
-    scope: {
-      label: '@',
-      vertical: '@'
-    },
-    link: function link(scope, $el, attrs) {
-      scope.id = 'field-' + Math.floor(Math.random() * 50000 + 1);
-    }
-  };
-};
-
-angular.module("foodbox.utils").directive('formGroup', directive);
-'use strict';
-
-var directive = function directive() {
-  return {
-    restrict: 'E',
-    link: function link(scope, $el, attrs) {
-      var el = $el[0];
-
-      if (el.type !== 'radio' && el.type !== 'checkbox') {
-        el.classList.add('form-control');
-      }
-    }
-  };
-};
-
-angular.module('foodbox.utils').directive('input', directive);
-"use strict";
-'use strict';
-
-var directive = function directive() {
-  return {
-    restrict: 'A',
-    link: function link(scope, $el, attrs) {
-      if (attrs.mask === 'phone') {
-        return $el.inputmask("(99) 9999-9999[9]");
-      } else {
-        if (attrs.mask === 'date') {
-          return $el.inputmask("99/99/9999");
-        }
-      }
-      $el.inputmask(attrs.mask, { autoUnmask: attrs.autoUnmask || false });
-    }
-  };
-};
-
-angular.module('foodbox.utils').directive('mask', directive);
-'use strict';
-
-var directive = function directive($templateCache) {
-  return {
-    restrict: 'E',
-    replace: true,
-    template: $templateCache.get('/templates/no-results.html'),
-    scope: {
-      text: '@',
-      icon: '@'
-    }
-  };
-};
-
-angular.module('foodbox.utils').directive('noResults', directive);
-'use strict';
-
-var directive = function directive() {
-  return {
-    restrict: 'E',
-    link: function link(scope, $el, attrs) {
-      $el[0].classList.add('form-control');
-    }
-  };
-};
-
-angular.module('foodbox.utils').directive('select', directive);
-"use strict";
-"use strict";
-
-var directive = function directive() {
-  return {
-    restrict: 'E',
-    link: function link(scope, $el, attrs) {
-      $el.addClass("table table-hover table-striped").wrap("<div class='table-responsive'></div>");
-    }
-  };
-};
-
-angular.module('foodbox.utils').directive('table', directive);
-'use strict';
-
-var directive = function directive() {
-  return {
-    restrict: 'E',
-    link: function link(scope, $el, attrs) {
-      var el = $el[0];
-      el.classList.add('form-control');
-    }
-  };
-};
-
-angular.module('foodbox.utils').directive('textarea', directive);
-'use strict';
-
-var directive = function directive(zipcodeApi) {
-  return {
-    restrict: 'A',
-    scope: {
-      zipcode: '&ngModel',
-      model: '=zipcodeModel'
-    },
-    link: function link(scope, $el, attrs) {
-      var _zipcode = null;
-
-      scope.$watch(scope.zipcode, function (value, oldValue) {
-        if (value === oldValue) return false;
-        if (!value) return false;
-        if (value.length !== 8) return false;
-        if (_zipcode === value) return false;
-
-        _zipcode = value;
-
-        var number = scope.model.number ? scope.model.number : null;
-
-        zipcodeApi.fetch({ zipcode: _zipcode, number: number }).then(function (data) {
-          scope.model.latitude = data.latitude;
-          scope.model.longitude = data.longitude;
-          scope.model.neighborhood = data.neighborhood;
-          scope.model.city = data.city;
-          scope.model.street = data.street;
-          scope.model.city_id = data.city.id;
-          scope.model.neighborhood_id = data.neighborhood.id;
-
-          $el.parents('.form-group').siblings().find("input[ng-model='address.number']").focus();
-        });
-      });
-    }
-  };
-};
-
-angular.module('foodbox.utils').directive('zipcode', directive);
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -839,3 +672,169 @@ var tempCart = function tempCart() {
 };
 
 angular.module('foodbox.utils').factory('TempCart', tempCart);
+'use strict';
+
+var directive = function directive($templateCache) {
+  return {
+    restrict: 'E',
+    replace: true,
+    transclude: true,
+    template: $templateCache.get('/templates/box.html'),
+    scope: {
+      title: '@',
+      icon: '@',
+      containerClass: '@'
+    }
+  };
+};
+
+angular.module('foodbox.utils').directive('box', directive);
+'use strict';
+
+var directive = function directive($templateCache) {
+  return {
+    restrict: 'E',
+    require: '^form',
+    transclude: true,
+    replace: true,
+    template: $templateCache.get('/templates/form-group.html'),
+    priority: 10000,
+    scope: {
+      label: '@',
+      vertical: '@'
+    },
+    link: function link(scope, $el, attrs) {
+      scope.id = 'field-' + Math.floor(Math.random() * 50000 + 1);
+    }
+  };
+};
+
+angular.module("foodbox.utils").directive('formGroup', directive);
+'use strict';
+
+var directive = function directive() {
+  return {
+    restrict: 'E',
+    link: function link(scope, $el, attrs) {
+      var el = $el[0];
+
+      if (el.type !== 'radio' && el.type !== 'checkbox') {
+        el.classList.add('form-control');
+      }
+    }
+  };
+};
+
+angular.module('foodbox.utils').directive('input', directive);
+"use strict";
+'use strict';
+
+var directive = function directive() {
+  return {
+    restrict: 'A',
+    link: function link(scope, $el, attrs) {
+      if (attrs.mask === 'phone') {
+        return $el.inputmask("(99) 9999-9999[9]");
+      } else {
+        if (attrs.mask === 'date') {
+          return $el.inputmask("99/99/9999");
+        }
+      }
+      $el.inputmask(attrs.mask, { autoUnmask: attrs.autoUnmask || false });
+    }
+  };
+};
+
+angular.module('foodbox.utils').directive('mask', directive);
+'use strict';
+
+var directive = function directive($templateCache) {
+  return {
+    restrict: 'E',
+    replace: true,
+    template: $templateCache.get('/templates/no-results.html'),
+    scope: {
+      text: '@',
+      icon: '@'
+    }
+  };
+};
+
+angular.module('foodbox.utils').directive('noResults', directive);
+'use strict';
+
+var directive = function directive() {
+  return {
+    restrict: 'E',
+    link: function link(scope, $el, attrs) {
+      $el[0].classList.add('form-control');
+    }
+  };
+};
+
+angular.module('foodbox.utils').directive('select', directive);
+"use strict";
+"use strict";
+
+var directive = function directive() {
+  return {
+    restrict: 'E',
+    link: function link(scope, $el, attrs) {
+      $el.addClass("table table-hover table-striped").wrap("<div class='table-responsive'></div>");
+    }
+  };
+};
+
+angular.module('foodbox.utils').directive('table', directive);
+'use strict';
+
+var directive = function directive() {
+  return {
+    restrict: 'E',
+    link: function link(scope, $el, attrs) {
+      var el = $el[0];
+      el.classList.add('form-control');
+    }
+  };
+};
+
+angular.module('foodbox.utils').directive('textarea', directive);
+'use strict';
+
+var directive = function directive(zipcodeApi) {
+  return {
+    restrict: 'A',
+    scope: {
+      zipcode: '&ngModel',
+      model: '=zipcodeModel'
+    },
+    link: function link(scope, $el, attrs) {
+      var _zipcode = null;
+
+      scope.$watch(scope.zipcode, function (value, oldValue) {
+        if (value === oldValue) return false;
+        if (!value) return false;
+        if (value.length !== 8) return false;
+        if (_zipcode === value) return false;
+
+        _zipcode = value;
+
+        var number = scope.model.number ? scope.model.number : null;
+
+        zipcodeApi.fetch({ zipcode: _zipcode, number: number }).then(function (data) {
+          scope.model.latitude = data.latitude;
+          scope.model.longitude = data.longitude;
+          scope.model.neighborhood = data.neighborhood;
+          scope.model.city = data.city;
+          scope.model.street = data.street;
+          scope.model.city_id = data.city.id;
+          scope.model.neighborhood_id = data.neighborhood.id;
+
+          $el.parents('.form-group').siblings().find("input[ng-model='address.number']").focus();
+        });
+      });
+    }
+  };
+};
+
+angular.module('foodbox.utils').directive('zipcode', directive);

@@ -1,4 +1,4 @@
-let modalMeAddressCtrl = ($scope, $modalInstance, hint, meAddressApi, addressResolved) => {
+let modalMeAddressCtrl = ($scope, $modalInstance, meAddressApi, addressResolved) => {
 
   return new class ModalMeAddressCtrl {
 
@@ -10,8 +10,7 @@ let modalMeAddressCtrl = ($scope, $modalInstance, hint, meAddressApi, addressRes
       let method = this._getMethod();
 
       meAddressApi[method]($scope.address).then((address) => {
-        hint.success(method === 'update' ? 'Endereço editado' : 'Endereço adicionado');
-        $modalInstance.close({ address: address});
+        $modalInstance.close({ address: address, method: method });
       });
     }
 
