@@ -1,4 +1,4 @@
-let directive = () => {
+let directive = (zipcodeApi) => {
   return {
     restrict: 'A',
     scope: {
@@ -18,7 +18,7 @@ let directive = () => {
 
         let number = scope.model.number ? scope.model.number : null;
 
-        zipcode.get(_zipcode, number).then( (data) => {
+        zipcodeApi.fetch({ zipcode: _zipcode, number: number }).then( (data) => {
           scope.model.latitude = data.latitude;
           scope.model.longitude = data.longitude;
           scope.model.neighborhood = data.neighborhood;

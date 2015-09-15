@@ -1,4 +1,4 @@
-let modalMeAddressCtrl = ($scope, $modalInstance, meAddressApi, addressResolved) => {
+let modalMeAddressCtrl = ($scope, $modalInstance, hint, meAddressApi, addressResolved) => {
 
   return new class ModalMeAddressCtrl {
 

@@ -87,6 +87,91 @@ var app = angular.module('foodbox.utils', []);
 })();
 'use strict';
 
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var modalMeAddressCtrl = function modalMeAddressCtrl($scope, $modalInstance, hint, meAddressApi, addressResolved) {
+
+  return new ((function () {
+    function ModalMeAddressCtrl(onSubmit) {
+      _classCallCheck(this, ModalMeAddressCtrl);
+
+      $scope.address = addressResolved;
+    }
+
+    _createClass(ModalMeAddressCtrl, [{
+      key: 'submit',
+      value: function submit() {
+        var method = this._getMethod();
+
+        meAddressApi[method]($scope.address).then(function (address) {
+          hint.success(method === 'update' ? 'Endereço editado' : 'Endereço adicionado');
+          $modalInstance.close({ address: address });
+        });
+      }
+    }, {
+      key: 'close',
+      value: function close() {
+        $modalInstance.dismiss('close');
+      }
+    }, {
+      key: '_getMethod',
+      value: function _getMethod() {
+        return $scope.address.id ? 'update' : 'create';
+      }
+    }]);
+
+    return ModalMeAddressCtrl;
+  })())();
+};
+
+angular.module('foodbox.utils').controller('ModalMeAddressCtrl', modalMeAddressCtrl);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var modalProductCtrl = function modalProductCtrl($scope, $modalInstance, TempCart, meCartItemApi, cartResolved, storeProductResolved, cartItemResolved) {
+
+  return new ((function () {
+    function ModalProductCustomizationCtrl() {
+      _classCallCheck(this, ModalProductCustomizationCtrl);
+
+      $scope.product = storeProductResolved;
+      $scope.cart = cartResolved;
+      $scope.cartItem = cartItemResolved;
+
+      new TempCart($scope, cartItemResolved);
+    }
+
+    _createClass(ModalProductCustomizationCtrl, [{
+      key: 'add',
+      value: function add() {
+        meCartItemApi[this._getCartMethod()]({ cart_id: $scope.cart.id }, $scope.cartItem).then(function (cart) {
+          $modalInstance.close({ cart: cart.plain() });
+        });
+      }
+    }, {
+      key: 'close',
+      value: function close() {
+        $modalInstance.dismiss('close');
+      }
+    }, {
+      key: '_getCartMethod',
+      value: function _getCartMethod() {
+        return $scope.cartItem.id ? 'update' : 'create';
+      }
+    }]);
+
+    return ModalProductCustomizationCtrl;
+  })())();
+};
+
+angular.module('foodbox.utils').controller('ModalProductCtrl', modalProductCtrl);
+'use strict';
+
 var directive = function directive($templateCache) {
   return {
     restrict: 'E',
@@ -214,7 +299,7 @@ var directive = function directive() {
 angular.module('foodbox.utils').directive('textarea', directive);
 'use strict';
 
-var directive = function directive() {
+var directive = function directive(zipcodeApi) {
   return {
     restrict: 'A',
     scope: {
@@ -234,7 +319,7 @@ var directive = function directive() {
 
         var number = scope.model.number ? scope.model.number : null;
 
-        zipcode.get(_zipcode, number).then(function (data) {
+        zipcodeApi.fetch({ zipcode: _zipcode, number: number }).then(function (data) {
           scope.model.latitude = data.latitude;
           scope.model.longitude = data.longitude;
           scope.model.neighborhood = data.neighborhood;
@@ -754,88 +839,3 @@ var tempCart = function tempCart() {
 };
 
 angular.module('foodbox.utils').factory('TempCart', tempCart);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var modalMeAddressCtrl = function modalMeAddressCtrl($scope, $modalInstance, meAddressApi, addressResolved) {
-
-  return new ((function () {
-    function ModalMeAddressCtrl(onSubmit) {
-      _classCallCheck(this, ModalMeAddressCtrl);
-
-      $scope.address = addressResolved;
-    }
-
-    _createClass(ModalMeAddressCtrl, [{
-      key: 'submit',
-      value: function submit() {
-        var method = this._getMethod();
-
-        meAddressApi[method]($scope.address).then(function (address) {
-          hint.success(method === 'update' ? 'Endereço editado' : 'Endereço adicionado');
-          $modalInstance.close({ address: address });
-        });
-      }
-    }, {
-      key: 'close',
-      value: function close() {
-        $modalInstance.dismiss('close');
-      }
-    }, {
-      key: '_getMethod',
-      value: function _getMethod() {
-        return $scope.address.id ? 'update' : 'create';
-      }
-    }]);
-
-    return ModalMeAddressCtrl;
-  })())();
-};
-
-angular.module('foodbox.utils').controller('ModalMeAddressCtrl', modalMeAddressCtrl);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var modalProductCtrl = function modalProductCtrl($scope, $modalInstance, TempCart, meCartItemApi, cartResolved, storeProductResolved, cartItemResolved) {
-
-  return new ((function () {
-    function ModalProductCustomizationCtrl() {
-      _classCallCheck(this, ModalProductCustomizationCtrl);
-
-      $scope.product = storeProductResolved;
-      $scope.cart = cartResolved;
-      $scope.cartItem = cartItemResolved;
-
-      new TempCart($scope, cartItemResolved);
-    }
-
-    _createClass(ModalProductCustomizationCtrl, [{
-      key: 'add',
-      value: function add() {
-        meCartItemApi[this._getCartMethod()]({ cart_id: $scope.cart.id }, $scope.cartItem).then(function (cart) {
-          $modalInstance.close({ cart: cart.plain() });
-        });
-      }
-    }, {
-      key: 'close',
-      value: function close() {
-        $modalInstance.dismiss('close');
-      }
-    }, {
-      key: '_getCartMethod',
-      value: function _getCartMethod() {
-        return $scope.cartItem.id ? 'update' : 'create';
-      }
-    }]);
-
-    return ModalProductCustomizationCtrl;
-  })())();
-};
-
-angular.module('foodbox.utils').controller('ModalProductCtrl', modalProductCtrl);
