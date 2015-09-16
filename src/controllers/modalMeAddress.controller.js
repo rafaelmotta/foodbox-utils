@@ -10,7 +10,7 @@ let modalMeAddressCtrl = ($scope, $modalInstance, meAddressApi, addressResolved)
       let method = this._getMethod();
 
       meAddressApi[method]($scope.address).then((address) => {
-        let responseAddress = method === 'update' ? $scope.address : address.plain();
+        let responseAddress = method === 'update' ? $scope.address : address.plain().data;
         $modalInstance.close({ address: responseAddress, method: method });
       });
     }
