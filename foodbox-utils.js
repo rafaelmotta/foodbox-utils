@@ -338,6 +338,48 @@ var directive = function directive(zipcodeApi) {
 angular.module('foodbox.utils').directive('zipcode', directive);
 'use strict';
 
+var pusher = function pusher() {
+  var settings = {
+    key: null,
+    authEndpoint: '/pusher/auth',
+    authTransport: 'ajax'
+  };
+
+  return {
+    setKey: function setKey(key) {
+      settings[key] = key;
+    },
+
+    setAuthEndpoint: function setAuthEndpoint(authEndpoint) {
+      settings.authEndpoint = authEndpoint;
+    },
+
+    setAuthTransport: function setAuthTransport(authTransport) {
+      if (authTransport !== 'ajax' && authTransport !== 'jsonp') {
+        authTransport = 'ajax';
+      }
+
+      settings.authTransport = authTransport;
+    },
+
+    $get: function $get() {
+      return {
+        subscribe: function subscribe(channel) {
+          if (!settings.key) {
+            throw new Error('A key must be setted to initialize pusher');
+          }
+
+          var pusher = new Pusher(settings.key, { authEndpoint: settings.authEndpoint });
+          pusher.subscribe(channel);
+        }
+      };
+    }
+  };
+};
+
+angular.module('foodbox.utils').provider('pusher', pusher);
+'use strict';
+
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }

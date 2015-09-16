@@ -8,11 +8,11 @@ let pusher = () => {
   return {
     setKey: (key) => {
       settings[key] = key;
-    }
+    },
 
     setAuthEndpoint: (authEndpoint) => {
       settings.authEndpoint = authEndpoint;
-    }
+    },
 
     setAuthTransport: (authTransport) => {
       if(authTransport !== 'ajax' && authTransport !== 'jsonp') {
@@ -20,13 +20,13 @@ let pusher = () => {
       }
 
       settings.authTransport = authTransport;
-    }
+    },
 
-    $get: => {
+    $get: () => {
       return {
         subscribe: (channel) => {
           if(!settings.key) {
-            return throw new Error('A key must be setted to initialize pusher');
+            throw new Error('A key must be setted to initialize pusher');
           }
 
           let pusher = new Pusher(settings.key, { authEndpoint: settings.authEndpoint });
