@@ -448,7 +448,7 @@ var directive = function directive($templateCache, $interval) {
     template: $templateCache.get('/templates/tik-tak.html'),
     scope: {
       interval: '@',
-      value: '@',
+      value: '=',
       operator: '@'
     },
     link: function link(scope, $el, attrs) {
