@@ -13,10 +13,10 @@ let directive = ($templateCache, $interval) => {
 
       let operation = {
         '+': (a,b) => {
-          parseFloat(a) + parseFloat(b)
+          return parseFloat(a) + parseFloat(b);
         } ,
         '-': (a,b) => {
-          parseFloat(a) - parseFloat(b)
+          return parseFloat(a) - parseFloat(b);
         }
       };
 

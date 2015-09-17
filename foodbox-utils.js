@@ -456,10 +456,10 @@ var directive = function directive($templateCache, $interval) {
 
       var operation = {
         '+': function _(a, b) {
-          parseFloat(a) + parseFloat(b);
+          return parseFloat(a) + parseFloat(b);
         },
         '-': function _(a, b) {
-          parseFloat(a) - parseFloat(b);
+          return parseFloat(a) - parseFloat(b);
         }
       };
 
