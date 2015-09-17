@@ -4,13 +4,13 @@ let directive = ($templateCache) => {
     template: $templateCache.get('/templates/map.html'),
     replace: true,
     scope: {
-      latitude: "=",
-      longitude: "=",
-      scrollWheel: "=",
-      scaleControl: "=",
-      zoom: "=",
-      markers: "=",
-      route: "=",
+      latitude: '=',
+      longitude: '=',
+      scrollWheel: '=',
+      zoom: '=',
+      markers: '=',
+      route: '=',
+      disableButtons: '='
     },
     link: (scope, $el, attrs) => {
       let markers = [];
@@ -29,8 +29,8 @@ let directive = ($templateCache) => {
           lat: scope.latitude,
           lng: scope.longitude,
           zoom: scope.zoom || 15,
-          mapTypeControl: scope.scaleControl || true,
           scrollwheel: scope.scrollWheel || false,
+          disableDefaultUI: scope.disableButtons || false,
         });
 
         if(scope.markers) {
@@ -51,20 +51,20 @@ let directive = ($templateCache) => {
         markers = [];
 
         if(!angular.isArray(scope.markers)) {
-          throw new Error("Markers must be an array");
+          throw new Error('Markers must be an array');
         }
 
         for(let i in scope.markers) {
           let m = scope.markers[i];
 
           if(!m.latitude || !m.longitude) {
-            throw new Error("Marker must have a latitude and longitude");
+            throw new Error('Marker must have a latitude and longitude');
           }
 
           let marker = scope.map.addMarker({
             lat: m.latitude,
             lng: m.longitude,
-            infoWindow: m.title ? { content: "<p>#{ m.title }</p>" } : null,
+            infoWindow: m.title ? { content: '<p>#{ m.title }</p>' } : null,
             draggable: angular.isFunction(m.onDrag) ? true : false
           });
 
@@ -84,7 +84,7 @@ let directive = ($templateCache) => {
 
       let drawRoute = () => {
         if(!scope.route.destination || !scope.route.origin) {
-          throw new Error("Route must have a destination and a origin");
+          throw new Error('Route must have a destination and a origin');
         }
 
         scope.map.drawRoute({
