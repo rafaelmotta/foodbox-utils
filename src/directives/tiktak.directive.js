@@ -4,9 +4,9 @@ let directive = ($templateCache, $interval) => {
     replace: true,
     template: $templateCache.get('/templates/tik-tak.html'),
     scope: {
-      interval: '@',
-      value: '@',
-      operator: '@'
+      interval: '=',
+      value: '=',
+      operator: '='
     },
     link: (scope, $el, attrs) => {
       let operator = (scope.operator && (scope.operator == '+' || scope.operator == '-')) ? scope.operator : '-';
