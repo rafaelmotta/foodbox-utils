@@ -441,7 +441,7 @@ var directive = function directive() {
 angular.module('foodbox.utils').directive('textarea', directive);
 'use strict';
 
-var directive = function directive($templateCache) {
+var directive = function directive($templateCache, $interval) {
   return {
     restrict: 'E',
     replace: true,
