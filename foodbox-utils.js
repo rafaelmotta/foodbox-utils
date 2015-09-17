@@ -347,7 +347,7 @@ var pusher = function pusher() {
 
   return {
     setKey: function setKey(value) {
-      settings.key = value;
+      settings.key = values;
     },
 
     setAuthEndpoint: function setAuthEndpoint(authEndpoint) {
@@ -370,7 +370,7 @@ var pusher = function pusher() {
           }
 
           var pusher = new Pusher(settings.key, { authEndpoint: settings.authEndpoint });
-          pusher.subscribe(channel);
+          return pusher.subscribe(channel);
         }
       };
     }

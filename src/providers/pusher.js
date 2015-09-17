@@ -7,7 +7,7 @@ let pusher = () => {
 
   return {
     setKey: (value) => {
-      settings.key = value;
+      settings.key = values;
     },
 
     setAuthEndpoint: (authEndpoint) => {
@@ -30,7 +30,7 @@ let pusher = () => {
           }
 
           let pusher = new Pusher(settings.key, { authEndpoint: settings.authEndpoint });
-          pusher.subscribe(channel);
+          return pusher.subscribe(channel);
         }
       }
     }
