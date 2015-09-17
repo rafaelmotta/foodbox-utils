@@ -346,8 +346,8 @@ var pusher = function pusher() {
   };
 
   return {
-    setKey: function setKey(key) {
-      settings[key] = key;
+    setKey: function setKey(value) {
+      settings.key = value;
     },
 
     setAuthEndpoint: function setAuthEndpoint(authEndpoint) {
