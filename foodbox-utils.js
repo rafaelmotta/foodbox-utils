@@ -99,6 +99,18 @@ var app = angular.module('foodbox.utils', []);
 })();
 'use strict';
 
+(function (module) {
+  try {
+    module = angular.module('foodbox.utils');
+  } catch (e) {
+    module = angular.module('foodbox.utils', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/templates/tik-tak.html', '<span>\n' + '  {{ value }}\n' + '</span>');
+  }]);
+})();
+'use strict';
+
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
@@ -427,6 +439,38 @@ var directive = function directive() {
 };
 
 angular.module('foodbox.utils').directive('textarea', directive);
+'use strict';
+
+var directive = function directive($templateCache) {
+  return {
+    restrict: 'E',
+    replace: true,
+    template: $templateCache.get('/templates/tik-tak.html'),
+    scope: {
+      interval: '@',
+      value: '@',
+      operator: '@'
+    },
+    link: function link(scope, $el, attrs) {
+      var operator = scope.operator && (scope.operator == '+' || scope.operator == '-') ? scope.operator : '-';
+
+      var operation = {
+        '+': function _(a, b) {
+          parseFloat(a) + parseFloat(b);
+        },
+        '-': function _(a, b) {
+          parseFloat(a) - parseFloat(b);
+        }
+      };
+
+      $interval(function () {
+        scope.value = operation[operator](scope.value, 1);
+      }, scope.interval);
+    }
+  };
+};
+
+angular.module('foodbox.utils').directive('tikTak', directive);
 'use strict';
 
 var directive = function directive(zipcodeApi) {
