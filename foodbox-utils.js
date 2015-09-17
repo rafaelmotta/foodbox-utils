@@ -270,7 +270,7 @@ var directive = function directive($templateCache) {
           lat: scope.latitude,
           lng: scope.longitude,
           zoom: scope.zoom || 15,
-          scrollwheel: scope.scrollWheel || false,
+          scrollwheel: scope.scrollWheel || true,
           disableDefaultUI: scope.disableButtons || false
         });
 
@@ -305,7 +305,7 @@ var directive = function directive($templateCache) {
           var marker = scope.map.addMarker({
             lat: m.latitude,
             lng: m.longitude,
-            infoWindow: m.title ? { content: '<p>#{ m.title }</p>' } : null,
+            infoWindow: m.title ? { content: '<p>' + m.title + '</p>' } : null,
             draggable: angular.isFunction(m.onDrag) ? true : false
           });
 
