@@ -7,7 +7,7 @@ let pusher = () => {
 
   return {
     setKey: (value) => {
-      settings.key = values;
+      settings.key = value;
     },
 
     setAuthEndpoint: (authEndpoint) => {
