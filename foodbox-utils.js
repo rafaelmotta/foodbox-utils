@@ -847,7 +847,7 @@ var modalProduct = function modalProduct($modal, storeProductApi, $templateCache
             },
             storeProductResolved: function storeProductResolved() {
               return storeProductApi.show(storeProduct).then(function (storeProduct) {
-                return storeProduct.plain();
+                return storeProduct.plain().data;
               });
             },
             cartItemResolved: function cartItemResolved() {

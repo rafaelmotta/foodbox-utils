@@ -11,7 +11,7 @@ let modalProduct = ($modal, storeProductApi, $templateCache) => {
           },
           storeProductResolved: () => {
             return storeProductApi.show(storeProduct).then((storeProduct) => {
-              return storeProduct.plain().data;
+              return  storeProduct.plain().data;
             });
           },
           cartItemResolved: () => {
