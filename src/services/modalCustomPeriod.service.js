@@ -1,6 +1,6 @@
-let service = ($modal, $templateCache) => {
-  return class ModalPeriod {
-    open(order){
+let modalCustomPeriod = ($modal, $templateCache) => {
+  return class ModalCustomPeriod {
+    open(){
       return $modal.open({
         templateUrl: $templateCache.get('/templates/modal-custom-period.html'),
         controller: 'ModalCustomPeriodCtrl as ctrl',
@@ -10,4 +10,4 @@ let service = ($modal, $templateCache) => {
   };
 };
 
-angular.module('foodbox.utils').factory('ModalCustomPeriod', service);
+angular.module('foodbox.utils').factory('ModalCustomPeriod', modalCustomPeriod);

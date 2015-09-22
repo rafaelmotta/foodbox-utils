@@ -1,6 +1,6 @@
-let ctrl = ($scope, $modalInstance, $filter) => {
+let modalCustomPeriodCtrl = ($scope, $modalInstance, $filter) => {
 
-  return new class Ctrl {
+  return new class ModalCustomPeriodCtrl {
     constructor() {
       let date = $filter('date')(new Date(), "dd/MM/yyyy");
 
@@ -26,4 +26,4 @@ let ctrl = ($scope, $modalInstance, $filter) => {
   };
 };
 
-angular.module('foodbox.utils').controller('ModalCustomPeriodCtrl', ctrl);
+angular.module('foodbox.utils').controller('ModalCustomPeriodCtrl', modalCustomPeriodCtrl);
