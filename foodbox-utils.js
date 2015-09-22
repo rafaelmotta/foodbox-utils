@@ -196,6 +196,38 @@ var modalProductCtrl = function modalProductCtrl($scope, $modalInstance, TempCar
 angular.module('foodbox.utils').controller('ModalProductCtrl', modalProductCtrl);
 'use strict';
 
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var modalRatingCtrl = function modalRatingCtrl($scope, $modalInstance) {
+
+  return new ((function () {
+    function ModalRatingCtrl() {
+      _classCallCheck(this, ModalRatingCtrl);
+
+      $scope.rating = {};
+    }
+
+    _createClass(ModalRatingCtrl, [{
+      key: 'save',
+      value: function save() {
+        $modalInstance.close({ rating: rating.plain() });
+      }
+    }, {
+      key: 'close',
+      value: function close() {
+        $modalInstance.dismiss('close');
+      }
+    }]);
+
+    return ModalRatingCtrl;
+  })())();
+};
+
+angular.module('foodbox.utils').controller('ModalRatingCtrl', modalRatingCtrl);
+'use strict';
+
 var directive = function directive($templateCache) {
   return {
     restrict: 'E',
@@ -837,6 +869,39 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
+var modalRating = function modalRating($modal, $templateCache) {
+  return (function () {
+    function ModalRating() {
+      _classCallCheck(this, ModalRating);
+    }
+
+    _createClass(ModalRating, [{
+      key: 'open',
+      value: function open(order) {
+        return $modal.open({
+          template: $templateCache.get('/templates/modal-rating.html'),
+          controller: 'ModalRatingCtrl as ctrl',
+          windowClass: 'modal-rating',
+          resolve: {
+            orderResolvedd: function orderResolvedd() {
+              return order;
+            }
+          }
+        });
+      }
+    }]);
+
+    return ModalRating;
+  })();
+};
+
+angular.module('foodbox.utils').factory('ModalRating', modalRating);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
 var popup = function popup($window, $q) {
   return new ((function () {
     function Popup() {
@@ -932,76 +997,34 @@ var tempCart = function tempCart() {
     _createClass(TempCart, [{
       key: '_setCustomizationFields',
       value: function _setCustomizationFields() {
+        var _this = this;
+
         if (this.$scope.isEditing) {
           return false;
         }
 
-        var _iteratorNormalCompletion = true;
-        var _didIteratorError = false;
-        var _iteratorError = undefined;
+        angular.forEach(this.$scope.product.addon_categories, function (addonCategory) {
+          _this.$scope.cartItem.customization_fields[addonCategory.id] = {};
 
-        try {
-          for (var _iterator = this.$scope.product.addon_categories[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-            var addonCategory = _step.value;
-
-            this.$scope.cartItem.customization_fields[addonCategory.id] = {};
-
-            var _iteratorNormalCompletion2 = true;
-            var _didIteratorError2 = false;
-            var _iteratorError2 = undefined;
-
-            try {
-              for (var _iterator2 = addonCategory.addons[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-                var addon = _step2.value;
-
-                if (addonCategory.max_itens === 1) {
-                  this.$scope.cartItem.customization_fields[addonCategory.id] = addonCategory.addons[0].id;
-                } else {
-                  var fill = addonCategory.auto_fill && !parseFloat(addon.price) && addon.available ? true : false;
-                  this.$scope.cartItem.customization_fields[addonCategory.id][addon.id] = fill;
-                }
-              }
-            } catch (err) {
-              _didIteratorError2 = true;
-              _iteratorError2 = err;
-            } finally {
-              try {
-                if (!_iteratorNormalCompletion2 && _iterator2['return']) {
-                  _iterator2['return']();
-                }
-              } finally {
-                if (_didIteratorError2) {
-                  throw _iteratorError2;
-                }
-              }
+          angular.forEach(addonCategory.addons, function (addon) {
+            if (addonCategory.max_itens === 1) {
+              _this.$scope.cartItem.customization_fields[addonCategory.id] = addonCategory.addons[0].id;
+            } else {
+              var fill = addonCategory.auto_fill && !parseFloat(addon.price) && addon.available ? true : false;
+              _this.$scope.cartItem.customization_fields[addonCategory.id][addon.id] = fill;
             }
-          }
-        } catch (err) {
-          _didIteratorError = true;
-          _iteratorError = err;
-        } finally {
-          try {
-            if (!_iteratorNormalCompletion && _iterator['return']) {
-              _iterator['return']();
-            }
-          } finally {
-            if (_didIteratorError) {
-              throw _iteratorError;
-            }
-          }
-        }
-
-        ;
+          });
+        });
       }
     }, {
       key: '_listenScopeEvents',
       value: function _listenScopeEvents() {
-        var _this = this;
+        var _this2 = this;
 
         var findAndInsert = function findAndInsert(addonId) {
           var _addon = null;
 
-          angular.forEach(_this.$scope.product.addon_categories, function (addonCategory) {
+          angular.forEach(_this2.$scope.product.addon_categories, function (addonCategory) {
             var find = _.findWhere(addonCategory.addons, { id: parseInt(addonId, 10) });
             if (find) {
               _addon = find;
@@ -1012,7 +1035,7 @@ var tempCart = function tempCart() {
             return false;
           }
 
-          _this.$scope.cartItem.addons.push({
+          _this2.$scope.cartItem.addons.push({
             id: _addon.id,
             name: _addon.name,
             price: _addon.price,
@@ -1021,9 +1044,9 @@ var tempCart = function tempCart() {
         };
 
         this.$scope.$watch('cartItem', function (newObject, oldObject) {
-          _this.$scope.cartItem.addons = [];
+          _this2.$scope.cartItem.addons = [];
 
-          angular.forEach(_this.$scope.cartItem.customization_fields, function (addon) {
+          angular.forEach(_this2.$scope.cartItem.customization_fields, function (addon) {
             if (!_.isObject(addon)) {
               return findAndInsert(addon);
             }
@@ -1041,11 +1064,11 @@ var tempCart = function tempCart() {
         this.$scope.$watch('cartItem', function (newValue, oldValue) {
           var addonsPrice = 0;
 
-          angular.forEach(_this.$scope.cartItem.addons, function (addon) {
+          angular.forEach(_this2.$scope.cartItem.addons, function (addon) {
             addonsPrice += parseFloat(addon.price);
           });
 
-          _this.$scope.cartItem.total = (parseFloat(_this.$scope.product.price) + addonsPrice) * _this.$scope.cartItem.amount;
+          _this2.$scope.cartItem.total = (parseFloat(_this2.$scope.product.price) + addonsPrice) * _this2.$scope.cartItem.amount;
         }, true);
       }
     }]);

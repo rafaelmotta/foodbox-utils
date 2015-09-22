@@ -19,18 +19,18 @@ let tempCart = () => {
         return false;
       }
 
-      for(let addonCategory of this.$scope.product.addon_categories) {
+      angular.forEach(this.$scope.product.addon_categories, (addonCategory) => {
         this.$scope.cartItem.customization_fields[addonCategory.id] = {};
 
-        for(let addon of addonCategory.addons) {
+        angular.forEach(addonCategory.addons, (addon) => {
           if(addonCategory.max_itens === 1) {
             this.$scope.cartItem.customization_fields[addonCategory.id] = addonCategory.addons[0].id;
           } else {
             let fill = (addonCategory.auto_fill && !parseFloat(addon.price) && addon.available) ? true : false;
             this.$scope.cartItem.customization_fields[addonCategory.id][addon.id] = fill;
           }
-        }
-      };
+        });
+      });
     }
 
     _listenScopeEvents() {
