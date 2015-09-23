@@ -10,6 +10,18 @@ var app = angular.module('foodbox.utils', []);
     module = angular.module('foodbox.utils', []);
   }
   module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/templates/back-button.html', '<a href="javascript:history.back()" class="btn btn-default">Voltar</a>');
+  }]);
+})();
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('foodbox.utils');
+  } catch (e) {
+    module = angular.module('foodbox.utils', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
     $templateCache.put('/templates/box.html', '<div class="box-container">\n' + '  <div class="box-header" ng-hide="hideHeader">\n' + '    <h2>\n' + '      <i class="icon icon-{{ icon }}"></i>\n' + '      {{ title }}\n' + '    </h2>\n' + '  </div>\n' + '  <div ng-transclude class="box-content {{ sizeClass }} {{ hideHeader ? \'box-hide-header\' : \'\' }}">\n' + '  </div>\n' + '</div>');
   }]);
 })();
@@ -119,6 +131,18 @@ var app = angular.module('foodbox.utils', []);
   }
   module.run(['$templateCache', function ($templateCache) {
     $templateCache.put('/templates/no-results.html', '<div class="row no-results">\n' + '  <div ng-class="{ \'col-md-4\': icon, \'hide\': !icon }">\n' + '    <i class="icon icon-{{ icon }}"></i>\n' + '  </div>\n' + '  <div ng-class="{ \'col-md-8\': icon, \'col-md-12\': !icon }">\n' + '    <p>{{ text }}</p>\n' + '  </div>\n' + '</div>\n' + '');
+  }]);
+})();
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('foodbox.utils');
+  } catch (e) {
+    module = angular.module('foodbox.utils', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/templates/submit-form.html', '<div class="form-group form-submit">\n' + '  <div class="col-lg-offset-3 col-lg-9">\n' + '    <button type="submit" class="btn btn-success" tabindex="20">{{ text || "Salvar" }}</button>\n' + '    <div ng-transclude style="display: inline-block;"></div>\n' + '  </div>\n' + '</div>\n' + '\n' + '');
   }]);
 })();
 'use strict';
@@ -351,7 +375,45 @@ var directive = function directive() {
 };
 
 angular.module('foodbox.utils').directive('input', directive);
-"use strict";
+'use strict';
+
+var directive = function directive($templateCache) {
+  return {
+    restrict: 'E',
+    template: $templateCache.get('directives/limit.html'),
+    replace: true,
+    scope: {
+      maxlength: '=',
+      model: '='
+    },
+    link: function link(scope, $el, attrs) {
+      scope.maxlength = parseInt(scope.maxlength, 10);
+
+      if (_.isNaN(scope.maxlength) || !_.isNumber(scope.maxlength)) {
+        throw new Error('Valor do atributo maxlength da directiva limit deve ser numeral.');
+      }
+
+      // Verifica se o elemento antes da directiva é um input
+      var $textarea = $element.prev();
+      var type = $textarea.get(0).type;
+
+      if (type !== 'textarea') {
+        throw new Error('Elemento antes da directiva limit deve ser um textarea');
+      }
+
+      // Adiciona atributo maxlength no HTML para previnir de usuário digitar um valor com mais de 300 carácteres
+      $textarea.attr('maxlength', scope.maxlength);
+
+      // Usamos o valor length para lidar com o tamanho de chars do textarea
+      scope.length = 0;
+      scope.$watch('model', function (message) {
+        scope.length = message ? message.length : 0;
+      });
+    }
+  };
+};
+
+angular.module('foodbox.utils').directive('limit', directive);
 'use strict';
 
 var directive = function directive($templateCache) {
@@ -516,7 +578,43 @@ var directive = function directive() {
 };
 
 angular.module('foodbox.utils').directive('select', directive);
-"use strict";
+'use strict';
+
+var directive = function directive() {
+  return {
+    restrict: 'E',
+    require: 'ngModel',
+    link: function link(scope, $el, attrs, ngModel) {
+      if ($el.get(0).type === 'number') {
+        ngModel.$parsers.push(function (value) {
+          if (value) return value.toString();
+        });
+
+        ngModel.$formatters.push(function (value) {
+          if (value) return parseFloat(value, 10);
+        });
+      }
+    }
+  };
+};
+
+angular.module('foodbox.utils').directive('input', directive);
+'use strict';
+
+var directive = function directive($templateCache) {
+  return {
+    restrict: 'E',
+    template: $templateCache.get('directives/submit-form.html'),
+    replace: true,
+    transclude: true,
+    require: '^form',
+    scope: {
+      text: '@'
+    }
+  };
+};
+
+angular.module('foodbox.utils').directive('submitForm', directive);
 "use strict";
 
 var directive = function directive() {
@@ -898,7 +996,7 @@ var _createClass = (function () { function defineProperties(target, props) { for
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var modalCustomPeriod = function modalCustomPeriod($modal, $templateCache) {
-  return (function () {
+  return new ((function () {
     function ModalCustomPeriod() {
       _classCallCheck(this, ModalCustomPeriod);
     }
@@ -915,7 +1013,7 @@ var modalCustomPeriod = function modalCustomPeriod($modal, $templateCache) {
     }]);
 
     return ModalCustomPeriod;
-  })();
+  })())();
 };
 
 angular.module('foodbox.utils').factory('ModalCustomPeriod', modalCustomPeriod);

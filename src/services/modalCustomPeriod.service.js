@@ -1,5 +1,5 @@
 let modalCustomPeriod = ($modal, $templateCache) => {
-  return class ModalCustomPeriod {
+  return new class ModalCustomPeriod {
     open(){
       return $modal.open({
         template: $templateCache.get('/templates/modal-custom-period.html'),
