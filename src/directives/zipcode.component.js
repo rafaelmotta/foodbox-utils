@@ -9,16 +9,18 @@ let directive = (zipcodeApi) => {
       let _zipcode = null;
 
       scope.$watch(scope.zipcode, (value, oldValue) => {
-        if(value === oldValue) return false;
         if(!value)             return false;
         if(value.length !== 8) return false;
+        if(value === oldValue) return false;
         if(_zipcode === value) return false;
 
         _zipcode = value;
 
         let number = scope.model.number ? scope.model.number : null;
 
-        zipcodeApi.fetch({ zipcode: _zipcode, number: number }).then( (data) => {
+        zipcodeApi.fetch({ zipcode: _zipcode, number: number }).then((response) => {
+          let data = response.data;
+
           scope.model.latitude = data.latitude;
           scope.model.longitude = data.longitude;
           scope.model.neighborhood = data.neighborhood;

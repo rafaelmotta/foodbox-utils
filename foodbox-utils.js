@@ -46,7 +46,7 @@ var app = angular.module('foodbox.utils', []);
     module = angular.module('foodbox.utils', []);
   }
   module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/templates/form-group.html', '<div class="form-group" >\n' + '  <div ng-if="!vertical">\n' + '    <label for="{{ id }}" class="col-sm-3 control-label">{{ label }}\n' + '      <span ng-show="required" tooltip="Campo obrigatório" class="required-marker">*</span>\n' + '    </label>\n' + '    <div class="col-sm-6" ng-transclude></div>\n' + '  </div>\n' + '  <div ng-if="vertical">\n' + '    <label for="{{ id }}" class="control-label">{{ label }}</label>\n' + '    <div ng-transclude></div>\n' + '  </div>\n' + '</div>');
+    $templateCache.put('/templates/form-group.html', '<div class="form-group" >\n' + '  <div ng-if="!vertical">\n' + '    <label for="{{ id }}" class="col-sm-4 control-label">{{ label }}\n' + '      <span ng-show="required" tooltip="Campo obrigatório" class="required-marker">*</span>\n' + '    </label>\n' + '    <div class="col-sm-8" ng-transclude></div>\n' + '  </div>\n' + '  <div ng-if="vertical">\n' + '    <label for="{{ id }}" class="control-label">{{ label }}</label>\n' + '    <div ng-transclude></div>\n' + '  </div>\n' + '</div>');
   }]);
 })();
 'use strict';
@@ -142,7 +142,7 @@ var app = angular.module('foodbox.utils', []);
     module = angular.module('foodbox.utils', []);
   }
   module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/templates/submit-form.html', '<div class="form-group form-submit">\n' + '  <div class="col-lg-offset-3 col-lg-9">\n' + '    <button type="submit" class="btn btn-success" tabindex="20">{{ text || "Salvar" }}</button>\n' + '    <div ng-transclude style="display: inline-block;"></div>\n' + '  </div>\n' + '</div>\n' + '\n' + '');
+    $templateCache.put('/templates/submit-form.html', '<div class="form-group form-submit">\n' + '  <div class="col-lg-offset-4 col-lg-8">\n' + '    <button type="submit" class="btn btn-success" tabindex="20">{{ text || "Salvar" }}</button>\n' + '    <div ng-transclude style="display: inline-block;"></div>\n' + '  </div>\n' + '</div>\n' + '\n' + '');
   }]);
 })();
 'use strict';
@@ -685,16 +685,18 @@ var directive = function directive(zipcodeApi) {
       var _zipcode = null;
 
       scope.$watch(scope.zipcode, function (value, oldValue) {
-        if (value === oldValue) return false;
         if (!value) return false;
         if (value.length !== 8) return false;
+        if (value === oldValue) return false;
         if (_zipcode === value) return false;
 
         _zipcode = value;
 
         var number = scope.model.number ? scope.model.number : null;
 
-        zipcodeApi.fetch({ zipcode: _zipcode, number: number }).then(function (data) {
+        zipcodeApi.fetch({ zipcode: _zipcode, number: number }).then(function (response) {
+          var data = response.data;
+
           scope.model.latitude = data.latitude;
           scope.model.longitude = data.longitude;
           scope.model.neighborhood = data.neighborhood;
