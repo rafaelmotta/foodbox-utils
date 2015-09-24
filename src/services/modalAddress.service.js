@@ -1,9 +1,9 @@
 let modalAddress = ($modal, $templateCache) => {
-  return class ModalAddress {
+  return new class ModalAddress {
     open(address, meCtrl = true){
       return $modal.open({
         template: $templateCache.get('/templates/modal-address.html'),
-        controller: meCtrl ? 'ModalMeAddressCtrl as ctrl' : 'ModalCostumerAddressCtrl as ctrl',
+        controller: 'ModalAddressCtrl as ctrl',
         windowClass: 'modal-address',
         resolve: {
           addressResolved: () => {
@@ -15,4 +15,4 @@ let modalAddress = ($modal, $templateCache) => {
   };
 };
 
-angular.module('foodbox.utils').factory('ModalAddress', modalAddress);
+angular.module('foodbox.utils').factory('modalAddress', modalAddress);

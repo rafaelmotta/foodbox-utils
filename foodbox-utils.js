@@ -163,6 +163,44 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
+var modalMeAddressCtrl = function modalMeAddressCtrl($scope, $modalInstance, addressResolved) {
+
+  return new ((function () {
+    function ModalMeAddressCtrl(onSubmit) {
+      _classCallCheck(this, ModalMeAddressCtrl);
+
+      $scope.address = addressResolved;
+    }
+
+    _createClass(ModalMeAddressCtrl, [{
+      key: 'submit',
+      value: function submit() {
+        var method = this._getMethod();
+        $modalInstance.close({ address: $scope.address, method: method });
+      }
+    }, {
+      key: 'close',
+      value: function close() {
+        $modalInstance.dismiss('close');
+      }
+    }, {
+      key: '_getMethod',
+      value: function _getMethod() {
+        return $scope.address.id ? 'update' : 'create';
+      }
+    }]);
+
+    return ModalMeAddressCtrl;
+  })())();
+};
+
+angular.module('foodbox.utils').controller('ModalAddressCtrl', modalMeAddressCtrl);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
 var modalCustomPeriodCtrl = function modalCustomPeriodCtrl($scope, $modalInstance, $filter) {
 
   return new ((function () {
@@ -204,48 +242,6 @@ var modalCustomPeriodCtrl = function modalCustomPeriodCtrl($scope, $modalInstanc
 };
 
 angular.module('foodbox.utils').controller('ModalCustomPeriodCtrl', modalCustomPeriodCtrl);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var modalMeAddressCtrl = function modalMeAddressCtrl($scope, $modalInstance, meAddressApi, addressResolved) {
-
-  return new ((function () {
-    function ModalMeAddressCtrl(onSubmit) {
-      _classCallCheck(this, ModalMeAddressCtrl);
-
-      $scope.address = addressResolved;
-    }
-
-    _createClass(ModalMeAddressCtrl, [{
-      key: 'submit',
-      value: function submit() {
-        var method = this._getMethod();
-
-        meAddressApi[method]($scope.address).then(function (address) {
-          var responseAddress = method === 'update' ? $scope.address : address.plain().data;
-          $modalInstance.close({ address: responseAddress, method: method });
-        });
-      }
-    }, {
-      key: 'close',
-      value: function close() {
-        $modalInstance.dismiss('close');
-      }
-    }, {
-      key: '_getMethod',
-      value: function _getMethod() {
-        return $scope.address.id ? 'update' : 'create';
-      }
-    }]);
-
-    return ModalMeAddressCtrl;
-  })())();
-};
-
-angular.module('foodbox.utils').controller('ModalMeAddressCtrl', modalMeAddressCtrl);
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -963,7 +959,7 @@ var _createClass = (function () { function defineProperties(target, props) { for
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var modalAddress = function modalAddress($modal, $templateCache) {
-  return (function () {
+  return new ((function () {
     function ModalAddress() {
       _classCallCheck(this, ModalAddress);
     }
@@ -975,7 +971,7 @@ var modalAddress = function modalAddress($modal, $templateCache) {
 
         return $modal.open({
           template: $templateCache.get('/templates/modal-address.html'),
-          controller: meCtrl ? 'ModalMeAddressCtrl as ctrl' : 'ModalCostumerAddressCtrl as ctrl',
+          controller: 'ModalAddressCtrl as ctrl',
           windowClass: 'modal-address',
           resolve: {
             addressResolved: function addressResolved() {
@@ -987,10 +983,10 @@ var modalAddress = function modalAddress($modal, $templateCache) {
     }]);
 
     return ModalAddress;
-  })();
+  })())();
 };
 
-angular.module('foodbox.utils').factory('ModalAddress', modalAddress);
+angular.module('foodbox.utils').factory('modalAddress', modalAddress);
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -1018,7 +1014,7 @@ var modalCustomPeriod = function modalCustomPeriod($modal, $templateCache) {
   })())();
 };
 
-angular.module('foodbox.utils').factory('ModalCustomPeriod', modalCustomPeriod);
+angular.module('foodbox.utils').factory('modalCustomPeriod', modalCustomPeriod);
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -1026,7 +1022,7 @@ var _createClass = (function () { function defineProperties(target, props) { for
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var modalProduct = function modalProduct($modal, storeProductApi, $templateCache) {
-  return (function () {
+  return new ((function () {
     function ModalProduct() {
       _classCallCheck(this, ModalProduct);
     }
@@ -1058,10 +1054,10 @@ var modalProduct = function modalProduct($modal, storeProductApi, $templateCache
     }]);
 
     return ModalProduct;
-  })();
+  })())();
 };
 
-angular.module('foodbox.utils').factory('ModalProduct', modalProduct);
+angular.module('foodbox.utils').factory('modalProduct', modalProduct);
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -1069,7 +1065,7 @@ var _createClass = (function () { function defineProperties(target, props) { for
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var modalRating = function modalRating($modal, $templateCache) {
-  return (function () {
+  return new ((function () {
     function ModalRating() {
       _classCallCheck(this, ModalRating);
     }
@@ -1091,10 +1087,10 @@ var modalRating = function modalRating($modal, $templateCache) {
     }]);
 
     return ModalRating;
-  })();
+  })())();
 };
 
-angular.module('foodbox.utils').factory('ModalRating', modalRating);
+angular.module('foodbox.utils').factory('modalRating', modalRating);
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();

@@ -1,5 +1,5 @@
 let modalProduct = ($modal, storeProductApi, $templateCache) => {
-  return class ModalProduct {
+  return new class ModalProduct {
     open(cart, storeProduct, cartItem = false){
       return $modal.open({
         template: $templateCache.get('/templates/modal-product.html'),
@@ -23,4 +23,4 @@ let modalProduct = ($modal, storeProductApi, $templateCache) => {
   };
 };
 
-angular.module('foodbox.utils').factory('ModalProduct', modalProduct);
+angular.module('foodbox.utils').factory('modalProduct', modalProduct);

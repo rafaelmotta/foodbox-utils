@@ -1,5 +1,5 @@
 let modalRating = ($modal, $templateCache) => {
-  return class ModalRating {
+  return new class ModalRating {
     open(order){
       return $modal.open({
         template: $templateCache.get('/templates/modal-rating.html'),
@@ -15,4 +15,4 @@ let modalRating = ($modal, $templateCache) => {
   };
 };
 
-angular.module('foodbox.utils').factory('ModalRating', modalRating);
+angular.module('foodbox.utils').factory('modalRating', modalRating);

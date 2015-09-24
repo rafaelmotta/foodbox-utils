@@ -10,4 +10,4 @@ let modalCustomPeriod = ($modal, $templateCache) => {
   };
 };
 
-angular.module('foodbox.utils').factory('ModalCustomPeriod', modalCustomPeriod);
+angular.module('foodbox.utils').factory('modalCustomPeriod', modalCustomPeriod);
