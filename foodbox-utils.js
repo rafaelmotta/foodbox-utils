@@ -394,7 +394,7 @@ var directive = function directive($templateCache) {
       }
 
       // Verifica se o elemento antes da directiva é um input
-      var $textarea = $element.prev();
+      var $textarea = $el.prev();
       var type = $textarea.get(0).type;
 
       if (type !== 'textarea') {
