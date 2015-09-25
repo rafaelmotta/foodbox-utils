@@ -34,6 +34,30 @@ var app = angular.module('foodbox.utils', []);
     module = angular.module('foodbox.utils', []);
   }
   module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/templates/delete-button.html', '<button class="{{ class || \'btn btn-default btn-xs\' }}">\n' + '  <i class="icon icon-{{ icon || \'trash-o\' }}"></icon>\n' + '</button>');
+  }]);
+})();
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('foodbox.utils');
+  } catch (e) {
+    module = angular.module('foodbox.utils', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/templates/edit-button.html', '<button class="btn btn-warning btn-xs">\n' + '  <i class="icon icon-{{ icon || \'pencil\' }}"></icon>\n' + '</button>');
+  }]);
+})();
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('foodbox.utils');
+  } catch (e) {
+    module = angular.module('foodbox.utils', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
     $templateCache.put('/templates/experience-points.html', '<div class="experience-points-container">\n' + '  <div class="total-points"><i class="icon icon-shirtsinbulk"></i>3000 pontos</div>\n' + '  <div class="progress">\n' + '    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">\n' + '      <span class="sr-only">60% Complete</span>\n' + '    </div>\n' + '  </div>\n' + '  <div class="level-container">\n' + '    <div class="current-level">\n' + '      Level 5\n' + '    </div>\n' + '    <div class="next-level">\n' + '      <span>165 pontos para</span>\n' + '      Level 6\n' + '    </div>\n' + '  </div>\n' + '</div>');
   }]);
 })();
@@ -157,44 +181,6 @@ var app = angular.module('foodbox.utils', []);
     $templateCache.put('/templates/tik-tak.html', '<span>\n' + '  {{ value }}\n' + '</span>');
   }]);
 })();
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var modalMeAddressCtrl = function modalMeAddressCtrl($scope, $modalInstance, addressResolved) {
-
-  return new ((function () {
-    function ModalMeAddressCtrl(onSubmit) {
-      _classCallCheck(this, ModalMeAddressCtrl);
-
-      $scope.address = addressResolved;
-    }
-
-    _createClass(ModalMeAddressCtrl, [{
-      key: 'submit',
-      value: function submit() {
-        var method = this._getMethod();
-        $modalInstance.close({ address: $scope.address, method: method });
-      }
-    }, {
-      key: 'close',
-      value: function close() {
-        $modalInstance.dismiss('close');
-      }
-    }, {
-      key: '_getMethod',
-      value: function _getMethod() {
-        return $scope.address.id ? 'update' : 'create';
-      }
-    }]);
-
-    return ModalMeAddressCtrl;
-  })())();
-};
-
-angular.module('foodbox.utils').controller('ModalAddressCtrl', modalMeAddressCtrl);
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -334,6 +320,36 @@ var directive = function directive($templateCache) {
 };
 
 angular.module('foodbox.utils').directive('box', directive);
+'use strict';
+
+var directive = function directive($templateCache) {
+  return {
+    restrict: 'E',
+    replace: true,
+    template: $templateCache.get('/templates/delete-button.html'),
+    scope: {
+      'class': '@',
+      icon: '@'
+    }
+  };
+};
+
+angular.module('foodbox.utils').directive('deleteButton', directive);
+'use strict';
+
+var directive = function directive($templateCache) {
+  return {
+    restrict: 'E',
+    replace: true,
+    template: $templateCache.get('/templates/edit-button.html'),
+    scope: {
+      'class': '@',
+      icon: '@'
+    }
+  };
+};
+
+angular.module('foodbox.utils').directive('editButton', directive);
 'use strict';
 
 var directive = function directive($templateCache) {
@@ -966,12 +982,44 @@ var modalAddress = function modalAddress($modal, $templateCache) {
 
     _createClass(ModalAddress, [{
       key: 'open',
-      value: function open(address) {
-        var meCtrl = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
+      value: function open() {
+        var address = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+        var onSubmit = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
 
         return $modal.open({
           template: $templateCache.get('/templates/modal-address.html'),
-          controller: 'ModalAddressCtrl as ctrl',
+          controllerAs: 'ctrl',
+          controller: function controller($scope, $modalInstance, addressResolved) {
+            return new ((function () {
+              function ModalMeAddressCtrl(onSubmit) {
+                _classCallCheck(this, ModalMeAddressCtrl);
+
+                $scope.address = addressResolved;
+              }
+
+              _createClass(ModalMeAddressCtrl, [{
+                key: 'submit',
+                value: function submit() {
+                  var method = this._getMethod();
+                  onSubmit({ address: $scope.address, method: method }).then(function (response) {
+                    $modalInstance.close(response);
+                  });
+                }
+              }, {
+                key: 'close',
+                value: function close() {
+                  $modalInstance.dismiss('close');
+                }
+              }, {
+                key: '_getMethod',
+                value: function _getMethod() {
+                  return $scope.address.id ? 'update' : 'create';
+                }
+              }]);
+
+              return ModalMeAddressCtrl;
+            })())();
+          },
           windowClass: 'modal-address',
           resolve: {
             addressResolved: function addressResolved() {
