@@ -130,6 +130,18 @@ var app = angular.module('foodbox.utils', []);
     module = angular.module('foodbox.utils', []);
   }
   module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/templates/modal-order.html', '<div class="modal-header modal-header-with-options">\n' + '  <h3 class="modal-title">Detalhes do pedido #{{ order.store_number }}</h3>\n' + '  <div class="btn-group modal-options">\n' + '    <button type="button" ng-click="ctrl.changeStatus(status.alias)" class="btn btn-default" ng-class="{ active: order.status === status.alias, hide: !orderClassStatus[status.alias] }" ng-disabled="order.status === status.alias" ng-repeat="status in statuses" ng-init="ctrl.evaluateOrderClass(status)">{{ status.name }}</button>\n' + '  </div>\n' + '</div>\n' + '<div class="modal-body">\n' + '  <div class="panel panel-default" ng-show="order.error_reason_msg">\n' + '    <div class="panel-heading">\n' + '      <i class="icon icon-times-circle"></i>\n' + '       Razão de erro\n' + '    </div>\n' + '    <div class="panel-body">\n' + '      {{ order.error_reason_msg }}\n' + '    </div>\n' + '  </div>\n' + '  <div class="panel panel-default" ng-show="order.note">\n' + '    <div class="panel-heading">\n' + '      <i class="icon icon-pencil"></i>\n' + '       Observação\n' + '    </div>\n' + '    <div class="panel-body">\n' + '      {{ order.note }}\n' + '    </div>\n' + '  </div>\n' + '  <div class="panel panel-default" ng-show="order.courier">\n' + '    <div class="panel-heading">\n' + '      <i class="icon icon-motorcycle"></i>\n' + '        Entregador\n' + '        <small class="change" ng-show="order.status === \'delivering\'">\n' + '          <a href="javascript:void(0)" ng-click="ctrl.changeCourier()">\n' + '            <i class="icon icon-pencil"></i>\n' + '            Alterar\n' + '          </a>\n' + '        </small>\n' + '    </div>\n' + '    <div class="panel-body">\n' + '      <div class="alert alert-warning" ng-if="!order.courier" style="margin-bottom: 0;">\n' + '        Nenhum entregador associado a este pedido.\n' + '      </div>\n' + '      <div class="row" ng-if="order.courier">\n' + '        <div class="col-md-3">\n' + '          <div class="panel panel-default panel-courier">\n' + '            <img class="product-image" ng-src="{{ order.courier.avatar.medium }}" width="150" height="150">\n' + '            <div class="panel-footer">\n' + '              {{ order.courier.name }}\n' + '            </div>\n' + '          </div>\n' + '        </div>\n' + '      </div>\n' + '    </div>\n' + '  </div>\n' + '  <div class="panel panel-default">\n' + '    <div class="panel-heading">\n' + '      <i class="icon icon-shopping-cart"></i>\n' + '       Detalhes do pedido\n' + '    </div>\n' + '    <div class="panel-body no-padding">\n' + '      <table>\n' + '        <thead>\n' + '          <tr>\n' + '            <th style="width: 20%;">Item</th>\n' + '            <th style="width: 10%;">Quantidade</th>\n' + '            <th style="width: 40%;">Detalhes</th>\n' + '            <th style="width: 20%;">Obs.</th>\n' + '            <th style="width: 10%;">Total</th>\n' + '          </tr>\n' + '        </thead>\n' + '        <tbody>\n' + '          <tr ng-repeat="product in order.cart.products">\n' + '            <td>{{ product.name }}</td>\n' + '            <td>{{ product.amount }} un.</td>\n' + '            <td>\n' + '              <ul class="product-list">\n' + '                <li ng-show="product.addons_base.length > 0">\n' + '                  <strong>Ingredientes base:</strong>\n' + '                  <ul>\n' + '                    <li ng-repeat="addon in product.addons_base">\n' + '                      {{ addon.name }}\n' + '                      <span class="label label-success" ng-if="addon.price && addon.price > 0">{{ addon.price  | currency: "R$" }}</span>\n' + '                    </li>\n' + '                  </ul>\n' + '                </li>\n' + '                <li ng-show="product.addons_opt.length > 0">\n' + '                  <strong>Adicionais</strong>\n' + '                  <ul>\n' + '                    <li ng-repeat="addon in product.addons_opt">\n' + '                      {{ addon.name }}\n' + '                      <span class="label label-success" ng-if="addon.price && addon.price > 0">{{ addon.price  | currency: "R$" }}</span>\n' + '                    </li>\n' + '                  </ul>\n' + '                </li>\n' + '                <li ng-show="(product.addons_to_remove.length > 0) && (product.addons_to_remove.length < product.addons_to_put.length)">\n' + '                  <strong>Ingredientes para remover</strong>\n' + '                  <ul>\n' + '                    <li ng-repeat="addon in product.addons_to_remove">\n' + '                      <span class="label label-danger">Sem</span> {{ addon.name }}\n' + '                    </li>\n' + '                  </ul>\n' + '                </li>\n' + '                <li ng-show="(product.addons_to_put.length > 0) && (product.addons_to_put.length < product.addons_to_remove.length)">\n' + '                  <strong>Ingredientes a colocar</strong>\n' + '                  <ul>\n' + '                    <li ng-repeat="addon in product.addons_to_put">\n' + '                      <span class="label label-success">Com</span> {{ addon.name }}\n' + '                    </li>\n' + '                  </ul>\n' + '                </li>\n' + '              </ul>\n' + '            </td>\n' + '            <td>\n' + '              {{ product.note || \'-\' }}\n' + '            </td>\n' + '            <td>{{ product.total | currency: \'R$\'}}</td>\n' + '          </tr>\n' + '        </tbody>\n' + '      </table>\n' + '    </div>\n' + '  </div>\n' + '  <div class="panel panel-default" ng-show="order.address">\n' + '    <div class="panel-heading">\n' + '      <i class="icon icon-map-marker"></i>\n' + '       Endereço\n' + '       <small>{{ order.address.street }} <span ng-show="order.address.number">- {{ order.address.number }}</span> <span ng-show="order.address.complement">- {{ order.address.complement }}</span></small>\n' + '       <small class="change" ng-show="order.status !== \'completed\' || order.status !== \'cancelled\'">\n' + '        <a href="javascript:void(0)" ng-click="ctrl.changeAddress()">\n' + '          <i class="icon icon-pencil"></i>\n' + '          Alterar\n' + '        </a>\n' + '      </small>\n' + '    </div>\n' + '    <div class="panel-body no-padding">\n' + '      <div class="order-map">\n' + '        <google-map id="address-map" latitude="order.address.latitude" longitude="order.address.longitude" markers="markers" route="route"></google-map>\n' + '      </div>\n' + '    </div>\n' + '  </div>\n' + '  <div class="panel panel-default">\n' + '    <div class="panel-heading">\n' + '      <i class="icon icon-file-text"></i>\n' + '      Histórico de alteração de status\n' + '    </div>\n' + '    <div class="panel-body no-padding clearfix">\n' + '      <div>\n' + '        <table class="table table-striped">\n' + '          <thead>\n' + '            <tr>\n' + '              <th style="width: 50%;">Status</th>\n' + '              <th style="width: 50%;">Horário de alteração</th>\n' + '            </tr>\n' + '          </thead>\n' + '          <tbody>\n' + '            <tr ng-repeat="status in statuses" ng-class="{ success: order.status === status.alias }">\n' + '              <td>{{ status.name }}</td>\n' + '              <td>{{ (order.order_status_progress[status.alias] | date: \'HH:mm:ss\') || \'-\' }}</td>\n' + '            </tr>\n' + '          </tbody>\n' + '        </table>\n' + '      </div>\n' + '    </div>\n' + '  </div>\n' + '</div>\n' + '<div class="modal-footer">\n' + '  <button class="btn btn-default" ng-click="ctrl.close()">Fechar</button>\n' + '</div>');
+  }]);
+})();
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('foodbox.utils');
+  } catch (e) {
+    module = angular.module('foodbox.utils', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
     $templateCache.put('/templates/modal-product.html', '<div class="modal-header">\n' + '  <button type="button" class="close" data-dismiss="modal" ng-click="ctrl.close()"><span aria-hidden="true">&times;</span></button>\n' + '  <div class="modal-title">\n' + '    <i class="icon icon-shopping-cart"></i>\n' + '    {{ product.name }}\n' + '  </div>\n' + '  <div class="product-total-price">\n' + '    {{ cartItem.total | currency: "R$" }}\n' + '  </div>\n' + '</div>\n' + '\n' + '<div class="modal-body clearfix">\n' + '\n' + '  <aside class="pull-left">\n' + '    <img class="product-image img-thumbnail" ng-src="http://lorempixel.com/280/280/food/" width="280" height="280" alt="Foto do produto com nome {{ product.name }}">\n' + '    <p class="product-description">\n' + '      <i class="icon icon-shopping-cart"></i>\n' + '      {{ product.name }}\n' + '    </p>\n' + '    <p class="product-description">\n' + '      <i class="icon icon-info-circle"></i>\n' + '      {{ product.description }}\n' + '    </p>\n' + '    <p class="product-description">\n' + '      <i class="icon icon-money"></i>\n' + '      A partir de {{ product.price | currency: "R$" }}\n' + '    </p>\n' + '    <p class="product-sps">\n' + '      <i class="icon icon-trophy"></i>\n' + '      Dá direito a <b><a href="">30 sps</a></b>\n' + '    </p>\n' + '  </aside>\n' + '\n' + '  <div class="product-options pull-right">\n' + '\n' + '    <label for="cart-item-amount">Selecione a quantidade:</label>\n' + '    <select id="cart-item-amount" ng-model="cartItem.amount" ng-options="i as i for i in [1,2,3,4,5,6,7,8,9,10]"></select>\n' + '\n' + '    <hr ng-show="product.addon_categories.length > 0">\n' + '\n' + '    <div ng-repeat="addonCategory in product.addon_categories" class="addon-categories-list">\n' + '\n' + '      <div class="addon-category-name">\n' + '        {{ addonCategory.name }}\n' + '        <small ng-show="addonCategory.max_itens > 0">\n' + '          Escolha até {{ addonCategory.max_itens }}\n' + '          <span ng-show="addonCategory.max_itens > 1">\n' + '            itens\n' + '          </span>\n' + '          <span ng-show="addonCategory.max_itens === 1">\n' + '            item\n' + '          </span>\n' + '        </small>\n' + '        <small ng-show="addonCategory.max_itens === 0">\n' + '          Escolha quantos itens você desejar\n' + '        </small>\n' + '      </div>\n' + '\n' + '      <div class="addons-list">\n' + '        <div ng-repeat="addon in addonCategory.addons" class="addon-item">\n' + '          <label ng-if="addonCategory.max_itens === 1" ng-disabled="!addon.available">\n' + '            <input type="radio" ng-disabled="!addon.available" ng-value="addon.id"  ng-model="cartItem.customization_fields[addonCategory.id]">\n' + '            {{ addon.name }}\n' + '            <span class="addon-price" ng-show="addon.price > 0 && addon.available">({{ addon.price | currency: "R$" }})</span>\n' + '            <span class="addon-unavailable" ng-show="!addon.available">Item não disponível</span>\n' + '          </label>\n' + '          <label ng-if="addonCategory.max_itens === 0" ng-disabled="!addon.available">\n' + '            <input type="checkbox" ng-disabled="!addon.available" ng-model="cartItem.customization_fields[addonCategory.id][addon.id]" ng-init="cartItem.customization_fields[addonCategory.id][addon.id] = cartItem.customization_fields[addonCategory.id][addon.id] && addon.available ? true : false" />\n' + '            {{ addon.name }}\n' + '            <span class="addon-price" ng-show="addon.price > 0 && addon.available">({{ addon.price | currency: "R$" }})</span>\n' + '            <span class="addon-unavailable" ng-show="!addon.available">Item não disponível</span>\n' + '          </label>\n' + '        </div>\n' + '      </div>\n' + '    </div>\n' + '\n' + '    <hr>\n' + '    <label for="cart-item-note">Deseja fazer alguma observação?</label>\n' + '    <textarea id="cart-item-note" rows="3" ng-model="cartItem.note"></textarea>\n' + '    <limit maxlength="150" model="cartItem.note"></limit>\n' + '  </div>\n' + '</div>\n' + '\n' + '<div class="modal-footer">\n' + '  <button class="btn btn-success" ng-click="ctrl.add()" ng-show="!isEditing">\n' + '    <i class="icon icon-plus-square"></i>\n' + '    Adicionar\n' + '  </button>\n' + '  <button class="btn btn-success" ng-click="ctrl.add()" ng-show="isEditing">\n' + '    <i class="icon icon-pencil"></i>\n' + '    Confirmar edição\n' + '  </button>\n' + '  <button class="btn btn-default" ng-click="ctrl.close()">\n' + '    Cancelar\n' + '  </button>\n' + '</div>');
   }]);
 })();
@@ -228,6 +240,203 @@ var modalCustomPeriodCtrl = function modalCustomPeriodCtrl($scope, $modalInstanc
 };
 
 angular.module('foodbox.utils').controller('ModalCustomPeriodCtrl', modalCustomPeriodCtrl);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var ctrl = function ctrl($scope, $modal, $modalInstance, $window, hint, costumerAddressApi, orderResolved, storeResolved, statusesResolved) {
+
+  return new ((function () {
+    function Modal() {
+      _classCallCheck(this, Modal);
+
+      $scope.store = storeResolved;
+      $scope.order = orderResolved;
+      $scope.statuses = statusesResolved;
+
+      $scope.orderClassStatus = {};
+
+      if (order.address && order.address.latitude && order.address.longitude) {
+        $scope.markers = [{ latitude: order.address.latitude, longitude: order.address.longitude, animate: true }, { latitude: store.address.latitude, longitude: store.address.longitude }];
+        $scope.route = { destination: { latitude: order.address.latitude, longitude: order.address.longitude }, origin: { latitude: store.address.latitude, longitude: store.address.longitude } };
+      }
+    }
+
+    // Avalia o pedido, e define os botões com status a serem exibidos
+
+    _createClass(Modal, [{
+      key: 'evaluateOrderClass',
+      value: function evaluateOrderClass(status) {
+        var show = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
+
+        if ($scope.order.order_type.alias === 'delivery_online' || $scope.order.order_type.alias === 'delivery_phone' || $scope.order.order_type.alias === 'sheduled') {
+          switch ($scope.order.status) {
+            case 'sent':
+              if (status.alias !== 'in_line' && status.alias !== 'sent') {
+                show = false;break;
+              }
+            case 'in_line':
+              if (status.alias !== 'in_progress' && status.alias !== 'cancelled' && status.alias !== 'in_line') {
+                show = false;break;
+              }
+            case 'in_progress':
+              if (status.alias !== 'pos_production' && status.alias !== 'cancelled' && status.alias !== 'in_progress') {
+                show = false;break;
+              }
+            case 'pos_production':
+              if (status.alias !== 'delivering' && status.alias !== 'cancelled' && status.alias !== 'pos_production') {
+                show = false;break;
+              }
+            case 'delivering':
+              if (status.alias !== 'completed' && status.alias !== 'not_delivered' && status.alias !== 'delivering') {
+                show = false;break;
+              }
+            case 'completed':
+              if (status.alias !== 'delivering' && status.alias !== 'completed') {
+                show = false;break;
+              }
+            case 'cancelled':
+              if (status.alias !== 'in_progress' && status.alias !== 'cancelled') {
+                show = false;break;
+              }
+            case 'not_delivered':
+              if (status.alias !== 'delivering' && status.alias !== 'not_delivered') {
+                show = false;
+              }
+          }
+        }
+
+        if ($scope.order.order_type.alias === 'local' || $scope.order.order_type.alias === 'local_to_go') {
+          switch ($scope.order.status) {
+            case 'in_line':
+              if (status.alias !== 'in_progress' && status.alias !== 'cancelled' && status.alias !== 'in_line') {
+                show = false;break;
+              }
+            case 'in_progress':
+              if (status.alias !== 'pos_production' && status.alias !== 'cancelled' && status.alias !== 'in_progress') {
+                show = false;break;
+              }
+            case 'pos_production':
+              if (status.alias !== 'completed' && status.alias !== 'cancelled' && status.alias !== 'pos_production') {
+                show = false;break;
+              }
+            case 'delivering':
+              show = false;break;
+            case 'completed':
+              if (status.alias !== 'completed') {
+                show = false;break;
+              }
+            case 'cancelled':
+              if (status.alias !== 'in_progress' && status.alias !== 'cancelled') {
+                show = false;break;
+              }
+            case 'not_delivered':
+              show = false;
+          }
+        }
+
+        $scope.orderClassStatus[status.alias] = show;
+      }
+
+      // Altera o status do pedido
+    }, {
+      key: 'changeStatus',
+      value: function changeStatus(status) {
+        if ($scope.order.status === status) {
+          return false;
+        }
+
+        $scope.order.status = status;
+        return $modalInstance.close({ order: $scope.order });
+      }
+
+      // Exibe modal para trocar de entregador
+    }, {
+      key: 'changeCourier',
+      value: function changeCourier() {
+        if ($scope.order.status !== 'delivering') {
+          return hint.error('Você só pode alterar o entregador quando o status for "Saiu para entrega"');
+        }
+
+        $modalInstance.close({ order: $scope.order });
+      }
+
+      // Exibe modal para alterar endereço
+    }, {
+      key: 'changeAddress',
+      value: function changeAddress() {
+        if ($scope.order.status === 'completed' || $scope.order.status === 'cancelled') {
+          return hint.error('Você não pode alterar o endereço do pedido quando o status for "Entregue" ou "Cancelado"');
+        }
+
+        var order = angular.copy($scope.order);
+
+        // Abre modal para escolha do endereço
+        costumerAddressApi.fetch($scope.order.costumer).then(function (response) {
+          order.costumer.addresses = response.data;
+
+          $modal.open({
+            templateUrl: 'orders/new/partials/_modal_costumer_address.html',
+            windowClass: 'modal-costumer-address',
+            controller: 'ModalCostumerAddressCtrl as ctrl',
+            backdrop: 'static',
+            resolve: {
+              order: (function (_order) {
+                function order() {
+                  return _order.apply(this, arguments);
+                }
+
+                order.toString = function () {
+                  return _order.toString();
+                };
+
+                return order;
+              })(function () {
+                return order;
+              })
+            }
+          }).result.then(function () {
+            if (order.address && order.address.shipping) {
+
+              // Endereço é o mesmo
+              if (order.address.id == $scope.order.address.id) {
+                return hint.error('O endereço selecionado já é o endereço atual do pedido');
+              }
+
+              // Taxa de entrega do novo endereço é maior que a antiga - necessário confirmar
+              if (parseFloat(order.address.shipping) > parseFloat($scope.order.shipping)) {
+                var diff = parseFloat(order.address.shipping) - parseFloat($scope.order.shipping);
+
+                if (!$window.confirm('O novo endereço de entrega possui uma taxa de entrega R$' + diff + ' mais cara que o pedido atual. Deseja continuar?')) {
+                  return false;
+                }
+              }
+
+              // Seta o endereço
+              $scope.order.address = angular.copy(order.address);
+
+              // Fecha o modal de detalhes enviando o objeto a ser salvo
+              return $modalInstance.close({ order: $scope.order, onlySave: true });
+            }
+          });
+        });
+      }
+
+      // Fecha o modal sem enviar os dados selecionados
+    }, {
+      key: 'close',
+      value: function close() {
+        $modalInstance.dismiss('close');
+      }
+    }]);
+
+    return Modal;
+  })())();
+};
+
+angular.module('foodbox.utils').controller('ModalOrder', ctrl);
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -1063,6 +1272,51 @@ var modalCustomPeriod = function modalCustomPeriod($modal, $templateCache) {
 };
 
 angular.module('foodbox.utils').factory('modalCustomPeriod', modalCustomPeriod);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var modal = function modal($modal, $templateCache) {
+  return new ((function () {
+    function Modal() {
+      _classCallCheck(this, Modal);
+    }
+
+    _createClass(Modal, [{
+      key: 'open',
+      value: function open(_type, order, store, statuses) {
+        return $modal.open({
+          template: $templateCache.get('/templates/modal-order.html'),
+          controller: 'ModalOrderCtrl as ctrl',
+          windowClass: 'modal-order',
+          resolve: {
+            type: function type() {
+              if (_type !== 'admin' || _type !== 'costumer') {
+                return 'costumer';
+              }
+              return _type;
+            },
+            storeResolved: function storeResolved() {
+              return store;
+            },
+            statusesResolved: function statusesResolved() {
+              return statuses;
+            },
+            orderResolvedd: function orderResolvedd() {
+              return order;
+            }
+          }
+        });
+      }
+    }]);
+
+    return Modal;
+  })())();
+};
+
+angular.module('foodbox.utils').factory('modalOrder', modal);
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
