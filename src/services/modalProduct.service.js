@@ -1,13 +1,26 @@
 let modalProduct = ($modal, storeProductApi, $templateCache) => {
   return new class ModalProduct {
-    open(cart, storeProduct, cartItem = false){
+    open(params){
+
+      if(!params.cart) {
+        throw new Error('Modal Product service must have a cart');
+      }
+
+      if(!params.storeProduct) {
+        throw new Error('Modal Product service must have a product');
+      }
+
+      if(!params.cartItem) {
+        params.cartItem = false;
+      }
+
       return $modal.open({
         template: $templateCache.get('/templates/modal-product.html'),
         controller: 'ModalProductCtrl as ctrl',
         windowClass: 'modal-product',
         resolve: {
           cartResolved: () => {
-            return cart;
+            return params.cart
           },
           storeProductResolved: () => {
             return storeProductApi.show(storeProduct).then((storeProduct) => {
@@ -15,7 +28,7 @@ let modalProduct = ($modal, storeProductApi, $templateCache) => {
             });
           },
           cartItemResolved: () => {
-            return cartItem;
+            return params.cartItem;
           }
         }
       });

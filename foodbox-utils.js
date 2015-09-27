@@ -1331,8 +1331,19 @@ var modalProduct = function modalProduct($modal, storeProductApi, $templateCache
 
     _createClass(ModalProduct, [{
       key: 'open',
-      value: function open(cart, storeProduct) {
-        var cartItem = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
+      value: function open(params) {
+
+        if (!params.cart) {
+          throw new Error('Modal Product service must have a cart');
+        }
+
+        if (!params.storeProduct) {
+          throw new Error('Modal Product service must have a product');
+        }
+
+        if (!params.cartItem) {
+          params.cartItem = false;
+        }
 
         return $modal.open({
           template: $templateCache.get('/templates/modal-product.html'),
@@ -1340,7 +1351,7 @@ var modalProduct = function modalProduct($modal, storeProductApi, $templateCache
           windowClass: 'modal-product',
           resolve: {
             cartResolved: function cartResolved() {
-              return cart;
+              return params.cart;
             },
             storeProductResolved: function storeProductResolved() {
               return storeProductApi.show(storeProduct).then(function (storeProduct) {
@@ -1348,7 +1359,7 @@ var modalProduct = function modalProduct($modal, storeProductApi, $templateCache
               });
             },
             cartItemResolved: function cartItemResolved() {
-              return cartItem;
+              return params.cartItem;
             }
           }
         });
