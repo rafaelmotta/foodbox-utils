@@ -459,7 +459,7 @@ var modalProductCtrl = function modalProductCtrl($scope, $modalInstance, TempCar
     _createClass(ModalProductCustomizationCtrl, [{
       key: 'add',
       value: function add() {
-        meCartItemApi[this._getCartMethod()]({ cart_id: $scope.cart.id }, $scope.cartItem).then(function (cart) {
+        meCartItemApi[this._getCartMethod()]($scope.cartItem, { cart_id: $scope.cart.id }).then(function (cart) {
           $modalInstance.close({ cart: cart.plain() });
         });
       }

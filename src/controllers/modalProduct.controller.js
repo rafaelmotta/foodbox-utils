@@ -10,7 +10,7 @@ let modalProductCtrl = ($scope, $modalInstance, TempCart, meCartItemApi, cartRes
     }
 
     add() {
-      meCartItemApi[this._getCartMethod()]({ cart_id: $scope.cart.id }, $scope.cartItem).then((cart) => {
+      meCartItemApi[this._getCartMethod()]($scope.cartItem, { cart_id: $scope.cart.id }).then((cart) => {
         $modalInstance.close({ cart: cart.plain() });
       });
     }
