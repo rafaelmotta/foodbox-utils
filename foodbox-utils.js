@@ -195,325 +195,6 @@ var app = angular.module('foodbox.utils', []);
 })();
 'use strict';
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var modalCustomPeriodCtrl = function modalCustomPeriodCtrl($scope, $modalInstance, $filter) {
-
-  return new ((function () {
-    function ModalCustomPeriodCtrl() {
-      _classCallCheck(this, ModalCustomPeriodCtrl);
-
-      var date = $filter('date')(new Date(), "dd/MM/yyyy");
-
-      $scope.period = { fromDate: date, toDate: date, fromTime: new Date().setHours(0, 0, 0, 0), toTime: new Date().setHours(23, 59, 59, 0) };
-      $scope.status = { fromDate: false, toDate: false };
-      $scope.options = { showWeeks: false };
-    }
-
-    // Abre o datepicker
-
-    _createClass(ModalCustomPeriodCtrl, [{
-      key: 'open',
-      value: function open(name) {
-        $scope.status[name] = !$scope.status[name];
-      }
-
-      // Fecha o modal e envia os dados selecionados
-    }, {
-      key: 'next',
-      value: function next() {
-        $modalInstance.close($scope.period);
-      }
-
-      // Fecha o modal sem enviar os dados selecionados
-    }, {
-      key: 'close',
-      value: function close() {
-        $modalInstance.dismiss('close');
-      }
-    }]);
-
-    return ModalCustomPeriodCtrl;
-  })())();
-};
-
-angular.module('foodbox.utils').controller('ModalCustomPeriodCtrl', modalCustomPeriodCtrl);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var ctrl = function ctrl($scope, $modal, $modalInstance, $window, hint, costumerAddressApi, orderResolved, storeResolved, statusesResolved) {
-
-  return new ((function () {
-    function Modal() {
-      _classCallCheck(this, Modal);
-
-      $scope.store = storeResolved;
-      $scope.order = orderResolved;
-      $scope.statuses = statusesResolved;
-
-      $scope.orderClassStatus = {};
-
-      if (order.address && order.address.latitude && order.address.longitude) {
-        $scope.markers = [{ latitude: order.address.latitude, longitude: order.address.longitude, animate: true }, { latitude: store.address.latitude, longitude: store.address.longitude }];
-        $scope.route = { destination: { latitude: order.address.latitude, longitude: order.address.longitude }, origin: { latitude: store.address.latitude, longitude: store.address.longitude } };
-      }
-    }
-
-    // Avalia o pedido, e define os botões com status a serem exibidos
-
-    _createClass(Modal, [{
-      key: 'evaluateOrderClass',
-      value: function evaluateOrderClass(status) {
-        var show = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
-
-        if ($scope.order.order_type.alias === 'delivery_online' || $scope.order.order_type.alias === 'delivery_phone' || $scope.order.order_type.alias === 'sheduled') {
-          switch ($scope.order.status) {
-            case 'sent':
-              if (status.alias !== 'in_line' && status.alias !== 'sent') {
-                show = false;break;
-              }
-            case 'in_line':
-              if (status.alias !== 'in_progress' && status.alias !== 'cancelled' && status.alias !== 'in_line') {
-                show = false;break;
-              }
-            case 'in_progress':
-              if (status.alias !== 'pos_production' && status.alias !== 'cancelled' && status.alias !== 'in_progress') {
-                show = false;break;
-              }
-            case 'pos_production':
-              if (status.alias !== 'delivering' && status.alias !== 'cancelled' && status.alias !== 'pos_production') {
-                show = false;break;
-              }
-            case 'delivering':
-              if (status.alias !== 'completed' && status.alias !== 'not_delivered' && status.alias !== 'delivering') {
-                show = false;break;
-              }
-            case 'completed':
-              if (status.alias !== 'delivering' && status.alias !== 'completed') {
-                show = false;break;
-              }
-            case 'cancelled':
-              if (status.alias !== 'in_progress' && status.alias !== 'cancelled') {
-                show = false;break;
-              }
-            case 'not_delivered':
-              if (status.alias !== 'delivering' && status.alias !== 'not_delivered') {
-                show = false;
-              }
-          }
-        }
-
-        if ($scope.order.order_type.alias === 'local' || $scope.order.order_type.alias === 'local_to_go') {
-          switch ($scope.order.status) {
-            case 'in_line':
-              if (status.alias !== 'in_progress' && status.alias !== 'cancelled' && status.alias !== 'in_line') {
-                show = false;break;
-              }
-            case 'in_progress':
-              if (status.alias !== 'pos_production' && status.alias !== 'cancelled' && status.alias !== 'in_progress') {
-                show = false;break;
-              }
-            case 'pos_production':
-              if (status.alias !== 'completed' && status.alias !== 'cancelled' && status.alias !== 'pos_production') {
-                show = false;break;
-              }
-            case 'delivering':
-              show = false;break;
-            case 'completed':
-              if (status.alias !== 'completed') {
-                show = false;break;
-              }
-            case 'cancelled':
-              if (status.alias !== 'in_progress' && status.alias !== 'cancelled') {
-                show = false;break;
-              }
-            case 'not_delivered':
-              show = false;
-          }
-        }
-
-        $scope.orderClassStatus[status.alias] = show;
-      }
-
-      // Altera o status do pedido
-    }, {
-      key: 'changeStatus',
-      value: function changeStatus(status) {
-        if ($scope.order.status === status) {
-          return false;
-        }
-
-        $scope.order.status = status;
-        return $modalInstance.close({ order: $scope.order });
-      }
-
-      // Exibe modal para trocar de entregador
-    }, {
-      key: 'changeCourier',
-      value: function changeCourier() {
-        if ($scope.order.status !== 'delivering') {
-          return hint.error('Você só pode alterar o entregador quando o status for "Saiu para entrega"');
-        }
-
-        $modalInstance.close({ order: $scope.order });
-      }
-
-      // Exibe modal para alterar endereço
-    }, {
-      key: 'changeAddress',
-      value: function changeAddress() {
-        if ($scope.order.status === 'completed' || $scope.order.status === 'cancelled') {
-          return hint.error('Você não pode alterar o endereço do pedido quando o status for "Entregue" ou "Cancelado"');
-        }
-
-        var order = angular.copy($scope.order);
-
-        // Abre modal para escolha do endereço
-        costumerAddressApi.fetch($scope.order.costumer).then(function (response) {
-          order.costumer.addresses = response.data;
-
-          $modal.open({
-            templateUrl: 'orders/new/partials/_modal_costumer_address.html',
-            windowClass: 'modal-costumer-address',
-            controller: 'ModalCostumerAddressCtrl as ctrl',
-            backdrop: 'static',
-            resolve: {
-              order: (function (_order) {
-                function order() {
-                  return _order.apply(this, arguments);
-                }
-
-                order.toString = function () {
-                  return _order.toString();
-                };
-
-                return order;
-              })(function () {
-                return order;
-              })
-            }
-          }).result.then(function () {
-            if (order.address && order.address.shipping) {
-
-              // Endereço é o mesmo
-              if (order.address.id == $scope.order.address.id) {
-                return hint.error('O endereço selecionado já é o endereço atual do pedido');
-              }
-
-              // Taxa de entrega do novo endereço é maior que a antiga - necessário confirmar
-              if (parseFloat(order.address.shipping) > parseFloat($scope.order.shipping)) {
-                var diff = parseFloat(order.address.shipping) - parseFloat($scope.order.shipping);
-
-                if (!$window.confirm('O novo endereço de entrega possui uma taxa de entrega R$' + diff + ' mais cara que o pedido atual. Deseja continuar?')) {
-                  return false;
-                }
-              }
-
-              // Seta o endereço
-              $scope.order.address = angular.copy(order.address);
-
-              // Fecha o modal de detalhes enviando o objeto a ser salvo
-              return $modalInstance.close({ order: $scope.order, onlySave: true });
-            }
-          });
-        });
-      }
-
-      // Fecha o modal sem enviar os dados selecionados
-    }, {
-      key: 'close',
-      value: function close() {
-        $modalInstance.dismiss('close');
-      }
-    }]);
-
-    return Modal;
-  })())();
-};
-
-angular.module('foodbox.utils').controller('ModalOrder', ctrl);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var modalProductCtrl = function modalProductCtrl($scope, $modalInstance, TempCart, meCartItemApi, cartResolved, storeProductResolved, cartItemResolved) {
-
-  return new ((function () {
-    function ModalProductCustomizationCtrl() {
-      _classCallCheck(this, ModalProductCustomizationCtrl);
-
-      $scope.product = storeProductResolved;
-      $scope.cart = cartResolved;
-      $scope.cartItem = cartItemResolved;
-
-      new TempCart($scope, cartItemResolved);
-    }
-
-    _createClass(ModalProductCustomizationCtrl, [{
-      key: 'add',
-      value: function add() {
-        meCartItemApi[this._getCartMethod()]($scope.cartItem, { cart_id: $scope.cart.id }).then(function (cart) {
-          $modalInstance.close({ cart: cart.plain() });
-        });
-      }
-    }, {
-      key: 'close',
-      value: function close() {
-        $modalInstance.dismiss('close');
-      }
-    }, {
-      key: '_getCartMethod',
-      value: function _getCartMethod() {
-        return $scope.cartItem.id ? 'update' : 'create';
-      }
-    }]);
-
-    return ModalProductCustomizationCtrl;
-  })())();
-};
-
-angular.module('foodbox.utils').controller('ModalProductCtrl', modalProductCtrl);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var modalRatingCtrl = function modalRatingCtrl($scope, $modalInstance) {
-
-  return new ((function () {
-    function ModalRatingCtrl() {
-      _classCallCheck(this, ModalRatingCtrl);
-
-      $scope.rating = {};
-    }
-
-    _createClass(ModalRatingCtrl, [{
-      key: 'save',
-      value: function save() {
-        $modalInstance.close({ rating: rating.plain() });
-      }
-    }, {
-      key: 'close',
-      value: function close() {
-        $modalInstance.dismiss('close');
-      }
-    }]);
-
-    return ModalRatingCtrl;
-  })())();
-};
-
-angular.module('foodbox.utils').controller('ModalRatingCtrl', modalRatingCtrl);
-'use strict';
-
 var directive = function directive($templateCache) {
   return {
     restrict: 'E',
@@ -936,46 +617,323 @@ var directive = function directive(zipcodeApi) {
 angular.module('foodbox.utils').directive('zipcode', directive);
 'use strict';
 
-var pusher = function pusher() {
-  var settings = {
-    key: null,
-    authEndpoint: '/pusher/auth',
-    authTransport: 'ajax'
-  };
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-  return {
-    setKey: function setKey(value) {
-      settings.key = value;
-    },
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-    setAuthEndpoint: function setAuthEndpoint(authEndpoint) {
-      settings.authEndpoint = authEndpoint;
-    },
+var modalCustomPeriodCtrl = function modalCustomPeriodCtrl($scope, $modalInstance, $filter) {
 
-    setAuthTransport: function setAuthTransport(authTransport) {
-      if (authTransport !== 'ajax' && authTransport !== 'jsonp') {
-        authTransport = 'ajax';
+  return new ((function () {
+    function ModalCustomPeriodCtrl() {
+      _classCallCheck(this, ModalCustomPeriodCtrl);
+
+      var date = $filter('date')(new Date(), "dd/MM/yyyy");
+
+      $scope.period = { fromDate: date, toDate: date, fromTime: new Date().setHours(0, 0, 0, 0), toTime: new Date().setHours(23, 59, 59, 0) };
+      $scope.status = { fromDate: false, toDate: false };
+      $scope.options = { showWeeks: false };
+    }
+
+    // Abre o datepicker
+
+    _createClass(ModalCustomPeriodCtrl, [{
+      key: 'open',
+      value: function open(name) {
+        $scope.status[name] = !$scope.status[name];
       }
 
-      settings.authTransport = authTransport;
-    },
+      // Fecha o modal e envia os dados selecionados
+    }, {
+      key: 'next',
+      value: function next() {
+        $modalInstance.close($scope.period);
+      }
 
-    $get: function $get() {
-      return {
-        subscribe: function subscribe(channel) {
-          if (!settings.key) {
-            throw new Error('A key must be setted to initialize pusher');
-          }
+      // Fecha o modal sem enviar os dados selecionados
+    }, {
+      key: 'close',
+      value: function close() {
+        $modalInstance.dismiss('close');
+      }
+    }]);
 
-          var pusher = new Pusher(settings.key, { authEndpoint: settings.authEndpoint });
-          return pusher.subscribe(channel);
-        }
-      };
-    }
-  };
+    return ModalCustomPeriodCtrl;
+  })())();
 };
 
-angular.module('foodbox.utils').provider('pusher', pusher);
+angular.module('foodbox.utils').controller('ModalCustomPeriodCtrl', modalCustomPeriodCtrl);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var ctrl = function ctrl($scope, $modal, $modalInstance, $window, hint, costumerAddressApi, orderResolved, storeResolved, statusesResolved) {
+
+  return new ((function () {
+    function Modal() {
+      _classCallCheck(this, Modal);
+
+      $scope.store = storeResolved;
+      $scope.order = orderResolved;
+      $scope.statuses = statusesResolved;
+
+      $scope.orderClassStatus = {};
+
+      if (order.address && order.address.latitude && order.address.longitude) {
+        $scope.markers = [{ latitude: order.address.latitude, longitude: order.address.longitude, animate: true }, { latitude: store.address.latitude, longitude: store.address.longitude }];
+        $scope.route = { destination: { latitude: order.address.latitude, longitude: order.address.longitude }, origin: { latitude: store.address.latitude, longitude: store.address.longitude } };
+      }
+    }
+
+    // Avalia o pedido, e define os botões com status a serem exibidos
+
+    _createClass(Modal, [{
+      key: 'evaluateOrderClass',
+      value: function evaluateOrderClass(status) {
+        var show = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
+
+        if ($scope.order.order_type.alias === 'delivery_online' || $scope.order.order_type.alias === 'delivery_phone' || $scope.order.order_type.alias === 'sheduled') {
+          switch ($scope.order.status) {
+            case 'sent':
+              if (status.alias !== 'in_line' && status.alias !== 'sent') {
+                show = false;break;
+              }
+            case 'in_line':
+              if (status.alias !== 'in_progress' && status.alias !== 'cancelled' && status.alias !== 'in_line') {
+                show = false;break;
+              }
+            case 'in_progress':
+              if (status.alias !== 'pos_production' && status.alias !== 'cancelled' && status.alias !== 'in_progress') {
+                show = false;break;
+              }
+            case 'pos_production':
+              if (status.alias !== 'delivering' && status.alias !== 'cancelled' && status.alias !== 'pos_production') {
+                show = false;break;
+              }
+            case 'delivering':
+              if (status.alias !== 'completed' && status.alias !== 'not_delivered' && status.alias !== 'delivering') {
+                show = false;break;
+              }
+            case 'completed':
+              if (status.alias !== 'delivering' && status.alias !== 'completed') {
+                show = false;break;
+              }
+            case 'cancelled':
+              if (status.alias !== 'in_progress' && status.alias !== 'cancelled') {
+                show = false;break;
+              }
+            case 'not_delivered':
+              if (status.alias !== 'delivering' && status.alias !== 'not_delivered') {
+                show = false;
+              }
+          }
+        }
+
+        if ($scope.order.order_type.alias === 'local' || $scope.order.order_type.alias === 'local_to_go') {
+          switch ($scope.order.status) {
+            case 'in_line':
+              if (status.alias !== 'in_progress' && status.alias !== 'cancelled' && status.alias !== 'in_line') {
+                show = false;break;
+              }
+            case 'in_progress':
+              if (status.alias !== 'pos_production' && status.alias !== 'cancelled' && status.alias !== 'in_progress') {
+                show = false;break;
+              }
+            case 'pos_production':
+              if (status.alias !== 'completed' && status.alias !== 'cancelled' && status.alias !== 'pos_production') {
+                show = false;break;
+              }
+            case 'delivering':
+              show = false;break;
+            case 'completed':
+              if (status.alias !== 'completed') {
+                show = false;break;
+              }
+            case 'cancelled':
+              if (status.alias !== 'in_progress' && status.alias !== 'cancelled') {
+                show = false;break;
+              }
+            case 'not_delivered':
+              show = false;
+          }
+        }
+
+        $scope.orderClassStatus[status.alias] = show;
+      }
+
+      // Altera o status do pedido
+    }, {
+      key: 'changeStatus',
+      value: function changeStatus(status) {
+        if ($scope.order.status === status) {
+          return false;
+        }
+
+        $scope.order.status = status;
+        return $modalInstance.close({ order: $scope.order });
+      }
+
+      // Exibe modal para trocar de entregador
+    }, {
+      key: 'changeCourier',
+      value: function changeCourier() {
+        if ($scope.order.status !== 'delivering') {
+          return hint.error('Você só pode alterar o entregador quando o status for "Saiu para entrega"');
+        }
+
+        $modalInstance.close({ order: $scope.order });
+      }
+
+      // Exibe modal para alterar endereço
+    }, {
+      key: 'changeAddress',
+      value: function changeAddress() {
+        if ($scope.order.status === 'completed' || $scope.order.status === 'cancelled') {
+          return hint.error('Você não pode alterar o endereço do pedido quando o status for "Entregue" ou "Cancelado"');
+        }
+
+        var order = angular.copy($scope.order);
+
+        // Abre modal para escolha do endereço
+        costumerAddressApi.fetch($scope.order.costumer).then(function (response) {
+          order.costumer.addresses = response.data;
+
+          $modal.open({
+            templateUrl: 'orders/new/partials/_modal_costumer_address.html',
+            windowClass: 'modal-costumer-address',
+            controller: 'ModalCostumerAddressCtrl as ctrl',
+            backdrop: 'static',
+            resolve: {
+              order: (function (_order) {
+                function order() {
+                  return _order.apply(this, arguments);
+                }
+
+                order.toString = function () {
+                  return _order.toString();
+                };
+
+                return order;
+              })(function () {
+                return order;
+              })
+            }
+          }).result.then(function () {
+            if (order.address && order.address.shipping) {
+
+              // Endereço é o mesmo
+              if (order.address.id == $scope.order.address.id) {
+                return hint.error('O endereço selecionado já é o endereço atual do pedido');
+              }
+
+              // Taxa de entrega do novo endereço é maior que a antiga - necessário confirmar
+              if (parseFloat(order.address.shipping) > parseFloat($scope.order.shipping)) {
+                var diff = parseFloat(order.address.shipping) - parseFloat($scope.order.shipping);
+
+                if (!$window.confirm('O novo endereço de entrega possui uma taxa de entrega R$' + diff + ' mais cara que o pedido atual. Deseja continuar?')) {
+                  return false;
+                }
+              }
+
+              // Seta o endereço
+              $scope.order.address = angular.copy(order.address);
+
+              // Fecha o modal de detalhes enviando o objeto a ser salvo
+              return $modalInstance.close({ order: $scope.order, onlySave: true });
+            }
+          });
+        });
+      }
+
+      // Fecha o modal sem enviar os dados selecionados
+    }, {
+      key: 'close',
+      value: function close() {
+        $modalInstance.dismiss('close');
+      }
+    }]);
+
+    return Modal;
+  })())();
+};
+
+angular.module('foodbox.utils').controller('ModalOrder', ctrl);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var modalProductCtrl = function modalProductCtrl($scope, $modalInstance, TempCart, meCartItemApi, cartResolved, storeProductResolved, cartItemResolved) {
+
+  return new ((function () {
+    function ModalProductCustomizationCtrl() {
+      _classCallCheck(this, ModalProductCustomizationCtrl);
+
+      $scope.product = storeProductResolved;
+      $scope.cart = cartResolved;
+      $scope.cartItem = cartItemResolved;
+
+      new TempCart($scope, cartItemResolved);
+    }
+
+    _createClass(ModalProductCustomizationCtrl, [{
+      key: 'add',
+      value: function add() {
+        meCartItemApi[this._getCartMethod()]($scope.cartItem, { cart_id: $scope.cart.id }).then(function (cart) {
+          $modalInstance.close({ cart: cart.plain() });
+        });
+      }
+    }, {
+      key: 'close',
+      value: function close() {
+        $modalInstance.dismiss('close');
+      }
+    }, {
+      key: '_getCartMethod',
+      value: function _getCartMethod() {
+        return $scope.cartItem.id ? 'update' : 'create';
+      }
+    }]);
+
+    return ModalProductCustomizationCtrl;
+  })())();
+};
+
+angular.module('foodbox.utils').controller('ModalProductCtrl', modalProductCtrl);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var modalRatingCtrl = function modalRatingCtrl($scope, $modalInstance) {
+
+  return new ((function () {
+    function ModalRatingCtrl() {
+      _classCallCheck(this, ModalRatingCtrl);
+
+      $scope.rating = {};
+    }
+
+    _createClass(ModalRatingCtrl, [{
+      key: 'save',
+      value: function save() {
+        $modalInstance.close({ rating: rating.plain() });
+      }
+    }, {
+      key: 'close',
+      value: function close() {
+        $modalInstance.dismiss('close');
+      }
+    }]);
+
+    return ModalRatingCtrl;
+  })())();
+};
+
+angular.module('foodbox.utils').controller('ModalRatingCtrl', modalRatingCtrl);
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -1354,8 +1312,8 @@ var modalProduct = function modalProduct($modal, storeProductApi, $templateCache
               return params.cart;
             },
             storeProductResolved: function storeProductResolved() {
-              return storeProductApi.show(storeProduct).then(function (storeProduct) {
-                return storeProduct.plain().data;
+              return storeProductApi.show(storeProduct).then(function (response) {
+                return response.data;
               });
             },
             cartItemResolved: function cartItemResolved() {
@@ -1586,3 +1544,45 @@ var tempCart = function tempCart() {
 };
 
 angular.module('foodbox.utils').factory('TempCart', tempCart);
+'use strict';
+
+var pusher = function pusher() {
+  var settings = {
+    key: null,
+    authEndpoint: '/pusher/auth',
+    authTransport: 'ajax'
+  };
+
+  return {
+    setKey: function setKey(value) {
+      settings.key = value;
+    },
+
+    setAuthEndpoint: function setAuthEndpoint(authEndpoint) {
+      settings.authEndpoint = authEndpoint;
+    },
+
+    setAuthTransport: function setAuthTransport(authTransport) {
+      if (authTransport !== 'ajax' && authTransport !== 'jsonp') {
+        authTransport = 'ajax';
+      }
+
+      settings.authTransport = authTransport;
+    },
+
+    $get: function $get() {
+      return {
+        subscribe: function subscribe(channel) {
+          if (!settings.key) {
+            throw new Error('A key must be setted to initialize pusher');
+          }
+
+          var pusher = new Pusher(settings.key, { authEndpoint: settings.authEndpoint });
+          return pusher.subscribe(channel);
+        }
+      };
+    }
+  };
+};
+
+angular.module('foodbox.utils').provider('pusher', pusher);
