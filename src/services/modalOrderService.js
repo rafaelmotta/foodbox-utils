@@ -5,6 +5,7 @@ let modal = ($modal, $templateCache) => {
         template: $templateCache.get('/templates/modal-order.html'),
         controller: 'ModalOrderCtrl as ctrl',
         windowClass: 'modal-order',
+        size: 'lg',
         resolve: {
           type:() => {
             if(params.type !== 'admin' || params.type !== 'costumer') {
