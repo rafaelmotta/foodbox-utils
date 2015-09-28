@@ -1306,7 +1306,7 @@ var modal = function modal($modal, $templateCache) {
             statusesResolved: function statusesResolved() {
               return params.statuses;
             },
-            orderResolvedd: function orderResolvedd() {
+            orderResolved: function orderResolved() {
               return params.order;
             }
           }
