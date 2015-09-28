@@ -121,4 +121,4 @@ let ctrl = ($scope, $modal, $modalInstance, $window, hint, costumerAddressApi, o
   };
 };
 
-angular.module('foodbox.utils').controller('ModalOrder', ctrl);
+angular.module('foodbox.utils').controller('ModalOrderCtrl', ctrl);
