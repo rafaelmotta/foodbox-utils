@@ -6,7 +6,7 @@ let modalProduct = ($modal, storeProductApi, $templateCache) => {
         throw new Error('Modal Product service must have a cart');
       }
 
-      if(!params.storeProduct) {
+      if(!params.product) {
         throw new Error('Modal Product service must have a product');
       }
 
@@ -23,7 +23,7 @@ let modalProduct = ($modal, storeProductApi, $templateCache) => {
             return params.cart
           },
           storeProductResolved: () => {
-            return storeProductApi.show(params.storeProduct).then((response) => {
+            return storeProductApi.show(params.product).then((response) => {
               return response.data;
             });
           },

@@ -1337,7 +1337,7 @@ var modalProduct = function modalProduct($modal, storeProductApi, $templateCache
           throw new Error('Modal Product service must have a cart');
         }
 
-        if (!params.storeProduct) {
+        if (!params.product) {
           throw new Error('Modal Product service must have a product');
         }
 
@@ -1354,7 +1354,7 @@ var modalProduct = function modalProduct($modal, storeProductApi, $templateCache
               return params.cart;
             },
             storeProductResolved: function storeProductResolved() {
-              return storeProductApi.show(params.storeProduct).then(function (response) {
+              return storeProductApi.show(params.product).then(function (response) {
                 return response.data;
               });
             },
