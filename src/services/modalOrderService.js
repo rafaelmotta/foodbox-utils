@@ -18,7 +18,7 @@ let modal = ($modal, $templateCache) => {
           statusesResolved:() => {
             return params.statuses;
           },
-          orderResolvedd:() => {
+          orderResolved:() => {
             return params.order;
           }
         }
