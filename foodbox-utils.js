@@ -258,6 +258,193 @@ var ctrl = function ctrl($scope, $modal, $modalInstance, $window, hint, costumer
 
       $scope.orderClassStatus = {};
 
+      if ($scope.order.address && $scope.order.address.latitude && $scope.order.address.longitude) {
+        $scope.markers = [{ latitude: $scope.order.address.latitude, longitude: $scope.order.address.longitude, animate: true }, { latitude: store.address.latitude, longitude: store.address.longitude }];
+        $scope.route = { destination: { latitude: $scope.order.address.latitude, longitude: $scope.order.address.longitude }, origin: { latitude: store.address.latitude, longitude: store.address.longitude } };
+      }
+    }
+
+    // Avalia o pedido, e define os botões com status a serem exibidos
+
+    _createClass(Modal, [{
+      key: 'evaluateOrderClass',
+      value: function evaluateOrderClass(status) {
+        var show = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
+
+        if ($scope.order.order_type.alias === 'delivery_online' || $scope.order.order_type.alias === 'delivery_phone' || $scope.order.order_type.alias === 'sheduled') {
+          switch ($scope.order.status) {
+            case 'sent':
+              if (status.alias !== 'in_line' && status.alias !== 'sent') {
+                show = false;break;
+              }
+            case 'in_line':
+              if (status.alias !== 'in_progress' && status.alias !== 'cancelled' && status.alias !== 'in_line') {
+                show = false;break;
+              }
+            case 'in_progress':
+              if (status.alias !== 'pos_production' && status.alias !== 'cancelled' && status.alias !== 'in_progress') {
+                show = false;break;
+              }
+            case 'pos_production':
+              if (status.alias !== 'delivering' && status.alias !== 'cancelled' && status.alias !== 'pos_production') {
+                show = false;break;
+              }
+            case 'delivering':
+              if (status.alias !== 'completed' && status.alias !== 'not_delivered' && status.alias !== 'delivering') {
+                show = false;break;
+              }
+            case 'completed':
+              if (status.alias !== 'delivering' && status.alias !== 'completed') {
+                show = false;break;
+              }
+            case 'cancelled':
+              if (status.alias !== 'in_progress' && status.alias !== 'cancelled') {
+                show = false;break;
+              }
+            case 'not_delivered':
+              if (status.alias !== 'delivering' && status.alias !== 'not_delivered') {
+                show = false;
+              }
+          }
+        }
+
+        if ($scope.order.order_type.alias === 'local' || $scope.order.order_type.alias === 'local_to_go') {
+          switch ($scope.order.status) {
+            case 'in_line':
+              if (status.alias !== 'in_progress' && status.alias !== 'cancelled' && status.alias !== 'in_line') {
+                show = false;break;
+              }
+            case 'in_progress':
+              if (status.alias !== 'pos_production' && status.alias !== 'cancelled' && status.alias !== 'in_progress') {
+                show = false;break;
+              }
+            case 'pos_production':
+              if (status.alias !== 'completed' && status.alias !== 'cancelled' && status.alias !== 'pos_production') {
+                show = false;break;
+              }
+            case 'delivering':
+              show = false;break;
+            case 'completed':
+              if (status.alias !== 'completed') {
+                show = false;break;
+              }
+            case 'cancelled':
+              if (status.alias !== 'in_progress' && status.alias !== 'cancelled') {
+                show = false;break;
+              }
+            case 'not_delivered':
+              show = false;
+          }
+        }
+
+        $scope.orderClassStatus[status.alias] = show;
+      }
+
+      // Altera o status do pedido
+    }, {
+      key: 'changeStatus',
+      value: function changeStatus(status) {
+        if ($scope.order.status === status) {
+          return false;
+        }
+
+        $scope.order.status = status;
+        return $modalInstance.close({ order: $scope.order });
+      }
+
+      // Exibe modal para trocar de entregador
+    }, {
+      key: 'changeCourier',
+      value: function changeCourier() {
+        if ($scope.order.status !== 'delivering') {
+          return hint.error('Você só pode alterar o entregador quando o status for "Saiu para entrega"');
+        }
+
+        $modalInstance.close({ order: $scope.order });
+      }
+
+      // Exibe modal para alterar endereço
+    }, {
+      key: 'changeAddress',
+      value: function changeAddress() {
+        if ($scope.order.status === 'completed' || $scope.order.status === 'cancelled') {
+          return hint.error('Você não pode alterar o endereço do pedido quando o status for "Entregue" ou "Cancelado"');
+        }
+
+        var _order = angular.copy($scope.order);
+
+        // Abre modal para escolha do endereço
+        costumerAddressApi.fetch($scope.order.costumer).then(function (response) {
+          _order.costumer.addresses = response.data;
+
+          $modal.open({
+            templateUrl: 'orders/new/partials/_modal_costumer_address.html',
+            windowClass: 'modal-costumer-address',
+            controller: 'ModalCostumerAddressCtrl as ctrl',
+            backdrop: 'static',
+            resolve: {
+              order: function order() {
+                return _order;
+              }
+            }
+          }).result.then(function () {
+            if (_order.address && _order.address.shipping) {
+
+              // Endereço é o mesmo
+              if (_order.address.id == $scope.order.address.id) {
+                return hint.error('O endereço selecionado já é o endereço atual do pedido');
+              }
+
+              // Taxa de entrega do novo endereço é maior que a antiga - necessário confirmar
+              if (parseFloat(_order.address.shipping) > parseFloat($scope.order.shipping)) {
+                var diff = parseFloat(_order.address.shipping) - parseFloat($scope.order.shipping);
+
+                if (!$window.confirm('O novo endereço de entrega possui uma taxa de entrega R$' + diff + ' mais cara que o pedido atual. Deseja continuar?')) {
+                  return false;
+                }
+              }
+
+              // Seta o endereço
+              $scope.order.address = angular.copy(_order.address);
+
+              // Fecha o modal de detalhes enviando o objeto a ser salvo
+              return $modalInstance.close({ order: $scope.order, onlySave: true });
+            }
+          });
+        });
+      }
+
+      // Fecha o modal sem enviar os dados selecionados
+    }, {
+      key: 'close',
+      value: function close() {
+        $modalInstance.dismiss('close');
+      }
+    }]);
+
+    return Modal;
+  })())();
+};
+
+angular.module('foodbox.utils').controller('ModalOrderCtrl', ctrl);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var ctrl = function ctrl($scope, $modal, $modalInstance, $window, hint, costumerAddressApi, orderResolved, storeResolved, statusesResolved) {
+
+  return new ((function () {
+    function Modal() {
+      _classCallCheck(this, Modal);
+
+      $scope.store = storeResolved;
+      $scope.order = orderResolved;
+      $scope.statuses = statusesResolved;
+
+      $scope.orderClassStatus = {};
+
       if (order.address && order.address.latitude && order.address.longitude) {
         $scope.markers = [{ latitude: order.address.latitude, longitude: order.address.longitude, animate: true }, { latitude: store.address.latitude, longitude: store.address.longitude }];
         $scope.route = { destination: { latitude: order.address.latitude, longitude: order.address.longitude }, origin: { latitude: store.address.latitude, longitude: store.address.longitude } };
