@@ -1286,26 +1286,28 @@ var modal = function modal($modal, $templateCache) {
 
     _createClass(Modal, [{
       key: 'open',
-      value: function open(_type, order, store, statuses) {
+      value: function open() {
+        var params = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
         return $modal.open({
           template: $templateCache.get('/templates/modal-order.html'),
           controller: 'ModalOrderCtrl as ctrl',
           windowClass: 'modal-order',
           resolve: {
             type: function type() {
-              if (_type !== 'admin' || _type !== 'costumer') {
+              if (params.type !== 'admin' || params.type !== 'costumer') {
                 return 'costumer';
               }
-              return _type;
+              return params.type;
             },
             storeResolved: function storeResolved() {
-              return store;
+              return params.store;
             },
             statusesResolved: function statusesResolved() {
-              return statuses;
+              return params.statuses;
             },
             orderResolvedd: function orderResolvedd() {
-              return order;
+              return params.order;
             }
           }
         });
