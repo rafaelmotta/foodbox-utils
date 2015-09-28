@@ -9,9 +9,9 @@ let ctrl = ($scope, $modal, $modalInstance, $window, hint, costumerAddressApi, o
 
       $scope.orderClassStatus = {};
 
-      if(order.address && order.address.latitude && order.address.longitude) {
-        $scope.markers = [{ latitude: order.address.latitude, longitude: order.address.longitude, animate: true }, { latitude: store.address.latitude, longitude: store.address.longitude }];
-        $scope.route = { destination: { latitude: order.address.latitude, longitude: order.address.longitude }, origin: { latitude: store.address.latitude, longitude: store.address.longitude } };
+      if($scope.order.address && $scope.order.address.latitude && $scope.order.address.longitude) {
+        $scope.markers = [{ latitude: $scope.order.address.latitude, longitude: $scope.order.address.longitude, animate: true }, { latitude: store.address.latitude, longitude: store.address.longitude }];
+        $scope.route = { destination: { latitude: $scope.order.address.latitude, longitude: $scope.order.address.longitude }, origin: { latitude: store.address.latitude, longitude: store.address.longitude } };
       }
 
     }
