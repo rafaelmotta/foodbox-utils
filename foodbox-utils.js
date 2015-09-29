@@ -118,6 +118,18 @@ var app = angular.module('foodbox.utils', []);
     module = angular.module('foodbox.utils', []);
   }
   module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/templates/modal-crop.html', '<div class="modal-header">\n' + '  <button type="button" class="close" ng-click="close()"><span aria-hidden="true">&times;</span></button>\n' + '  <h4 class="modal-title">Recorte a imagem</h4>\n' + '</div>\n' + '<div class="modal-body">\n' + '  <img ng-src="{{ imgToCrop }}" ng-cropper ng-cropper-options="options" alt="Imagem a ser recortada" ng-cropper-show="showEvent" />\n' + '</div>\n' + '<div class="modal-footer">\n' + '  <button class="btn btn-primary" ng-click="crop()">Salvar</button>\n' + '</div>');
+  }]);
+})();
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('foodbox.utils');
+  } catch (e) {
+    module = angular.module('foodbox.utils', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
     $templateCache.put('/templates/modal-custom-period.html', '<div class="modal-header">\n' + '  <h4 class="modal-title">Escolher período</h4>\n' + '</div>\n' + '<div class="modal-body clearfix">\n' + '  <div class="row">\n' + '    <div class="col-md-6" ng-click="ctrl.open(\'fromDate\')">\n' + '      <div class="input-group">\n' + '        <input ng-model="period.fromDate" datepicker-options="options" datepicker-popup="dd/MM/yyyy" is-open="status.fromDate" disabled />\n' + '        <div class="input-group-addon">\n' + '          <i class="icon icon-calendar"></i>\n' + '        </div>\n' + '      </div>\n' + '    </div>\n' + '    <div class="col-md-6" ng-click="ctrl.open(\'toDate\')">\n' + '      <div class="input-group">\n' + '        <input ng-model="period.toDate" datepicker-options="options" datepicker-popup="dd/MM/yyyy" is-open="status.toDate" disabled />\n' + '        <div class="input-group-addon">\n' + '          <i class="icon icon-calendar"></i>\n' + '        </div>\n' + '      </div>\n' + '    </div>\n' + '  </div>\n' + '  <hr />\n' + '  <div class="row">\n' + '    <div class="col-md-6">\n' + '      <timepicker ng-model="period.fromTime" readonly-input="true" hour-step="1" minute-step="15" show-meridian="false" prevent-table="true" style="margin: 0 auto;"></timepicker>\n' + '    </div>\n' + '    <div class="col-md-6">\n' + '      <timepicker ng-model="period.toTime" readonly-input="true" hour-step="1" minute-step="15" show-meridian="false" prevent-table="true" style="margin: 0 auto;"></timepicker>\n' + '    </div>\n' + '  </div>\n' + '</div>\n' + '<div class="modal-footer">\n' + '  <button class="btn btn-default" type="button" ng-click="ctrl.close()">Cancelar</button>\n' + '  <button class="btn btn-success" ng-click="ctrl.next()">Próximo</button>\n' + '</div>');
   }]);
 })();
@@ -775,6 +787,78 @@ var directive = function directive() {
 };
 
 angular.module('foodbox.utils').directive('mask', directive);
+'use strict';
+
+var directive = function directive($modal, $parse, $timeout, Cropper) {
+  return {
+    restrict: 'A',
+    scope: false,
+    require: 'ngModel',
+    scope: {
+      model: '=ngModel'
+    },
+    link: function link(scope, $el, attrs, ngModel) {
+
+      if ($el.get(0).type.toLowerCase() !== 'file') {
+        return false;
+      }
+
+      return $el.on('change', function (e) {
+        var blob, data, file;
+        file = $el.get(0).files[0];
+        data = null;
+        return Cropper.encode(blob = file).then((function (_this) {
+          return function (url) {
+            var _this2 = this;
+
+            return $modal.open({
+              templateUrl: 'directives/modal-crop.html',
+              windowClass: 'modal-crop',
+              controller: function controller($scope, $modalInstance, $timeout) {
+                $scope.imgToCrop = url;
+                $scope.options = {
+                  maximize: true,
+                  movable: false,
+                  rotatable: false,
+                  zoomable: false,
+                  mouseWheelZoom: false,
+                  touchDragZoom: false,
+                  aspectRatio: 2 / 2,
+                  crop: function crop(newData) {
+                    return data = newData;
+                  }
+                };
+                $scope.showEvent = 'show';
+                $timeout((function (_this) {
+                  return function () {
+                    return $scope.$broadcast($scope.showEvent);
+                  };
+                })(_this2));
+                $scope.close = function () {
+                  return $modalInstance.dismiss('close');
+                };
+                return $scope.crop = function () {
+                  return Cropper.crop(file, data).then(function (blob) {
+                    blob.lastModifiedDate = new Date();
+                    blob.name = file.name;
+                    $timeout((function (_this) {
+                      return function () {
+                        return scope.model = [blob];
+                      };
+                    })(this));
+                    return $scope.close();
+                  });
+                };
+              }
+            });
+          };
+        })(this));
+      });
+    }
+  };
+};
+
+angular.module("foodbox.utils").directive('modalCrop', directive);
 'use strict';
 
 var directive = function directive($templateCache) {
