@@ -789,7 +789,7 @@ var directive = function directive() {
 angular.module('foodbox.utils').directive('mask', directive);
 'use strict';
 
-var directive = function directive($modal, $parse, $timeout, Cropper) {
+var directive = function directive($modal, $templateCache, $parse, $timeout, Cropper) {
   return {
     restrict: 'A',
     scope: false,
@@ -812,7 +812,7 @@ var directive = function directive($modal, $parse, $timeout, Cropper) {
             var _this2 = this;
 
             return $modal.open({
-              templateUrl: 'directives/modal-crop.html',
+              template: $templateCache.get('/templates/modal-crop.html'),
               windowClass: 'modal-crop',
               controller: function controller($scope, $modalInstance, $timeout) {
                 $scope.imgToCrop = url;
