@@ -10,40 +10,96 @@ let ctrl = ($scope, $modal, $modalInstance, $window, hint, costumerAddressApi, o
       $scope.orderClassStatus = {};
 
       if($scope.order.address && $scope.order.address.latitude && $scope.order.address.longitude) {
-        $scope.markers = [{ latitude: $scope.order.address.latitude, longitude: $scope.order.address.longitude, animate: true }, { latitude: store.address.latitude, longitude: store.address.longitude }];
-        $scope.route = { destination: { latitude: $scope.order.address.latitude, longitude: $scope.order.address.longitude }, origin: { latitude: store.address.latitude, longitude: store.address.longitude } };
+        $scope.markers = [{ latitude: $scope.order.address.latitude, longitude: $scope.order.address.longitude, animate: true }, { latitude: $scope.store.address.latitude, longitude: $scope.store.address.longitude }];
+        $scope.route = { destination: { latitude: $scope.order.address.latitude, longitude: $scope.order.address.longitude }, origin: { latitude: $scope.store.address.latitude, longitude: $scope.store.address.longitude } };
       }
 
     }
 
     // Avalia o pedido, e define os botões com status a serem exibidos
-    evaluateOrderClass(status, show = true) {
-      if($scope.order.order_type.alias === 'delivery_online' || $scope.order.order_type.alias === 'delivery_phone' || $scope.order.order_type.alias === 'sheduled') {
-        switch($scope.order.status) {
-          case 'sent'           : if (status.alias !== 'in_line' && status.alias !== 'sent') { show = false; break; }
-          case 'in_line'        : if (status.alias !== 'in_progress' && status.alias !== 'cancelled' && status.alias !== 'in_line' ) { show = false; break; }
-          case 'in_progress'    : if (status.alias !== 'pos_production' && status.alias !== 'cancelled' && status.alias !== 'in_progress') { show = false; break; }
-          case 'pos_production' : if (status.alias !== 'delivering' && status.alias !== 'cancelled' && status.alias !== 'pos_production') { show = false; break; }
-          case 'delivering'     : if (status.alias !== 'completed' && status.alias !== 'not_delivered' && status.alias !== 'delivering') { show = false; break; }
-          case 'completed'      : if (status.alias !== 'delivering' && status.alias !== 'completed') { show = false; break; }
-          case 'cancelled'      : if (status.alias !== 'in_progress' && status.alias !== 'cancelled') { show = false; break; }
-          case 'not_delivered'  : if (status.alias !== 'delivering' && status.alias !== 'not_delivered') { show = false; }
+    evaluateOrderClass(status) {
+      let show = true;
+
+      if ($scope.order.order_type.alias === 'delivery_online' || $scope.order.order_type.alias === 'delivery_phone' || $scope.order.order_type.alias === 'sheduled') {
+        switch ($scope.order.status) {
+          case 'sent':
+            if (status.alias !== 'in_line' && status.alias !== 'sent') {
+              show = false;
+            }
+            break;
+          case 'in_line':
+            if (status.alias !== 'in_progress' && status.alias !== 'cancelled' && status.alias !== 'in_line') {
+              show = false;
+            }
+            break;
+          case 'in_progress':
+            if (status.alias !== 'pos_production' && status.alias !== 'cancelled' && status.alias !== 'in_progress') {
+              show = false;
+            }
+            break;
+          case 'pos_production':
+            if (status.alias !== 'delivering' && status.alias !== 'cancelled' && status.alias !== 'pos_production') {
+              show = false;
+            }
+            break;
+          case 'delivering':
+            if (status.alias !== 'completed' && status.alias !== 'not_delivered' && status.alias !== 'delivering') {
+              show = false;
+            }
+            break;
+          case 'completed':
+            if (status.alias !== 'delivering' && status.alias !== 'completed') {
+              show = false;
+            }
+            break;
+          case 'cancelled':
+            if (status.alias !== 'in_progress' && status.alias !== 'cancelled') {
+              show = false;
+            }
+            break;
+          case 'not_delivered':
+            if (status.alias !== 'delivering' && status.alias !== 'not_delivered') {
+              show = false;
+            }
         }
       }
 
-      if($scope.order.order_type.alias === 'local' || $scope.order.order_type.alias === 'local_to_go') {
-        switch($scope.order.status) {
-          case 'in_line'        : if (status.alias !== 'in_progress' && status.alias !== 'cancelled' && status.alias !== 'in_line') { show = false; break; }
-          case 'in_progress'    : if (status.alias !== 'pos_production' && status.alias !== 'cancelled' && status.alias !== 'in_progress') { show = false; break; }
-          case 'pos_production' : if (status.alias !== 'completed' && status.alias !== 'cancelled' && status.alias !== 'pos_production') { show = false; break; }
-          case 'delivering'     : show = false; break;
-          case 'completed'      : if (status.alias !== 'completed') { show = false; break; }
-          case 'cancelled'      : if (status.alias !== 'in_progress' && status.alias !== 'cancelled') { show = false; break; }
-          case 'not_delivered'  : show = false;
+      if ($scope.order.order_type.alias === 'local' || $scope.order.order_type.alias === 'local_to_go') {
+        switch ($scope.order.status) {
+          case 'in_line':
+            if (status.alias !== 'in_progress' && status.alias !== 'cancelled' && status.alias !== 'in_line') {
+              show = false;
+            }
+            break;
+          case 'in_progress':
+            if (status.alias !== 'pos_production' && status.alias !== 'cancelled' && status.alias !== 'in_progress') {
+              show = false;
+            }
+            break;
+          case 'pos_production':
+            if (status.alias !== 'completed' && status.alias !== 'cancelled' && status.alias !== 'pos_production') {
+              show = false;
+            }
+            break;
+          case 'delivering':
+            show = false;
+            break;
+          case 'completed':
+            if (status.alias !== 'completed') {
+              show = false;
+            }
+            break;
+          case 'cancelled':
+            if (status.alias !== 'in_progress' && status.alias !== 'cancelled') {
+              show = false;
+            }
+            break;
+          case 'not_delivered':
+            show = false;
         }
       }
 
-      $scope.orderClassStatus[status.alias] = show;
+      return $scope.orderClassStatus[status.alias] = show;
     }
 
     // Altera o status do pedido

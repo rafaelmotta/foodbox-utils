@@ -259,8 +259,8 @@ var ctrl = function ctrl($scope, $modal, $modalInstance, $window, hint, costumer
       $scope.orderClassStatus = {};
 
       if ($scope.order.address && $scope.order.address.latitude && $scope.order.address.longitude) {
-        $scope.markers = [{ latitude: $scope.order.address.latitude, longitude: $scope.order.address.longitude, animate: true }, { latitude: store.address.latitude, longitude: store.address.longitude }];
-        $scope.route = { destination: { latitude: $scope.order.address.latitude, longitude: $scope.order.address.longitude }, origin: { latitude: store.address.latitude, longitude: store.address.longitude } };
+        $scope.markers = [{ latitude: $scope.order.address.latitude, longitude: $scope.order.address.longitude, animate: true }, { latitude: $scope.store.address.latitude, longitude: $scope.store.address.longitude }];
+        $scope.route = { destination: { latitude: $scope.order.address.latitude, longitude: $scope.order.address.longitude }, origin: { latitude: $scope.store.address.latitude, longitude: $scope.store.address.longitude } };
       }
     }
 
@@ -269,38 +269,45 @@ var ctrl = function ctrl($scope, $modal, $modalInstance, $window, hint, costumer
     _createClass(Modal, [{
       key: 'evaluateOrderClass',
       value: function evaluateOrderClass(status) {
-        var show = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
+        var show = true;
 
         if ($scope.order.order_type.alias === 'delivery_online' || $scope.order.order_type.alias === 'delivery_phone' || $scope.order.order_type.alias === 'sheduled') {
           switch ($scope.order.status) {
             case 'sent':
               if (status.alias !== 'in_line' && status.alias !== 'sent') {
-                show = false;break;
+                show = false;
               }
+              break;
             case 'in_line':
               if (status.alias !== 'in_progress' && status.alias !== 'cancelled' && status.alias !== 'in_line') {
-                show = false;break;
+                show = false;
               }
+              break;
             case 'in_progress':
               if (status.alias !== 'pos_production' && status.alias !== 'cancelled' && status.alias !== 'in_progress') {
-                show = false;break;
+                show = false;
               }
+              break;
             case 'pos_production':
               if (status.alias !== 'delivering' && status.alias !== 'cancelled' && status.alias !== 'pos_production') {
-                show = false;break;
+                show = false;
               }
+              break;
             case 'delivering':
               if (status.alias !== 'completed' && status.alias !== 'not_delivered' && status.alias !== 'delivering') {
-                show = false;break;
+                show = false;
               }
+              break;
             case 'completed':
               if (status.alias !== 'delivering' && status.alias !== 'completed') {
-                show = false;break;
+                show = false;
               }
+              break;
             case 'cancelled':
               if (status.alias !== 'in_progress' && status.alias !== 'cancelled') {
-                show = false;break;
+                show = false;
               }
+              break;
             case 'not_delivered':
               if (status.alias !== 'delivering' && status.alias !== 'not_delivered') {
                 show = false;
@@ -312,32 +319,38 @@ var ctrl = function ctrl($scope, $modal, $modalInstance, $window, hint, costumer
           switch ($scope.order.status) {
             case 'in_line':
               if (status.alias !== 'in_progress' && status.alias !== 'cancelled' && status.alias !== 'in_line') {
-                show = false;break;
+                show = false;
               }
+              break;
             case 'in_progress':
               if (status.alias !== 'pos_production' && status.alias !== 'cancelled' && status.alias !== 'in_progress') {
-                show = false;break;
+                show = false;
               }
+              break;
             case 'pos_production':
               if (status.alias !== 'completed' && status.alias !== 'cancelled' && status.alias !== 'pos_production') {
-                show = false;break;
+                show = false;
               }
+              break;
             case 'delivering':
-              show = false;break;
+              show = false;
+              break;
             case 'completed':
               if (status.alias !== 'completed') {
-                show = false;break;
+                show = false;
               }
+              break;
             case 'cancelled':
               if (status.alias !== 'in_progress' && status.alias !== 'cancelled') {
-                show = false;break;
+                show = false;
               }
+              break;
             case 'not_delivered':
               show = false;
           }
         }
 
-        $scope.orderClassStatus[status.alias] = show;
+        return $scope.orderClassStatus[status.alias] = show;
       }
 
       // Altera o status do pedido
