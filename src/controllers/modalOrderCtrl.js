@@ -134,7 +134,7 @@ let ctrl = ($scope, $modal, $modalInstance, $window, hint, costumerAddressApi, o
         order.costumer.addresses = response.data;
 
         $modal.open({
-          templateUrl: 'orders/new/partials/_modal_costumer_address.html',
+          templateUrl: 'templates/orders/tickets/partials/modal-costumer-addresses.html',
           windowClass: 'modal-costumer-address',
           controller: 'ModalCostumerAddressCtrl as ctrl',
           backdrop: 'static',
