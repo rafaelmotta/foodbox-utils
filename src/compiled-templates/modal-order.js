@@ -139,7 +139,7 @@ module.run(['$templateCache', function($templateCache) {
     '    </div>\n' +
     '    <div class="panel-body no-padding">\n' +
     '      <div class="order-map">\n' +
-    '        <google-map id="address-map" latitude="order.address.latitude" longitude="order.address.longitude" markers="markers" route="route"></google-map>\n' +
+    '        <map id="address-map" latitude="order.address.latitude" longitude="order.address.longitude" markers="markers" route="route"></map>\n' +
     '      </div>\n' +
     '    </div>\n' +
     '  </div>\n' +
