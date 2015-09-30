@@ -18,15 +18,15 @@ let ctrl = ($scope, $modalInstance, hint, pusher, chatMessageApi, chatResolved, 
         }
 
         $scope.chat.messages.push(response.data);
-      });
-    }
 
-    send() {
-      chatMessageApi.create($scope.chat, $scope.message).then(() => {
         $scope.message = {
           content: ''
         };
       });
+    }
+
+    send() {
+      chatMessageApi.create($scope.chat, $scope.message).then(() => {});
     }
 
     close() {
