@@ -15,8 +15,8 @@ let modal = ($modal, $templateCache) => {
           userTypeResolved: () => {
             let userType = params.userType;
 
-            if(userType !== 'costumer' && userType !== 'employee') {
-              userType = 'costumer';
+            if(userType !== 'Costumer' && userType !== 'Employee') {
+              userType = 'Costumer';
             }
 
             return userType;
