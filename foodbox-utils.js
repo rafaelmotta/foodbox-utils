@@ -3,941 +3,6 @@
 var app = angular.module('foodbox.utils', []);
 'use strict';
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var modalCustomPeriodCtrl = function modalCustomPeriodCtrl($scope, $modalInstance, $filter) {
-
-  return new ((function () {
-    function ModalCustomPeriodCtrl() {
-      _classCallCheck(this, ModalCustomPeriodCtrl);
-
-      var date = $filter('date')(new Date(), "dd/MM/yyyy");
-
-      $scope.period = { fromDate: date, toDate: date, fromTime: new Date().setHours(0, 0, 0, 0), toTime: new Date().setHours(23, 59, 59, 0) };
-      $scope.status = { fromDate: false, toDate: false };
-      $scope.options = { showWeeks: false };
-    }
-
-    // Abre o datepicker
-
-    _createClass(ModalCustomPeriodCtrl, [{
-      key: 'open',
-      value: function open(name) {
-        $scope.status[name] = !$scope.status[name];
-      }
-
-      // Fecha o modal e envia os dados selecionados
-    }, {
-      key: 'next',
-      value: function next() {
-        $modalInstance.close($scope.period);
-      }
-
-      // Fecha o modal sem enviar os dados selecionados
-    }, {
-      key: 'close',
-      value: function close() {
-        $modalInstance.dismiss('close');
-      }
-    }]);
-
-    return ModalCustomPeriodCtrl;
-  })())();
-};
-
-angular.module('foodbox.utils').controller('ModalCustomPeriodCtrl', modalCustomPeriodCtrl);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var ctrl = function ctrl($scope, $modal, $modalInstance, $window, hint, costumerAddressApi, orderResolved, storeResolved, statusesResolved) {
-
-  return new ((function () {
-    function Modal() {
-      _classCallCheck(this, Modal);
-
-      $scope.store = storeResolved;
-      $scope.order = orderResolved;
-      $scope.statuses = statusesResolved;
-
-      $scope.orderClassStatus = {};
-
-      if ($scope.order.address && $scope.order.address.latitude && $scope.order.address.longitude) {
-        $scope.markers = [{ latitude: $scope.order.address.latitude, longitude: $scope.order.address.longitude, animate: true }, { latitude: $scope.store.address.latitude, longitude: $scope.store.address.longitude }];
-        $scope.route = { destination: { latitude: $scope.order.address.latitude, longitude: $scope.order.address.longitude }, origin: { latitude: $scope.store.address.latitude, longitude: $scope.store.address.longitude } };
-      }
-    }
-
-    // Avalia o pedido, e define os botões com status a serem exibidos
-
-    _createClass(Modal, [{
-      key: 'evaluateOrderClass',
-      value: function evaluateOrderClass(status) {
-        var show = true;
-
-        if ($scope.order.order_type.alias === 'delivery_online' || $scope.order.order_type.alias === 'delivery_phone' || $scope.order.order_type.alias === 'sheduled') {
-          switch ($scope.order.status) {
-            case 'sent':
-              if (status.alias !== 'in_line' && status.alias !== 'sent') {
-                show = false;
-              }
-              break;
-            case 'in_line':
-              if (status.alias !== 'in_progress' && status.alias !== 'cancelled' && status.alias !== 'in_line') {
-                show = false;
-              }
-              break;
-            case 'in_progress':
-              if (status.alias !== 'pos_production' && status.alias !== 'cancelled' && status.alias !== 'in_progress') {
-                show = false;
-              }
-              break;
-            case 'pos_production':
-              if (status.alias !== 'delivering' && status.alias !== 'cancelled' && status.alias !== 'pos_production') {
-                show = false;
-              }
-              break;
-            case 'delivering':
-              if (status.alias !== 'completed' && status.alias !== 'not_delivered' && status.alias !== 'delivering') {
-                show = false;
-              }
-              break;
-            case 'completed':
-              if (status.alias !== 'delivering' && status.alias !== 'completed') {
-                show = false;
-              }
-              break;
-            case 'cancelled':
-              if (status.alias !== 'in_progress' && status.alias !== 'cancelled') {
-                show = false;
-              }
-              break;
-            case 'not_delivered':
-              if (status.alias !== 'delivering' && status.alias !== 'not_delivered') {
-                show = false;
-              }
-          }
-        }
-
-        if ($scope.order.order_type.alias === 'local' || $scope.order.order_type.alias === 'local_to_go') {
-          switch ($scope.order.status) {
-            case 'in_line':
-              if (status.alias !== 'in_progress' && status.alias !== 'cancelled' && status.alias !== 'in_line') {
-                show = false;
-              }
-              break;
-            case 'in_progress':
-              if (status.alias !== 'pos_production' && status.alias !== 'cancelled' && status.alias !== 'in_progress') {
-                show = false;
-              }
-              break;
-            case 'pos_production':
-              if (status.alias !== 'completed' && status.alias !== 'cancelled' && status.alias !== 'pos_production') {
-                show = false;
-              }
-              break;
-            case 'delivering':
-              show = false;
-              break;
-            case 'completed':
-              if (status.alias !== 'completed') {
-                show = false;
-              }
-              break;
-            case 'cancelled':
-              if (status.alias !== 'in_progress' && status.alias !== 'cancelled') {
-                show = false;
-              }
-              break;
-            case 'not_delivered':
-              show = false;
-          }
-        }
-
-        return $scope.orderClassStatus[status.alias] = show;
-      }
-
-      // Altera o status do pedido
-    }, {
-      key: 'changeStatus',
-      value: function changeStatus(status) {
-        if ($scope.order.status === status) {
-          return false;
-        }
-
-        $scope.order.status = status;
-        return $modalInstance.close({ order: $scope.order });
-      }
-
-      // Exibe modal para trocar de entregador
-    }, {
-      key: 'changeCourier',
-      value: function changeCourier() {
-        if ($scope.order.status !== 'delivering') {
-          return hint.error('Você só pode alterar o entregador quando o status for "Saiu para entrega"');
-        }
-
-        $modalInstance.close({ order: $scope.order });
-      }
-
-      // Exibe modal para alterar endereço
-    }, {
-      key: 'changeAddress',
-      value: function changeAddress() {
-        if ($scope.order.status === 'completed' || $scope.order.status === 'cancelled') {
-          return hint.error('Você não pode alterar o endereço do pedido quando o status for "Entregue" ou "Cancelado"');
-        }
-
-        var _order = angular.copy($scope.order);
-
-        // Abre modal para escolha do endereço
-        costumerAddressApi.fetch($scope.order.costumer).then(function (response) {
-          _order.costumer.addresses = response.data;
-
-          $modal.open({
-            templateUrl: 'templates/orders/tickets/partials/modal-costumer-addresses.html',
-            windowClass: 'modal-costumer-address',
-            controller: 'ModalCostumerAddressCtrl as ctrl',
-            backdrop: 'static',
-            resolve: {
-              order: function order() {
-                return _order;
-              }
-            }
-          }).result.then(function () {
-            if (_order.address && _order.address.shipping) {
-
-              // Endereço é o mesmo
-              if (_order.address.id == $scope.order.address.id) {
-                return hint.error('O endereço selecionado já é o endereço atual do pedido');
-              }
-
-              // Taxa de entrega do novo endereço é maior que a antiga - necessário confirmar
-              if (parseFloat(_order.address.shipping) > parseFloat($scope.order.shipping)) {
-                var diff = parseFloat(_order.address.shipping) - parseFloat($scope.order.shipping);
-
-                if (!$window.confirm('O novo endereço de entrega possui uma taxa de entrega R$' + diff + ' mais cara que o pedido atual. Deseja continuar?')) {
-                  return false;
-                }
-              }
-
-              // Seta o endereço
-              $scope.order.address = angular.copy(_order.address);
-
-              // Fecha o modal de detalhes enviando o objeto a ser salvo
-              return $modalInstance.close({ order: $scope.order, onlySave: true });
-            }
-          });
-        });
-      }
-
-      // Fecha o modal sem enviar os dados selecionados
-    }, {
-      key: 'close',
-      value: function close() {
-        $modalInstance.dismiss('close');
-      }
-    }]);
-
-    return Modal;
-  })())();
-};
-
-angular.module('foodbox.utils').controller('ModalOrderCtrl', ctrl);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var modalProductCtrl = function modalProductCtrl($scope, $modalInstance, TempCart, meCartItemApi, cartResolved, storeProductResolved, cartItemResolved) {
-
-  return new ((function () {
-    function ModalProductCustomizationCtrl() {
-      _classCallCheck(this, ModalProductCustomizationCtrl);
-
-      $scope.product = storeProductResolved;
-      $scope.cart = cartResolved;
-      $scope.cartItem = cartItemResolved;
-
-      new TempCart($scope, cartItemResolved);
-    }
-
-    _createClass(ModalProductCustomizationCtrl, [{
-      key: 'add',
-      value: function add() {
-        meCartItemApi[this._getCartMethod()]($scope.cartItem, { cart_id: $scope.cart.id }).then(function (cart) {
-          $modalInstance.close({ cart: cart.plain() });
-        });
-      }
-    }, {
-      key: 'close',
-      value: function close() {
-        $modalInstance.dismiss('close');
-      }
-    }, {
-      key: '_getCartMethod',
-      value: function _getCartMethod() {
-        return $scope.cartItem.id ? 'update' : 'create';
-      }
-    }]);
-
-    return ModalProductCustomizationCtrl;
-  })())();
-};
-
-angular.module('foodbox.utils').controller('ModalProductCtrl', modalProductCtrl);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var modalRatingCtrl = function modalRatingCtrl($scope, $modalInstance) {
-
-  return new ((function () {
-    function ModalRatingCtrl() {
-      _classCallCheck(this, ModalRatingCtrl);
-
-      $scope.rating = {};
-    }
-
-    _createClass(ModalRatingCtrl, [{
-      key: 'save',
-      value: function save() {
-        $modalInstance.close({ rating: rating.plain() });
-      }
-    }, {
-      key: 'close',
-      value: function close() {
-        $modalInstance.dismiss('close');
-      }
-    }]);
-
-    return ModalRatingCtrl;
-  })())();
-};
-
-angular.module('foodbox.utils').controller('ModalRatingCtrl', modalRatingCtrl);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var hint = function hint($timeout, $window, ngAudio) {
-
-  return new ((function () {
-    function Hint() {
-      _classCallCheck(this, Hint);
-
-      this.notifications = [];
-      this.timeout = 5000;
-      this.notification = $window.Notification || $window.mozNotification || $window.webkitNotification;
-
-      this.sound = {
-        success: ngAudio.load('/audios/success_notification.mp3'),
-        info: ngAudio.load('/audios/success_notification.mp3'),
-        error: ngAudio.load('/audios/error_notification.mp3')
-      };
-
-      if (!this.notification) {
-        return false;
-      }
-
-      this.notification.requestPermission();
-    }
-
-    _createClass(Hint, [{
-      key: 'success',
-      value: function success(message) {
-        var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-        this._notify('success', 'Sucesso :)', message, options);
-      }
-    }, {
-      key: 'error',
-      value: function error(message) {
-        var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-        this._notify('error', 'Ops...', message, options);
-      }
-    }, {
-      key: 'info',
-      value: function info(message) {
-        var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-        this._notify('info', 'Atenção', message, options);
-      }
-    }, {
-      key: '_notify',
-      value: function _notify(type, title, message, options) {
-        var _this = this;
-
-        if (!options.timeout) {
-          options.timeout = this.timeout;
-        }
-
-        if (!options.autoClose) {
-          options.autoClose = true;
-        }
-
-        if (this.notification.permission === 'granted') {
-
-          var settings = {
-            body: message,
-            icon: '/assets/app/icon-' + type + '.png'
-          };
-
-          // Só adiciona um hint se não houver nenhum hint com o mesmo conteudi
-          if (!this._hasMessage(settings.body)) {
-            var _notification = new this.notification(title, settings);
-            this.notifications.push(_notification);
-
-            if (options.autoClose) {
-              $timeout(function () {
-
-                // Acha posicão da notificação no array
-                var index = _this.notifications.indexOf(_notification);
-                _notification = _this.notifications[index];
-
-                // Força fechamento
-                _notification.close();
-
-                // Remove do array
-                _this.notifications.splice(index, 1);
-              }, options.timeout);
-            }
-          }
-        }
-
-        this.sound[type].play();
-      }
-    }, {
-      key: '_hasMessage',
-      value: function _hasMessage(message) {
-        var hasMessage = false;
-
-        angular.forEach(this.notifications, function (notification) {
-          if (notification.body === message) {
-            hasMessage = true;
-          }
-        });
-
-        return hasMessage;
-      }
-    }, {
-      key: '_randonNumber',
-      value: function _randonNumber() {
-        return Math.floor(Math.random() * (99999999 - 1 + 1)) + 1;
-      }
-    }]);
-
-    return Hint;
-  })())();
-};
-
-angular.module('foodbox.utils').factory('hint', hint);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var HttpToken = function HttpToken($q, $state, $http, hint, storage) {
-
-  return (function () {
-    function HttpToken(userKey) {
-      _classCallCheck(this, HttpToken);
-
-      this._setUserKey(userKey);
-      return this;
-    }
-
-    _createClass(HttpToken, [{
-      key: 'initialize',
-      value: function initialize() {
-        var _this = this;
-
-        return $q(function (resolve, reject) {
-          return _this.get().then(function (user) {
-            if (!user) return reject();
-
-            _this.set(user).then(function (user) {
-              resolve(user);
-            });
-          });
-        });
-      }
-    }, {
-      key: 'get',
-      value: function get() {
-        return storage.get('current' + this.key).then(function (currentUser) {
-          return currentUser;
-        });
-      }
-    }, {
-      key: 'set',
-      value: function set(user) {
-        var _this2 = this;
-
-        return $q(function (resolve, reject) {
-          $http.defaults.headers.common['X-' + _this2.key + '-Email'] = user.email;
-          $http.defaults.headers.common['X-' + _this2.key + '-Token'] = user.authentication_token;
-
-          storage.set('current' + _this2.key, user);
-
-          resolve(_this2.get());
-        });
-      }
-    }, {
-      key: 'remove',
-      value: function remove() {
-        var _this3 = this;
-
-        return $q(function (resolve, reject) {
-          return storage.remove('current' + _this3.key).then(function () {
-            delete $http.defaults.headers.common['X-' + _this3.key + '-Email'];
-            delete $http.defaults.headers.common['X-' + _this3.key + '-Token'];
-            resolve();
-          });
-        });
-      }
-    }, {
-      key: '_setUserKey',
-      value: function _setUserKey() {
-        var key = arguments.length <= 0 || arguments[0] === undefined ? 'Employee' : arguments[0];
-
-        if (key !== 'Employee' && key !== 'Costumer') {
-          throw new Error('Chave para uso do serviço HttpToken deve ter os valores Employee ou Costumer');
-        }
-        this.key = key;
-      }
-    }]);
-
-    return HttpToken;
-  })();
-};
-
-angular.module('foodbox.utils').factory('HttpToken', HttpToken);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var modalAddress = function modalAddress($modal, $templateCache) {
-  return new ((function () {
-    function ModalAddress() {
-      _classCallCheck(this, ModalAddress);
-    }
-
-    _createClass(ModalAddress, [{
-      key: 'open',
-      value: function open() {
-        var address = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-        var onSubmit = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
-
-        return $modal.open({
-          template: $templateCache.get('/templates/modal-address.html'),
-          controllerAs: 'ctrl',
-          controller: function controller($scope, $modalInstance, addressResolved) {
-            return new ((function () {
-              function ModalMeAddressCtrl(onSubmit) {
-                _classCallCheck(this, ModalMeAddressCtrl);
-
-                $scope.address = addressResolved;
-              }
-
-              _createClass(ModalMeAddressCtrl, [{
-                key: 'submit',
-                value: function submit() {
-                  var method = this._getMethod();
-                  onSubmit({ address: $scope.address, method: method }).then(function (response) {
-                    $modalInstance.close(response);
-                  });
-                }
-              }, {
-                key: 'close',
-                value: function close() {
-                  $modalInstance.dismiss('close');
-                }
-              }, {
-                key: '_getMethod',
-                value: function _getMethod() {
-                  return $scope.address.id ? 'update' : 'create';
-                }
-              }]);
-
-              return ModalMeAddressCtrl;
-            })())();
-          },
-          windowClass: 'modal-address',
-          resolve: {
-            addressResolved: function addressResolved() {
-              return address;
-            }
-          }
-        });
-      }
-    }]);
-
-    return ModalAddress;
-  })())();
-};
-
-angular.module('foodbox.utils').factory('modalAddress', modalAddress);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var modalCustomPeriod = function modalCustomPeriod($modal, $templateCache) {
-  return new ((function () {
-    function ModalCustomPeriod() {
-      _classCallCheck(this, ModalCustomPeriod);
-    }
-
-    _createClass(ModalCustomPeriod, [{
-      key: 'open',
-      value: function open() {
-        return $modal.open({
-          template: $templateCache.get('/templates/modal-custom-period.html'),
-          controller: 'ModalCustomPeriodCtrl as ctrl',
-          windowClass: 'modal-custom-period'
-        });
-      }
-    }]);
-
-    return ModalCustomPeriod;
-  })())();
-};
-
-angular.module('foodbox.utils').factory('modalCustomPeriod', modalCustomPeriod);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var modal = function modal($modal, $templateCache) {
-  return new ((function () {
-    function Modal() {
-      _classCallCheck(this, Modal);
-    }
-
-    _createClass(Modal, [{
-      key: 'open',
-      value: function open() {
-        var params = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
-        return $modal.open({
-          template: $templateCache.get('/templates/modal-order.html'),
-          controller: 'ModalOrderCtrl as ctrl',
-          windowClass: 'modal-order',
-          size: 'lg',
-          resolve: {
-            type: function type() {
-              if (params.type !== 'admin' || params.type !== 'costumer') {
-                return 'costumer';
-              }
-              return params.type;
-            },
-            storeResolved: function storeResolved() {
-              return params.store;
-            },
-            statusesResolved: function statusesResolved() {
-              return params.statuses;
-            },
-            orderResolved: function orderResolved() {
-              return params.order;
-            }
-          }
-        });
-      }
-    }]);
-
-    return Modal;
-  })())();
-};
-
-angular.module('foodbox.utils').factory('modalOrder', modal);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var modalProduct = function modalProduct($modal, storeProductApi, $templateCache) {
-  return new ((function () {
-    function ModalProduct() {
-      _classCallCheck(this, ModalProduct);
-    }
-
-    _createClass(ModalProduct, [{
-      key: 'open',
-      value: function open(params) {
-
-        if (!params.cart) {
-          throw new Error('Modal Product service must have a cart');
-        }
-
-        if (!params.product) {
-          throw new Error('Modal Product service must have a product');
-        }
-
-        if (!params.cartItem) {
-          params.cartItem = false;
-        }
-
-        return $modal.open({
-          template: $templateCache.get('/templates/modal-product.html'),
-          controller: 'ModalProductCtrl as ctrl',
-          windowClass: 'modal-product',
-          resolve: {
-            cartResolved: function cartResolved() {
-              return params.cart;
-            },
-            storeProductResolved: function storeProductResolved() {
-              return storeProductApi.show(params.product).then(function (response) {
-                return response.data;
-              });
-            },
-            cartItemResolved: function cartItemResolved() {
-              return params.cartItem;
-            }
-          }
-        });
-      }
-    }]);
-
-    return ModalProduct;
-  })())();
-};
-
-angular.module('foodbox.utils').factory('modalProduct', modalProduct);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var modalRating = function modalRating($modal, $templateCache) {
-  return new ((function () {
-    function ModalRating() {
-      _classCallCheck(this, ModalRating);
-    }
-
-    _createClass(ModalRating, [{
-      key: 'open',
-      value: function open(order) {
-        return $modal.open({
-          template: $templateCache.get('/templates/modal-rating.html'),
-          controller: 'ModalRatingCtrl as ctrl',
-          windowClass: 'modal-rating',
-          resolve: {
-            orderResolvedd: function orderResolvedd() {
-              return order;
-            }
-          }
-        });
-      }
-    }]);
-
-    return ModalRating;
-  })())();
-};
-
-angular.module('foodbox.utils').factory('modalRating', modalRating);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var popup = function popup($window, $q) {
-  return new ((function () {
-    function Popup() {
-      _classCallCheck(this, Popup);
-    }
-
-    _createClass(Popup, [{
-      key: 'open',
-      value: function open(pageURL, width, height) {
-        return $q(function (resolve, reject) {
-          var left = Number(screen.width / 2 - width / 2);
-          var top = Number(screen.height / 2 - height / 2);
-
-          var popup = $window.open(pageURL, '', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' + width + ', height=' + height + ', top=' + top + ', left=' + left);
-          resolve(popup);
-        });
-      }
-    }]);
-
-    return Popup;
-  })())();
-};
-
-angular.module('foodbox.utils').factory('popup', popup);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var storage = function storage($localStorage, $q) {
-  return new ((function () {
-    function Storage() {
-      _classCallCheck(this, Storage);
-    }
-
-    _createClass(Storage, [{
-      key: 'get',
-      value: function get(key) {
-        return $q(function (resolve, reject) {
-          var response = $localStorage[key] || null;
-          resolve(response);
-        });
-      }
-    }, {
-      key: 'set',
-      value: function set(key, value) {
-        return $q(function (resolve, reject) {
-          $localStorage[key] = value;
-          resolve();
-        });
-      }
-    }, {
-      key: 'remove',
-      value: function remove(key) {
-        return $q(function (resolve, reject) {
-          delete $localStorage[key];
-          var response = $localStorage[key] || null;
-          resolve(response);
-        });
-      }
-    }]);
-
-    return Storage;
-  })())();
-};
-
-angular.module('foodbox.utils').factory('storage', storage);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var tempCart = function tempCart() {
-  return (function () {
-    function TempCart($scope, cartItem) {
-      _classCallCheck(this, TempCart);
-
-      this.$scope = $scope;
-      $scope.isEditing = cartItem ? true : false;
-
-      if ($scope.isEditing) {
-        cartItem.customization_fields = JSON.parse(cartItem.customization_fields);
-      }
-
-      $scope.cartItem = cartItem || { amount: 1, note: null, total: $scope.product.price * 1, product: $scope.product, customization_fields: {}, addons: [] };
-
-      this._setCustomizationFields();
-      this._listenScopeEvents();
-    }
-
-    _createClass(TempCart, [{
-      key: '_setCustomizationFields',
-      value: function _setCustomizationFields() {
-        var _this = this;
-
-        if (this.$scope.isEditing) {
-          return false;
-        }
-
-        angular.forEach(this.$scope.product.addon_categories, function (addonCategory) {
-          _this.$scope.cartItem.customization_fields[addonCategory.id] = {};
-
-          angular.forEach(addonCategory.addons, function (addon) {
-            if (addonCategory.max_itens === 1) {
-              _this.$scope.cartItem.customization_fields[addonCategory.id] = addonCategory.addons[0].id;
-            } else {
-              var fill = addonCategory.auto_fill && !parseFloat(addon.price) && addon.available ? true : false;
-              _this.$scope.cartItem.customization_fields[addonCategory.id][addon.id] = fill;
-            }
-          });
-        });
-      }
-    }, {
-      key: '_listenScopeEvents',
-      value: function _listenScopeEvents() {
-        var _this2 = this;
-
-        var findAndInsert = function findAndInsert(addonId) {
-          var _addon = null;
-
-          angular.forEach(_this2.$scope.product.addon_categories, function (addonCategory) {
-            var find = _.findWhere(addonCategory.addons, { id: parseInt(addonId, 10) });
-            if (find) {
-              _addon = find;
-            }
-          });
-
-          if (!_addon) {
-            return false;
-          }
-
-          _this2.$scope.cartItem.addons.push({
-            id: _addon.id,
-            name: _addon.name,
-            price: _addon.price,
-            product_addon_id: _addon.product_addon_id
-          });
-        };
-
-        this.$scope.$watch('cartItem', function (newObject, oldObject) {
-          _this2.$scope.cartItem.addons = [];
-
-          angular.forEach(_this2.$scope.cartItem.customization_fields, function (addon) {
-            if (!_.isObject(addon)) {
-              return findAndInsert(addon);
-            }
-
-            angular.forEach(addon, function (checked, addonId) {
-              if (!checked) {
-                return false;
-              }
-
-              return findAndInsert(addonId);
-            });
-          });
-        }, true);
-
-        this.$scope.$watch('cartItem', function (newValue, oldValue) {
-          var addonsPrice = 0;
-
-          angular.forEach(_this2.$scope.cartItem.addons, function (addon) {
-            addonsPrice += parseFloat(addon.price);
-          });
-
-          _this2.$scope.cartItem.total = (parseFloat(_this2.$scope.product.price) + addonsPrice) * _this2.$scope.cartItem.amount;
-        }, true);
-      }
-    }]);
-
-    return TempCart;
-  })();
-};
-
-angular.module('foodbox.utils').factory('TempCart', tempCart);
-'use strict';
-
 (function (module) {
   try {
     module = angular.module('foodbox.utils');
@@ -1053,6 +118,18 @@ angular.module('foodbox.utils').factory('TempCart', tempCart);
     module = angular.module('foodbox.utils', []);
   }
   module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/templates/modal-chat.html', '<div class="modal-header">\n' + '  <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="ctrl.close()"><span aria-hidden="true">&times;</span></button>\n' + '  <h4 class="modal-title">Mensagens ({{ chat.messages.length }})</h4>\n' + '</div>\n' + '<div class="modal-body">\n' + '  <ul class="list-unstyled">\n' + '    <li ng-repeat="m in chat.messages | orderBy: \'-id\'">\n' + '      <div class="row">\n' + '        <div class="col-md-2">\n' + '          <img ng-src="{{ m.creator.photo }}" alt="Avatar" class="img-thumbnail" width="100" height="100"/>\n' + '        </div>\n' + '        <div class="col-md-10">\n' + '          <div class="message-creator">\n' + '            <span ng-show="m.creator.id === user.id && m.userable_type === userType">Você</span>\n' + '            <span ng-show="m.creator.id !== user.id && m.userable_type === userType">{{ m.creator.name }}</span>\n' + '            <span ng-show="m.userable_type === \'Costumer\'">{{ m.creator.name }}</span>\n' + '            <small>{{ m.created_at }}</small>\n' + '          </div>\n' + '          <p>{{ m.content }}</p>\n' + '        </div>\n' + '      </div>\n' + '    </li>\n' + '  </ul>\n' + '  <form ng-submit="ctrl.send()" name="form">\n' + '    <div class="row">\n' + '      <div class="col-md-10">\n' + '        <textarea rows="4" ng-model="message.content" placeholder="Digite sua mensagem" autofocus required ng-maxlength="500"></textarea>\n' + '        <limit maxlength="500" model="message.content"></limit>\n' + '      </div>\n' + '      <div class="col-md-2">\n' + '        <button class="btn btn-success btn-block" ng-disabled="message.content.length < 1">\n' + '          Enviar\n' + '        </button>\n' + '      </div>\n' + '    </div>\n' + '  </form>\n' + '</div>');
+  }]);
+})();
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('foodbox.utils');
+  } catch (e) {
+    module = angular.module('foodbox.utils', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
     $templateCache.put('/templates/modal-crop.html', '<div class="modal-header">\n' + '  <button type="button" class="close" ng-click="close()"><span aria-hidden="true">&times;</span></button>\n' + '  <h4 class="modal-title">Recorte a imagem</h4>\n' + '</div>\n' + '<div class="modal-body">\n' + '  <img ng-src="{{ imgToCrop }}" ng-cropper ng-cropper-options="options" alt="Imagem a ser recortada" ng-cropper-show="showEvent" />\n' + '</div>\n' + '<div class="modal-footer">\n' + '  <button class="btn btn-primary" ng-click="crop()">Salvar</button>\n' + '</div>');
   }]);
 })();
@@ -1066,18 +143,6 @@ angular.module('foodbox.utils').factory('TempCart', tempCart);
   }
   module.run(['$templateCache', function ($templateCache) {
     $templateCache.put('/templates/modal-custom-period.html', '<div class="modal-header">\n' + '  <h4 class="modal-title">Escolher período</h4>\n' + '</div>\n' + '<div class="modal-body clearfix">\n' + '  <div class="row">\n' + '    <div class="col-md-6" ng-click="ctrl.open(\'fromDate\')">\n' + '      <div class="input-group">\n' + '        <input ng-model="period.fromDate" datepicker-options="options" datepicker-popup="dd/MM/yyyy" is-open="status.fromDate" disabled />\n' + '        <div class="input-group-addon">\n' + '          <i class="icon icon-calendar"></i>\n' + '        </div>\n' + '      </div>\n' + '    </div>\n' + '    <div class="col-md-6" ng-click="ctrl.open(\'toDate\')">\n' + '      <div class="input-group">\n' + '        <input ng-model="period.toDate" datepicker-options="options" datepicker-popup="dd/MM/yyyy" is-open="status.toDate" disabled />\n' + '        <div class="input-group-addon">\n' + '          <i class="icon icon-calendar"></i>\n' + '        </div>\n' + '      </div>\n' + '    </div>\n' + '  </div>\n' + '  <hr />\n' + '  <div class="row">\n' + '    <div class="col-md-6">\n' + '      <timepicker ng-model="period.fromTime" readonly-input="true" hour-step="1" minute-step="15" show-meridian="false" prevent-table="true" style="margin: 0 auto;"></timepicker>\n' + '    </div>\n' + '    <div class="col-md-6">\n' + '      <timepicker ng-model="period.toTime" readonly-input="true" hour-step="1" minute-step="15" show-meridian="false" prevent-table="true" style="margin: 0 auto;"></timepicker>\n' + '    </div>\n' + '  </div>\n' + '</div>\n' + '<div class="modal-footer">\n' + '  <button class="btn btn-default" type="button" ng-click="ctrl.close()">Cancelar</button>\n' + '  <button class="btn btn-success" ng-click="ctrl.next()">Próximo</button>\n' + '</div>');
-  }]);
-})();
-'use strict';
-
-(function (module) {
-  try {
-    module = angular.module('foodbox.utils');
-  } catch (e) {
-    module = angular.module('foodbox.utils', []);
-  }
-  module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/templates/modal-order.html', '<div class="modal-header modal-header-with-options">\n' + '  <h3 class="modal-title">Detalhes do pedido #{{ order.store_number }}</h3>\n' + '  <div class="btn-group modal-options">\n' + '    <button type="button" ng-click="ctrl.changeStatus(status.alias)" class="btn btn-default" ng-class="{ active: order.status === status.alias, hide: !orderClassStatus[status.alias] }" ng-disabled="order.status === status.alias" ng-repeat="status in statuses" ng-init="ctrl.evaluateOrderClass(status)">{{ status.name }}</button>\n' + '  </div>\n' + '</div>\n' + '<div class="modal-body">\n' + '  <div class="panel panel-default" ng-show="order.error_reason_msg">\n' + '    <div class="panel-heading">\n' + '      <i class="icon icon-times-circle"></i>\n' + '       Razão de erro\n' + '    </div>\n' + '    <div class="panel-body">\n' + '      {{ order.error_reason_msg }}\n' + '    </div>\n' + '  </div>\n' + '  <div class="panel panel-default" ng-show="order.note">\n' + '    <div class="panel-heading">\n' + '      <i class="icon icon-pencil"></i>\n' + '       Observação\n' + '    </div>\n' + '    <div class="panel-body">\n' + '      {{ order.note }}\n' + '    </div>\n' + '  </div>\n' + '  <div class="panel panel-default" ng-show="order.courier">\n' + '    <div class="panel-heading">\n' + '      <i class="icon icon-motorcycle"></i>\n' + '        Entregador\n' + '        <small class="change" ng-show="order.status === \'delivering\'">\n' + '          <a href="javascript:void(0)" ng-click="ctrl.changeCourier()">\n' + '            <i class="icon icon-pencil"></i>\n' + '            Alterar\n' + '          </a>\n' + '        </small>\n' + '    </div>\n' + '    <div class="panel-body">\n' + '      <div class="alert alert-warning" ng-if="!order.courier" style="margin-bottom: 0;">\n' + '        Nenhum entregador associado a este pedido.\n' + '      </div>\n' + '      <div class="row" ng-if="order.courier">\n' + '        <div class="col-md-3">\n' + '          <div class="panel panel-default panel-courier">\n' + '            <img class="product-image" ng-src="{{ order.courier.avatar.medium }}" width="150" height="150">\n' + '            <div class="panel-footer">\n' + '              {{ order.courier.name }}\n' + '            </div>\n' + '          </div>\n' + '        </div>\n' + '      </div>\n' + '    </div>\n' + '  </div>\n' + '  <div class="panel panel-default">\n' + '    <div class="panel-heading">\n' + '      <i class="icon icon-shopping-cart"></i>\n' + '       Detalhes do pedido\n' + '    </div>\n' + '    <div class="panel-body no-padding">\n' + '      <table>\n' + '        <thead>\n' + '          <tr>\n' + '            <th style="width: 20%;">Item</th>\n' + '            <th style="width: 10%;">Quantidade</th>\n' + '            <th style="width: 40%;">Detalhes</th>\n' + '            <th style="width: 20%;">Obs.</th>\n' + '            <th style="width: 10%;">Total</th>\n' + '          </tr>\n' + '        </thead>\n' + '        <tbody>\n' + '          <tr ng-repeat="product in order.cart.products">\n' + '            <td>{{ product.name }}</td>\n' + '            <td>{{ product.amount }} un.</td>\n' + '            <td>\n' + '              <ul class="product-list">\n' + '                <li ng-show="product.addons_base.length > 0">\n' + '                  <strong>Ingredientes base:</strong>\n' + '                  <ul>\n' + '                    <li ng-repeat="addon in product.addons_base">\n' + '                      {{ addon.name }}\n' + '                      <span class="label label-success" ng-if="addon.price && addon.price > 0">{{ addon.price  | currency: "R$" }}</span>\n' + '                    </li>\n' + '                  </ul>\n' + '                </li>\n' + '                <li ng-show="product.addons_opt.length > 0">\n' + '                  <strong>Adicionais</strong>\n' + '                  <ul>\n' + '                    <li ng-repeat="addon in product.addons_opt">\n' + '                      {{ addon.name }}\n' + '                      <span class="label label-success" ng-if="addon.price && addon.price > 0">{{ addon.price  | currency: "R$" }}</span>\n' + '                    </li>\n' + '                  </ul>\n' + '                </li>\n' + '                <li ng-show="(product.addons_to_remove.length > 0) && (product.addons_to_remove.length < product.addons_to_put.length)">\n' + '                  <strong>Ingredientes para remover</strong>\n' + '                  <ul>\n' + '                    <li ng-repeat="addon in product.addons_to_remove">\n' + '                      <span class="label label-danger">Sem</span> {{ addon.name }}\n' + '                    </li>\n' + '                  </ul>\n' + '                </li>\n' + '                <li ng-show="(product.addons_to_put.length > 0) && (product.addons_to_put.length < product.addons_to_remove.length)">\n' + '                  <strong>Ingredientes a colocar</strong>\n' + '                  <ul>\n' + '                    <li ng-repeat="addon in product.addons_to_put">\n' + '                      <span class="label label-success">Com</span> {{ addon.name }}\n' + '                    </li>\n' + '                  </ul>\n' + '                </li>\n' + '              </ul>\n' + '            </td>\n' + '            <td>\n' + '              {{ product.note || \'-\' }}\n' + '            </td>\n' + '            <td>{{ product.total | currency: \'R$\'}}</td>\n' + '          </tr>\n' + '        </tbody>\n' + '      </table>\n' + '    </div>\n' + '  </div>\n' + '  <div class="panel panel-default" ng-show="order.address">\n' + '    <div class="panel-heading">\n' + '      <i class="icon icon-map-marker"></i>\n' + '       Endereço\n' + '       <small>{{ order.address.street }} <span ng-show="order.address.number">- {{ order.address.number }}</span> <span ng-show="order.address.complement">- {{ order.address.complement }}</span></small>\n' + '       <small class="change" ng-show="order.status !== \'completed\' || order.status !== \'cancelled\'">\n' + '        <a href="javascript:void(0)" ng-click="ctrl.changeAddress()">\n' + '          <i class="icon icon-pencil"></i>\n' + '          Alterar\n' + '        </a>\n' + '      </small>\n' + '    </div>\n' + '    <div class="panel-body no-padding">\n' + '      <div class="order-map">\n' + '        <map id="address-map" latitude="order.address.latitude" longitude="order.address.longitude" markers="markers" route="route"></map>\n' + '      </div>\n' + '    </div>\n' + '  </div>\n' + '  <div class="panel panel-default">\n' + '    <div class="panel-heading">\n' + '      <i class="icon icon-file-text"></i>\n' + '      Histórico de alteração de status\n' + '    </div>\n' + '    <div class="panel-body no-padding clearfix">\n' + '      <div>\n' + '        <table class="table table-striped">\n' + '          <thead>\n' + '            <tr>\n' + '              <th style="width: 50%;">Status</th>\n' + '              <th style="width: 50%;">Horário de alteração</th>\n' + '            </tr>\n' + '          </thead>\n' + '          <tbody>\n' + '            <tr ng-repeat="status in statuses" ng-class="{ success: order.status === status.alias }">\n' + '              <td>{{ status.name }}</td>\n' + '              <td>{{ (order.order_status_progress[status.alias] | date: \'HH:mm:ss\') || \'-\' }}</td>\n' + '            </tr>\n' + '          </tbody>\n' + '        </table>\n' + '      </div>\n' + '    </div>\n' + '  </div>\n' + '</div>\n' + '<div class="modal-footer">\n' + '  <button class="btn btn-default" ng-click="ctrl.close()">Fechar</button>\n' + '</div>');
   }]);
 })();
 'use strict';
@@ -1140,6 +205,173 @@ angular.module('foodbox.utils').factory('TempCart', tempCart);
     $templateCache.put('/templates/tik-tak.html', '<span>\n' + '  {{ value }}\n' + '</span>');
   }]);
 })();
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var ctrl = function ctrl($scope, $modalInstance, pusher, chatMessageApi, chatResolved, userResolved, userTypeResolved) {
+
+  return new ((function () {
+    function ctrl() {
+      _classCallCheck(this, ctrl);
+
+      $scope.chat = chatResolved;
+      $scope.userType = userTypeResolved;
+      $scope.user = userResolved;
+      $scope.message = {
+        content: ''
+      };
+
+      pusher.subscribe('private-chat-' + $scope.chat.id).bind('message:create', function (message) {
+        $scope.chat.messages.push(message);
+      });
+    }
+
+    _createClass(ctrl, [{
+      key: 'save',
+      value: function save() {
+        chatMessageApi.create($scope.chat, $scope.message).then(function () {
+          $scope.message = {
+            content: ''
+          };
+        });
+      }
+    }, {
+      key: 'close',
+      value: function close() {
+        $modalInstance.dismiss('close');
+      }
+    }]);
+
+    return ctrl;
+  })())();
+};
+
+angular.module('foodbox.utils').controller('ModalChatCtrl', ctrl);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var modalCustomPeriodCtrl = function modalCustomPeriodCtrl($scope, $modalInstance, $filter) {
+
+  return new ((function () {
+    function ModalCustomPeriodCtrl() {
+      _classCallCheck(this, ModalCustomPeriodCtrl);
+
+      var date = $filter('date')(new Date(), "dd/MM/yyyy");
+
+      $scope.period = { fromDate: date, toDate: date, fromTime: new Date().setHours(0, 0, 0, 0), toTime: new Date().setHours(23, 59, 59, 0) };
+      $scope.status = { fromDate: false, toDate: false };
+      $scope.options = { showWeeks: false };
+    }
+
+    // Abre o datepicker
+
+    _createClass(ModalCustomPeriodCtrl, [{
+      key: 'open',
+      value: function open(name) {
+        $scope.status[name] = !$scope.status[name];
+      }
+
+      // Fecha o modal e envia os dados selecionados
+    }, {
+      key: 'next',
+      value: function next() {
+        $modalInstance.close($scope.period);
+      }
+
+      // Fecha o modal sem enviar os dados selecionados
+    }, {
+      key: 'close',
+      value: function close() {
+        $modalInstance.dismiss('close');
+      }
+    }]);
+
+    return ModalCustomPeriodCtrl;
+  })())();
+};
+
+angular.module('foodbox.utils').controller('ModalCustomPeriodCtrl', modalCustomPeriodCtrl);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var modalProductCtrl = function modalProductCtrl($scope, $modalInstance, TempCart, meCartItemApi, cartResolved, storeProductResolved, cartItemResolved) {
+
+  return new ((function () {
+    function ModalProductCustomizationCtrl() {
+      _classCallCheck(this, ModalProductCustomizationCtrl);
+
+      $scope.product = storeProductResolved;
+      $scope.cart = cartResolved;
+      $scope.cartItem = cartItemResolved;
+
+      new TempCart($scope, cartItemResolved);
+    }
+
+    _createClass(ModalProductCustomizationCtrl, [{
+      key: 'add',
+      value: function add() {
+        meCartItemApi[this._getCartMethod()]($scope.cartItem, { cart_id: $scope.cart.id }).then(function (cart) {
+          $modalInstance.close({ cart: cart.plain() });
+        });
+      }
+    }, {
+      key: 'close',
+      value: function close() {
+        $modalInstance.dismiss('close');
+      }
+    }, {
+      key: '_getCartMethod',
+      value: function _getCartMethod() {
+        return $scope.cartItem.id ? 'update' : 'create';
+      }
+    }]);
+
+    return ModalProductCustomizationCtrl;
+  })())();
+};
+
+angular.module('foodbox.utils').controller('ModalProductCtrl', modalProductCtrl);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var modalRatingCtrl = function modalRatingCtrl($scope, $modalInstance) {
+
+  return new ((function () {
+    function ModalRatingCtrl() {
+      _classCallCheck(this, ModalRatingCtrl);
+
+      $scope.rating = {};
+    }
+
+    _createClass(ModalRatingCtrl, [{
+      key: 'save',
+      value: function save() {
+        $modalInstance.close({ rating: rating.plain() });
+      }
+    }, {
+      key: 'close',
+      value: function close() {
+        $modalInstance.dismiss('close');
+      }
+    }]);
+
+    return ModalRatingCtrl;
+  })())();
+};
+
+angular.module('foodbox.utils').controller('ModalRatingCtrl', modalRatingCtrl);
 'use strict';
 
 var directive = function directive($templateCache) {
@@ -1676,3 +908,616 @@ var pusher = function pusher() {
 };
 
 angular.module('foodbox.utils').provider('pusher', pusher);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var hint = function hint($timeout, $window, ngAudio) {
+
+  return new ((function () {
+    function Hint() {
+      _classCallCheck(this, Hint);
+
+      this.notifications = [];
+      this.timeout = 5000;
+      this.notification = $window.Notification || $window.mozNotification || $window.webkitNotification;
+
+      this.sound = {
+        success: ngAudio.load('/audios/success_notification.mp3'),
+        info: ngAudio.load('/audios/success_notification.mp3'),
+        error: ngAudio.load('/audios/error_notification.mp3')
+      };
+
+      if (!this.notification) {
+        return false;
+      }
+
+      this.notification.requestPermission();
+    }
+
+    _createClass(Hint, [{
+      key: 'success',
+      value: function success(message) {
+        var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+        this._notify('success', 'Sucesso :)', message, options);
+      }
+    }, {
+      key: 'error',
+      value: function error(message) {
+        var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+        this._notify('error', 'Ops...', message, options);
+      }
+    }, {
+      key: 'info',
+      value: function info(message) {
+        var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+        this._notify('info', 'Atenção', message, options);
+      }
+    }, {
+      key: '_notify',
+      value: function _notify(type, title, message, options) {
+        var _this = this;
+
+        if (!options.timeout) {
+          options.timeout = this.timeout;
+        }
+
+        if (!options.autoClose) {
+          options.autoClose = true;
+        }
+
+        if (this.notification.permission === 'granted') {
+
+          var settings = {
+            body: message,
+            icon: '/assets/app/icon-' + type + '.png'
+          };
+
+          // Só adiciona um hint se não houver nenhum hint com o mesmo conteudi
+          if (!this._hasMessage(settings.body)) {
+            var _notification = new this.notification(title, settings);
+            this.notifications.push(_notification);
+
+            if (options.autoClose) {
+              $timeout(function () {
+
+                // Acha posicão da notificação no array
+                var index = _this.notifications.indexOf(_notification);
+                _notification = _this.notifications[index];
+
+                // Força fechamento
+                _notification.close();
+
+                // Remove do array
+                _this.notifications.splice(index, 1);
+              }, options.timeout);
+            }
+          }
+        }
+
+        this.sound[type].play();
+      }
+    }, {
+      key: '_hasMessage',
+      value: function _hasMessage(message) {
+        var hasMessage = false;
+
+        angular.forEach(this.notifications, function (notification) {
+          if (notification.body === message) {
+            hasMessage = true;
+          }
+        });
+
+        return hasMessage;
+      }
+    }, {
+      key: '_randonNumber',
+      value: function _randonNumber() {
+        return Math.floor(Math.random() * (99999999 - 1 + 1)) + 1;
+      }
+    }]);
+
+    return Hint;
+  })())();
+};
+
+angular.module('foodbox.utils').factory('hint', hint);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var HttpToken = function HttpToken($q, $state, $http, hint, storage) {
+
+  return (function () {
+    function HttpToken(userKey) {
+      _classCallCheck(this, HttpToken);
+
+      this._setUserKey(userKey);
+      return this;
+    }
+
+    _createClass(HttpToken, [{
+      key: 'initialize',
+      value: function initialize() {
+        var _this = this;
+
+        return $q(function (resolve, reject) {
+          return _this.get().then(function (user) {
+            if (!user) return reject();
+
+            _this.set(user).then(function (user) {
+              resolve(user);
+            });
+          });
+        });
+      }
+    }, {
+      key: 'get',
+      value: function get() {
+        return storage.get('current' + this.key).then(function (currentUser) {
+          return currentUser;
+        });
+      }
+    }, {
+      key: 'set',
+      value: function set(user) {
+        var _this2 = this;
+
+        return $q(function (resolve, reject) {
+          $http.defaults.headers.common['X-' + _this2.key + '-Email'] = user.email;
+          $http.defaults.headers.common['X-' + _this2.key + '-Token'] = user.authentication_token;
+
+          storage.set('current' + _this2.key, user);
+
+          resolve(_this2.get());
+        });
+      }
+    }, {
+      key: 'remove',
+      value: function remove() {
+        var _this3 = this;
+
+        return $q(function (resolve, reject) {
+          return storage.remove('current' + _this3.key).then(function () {
+            delete $http.defaults.headers.common['X-' + _this3.key + '-Email'];
+            delete $http.defaults.headers.common['X-' + _this3.key + '-Token'];
+            resolve();
+          });
+        });
+      }
+    }, {
+      key: '_setUserKey',
+      value: function _setUserKey() {
+        var key = arguments.length <= 0 || arguments[0] === undefined ? 'Employee' : arguments[0];
+
+        if (key !== 'Employee' && key !== 'Costumer') {
+          throw new Error('Chave para uso do serviço HttpToken deve ter os valores Employee ou Costumer');
+        }
+        this.key = key;
+      }
+    }]);
+
+    return HttpToken;
+  })();
+};
+
+angular.module('foodbox.utils').factory('HttpToken', HttpToken);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var modalAddress = function modalAddress($modal, $templateCache) {
+  return new ((function () {
+    function ModalAddress() {
+      _classCallCheck(this, ModalAddress);
+    }
+
+    _createClass(ModalAddress, [{
+      key: 'open',
+      value: function open() {
+        var address = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+        var onSubmit = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+
+        return $modal.open({
+          template: $templateCache.get('/templates/modal-address.html'),
+          controllerAs: 'ctrl',
+          controller: function controller($scope, $modalInstance, addressResolved) {
+            return new ((function () {
+              function ModalMeAddressCtrl(onSubmit) {
+                _classCallCheck(this, ModalMeAddressCtrl);
+
+                $scope.address = addressResolved;
+              }
+
+              _createClass(ModalMeAddressCtrl, [{
+                key: 'submit',
+                value: function submit() {
+                  var method = this._getMethod();
+                  onSubmit({ address: $scope.address, method: method }).then(function (response) {
+                    $modalInstance.close(response);
+                  });
+                }
+              }, {
+                key: 'close',
+                value: function close() {
+                  $modalInstance.dismiss('close');
+                }
+              }, {
+                key: '_getMethod',
+                value: function _getMethod() {
+                  return $scope.address.id ? 'update' : 'create';
+                }
+              }]);
+
+              return ModalMeAddressCtrl;
+            })())();
+          },
+          windowClass: 'modal-address',
+          resolve: {
+            addressResolved: function addressResolved() {
+              return address;
+            }
+          }
+        });
+      }
+    }]);
+
+    return ModalAddress;
+  })())();
+};
+
+angular.module('foodbox.utils').factory('modalAddress', modalAddress);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var modal = function modal($modal, $templateCache) {
+  return new ((function () {
+    function Modal() {
+      _classCallCheck(this, Modal);
+    }
+
+    _createClass(Modal, [{
+      key: 'open',
+      value: function open() {
+        var params = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+        return $modal.open({
+          template: $templateCache.get('/templates/modal-chat.html'),
+          controller: 'ModalChatCtrl as ctrl',
+          windowClass: 'modal-chat',
+          size: 'lg',
+          resolve: {
+            chatResolved: function chatResolved() {
+              return params.chat;
+            },
+            userResolved: function userResolved() {
+              return params.user;
+            },
+            userTypeResolved: function userTypeResolved() {
+              var userType = params.userType;
+
+              if (userType !== 'costumer' && userType !== 'employee') {
+                userType = 'costumer';
+              }
+
+              return userType;
+            }
+          }
+        });
+      }
+    }]);
+
+    return Modal;
+  })())();
+};
+
+angular.module('foodbox.utils').factory('modalChat', modal);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var modalCustomPeriod = function modalCustomPeriod($modal, $templateCache) {
+  return new ((function () {
+    function ModalCustomPeriod() {
+      _classCallCheck(this, ModalCustomPeriod);
+    }
+
+    _createClass(ModalCustomPeriod, [{
+      key: 'open',
+      value: function open() {
+        return $modal.open({
+          template: $templateCache.get('/templates/modal-custom-period.html'),
+          controller: 'ModalCustomPeriodCtrl as ctrl',
+          windowClass: 'modal-custom-period'
+        });
+      }
+    }]);
+
+    return ModalCustomPeriod;
+  })())();
+};
+
+angular.module('foodbox.utils').factory('modalCustomPeriod', modalCustomPeriod);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var modalProduct = function modalProduct($modal, storeProductApi, $templateCache) {
+  return new ((function () {
+    function ModalProduct() {
+      _classCallCheck(this, ModalProduct);
+    }
+
+    _createClass(ModalProduct, [{
+      key: 'open',
+      value: function open(params) {
+
+        if (!params.cart) {
+          throw new Error('Modal Product service must have a cart');
+        }
+
+        if (!params.product) {
+          throw new Error('Modal Product service must have a product');
+        }
+
+        if (!params.cartItem) {
+          params.cartItem = false;
+        }
+
+        return $modal.open({
+          template: $templateCache.get('/templates/modal-product.html'),
+          controller: 'ModalProductCtrl as ctrl',
+          windowClass: 'modal-product',
+          resolve: {
+            cartResolved: function cartResolved() {
+              return params.cart;
+            },
+            storeProductResolved: function storeProductResolved() {
+              return storeProductApi.show(params.product).then(function (response) {
+                return response.data;
+              });
+            },
+            cartItemResolved: function cartItemResolved() {
+              return params.cartItem;
+            }
+          }
+        });
+      }
+    }]);
+
+    return ModalProduct;
+  })())();
+};
+
+angular.module('foodbox.utils').factory('modalProduct', modalProduct);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var modalRating = function modalRating($modal, $templateCache) {
+  return new ((function () {
+    function ModalRating() {
+      _classCallCheck(this, ModalRating);
+    }
+
+    _createClass(ModalRating, [{
+      key: 'open',
+      value: function open(order) {
+        return $modal.open({
+          template: $templateCache.get('/templates/modal-rating.html'),
+          controller: 'ModalRatingCtrl as ctrl',
+          windowClass: 'modal-rating',
+          resolve: {
+            orderResolvedd: function orderResolvedd() {
+              return order;
+            }
+          }
+        });
+      }
+    }]);
+
+    return ModalRating;
+  })())();
+};
+
+angular.module('foodbox.utils').factory('modalRating', modalRating);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var popup = function popup($window, $q) {
+  return new ((function () {
+    function Popup() {
+      _classCallCheck(this, Popup);
+    }
+
+    _createClass(Popup, [{
+      key: 'open',
+      value: function open(pageURL, width, height) {
+        return $q(function (resolve, reject) {
+          var left = Number(screen.width / 2 - width / 2);
+          var top = Number(screen.height / 2 - height / 2);
+
+          var popup = $window.open(pageURL, '', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' + width + ', height=' + height + ', top=' + top + ', left=' + left);
+          resolve(popup);
+        });
+      }
+    }]);
+
+    return Popup;
+  })())();
+};
+
+angular.module('foodbox.utils').factory('popup', popup);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var storage = function storage($localStorage, $q) {
+  return new ((function () {
+    function Storage() {
+      _classCallCheck(this, Storage);
+    }
+
+    _createClass(Storage, [{
+      key: 'get',
+      value: function get(key) {
+        return $q(function (resolve, reject) {
+          var response = $localStorage[key] || null;
+          resolve(response);
+        });
+      }
+    }, {
+      key: 'set',
+      value: function set(key, value) {
+        return $q(function (resolve, reject) {
+          $localStorage[key] = value;
+          resolve();
+        });
+      }
+    }, {
+      key: 'remove',
+      value: function remove(key) {
+        return $q(function (resolve, reject) {
+          delete $localStorage[key];
+          var response = $localStorage[key] || null;
+          resolve(response);
+        });
+      }
+    }]);
+
+    return Storage;
+  })())();
+};
+
+angular.module('foodbox.utils').factory('storage', storage);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var tempCart = function tempCart() {
+  return (function () {
+    function TempCart($scope, cartItem) {
+      _classCallCheck(this, TempCart);
+
+      this.$scope = $scope;
+      $scope.isEditing = cartItem ? true : false;
+
+      if ($scope.isEditing) {
+        cartItem.customization_fields = JSON.parse(cartItem.customization_fields);
+      }
+
+      $scope.cartItem = cartItem || { amount: 1, note: null, total: $scope.product.price * 1, product: $scope.product, customization_fields: {}, addons: [] };
+
+      this._setCustomizationFields();
+      this._listenScopeEvents();
+    }
+
+    _createClass(TempCart, [{
+      key: '_setCustomizationFields',
+      value: function _setCustomizationFields() {
+        var _this = this;
+
+        if (this.$scope.isEditing) {
+          return false;
+        }
+
+        angular.forEach(this.$scope.product.addon_categories, function (addonCategory) {
+          _this.$scope.cartItem.customization_fields[addonCategory.id] = {};
+
+          angular.forEach(addonCategory.addons, function (addon) {
+            if (addonCategory.max_itens === 1) {
+              _this.$scope.cartItem.customization_fields[addonCategory.id] = addonCategory.addons[0].id;
+            } else {
+              var fill = addonCategory.auto_fill && !parseFloat(addon.price) && addon.available ? true : false;
+              _this.$scope.cartItem.customization_fields[addonCategory.id][addon.id] = fill;
+            }
+          });
+        });
+      }
+    }, {
+      key: '_listenScopeEvents',
+      value: function _listenScopeEvents() {
+        var _this2 = this;
+
+        var findAndInsert = function findAndInsert(addonId) {
+          var _addon = null;
+
+          angular.forEach(_this2.$scope.product.addon_categories, function (addonCategory) {
+            var find = _.findWhere(addonCategory.addons, { id: parseInt(addonId, 10) });
+            if (find) {
+              _addon = find;
+            }
+          });
+
+          if (!_addon) {
+            return false;
+          }
+
+          _this2.$scope.cartItem.addons.push({
+            id: _addon.id,
+            name: _addon.name,
+            price: _addon.price,
+            product_addon_id: _addon.product_addon_id
+          });
+        };
+
+        this.$scope.$watch('cartItem', function (newObject, oldObject) {
+          _this2.$scope.cartItem.addons = [];
+
+          angular.forEach(_this2.$scope.cartItem.customization_fields, function (addon) {
+            if (!_.isObject(addon)) {
+              return findAndInsert(addon);
+            }
+
+            angular.forEach(addon, function (checked, addonId) {
+              if (!checked) {
+                return false;
+              }
+
+              return findAndInsert(addonId);
+            });
+          });
+        }, true);
+
+        this.$scope.$watch('cartItem', function (newValue, oldValue) {
+          var addonsPrice = 0;
+
+          angular.forEach(_this2.$scope.cartItem.addons, function (addon) {
+            addonsPrice += parseFloat(addon.price);
+          });
+
+          _this2.$scope.cartItem.total = (parseFloat(_this2.$scope.product.price) + addonsPrice) * _this2.$scope.cartItem.amount;
+        }, true);
+      }
+    }]);
+
+    return TempCart;
+  })();
+};
+
+angular.module('foodbox.utils').factory('TempCart', tempCart);
