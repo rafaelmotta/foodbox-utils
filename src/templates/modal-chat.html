@@ -24,8 +24,7 @@
   <form ng-submit="ctrl.send()" name="form">
     <div class="row">
       <div class="col-md-10">
-        <textarea rows="4" ng-model="message.content" placeholder="Digite sua mensagem" autofocus required ng-maxlength="500"></textarea>
-        <limit maxlength="500" model="message.content"></limit>
+        <textarea rows="4" ng-model="message.content" placeholder="Digite sua mensagem" autofocus required ng-maxlength="500" ng-keyup="$event.keyCode == 13 && ctrl.send()"></textarea>
       </div>
       <div class="col-md-2">
         <button class="btn btn-success btn-block" ng-disabled="message.content.length < 1">
