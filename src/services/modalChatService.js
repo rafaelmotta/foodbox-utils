@@ -5,7 +5,6 @@ let modal = ($modal, $templateCache) => {
         template: $templateCache.get('/templates/modal-chat.html'),
         controller: 'ModalChatCtrl as ctrl',
         windowClass: 'modal-chat',
-        size: 'lg',
         resolve: {
           chatResolved: () => {
             return params.chat;

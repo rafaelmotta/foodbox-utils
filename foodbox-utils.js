@@ -1197,7 +1197,6 @@ var modal = function modal($modal, $templateCache) {
           template: $templateCache.get('/templates/modal-chat.html'),
           controller: 'ModalChatCtrl as ctrl',
           windowClass: 'modal-chat',
-          size: 'lg',
           resolve: {
             chatResolved: function chatResolved() {
               return params.chat;
