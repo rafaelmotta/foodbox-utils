@@ -15,13 +15,13 @@ module.run(['$templateCache', function($templateCache) {
     '    <li ng-repeat="m in chat.messages | orderBy: \'-id\'">\n' +
     '      <div class="row">\n' +
     '        <div class="col-md-2">\n' +
-    '          <img ng-src="{{ m.creator.photo }}" alt="Avatar" class="img-thumbnail" width="100" height="100"/>\n' +
+    '          <img ng-src="{{ m.user.photo }}" alt="Avatar" class="img-thumbnail" width="100" height="100"/>\n' +
     '        </div>\n' +
     '        <div class="col-md-10">\n' +
-    '          <div class="message-creator">\n' +
-    '            <span ng-show="m.creator.id === user.id && m.userable_type === userType">Você</span>\n' +
-    '            <span ng-show="m.creator.id !== user.id && m.userable_type === userType">{{ m.creator.name }}</span>\n' +
-    '            <span ng-show="m.userable_type === \'Costumer\'">{{ m.creator.name }}</span>\n' +
+    '          <div class="message-user">\n' +
+    '            <span ng-show="m.user.id === user.id && m.userable_type === userType">Você</span>\n' +
+    '            <span ng-show="m.user.id !== user.id && m.userable_type === userType">{{ m.user.name }}</span>\n' +
+    '            <span ng-show="m.userable_type === \'Costumer\'">{{ m.user.name }}</span>\n' +
     '            <small>{{ m.created_at }}</small>\n' +
     '          </div>\n' +
     '          <p>{{ m.content }}</p>\n' +

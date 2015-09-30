@@ -7,13 +7,13 @@
     <li ng-repeat="m in chat.messages | orderBy: '-id'">
       <div class="row">
         <div class="col-md-2">
-          <img ng-src="{{ m.creator.photo }}" alt="Avatar" class="img-thumbnail" width="100" height="100"/>
+          <img ng-src="{{ m.user.photo }}" alt="Avatar" class="img-thumbnail" width="100" height="100"/>
         </div>
         <div class="col-md-10">
-          <div class="message-creator">
-            <span ng-show="m.creator.id === user.id && m.userable_type === userType">Você</span>
-            <span ng-show="m.creator.id !== user.id && m.userable_type === userType">{{ m.creator.name }}</span>
-            <span ng-show="m.userable_type === 'Costumer'">{{ m.creator.name }}</span>
+          <div class="message-user">
+            <span ng-show="m.user.id === user.id && m.userable_type === userType">Você</span>
+            <span ng-show="m.user.id !== user.id && m.userable_type === userType">{{ m.user.name }}</span>
+            <span ng-show="m.userable_type === 'Costumer'">{{ m.user.name }}</span>
             <small>{{ m.created_at }}</small>
           </div>
           <p>{{ m.content }}</p>
