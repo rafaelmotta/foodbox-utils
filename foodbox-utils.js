@@ -230,8 +230,8 @@ var ctrl = function ctrl($scope, $modalInstance, pusher, chatMessageApi, chatRes
     }
 
     _createClass(ctrl, [{
-      key: 'save',
-      value: function save() {
+      key: 'send',
+      value: function send() {
         chatMessageApi.create($scope.chat, $scope.message).then(function () {
           $scope.message = {
             content: ''

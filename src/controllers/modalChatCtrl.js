@@ -15,7 +15,7 @@ let ctrl = ($scope, $modalInstance, pusher, chatMessageApi, chatResolved, userRe
       });
     }
 
-    save() {
+    send() {
       chatMessageApi.create($scope.chat, $scope.message).then(() => {
         $scope.message = {
           content: ''
