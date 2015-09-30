@@ -28,7 +28,8 @@ let ctrl = ($scope, $modalInstance, hint, pusher, chatMessageApi, chatResolved, 
     onKeyUp($event) {
       if($event.keyCode == 13 && !$event.shiftKey) {
         $event.preventDefault();
-        return this.send();
+        this.send();
+        return false;
       }
     }
 
