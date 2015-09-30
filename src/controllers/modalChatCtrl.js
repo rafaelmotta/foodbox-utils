@@ -10,8 +10,8 @@ let ctrl = ($scope, $modalInstance, pusher, chatMessageApi, chatResolved, userRe
         content: ''
       };
 
-      pusher.subscribe(`private-chat-${$scope.chat.id}`).bind('message:create', (message) => {
-        $scope.chat.messages.push(message);
+      pusher.subscribe(`private-chat-${$scope.chat.id}`).bind('message:create', (response) => {
+        $scope.chat.messages.push(response.data);
       });
     }
 

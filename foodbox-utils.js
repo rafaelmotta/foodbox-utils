@@ -224,8 +224,8 @@ var ctrl = function ctrl($scope, $modalInstance, pusher, chatMessageApi, chatRes
         content: ''
       };
 
-      pusher.subscribe('private-chat-' + $scope.chat.id).bind('message:create', function (message) {
-        $scope.chat.messages.push(message);
+      pusher.subscribe('private-chat-' + $scope.chat.id).bind('message:create', function (response) {
+        $scope.chat.messages.push(response.data);
       });
     }
 
