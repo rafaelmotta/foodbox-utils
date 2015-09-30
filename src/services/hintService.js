@@ -33,6 +33,10 @@ let hint = ($timeout, $window, ngAudio) => {
     }
 
     _notify(type, title, message, options) {
+      if(options.title) {
+        title = options.title;
+      }
+
       if(!options.timeout) {
         options.timeout = this.timeout;
       }

@@ -1,4 +1,4 @@
-let ctrl = ($scope, $modalInstance, pusher, chatMessageApi, chatResolved, userResolved, userTypeResolved) => {
+let ctrl = ($scope, $modalInstance, hint, pusher, chatMessageApi, chatResolved, userResolved, userTypeResolved) => {
 
   return new class ctrl {
 
@@ -10,7 +10,13 @@ let ctrl = ($scope, $modalInstance, pusher, chatMessageApi, chatResolved, userRe
         content: ''
       };
 
-      pusher.subscribe(`private-chat-${$scope.chat.id}`).bind('message:create', (response) => {
+      pusher.subscribe(`private-chat-${$scope.chat.id}`).bind('message:created', (response) => {
+        let message = response.data;
+
+        if(message.user.id !== $scope.user.id && $scope.userType !== message.userable_type) {
+          hint.success(message.content, { title: `${message.user.name} diz:`});
+        }
+
         $scope.chat.messages.push(response.data);
       });
     }
