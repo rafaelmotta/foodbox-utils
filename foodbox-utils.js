@@ -887,6 +887,146 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
+var HttpToken = function HttpToken($q, $state, $http, hint, storage) {
+
+  return (function () {
+    function HttpToken(userKey) {
+      _classCallCheck(this, HttpToken);
+
+      this._setUserKey(userKey);
+      return this;
+    }
+
+    _createClass(HttpToken, [{
+      key: 'initialize',
+      value: function initialize() {
+        var _this = this;
+
+        return $q(function (resolve, reject) {
+          return _this.get().then(function (user) {
+            if (!user) return reject();
+
+            _this.set(user).then(function (user) {
+              resolve(user);
+            });
+          });
+        });
+      }
+    }, {
+      key: 'get',
+      value: function get() {
+        return storage.get('current' + this.key).then(function (currentUser) {
+          return currentUser;
+        });
+      }
+    }, {
+      key: 'set',
+      value: function set(user) {
+        var _this2 = this;
+
+        return $q(function (resolve, reject) {
+          $http.defaults.headers.common['X-' + _this2.key + '-Email'] = user.email;
+          $http.defaults.headers.common['X-' + _this2.key + '-Token'] = user.authentication_token;
+
+          storage.set('current' + _this2.key, user);
+
+          resolve(_this2.get());
+        });
+      }
+    }, {
+      key: 'remove',
+      value: function remove() {
+        var _this3 = this;
+
+        return $q(function (resolve, reject) {
+          return storage.remove('current' + _this3.key).then(function () {
+            delete $http.defaults.headers.common['X-' + _this3.key + '-Email'];
+            delete $http.defaults.headers.common['X-' + _this3.key + '-Token'];
+            resolve();
+          });
+        });
+      }
+    }, {
+      key: '_setUserKey',
+      value: function _setUserKey() {
+        var key = arguments.length <= 0 || arguments[0] === undefined ? 'Employee' : arguments[0];
+
+        if (key !== 'Employee' && key !== 'Costumer') {
+          throw new Error('Chave para uso do serviço HttpToken deve ter os valores Employee ou Costumer');
+        }
+        this.key = key;
+      }
+    }]);
+
+    return HttpToken;
+  })();
+};
+
+angular.module('foodbox.utils').factory('HttpToken', HttpToken);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var factory = function factory($rootScope, $state, hint) {
+
+  return (function () {
+    function RequestError() {
+      var _this = this;
+
+      var params = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+      _classCallCheck(this, RequestError);
+
+      if (params.onError && angular.isFunction(params.onCode)) {
+        this.onError = params.onError;
+      }
+
+      $rootScope.$on('request:error', function ($event, data) {
+        _this.onError(data);
+      });
+    }
+
+    // Exibe mensagem
+    // @param {Object} data com descrição do erro
+
+    _createClass(RequestError, [{
+      key: 'onError',
+      value: function onError(data) {
+        if (typeof data === 'undefined') {
+          return false;
+        }
+
+        if (data.code === 0) {
+          data = { code: 408, description: 'Não foi possível conectar com o servidor. Tente mais tarde. ' };
+        }
+
+        if (this.onError) {
+          this.onError(data.code);
+        }
+
+        if (angular.isArray(data.description)) {
+          angular.forEach(data.description, function (message) {
+            hint.error(data.description);
+          });
+        } else {
+          hint.error(data.description);
+        }
+      }
+    }]);
+
+    return RequestError;
+  })();
+};
+
+angular.module('foodbox.utils').factory('RequestError', factory);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
 var hint = function hint($timeout, $window, ngAudio) {
 
   return new ((function () {
@@ -1028,88 +1168,6 @@ angular.module("foodbox.utils").config(function ($httpProvider) {
     }
   };
 });
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var HttpToken = function HttpToken($q, $state, $http, hint, storage) {
-
-  return (function () {
-    function HttpToken(userKey) {
-      _classCallCheck(this, HttpToken);
-
-      this._setUserKey(userKey);
-      return this;
-    }
-
-    _createClass(HttpToken, [{
-      key: 'initialize',
-      value: function initialize() {
-        var _this = this;
-
-        return $q(function (resolve, reject) {
-          return _this.get().then(function (user) {
-            if (!user) return reject();
-
-            _this.set(user).then(function (user) {
-              resolve(user);
-            });
-          });
-        });
-      }
-    }, {
-      key: 'get',
-      value: function get() {
-        return storage.get('current' + this.key).then(function (currentUser) {
-          return currentUser;
-        });
-      }
-    }, {
-      key: 'set',
-      value: function set(user) {
-        var _this2 = this;
-
-        return $q(function (resolve, reject) {
-          $http.defaults.headers.common['X-' + _this2.key + '-Email'] = user.email;
-          $http.defaults.headers.common['X-' + _this2.key + '-Token'] = user.authentication_token;
-
-          storage.set('current' + _this2.key, user);
-
-          resolve(_this2.get());
-        });
-      }
-    }, {
-      key: 'remove',
-      value: function remove() {
-        var _this3 = this;
-
-        return $q(function (resolve, reject) {
-          return storage.remove('current' + _this3.key).then(function () {
-            delete $http.defaults.headers.common['X-' + _this3.key + '-Email'];
-            delete $http.defaults.headers.common['X-' + _this3.key + '-Token'];
-            resolve();
-          });
-        });
-      }
-    }, {
-      key: '_setUserKey',
-      value: function _setUserKey() {
-        var key = arguments.length <= 0 || arguments[0] === undefined ? 'Employee' : arguments[0];
-
-        if (key !== 'Employee' && key !== 'Costumer') {
-          throw new Error('Chave para uso do serviço HttpToken deve ter os valores Employee ou Costumer');
-        }
-        this.key = key;
-      }
-    }]);
-
-    return HttpToken;
-  })();
-};
-
-angular.module('foodbox.utils').factory('HttpToken', HttpToken);
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -1369,64 +1427,6 @@ var popup = function popup($window, $q) {
 };
 
 angular.module('foodbox.utils').factory('popup', popup);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var factory = function factory($rootScope, $state, hint) {
-
-  return (function () {
-    function RequestError() {
-      var _this = this;
-
-      var params = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
-      _classCallCheck(this, RequestError);
-
-      if (params.onError && angular.isFunction(params.onCode)) {
-        this.onError = params.onError;
-      }
-
-      $rootScope.$on('request:error', function ($event, data) {
-        _this.onError(data);
-      });
-    }
-
-    // Exibe mensagem
-    // @param {Object} data com descrição do erro
-
-    _createClass(RequestError, [{
-      key: 'onError',
-      value: function onError(data) {
-        if (typeof data === 'undefined') {
-          return false;
-        }
-
-        if (data.code === 0) {
-          data = { code: 408, description: 'Não foi possível conectar com o servidor. Tente mais tarde. ' };
-        }
-
-        if (this.onError) {
-          this.onError(data.code);
-        }
-
-        if (angular.isArray(data.description)) {
-          angular.forEach(data.description, function (message) {
-            hint.error(data.description);
-          });
-        } else {
-          hint.error(data.description);
-        }
-      }
-    }]);
-
-    return RequestError;
-  })();
-};
-
-angular.module('foodbox.utils').factory('requestError', factory);
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();

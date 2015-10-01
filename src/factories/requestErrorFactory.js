@@ -36,4 +36,4 @@ let factory = ($rootScope, $state, hint) => {
   }
 };
 
-angular.module('foodbox.utils').factory('requestError', factory);
+angular.module('foodbox.utils').factory('RequestError', factory);
