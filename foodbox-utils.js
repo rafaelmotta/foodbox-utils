@@ -979,12 +979,12 @@ var factory = function factory($rootScope, $state, hint) {
 
       _classCallCheck(this, RequestError);
 
-      if (params.onError && angular.isFunction(params.onCode)) {
+      if (params.onError && angular.isFunction(params.onError)) {
         this.onError = params.onError;
       }
 
       $rootScope.$on('request:error', function ($event, data) {
-        _this.onError(data);
+        _this._onError(data);
       });
     }
 
@@ -992,8 +992,8 @@ var factory = function factory($rootScope, $state, hint) {
     // @param {Object} data com descrição do erro
 
     _createClass(RequestError, [{
-      key: 'onError',
-      value: function onError(data) {
+      key: '_onError',
+      value: function _onError(data) {
         if (typeof data === 'undefined') {
           return false;
         }
@@ -1002,16 +1002,16 @@ var factory = function factory($rootScope, $state, hint) {
           data = { code: 408, description: 'Não foi possível conectar com o servidor. Tente mais tarde. ' };
         }
 
-        if (this.onError) {
-          this.onError(data.code);
-        }
-
         if (angular.isArray(data.description)) {
           angular.forEach(data.description, function (message) {
             hint.error(data.description);
           });
         } else {
           hint.error(data.description);
+        }
+
+        if (this.onError) {
+          this.onError(data);
         }
       }
     }]);
