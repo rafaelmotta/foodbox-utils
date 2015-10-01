@@ -29,7 +29,7 @@ let directive = ($templateCache) => {
           lat: scope.latitude,
           lng: scope.longitude,
           zoom: scope.zoom || 15,
-          scrollwheel: scope.scrollWheel || true,
+          scrollwheel: scope.scrollWheel || false,
           disableDefaultUI: scope.disableButtons || false,
         });
 
