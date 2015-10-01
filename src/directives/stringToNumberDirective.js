@@ -1,6 +1,6 @@
 let directive = () => {
   return {
-    restrict: 'E',
+    restrict: 'A',
     require: 'ngModel',
     link: (scope, $el, attrs, ngModel) => {
       if($el.get(0).type === 'number') {
@@ -17,4 +17,4 @@ let directive = () => {
 };
 
 
-angular.module('foodbox.utils').directive('input', directive);
+angular.module('foodbox.utils').directive('step', directive);

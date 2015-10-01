@@ -750,7 +750,7 @@ angular.module('foodbox.utils').directive('select', directive);
 
 var directive = function directive() {
   return {
-    restrict: 'E',
+    restrict: 'A',
     require: 'ngModel',
     link: function link(scope, $el, attrs, ngModel) {
       if ($el.get(0).type === 'number') {
@@ -766,7 +766,7 @@ var directive = function directive() {
   };
 };
 
-angular.module('foodbox.utils').directive('input', directive);
+angular.module('foodbox.utils').directive('step', directive);
 'use strict';
 
 var directive = function directive($templateCache) {
