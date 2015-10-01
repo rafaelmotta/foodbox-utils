@@ -543,7 +543,7 @@ var directive = function directive($templateCache) {
           lat: scope.latitude,
           lng: scope.longitude,
           zoom: scope.zoom || 15,
-          scrollwheel: scope.scrollWheel || true,
+          scrollwheel: scope.scrollWheel || false,
           disableDefaultUI: scope.disableButtons || false
         });
 
@@ -883,48 +883,6 @@ var directive = function directive(zipcodeApi) {
 angular.module('foodbox.utils').directive('zipcode', directive);
 'use strict';
 
-var pusher = function pusher() {
-  var settings = {
-    key: null,
-    authEndpoint: '/pusher/auth',
-    authTransport: 'ajax'
-  };
-
-  return {
-    setKey: function setKey(value) {
-      settings.key = value;
-    },
-
-    setAuthEndpoint: function setAuthEndpoint(authEndpoint) {
-      settings.authEndpoint = authEndpoint;
-    },
-
-    setAuthTransport: function setAuthTransport(authTransport) {
-      if (authTransport !== 'ajax' && authTransport !== 'jsonp') {
-        authTransport = 'ajax';
-      }
-
-      settings.authTransport = authTransport;
-    },
-
-    $get: function $get() {
-      return {
-        subscribe: function subscribe(channel) {
-          if (!settings.key) {
-            throw new Error('A key must be setted to initialize pusher');
-          }
-
-          var pusher = new Pusher(settings.key, { authEndpoint: settings.authEndpoint });
-          return pusher.subscribe(channel);
-        }
-      };
-    }
-  };
-};
-
-angular.module('foodbox.utils').provider('pusher', pusher);
-'use strict';
-
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
@@ -1046,6 +1004,30 @@ var hint = function hint($timeout, $window, ngAudio) {
 };
 
 angular.module('foodbox.utils').factory('hint', hint);
+"use strict";
+
+angular.module("foodbox.utils").config(function ($httpProvider) {
+  return $httpProvider.interceptors.push("httpHintInterceptor");
+}).factory("httpHintInterceptor", function ($q, $window, $rootScope) {
+  return {
+    request: function request(config) {
+      config.timeout = 12000;
+      $rootScope.$emit('request:start');
+      return config || $q.when(config);
+    },
+    response: function response(_response) {
+      $rootScope.$emit('request:end');
+      return _response || $q.when(_response);
+    },
+    responseError: function responseError(response) {
+      $rootScope.$emit('request:end', {
+        error: true
+      });
+      $rootScope.$emit('request:error', response.data.error);
+      return $q.reject(response);
+    }
+  };
+});
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -1393,6 +1375,64 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
+var factory = function factory($rootScope, $state, hint) {
+
+  return (function () {
+    function RequestError() {
+      var _this = this;
+
+      var params = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+      _classCallCheck(this, RequestError);
+
+      if (params.onError && angular.isFunction(params.onCode)) {
+        this.onError = params.onError;
+      }
+
+      $rootScope.$on('request:error', function ($event, data) {
+        _this.onError(data);
+      });
+    }
+
+    // Exibe mensagem
+    // @param {Object} data com descrição do erro
+
+    _createClass(RequestError, [{
+      key: 'onError',
+      value: function onError(data) {
+        if (typeof data === 'undefined') {
+          return false;
+        }
+
+        if (data.code === 0) {
+          data = { code: 408, description: 'Não foi possível conectar com o servidor. Tente mais tarde. ' };
+        }
+
+        if (this.onError) {
+          this.onError(data.code);
+        }
+
+        if (angular.isArray(data.description)) {
+          angular.forEach(data.description, function (message) {
+            hint.error(data.description);
+          });
+        } else {
+          hint.error(data.description);
+        }
+      }
+    }]);
+
+    return RequestError;
+  })();
+};
+
+angular.module('foodbox.utils').factory('requestError', factory);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
 var storage = function storage($localStorage, $q) {
   return new ((function () {
     function Storage() {
@@ -1539,3 +1579,45 @@ var tempCart = function tempCart() {
 };
 
 angular.module('foodbox.utils').factory('TempCart', tempCart);
+'use strict';
+
+var pusher = function pusher() {
+  var settings = {
+    key: null,
+    authEndpoint: '/pusher/auth',
+    authTransport: 'ajax'
+  };
+
+  return {
+    setKey: function setKey(value) {
+      settings.key = value;
+    },
+
+    setAuthEndpoint: function setAuthEndpoint(authEndpoint) {
+      settings.authEndpoint = authEndpoint;
+    },
+
+    setAuthTransport: function setAuthTransport(authTransport) {
+      if (authTransport !== 'ajax' && authTransport !== 'jsonp') {
+        authTransport = 'ajax';
+      }
+
+      settings.authTransport = authTransport;
+    },
+
+    $get: function $get() {
+      return {
+        subscribe: function subscribe(channel) {
+          if (!settings.key) {
+            throw new Error('A key must be setted to initialize pusher');
+          }
+
+          var pusher = new Pusher(settings.key, { authEndpoint: settings.authEndpoint });
+          return pusher.subscribe(channel);
+        }
+      };
+    }
+  };
+};
+
+angular.module('foodbox.utils').provider('pusher', pusher);
