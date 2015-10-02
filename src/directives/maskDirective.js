@@ -11,7 +11,7 @@ let directive = () => {
       }
 
       if(attrs.mask === 'zipcode') {
-        return $el.inputmask('99999-999');
+        return $el.inputmask('99999-999', { autoUnmask: true });
       }
 
       $el.inputmask(attrs.mask, { autoUnmask: attrs.autoUnmask || false })
