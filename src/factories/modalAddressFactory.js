@@ -1,35 +1,26 @@
 let modalAddress = ($modal, $templateCache) => {
+
   return new class ModalAddress {
-    open(address = {}, onSubmit = null){
+
+    open(params = {}){
+      if(!angular.isObject(params)) {
+        throw new Error('Modal Address params must be an object!');
+      }
+
+      if(!params.onSubmit || !angular.isFunction(params.onSubmit)) {
+        throw new Error('Modal Address Factory must have onSubmit function!')
+      }
+
       return $modal.open({
         template: $templateCache.get('/templates/modal-address.html'),
-        controllerAs: 'ctrl',
-        controller: ($scope, $modalInstance, addressResolved) => {
-          return new class ModalMeAddressCtrl {
-            constructor(onSubmit) {
-              $scope.address = addressResolved;
-            }
-
-            submit() {
-              let method = this._getMethod();
-              onSubmit({ address: $scope.address, method: method }).then((response) => {
-                $modalInstance.close(response);
-              });
-            }
-
-            close() {
-              $modalInstance.dismiss('close');
-            }
-
-             _getMethod() {
-              return $scope.address.id ? 'update' : 'create';
-            }
-          };
-        },
+        controller: 'ModalAddressCtrl as ctrl',
         windowClass: 'modal-address',
         resolve: {
-          addressResolved: () => {
-            return address;
+          addressResolved() {
+            return params.address;
+          },
+          onSubmitResolved() {
+            return params.onSubmit;
           }
         }
       });
