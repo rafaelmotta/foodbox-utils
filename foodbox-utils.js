@@ -1632,14 +1632,24 @@ var pusher = function pusher() {
       settings.authTransport = authTransport;
     },
 
-    $get: function $get() {
+    $get: function $get($localStorage) {
       return {
         subscribe: function subscribe(channel) {
           if (!settings.key) {
             throw new Error('A key must be setted to initialize pusher');
           }
 
-          var pusher = new Pusher(settings.key, { authEndpoint: settings.authEndpoint });
+          var costumer = $localStorage['currentCostumer'];
+          var employee = $localStorage['currentEmployee'];
+
+          var headers = {
+            'X-Employee-Email': employee ? employee.email : null,
+            'X-Employee-Token': employee ? employee.authentication_token : null,
+            'X-Costumer-Email': costumer ? costumer.email : null,
+            'X-Costumer-Token': costumer ? costumer.authentication_token : null
+          };
+
+          var pusher = new Pusher(settings.key, { authEndpoint: settings.authEndpoint, auth: { headers: headers } });
           return pusher.subscribe(channel);
         }
       };
