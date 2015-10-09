@@ -12,6 +12,7 @@ let directive = ($templateCache) => {
     },
     link: (scope, $el, attrs) => {
       scope.id = `field-${Math.floor((Math.random() * 50000) + 1)}`;
+      $el.find('input, textarea').attr('id', scope.id);
     }
   };
 };
