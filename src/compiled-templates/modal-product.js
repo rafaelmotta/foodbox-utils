@@ -25,7 +25,7 @@ module.run(['$templateCache', function($templateCache) {
     '      <i class="icon icon-shopping-cart"></i>\n' +
     '      {{ product.name }}\n' +
     '    </p>\n' +
-    '    <p class="product-description">\n' +
+    '    <p class="product-description" ng-show="product.description">\n' +
     '      <i class="icon icon-info-circle"></i>\n' +
     '      {{ product.description }}\n' +
     '    </p>\n' +
