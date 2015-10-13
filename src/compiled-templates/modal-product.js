@@ -20,7 +20,7 @@ module.run(['$templateCache', function($templateCache) {
     '<div class="modal-body clearfix">\n' +
     '\n' +
     '  <aside class="pull-left">\n' +
-    '    <img class="product-image img-thumbnail" ng-src="http://lorempixel.com/280/280/food/" width="280" height="280" alt="Foto do produto com nome {{ product.name }}">\n' +
+    '    <img class="product-image img-thumbnail" ng-src="{{ product.img }}" width="280" height="280" alt="Foto do produto com nome {{ product.name }}">\n' +
     '    <p class="product-description">\n' +
     '      <i class="icon icon-shopping-cart"></i>\n' +
     '      {{ product.name }}\n' +
@@ -32,10 +32,6 @@ module.run(['$templateCache', function($templateCache) {
     '    <p class="product-description">\n' +
     '      <i class="icon icon-money"></i>\n' +
     '      A partir de {{ product.price | currency: "R$" }}\n' +
-    '    </p>\n' +
-    '    <p class="product-sps">\n' +
-    '      <i class="icon icon-trophy"></i>\n' +
-    '      Dá direito a <b><a href="">30 sps</a></b>\n' +
     '    </p>\n' +
     '  </aside>\n' +
     '\n' +

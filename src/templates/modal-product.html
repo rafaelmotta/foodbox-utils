@@ -12,7 +12,7 @@
 <div class="modal-body clearfix">
 
   <aside class="pull-left">
-    <img class="product-image img-thumbnail" ng-src="http://lorempixel.com/280/280/food/" width="280" height="280" alt="Foto do produto com nome {{ product.name }}">
+    <img class="product-image img-thumbnail" ng-src="{{ product.img }}" width="280" height="280" alt="Foto do produto com nome {{ product.name }}">
     <p class="product-description">
       <i class="icon icon-shopping-cart"></i>
       {{ product.name }}
@@ -24,10 +24,6 @@
     <p class="product-description">
       <i class="icon icon-money"></i>
       A partir de {{ product.price | currency: "R$" }}
-    </p>
-    <p class="product-sps">
-      <i class="icon icon-trophy"></i>
-      Dá direito a <b><a href="">30 sps</a></b>
     </p>
   </aside>
 
