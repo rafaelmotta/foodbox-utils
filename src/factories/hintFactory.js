@@ -95,4 +95,5 @@ let hint = ($timeout, $window, ngAudio) => {
   };
 };
 
+hint.$inject = ['$timeout', '$window', 'ngAudio'];
 angular.module('foodbox.utils').factory('hint', hint);

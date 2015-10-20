@@ -1,7 +1,9 @@
-angular.module("foodbox.utils").config(function($httpProvider) {
+let httpConfig = ($httpProvider) => {
   return $httpProvider.interceptors.push("httpHintInterceptor");
+};
 
-}).factory("httpHintInterceptor", function($q, $window, $rootScope) {
+
+let httpHintInterceptor = ($q, $window, $rootScope) => {
   return {
     request: function(config) {
       config.timeout = 12000;
@@ -20,4 +22,9 @@ angular.module("foodbox.utils").config(function($httpProvider) {
       return $q.reject(response);
     }
   };
-});
+};
+
+httpConfig.$inject = ['$httpProvider'];
+httpHintInterceptor.$inject = ['$q', '$window', '$rootScope'];
+
+angular.module("foodbox.utils").config(httpConfig).factory("httpHintInterceptor", httpHintInterceptor);

@@ -10,4 +10,5 @@ let modalCustomPeriod = ($modal, $templateCache) => {
   };
 };
 
+modalCustomPeriod.$inject = ['$modal', '$templateCache'];
 angular.module('foodbox.utils').factory('modalCustomPeriod', modalCustomPeriod);

@@ -25,4 +25,5 @@ let ctrl = ($scope, $modalInstance, addressResolved, onSubmitResolved) => {
   };
 };
 
+ctrl.$inject = ['$scope', '$modalInstance', 'addressResolved', 'onSubmitResolved'];
 angular.module('foodbox.utils').controller('ModalAddressCtrl', ctrl);

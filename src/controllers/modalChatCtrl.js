@@ -43,4 +43,5 @@ let ctrl = ($scope, $modalInstance, hint, pusher, chatMessageApi, chatResolved, 
   };
 };
 
+ctrl.$inject = ['$scope', '$modalInstance', 'hint', 'pusher', 'chatMessageApi', 'chatResolved', 'userResolved', 'userTypeResolved'];
 angular.module('foodbox.utils').controller('ModalChatCtrl', ctrl);

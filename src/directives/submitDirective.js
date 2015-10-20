@@ -11,4 +11,5 @@ let directive = ($templateCache) => {
   };
 };
 
+directive.$inject = ['$templateCache'];
 angular.module('foodbox.utils').directive('submitForm', directive);

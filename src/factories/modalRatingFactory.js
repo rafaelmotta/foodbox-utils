@@ -15,4 +15,5 @@ let modalRating = ($modal, $templateCache) => {
   };
 };
 
+modalRating.$inject = ['$modal', '$templateCache'];
 angular.module('foodbox.utils').factory('modalRating', modalRating);

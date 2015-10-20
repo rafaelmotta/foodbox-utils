@@ -27,4 +27,5 @@ let modal = ($modal, $templateCache) => {
   };
 };
 
+modal.$inject = ['$modal', '$templateCache'];
 angular.module('foodbox.utils').factory('modalChat', modal);

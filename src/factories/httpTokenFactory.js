@@ -55,4 +55,5 @@ let HttpToken = ($q, $state, $http, hint, storage) => {
   }
 };
 
+HttpToken.$inject = ['$q', '$state', '$http', 'hint', 'storage'];
 angular.module('foodbox.utils').factory('HttpToken', HttpToken);

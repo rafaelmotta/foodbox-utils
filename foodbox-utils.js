@@ -246,6 +246,7 @@ var ctrl = function ctrl($scope, $modalInstance, addressResolved, onSubmitResolv
   })())();
 };
 
+ctrl.$inject = ['$scope', '$modalInstance', 'addressResolved', 'onSubmitResolved'];
 angular.module('foodbox.utils').controller('ModalAddressCtrl', ctrl);
 'use strict';
 
@@ -306,6 +307,7 @@ var ctrl = function ctrl($scope, $modalInstance, hint, pusher, chatMessageApi, c
   })())();
 };
 
+ctrl.$inject = ['$scope', '$modalInstance', 'hint', 'pusher', 'chatMessageApi', 'chatResolved', 'userResolved', 'userTypeResolved'];
 angular.module('foodbox.utils').controller('ModalChatCtrl', ctrl);
 'use strict';
 
@@ -313,7 +315,7 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var modalCustomPeriodCtrl = function modalCustomPeriodCtrl($scope, $modalInstance, $filter) {
+var ctrl = function ctrl($scope, $modalInstance, $filter) {
 
   return new ((function () {
     function ModalCustomPeriodCtrl() {
@@ -353,14 +355,15 @@ var modalCustomPeriodCtrl = function modalCustomPeriodCtrl($scope, $modalInstanc
   })())();
 };
 
-angular.module('foodbox.utils').controller('ModalCustomPeriodCtrl', modalCustomPeriodCtrl);
+ctrl.$inject = ['$scope', '$modalInstance', '$filter'];
+angular.module('foodbox.utils').controller('ModalCustomPeriodCtrl', ctrl);
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var modalProductCtrl = function modalProductCtrl($scope, $modalInstance, TempCart, meCartItemApi, cartResolved, storeProductResolved, cartItemResolved) {
+var ctrl = function ctrl($scope, $modalInstance, TempCart, meCartItemApi, cartResolved, storeProductResolved, cartItemResolved) {
 
   return new ((function () {
     function ModalProductCustomizationCtrl() {
@@ -396,14 +399,15 @@ var modalProductCtrl = function modalProductCtrl($scope, $modalInstance, TempCar
   })())();
 };
 
-angular.module('foodbox.utils').controller('ModalProductCtrl', modalProductCtrl);
+ctrl.$inject = ['$scope', '$modalInstance', 'TempCart', 'meCartItemApi', 'cartResolved', 'storeProductResolved', 'cartItemResolved'];
+angular.module('foodbox.utils').controller('ModalProductCtrl', ctrl);
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var modalRatingCtrl = function modalRatingCtrl($scope, $modalInstance) {
+var ctrl = function ctrl($scope, $modalInstance) {
 
   return new ((function () {
     function ModalRatingCtrl() {
@@ -428,7 +432,8 @@ var modalRatingCtrl = function modalRatingCtrl($scope, $modalInstance) {
   })())();
 };
 
-angular.module('foodbox.utils').controller('ModalRatingCtrl', modalRatingCtrl);
+ctrl.$inject = ['$scope', '$modalInstance'];
+angular.module('foodbox.utils').controller('ModalRatingCtrl', ctrl);
 'use strict';
 
 var directive = function directive($templateCache) {
@@ -445,6 +450,7 @@ var directive = function directive($templateCache) {
   };
 };
 
+directive.$inject = ['$templateCache'];
 angular.module('foodbox.utils').directive('box', directive);
 'use strict';
 
@@ -460,6 +466,7 @@ var directive = function directive($templateCache) {
   };
 };
 
+directive.$inject = ['$templateCache'];
 angular.module('foodbox.utils').directive('deleteButton', directive);
 'use strict';
 
@@ -475,6 +482,7 @@ var directive = function directive($templateCache) {
   };
 };
 
+directive.$inject = ['$templateCache'];
 angular.module('foodbox.utils').directive('editButton', directive);
 'use strict';
 
@@ -497,6 +505,7 @@ var directive = function directive($templateCache) {
   };
 };
 
+directive.$inject = ['$templateCache'];
 angular.module("foodbox.utils").directive('formGroup', directive);
 'use strict';
 
@@ -552,6 +561,7 @@ var directive = function directive($templateCache) {
   };
 };
 
+directive.$inject = ['$templateCache'];
 angular.module('foodbox.utils').directive('limit', directive);
 'use strict';
 
@@ -670,6 +680,7 @@ var directive = function directive($templateCache) {
   };
 };
 
+directive.$inject = ['$templateCache'];
 angular.module('foodbox.utils').directive('map', directive);
 'use strict';
 
@@ -766,6 +777,7 @@ var directive = function directive($modal, $templateCache, $parse, $timeout, Cro
   };
 };
 
+directive.$inject = ['$modal', '$templateCache', '$parse', '$timeout', 'Cropper'];
 angular.module("foodbox.utils").directive('modalCrop', directive);
 'use strict';
 
@@ -781,6 +793,7 @@ var directive = function directive($templateCache) {
   };
 };
 
+directive.$inject = ['$templateCache'];
 angular.module('foodbox.utils').directive('noResults', directive);
 'use strict';
 
@@ -830,6 +843,7 @@ var directive = function directive($templateCache) {
   };
 };
 
+directive.$inject = ['$templateCache'];
 angular.module('foodbox.utils').directive('submitForm', directive);
 "use strict";
 
@@ -887,6 +901,7 @@ var directive = function directive($templateCache, $interval) {
   };
 };
 
+directive.$inject = ['$templateCache', '$inteval'];
 angular.module('foodbox.utils').directive('tikTak', directive);
 'use strict';
 
@@ -928,6 +943,7 @@ var directive = function directive(zipcodeApi) {
   };
 };
 
+directive.$inject = ['zipcodeApi'];
 angular.module('foodbox.utils').directive('zipcode', directive);
 'use strict';
 
@@ -1010,6 +1026,7 @@ var HttpToken = function HttpToken($q, $state, $http, hint, storage) {
   })();
 };
 
+HttpToken.$inject = ['$q', '$state', '$http', 'hint', 'storage'];
 angular.module('foodbox.utils').factory('HttpToken', HttpToken);
 'use strict';
 
@@ -1068,6 +1085,7 @@ var factory = function factory($rootScope, $state, hint) {
   })();
 };
 
+factory.$inject = ['$rootScope', '$state', 'hint'];
 angular.module('foodbox.utils').factory('RequestError', factory);
 'use strict';
 
@@ -1191,12 +1209,15 @@ var hint = function hint($timeout, $window, ngAudio) {
   })())();
 };
 
+hint.$inject = ['$timeout', '$window', 'ngAudio'];
 angular.module('foodbox.utils').factory('hint', hint);
-"use strict";
+'use strict';
 
-angular.module("foodbox.utils").config(function ($httpProvider) {
+var httpConfig = function httpConfig($httpProvider) {
   return $httpProvider.interceptors.push("httpHintInterceptor");
-}).factory("httpHintInterceptor", function ($q, $window, $rootScope) {
+};
+
+var httpHintInterceptor = function httpHintInterceptor($q, $window, $rootScope) {
   return {
     request: function request(config) {
       config.timeout = 12000;
@@ -1215,7 +1236,12 @@ angular.module("foodbox.utils").config(function ($httpProvider) {
       return $q.reject(response);
     }
   };
-});
+};
+
+httpConfig.$inject = ['$httpProvider'];
+httpHintInterceptor.$inject = ['$q', '$window', '$rootScope'];
+
+angular.module("foodbox.utils").config(httpConfig).factory("httpHintInterceptor", httpHintInterceptor);
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -1262,6 +1288,7 @@ var modalAddress = function modalAddress($modal, $templateCache) {
   })())();
 };
 
+modalAddress.$inject = ['$modal', '$templateCache'];
 angular.module('foodbox.utils').factory('modalAddress', modalAddress);
 'use strict';
 
@@ -1309,6 +1336,7 @@ var modal = function modal($modal, $templateCache) {
   })())();
 };
 
+modal.$inject = ['$modal', '$templateCache'];
 angular.module('foodbox.utils').factory('modalChat', modal);
 'use strict';
 
@@ -1337,6 +1365,7 @@ var modalCustomPeriod = function modalCustomPeriod($modal, $templateCache) {
   })())();
 };
 
+modalCustomPeriod.$inject = ['$modal', '$templateCache'];
 angular.module('foodbox.utils').factory('modalCustomPeriod', modalCustomPeriod);
 'use strict';
 
@@ -1391,6 +1420,7 @@ var modalProduct = function modalProduct($modal, storeProductApi, $templateCache
   })())();
 };
 
+modalProduct.$inject = ['$modal', 'storeProductApi', '$templateCache'];
 angular.module('foodbox.utils').factory('modalProduct', modalProduct);
 'use strict';
 
@@ -1424,6 +1454,7 @@ var modalRating = function modalRating($modal, $templateCache) {
   })())();
 };
 
+modalRating.$inject = ['$modal', '$templateCache'];
 angular.module('foodbox.utils').factory('modalRating', modalRating);
 'use strict';
 
@@ -1454,6 +1485,7 @@ var popup = function popup($window, $q) {
   })())();
 };
 
+popup.$inject = ['$window', '$q'];
 angular.module('foodbox.utils').factory('popup', popup);
 'use strict';
 
@@ -1498,6 +1530,7 @@ var storage = function storage($localStorage, $q) {
   })())();
 };
 
+storage.$inject = ['$localStorage', '$q'];
 angular.module('foodbox.utils').factory('storage', storage);
 'use strict';
 

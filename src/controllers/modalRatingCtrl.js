@@ -1,4 +1,4 @@
-let modalRatingCtrl = ($scope, $modalInstance) => {
+let ctrl = ($scope, $modalInstance) => {
 
   return new class ModalRatingCtrl {
     constructor() {
@@ -16,4 +16,5 @@ let modalRatingCtrl = ($scope, $modalInstance) => {
   };
 };
 
-angular.module('foodbox.utils').controller('ModalRatingCtrl', modalRatingCtrl);
+ctrl.$inject = ['$scope', '$modalInstance'];
+angular.module('foodbox.utils').controller('ModalRatingCtrl', ctrl);

@@ -12,5 +12,3 @@ let directive = () => {
 };
 
 angular.module('foodbox.utils').directive('input', directive);
-
-

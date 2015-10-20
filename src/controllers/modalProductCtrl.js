@@ -1,4 +1,4 @@
-let modalProductCtrl = ($scope, $modalInstance, TempCart, meCartItemApi, cartResolved, storeProductResolved, cartItemResolved) => {
+let ctrl = ($scope, $modalInstance, TempCart, meCartItemApi, cartResolved, storeProductResolved, cartItemResolved) => {
 
   return new class ModalProductCustomizationCtrl {
     constructor() {
@@ -25,4 +25,5 @@ let modalProductCtrl = ($scope, $modalInstance, TempCart, meCartItemApi, cartRes
   };
 };
 
-angular.module('foodbox.utils').controller('ModalProductCtrl', modalProductCtrl);
+ctrl.$inject = ['$scope', '$modalInstance', 'TempCart', 'meCartItemApi', 'cartResolved', 'storeProductResolved', 'cartItemResolved'];
+angular.module('foodbox.utils').controller('ModalProductCtrl', ctrl);

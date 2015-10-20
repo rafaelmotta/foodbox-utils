@@ -25,4 +25,5 @@ let storage = ($localStorage, $q) => {
   };
 };
 
+storage.$inject = ['$localStorage', '$q'];
 angular.module('foodbox.utils').factory('storage', storage);

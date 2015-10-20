@@ -1,4 +1,4 @@
-let modalCustomPeriodCtrl = ($scope, $modalInstance, $filter) => {
+let ctrl = ($scope, $modalInstance, $filter) => {
 
   return new class ModalCustomPeriodCtrl {
     constructor() {
@@ -26,4 +26,5 @@ let modalCustomPeriodCtrl = ($scope, $modalInstance, $filter) => {
   };
 };
 
-angular.module('foodbox.utils').controller('ModalCustomPeriodCtrl', modalCustomPeriodCtrl);
+ctrl.$inject = ['$scope', '$modalInstance', '$filter'];
+angular.module('foodbox.utils').controller('ModalCustomPeriodCtrl', ctrl);
