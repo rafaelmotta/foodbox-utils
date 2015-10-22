@@ -513,6 +513,18 @@ var directive = function directive() {
   return {
     restrict: 'E',
     link: function link(scope, $el, attrs) {
+      $el.append('<input type="text" style="display:none" />').append('<input type="password" style="display:none" />');
+    }
+  };
+};
+
+angular.module('foodbox.utils').directive('form', directive);
+'use strict';
+
+var directive = function directive() {
+  return {
+    restrict: 'E',
+    link: function link(scope, $el, attrs) {
       var el = $el[0];
 
       if (el.type !== 'radio' && el.type !== 'checkbox') {
