@@ -1661,46 +1661,44 @@ var pusher = function pusher($localStorage) {
     authTransport: 'ajax'
   };
 
-  return {
-    setKey: function setKey(value) {
-      settings.key = value;
-    },
-
-    setAuthEndpoint: function setAuthEndpoint(authEndpoint) {
-      settings.authEndpoint = authEndpoint;
-    },
-
-    setAuthTransport: function setAuthTransport(authTransport) {
-      if (authTransport !== 'ajax' && authTransport !== 'jsonp') {
-        authTransport = 'ajax';
-      }
-
-      settings.authTransport = authTransport;
-    },
-
-    $get: function $get() {
-      return {
-        subscribe: function subscribe(channel) {
-          if (!settings.key) {
-            throw new Error('A key must be setted to initialize pusher');
-          }
-
-          var costumer = $localStorage['currentCostumer'];
-          var employee = $localStorage['currentEmployee'];
-
-          var headers = {
-            'X-Employee-Email': employee ? employee.email : null,
-            'X-Employee-Token': employee ? employee.authentication_token : null,
-            'X-Costumer-Email': costumer ? costumer.email : null,
-            'X-Costumer-Token': costumer ? costumer.authentication_token : null
-          };
-
-          var pusher = new Pusher(settings.key, { authEndpoint: settings.authEndpoint, auth: { headers: headers } });
-          return pusher.subscribe(channel);
-        }
-      };
-    }
+  undefined.setKey = function (value) {
+    settings.key = value;
   };
+
+  undefined.setAuthEndpoint = function (authEndpoint) {
+    settings.authEndpoint = authEndpoint;
+  };
+
+  undefined.setAuthTransport = function (authTransport) {
+    if (authTransport !== 'ajax' && authTransport !== 'jsonp') {
+      authTransport = 'ajax';
+    }
+
+    settings.authTransport = authTransport;
+  };
+
+  undefined.$get = ["$localStorage", function ($localStorage) {
+    return {
+      subscribe: function subscribe(channel) {
+        if (!settings.key) {
+          throw new Error('A key must be setted to initialize pusher');
+        }
+
+        var costumer = $localStorage['currentCostumer'];
+        var employee = $localStorage['currentEmployee'];
+
+        var headers = {
+          'X-Employee-Email': employee ? employee.email : null,
+          'X-Employee-Token': employee ? employee.authentication_token : null,
+          'X-Costumer-Email': costumer ? costumer.email : null,
+          'X-Costumer-Token': costumer ? costumer.authentication_token : null
+        };
+
+        var pusher = new Pusher(settings.key, { authEndpoint: settings.authEndpoint, auth: { headers: headers } });
+        return pusher.subscribe(channel);
+      }
+    };
+  }];
 };
 
 pusher.$inject = ['$localStorage'];
