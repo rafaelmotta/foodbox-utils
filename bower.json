@@ -16,5 +16,8 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "angularLocalStorage": "ngStorage#~0.3.2"
+  }
 }
