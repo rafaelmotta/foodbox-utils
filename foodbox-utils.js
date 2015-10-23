@@ -1654,7 +1654,7 @@ var tempCart = function tempCart() {
 angular.module('foodbox.utils').factory('TempCart', tempCart);
 'use strict';
 
-var pusher = function pusher() {
+var pusher = function pusher($localStorage) {
   var settings = {
     key: null,
     authEndpoint: '/pusher/auth',
@@ -1678,7 +1678,7 @@ var pusher = function pusher() {
       settings.authTransport = authTransport;
     },
 
-    $get: function $get($localStorage) {
+    $get: function $get() {
       return {
         subscribe: function subscribe(channel) {
           if (!settings.key) {
@@ -1703,4 +1703,5 @@ var pusher = function pusher() {
   };
 };
 
+pusher.$inject = ['$localStorage'];
 angular.module('foodbox.utils').provider('pusher', pusher);

@@ -1,4 +1,4 @@
-let pusher = () => {
+let pusher = ($localStorage) => {
   let settings = {
     key: null,
     authEndpoint: '/pusher/auth',
@@ -22,7 +22,7 @@ let pusher = () => {
       settings.authTransport = authTransport;
     },
 
-    $get: ($localStorage) => {
+    $get: () => {
       return {
         subscribe: (channel) => {
           if(!settings.key) {
@@ -47,4 +47,5 @@ let pusher = () => {
   };
 };
 
+pusher.$inject = ['$localStorage'];
 angular.module('foodbox.utils').provider('pusher', pusher);
