@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('foodbox.utils', []);
+var app = angular.module('foodbox.utils', ['$localStorage']);
 'use strict';
 
 (function (module) {
