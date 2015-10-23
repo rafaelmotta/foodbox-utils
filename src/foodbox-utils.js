@@ -1,1 +1,1 @@
-var app = angular.module('foodbox.utils', ['$localStorage']);
+var app = angular.module('foodbox.utils', ['ngStorage']);
