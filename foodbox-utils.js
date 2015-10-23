@@ -1654,22 +1654,24 @@ var tempCart = function tempCart() {
 angular.module('foodbox.utils').factory('TempCart', tempCart);
 'use strict';
 
-var pusher = function pusher($localStorage) {
+var pusher = function pusher() {
   var settings = {
     key: null,
     authEndpoint: '/pusher/auth',
     authTransport: 'ajax'
   };
 
-  undefined.setKey = function (value) {
+  var self = undefined;
+
+  self.setKey = function (value) {
     settings.key = value;
   };
 
-  undefined.setAuthEndpoint = function (authEndpoint) {
+  self.setAuthEndpoint = function (authEndpoint) {
     settings.authEndpoint = authEndpoint;
   };
 
-  undefined.setAuthTransport = function (authTransport) {
+  self.setAuthTransport = function (authTransport) {
     if (authTransport !== 'ajax' && authTransport !== 'jsonp') {
       authTransport = 'ajax';
     }
@@ -1677,7 +1679,7 @@ var pusher = function pusher($localStorage) {
     settings.authTransport = authTransport;
   };
 
-  undefined.$get = ["$localStorage", function ($localStorage) {
+  self.$get = ["$localStorage", function ($localStorage) {
     return {
       subscribe: function subscribe(channel) {
         if (!settings.key) {
@@ -1701,5 +1703,4 @@ var pusher = function pusher($localStorage) {
   }];
 };
 
-pusher.$inject = ['$localStorage'];
 angular.module('foodbox.utils').provider('pusher', pusher);

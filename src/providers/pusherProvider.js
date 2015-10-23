@@ -1,19 +1,21 @@
-let pusher = ($localStorage) => {
+let pusher = () => {
   let settings = {
     key: null,
     authEndpoint: '/pusher/auth',
     authTransport: 'ajax'
   };
 
-  this.setKey = (value) => {
+  let self = this;
+
+  self.setKey = (value) => {
     settings.key = value;
   };
 
-  this.setAuthEndpoint = (authEndpoint) => {
+  self.setAuthEndpoint = (authEndpoint) => {
     settings.authEndpoint = authEndpoint;
   };
 
-  this.setAuthTransport = (authTransport) => {
+  self.setAuthTransport = (authTransport) => {
     if(authTransport !== 'ajax' && authTransport !== 'jsonp') {
       authTransport = 'ajax';
     }
@@ -21,7 +23,7 @@ let pusher = ($localStorage) => {
     settings.authTransport = authTransport;
   };
 
-  this.$get = ["$localStorage", ($localStorage) => {
+  self.$get = ["$localStorage", ($localStorage) => {
     return {
       subscribe: (channel) => {
         if(!settings.key) {
@@ -45,5 +47,4 @@ let pusher = ($localStorage) => {
   }];
 };
 
-pusher.$inject = ['$localStorage'];
 angular.module('foodbox.utils').provider('pusher', pusher);
