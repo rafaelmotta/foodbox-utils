@@ -913,7 +913,7 @@ var directive = function directive($templateCache, $interval) {
   };
 };
 
-directive.$inject = ['$templateCache', '$inteval'];
+directive.$inject = ['$templateCache', '$interval'];
 angular.module('foodbox.utils').directive('tikTak', directive);
 'use strict';
 
