@@ -1,18 +1,18 @@
 let pusher = () => {
-  let settings = {
+  let _settings = {
     key: null,
-    authEndpoint: '/pusher/auth',
-    authTransport: 'ajax'
+    authTransport: 'ajax',
+    baseUrl: 'http://foodio.com.br/admin'
   };
 
   let self = this;
 
   self.setKey = (value) => {
-    settings.key = value;
+    _settings.key = value;
   };
 
-  self.setAuthEndpoint = (authEndpoint) => {
-    settings.authEndpoint = authEndpoint;
+  self.setBaseUrl = (baseUrl) => {
+    _settings.baseUrl = baseUrl;
   };
 
   self.setAuthTransport = (authTransport) => {
@@ -20,13 +20,13 @@ let pusher = () => {
       authTransport = 'ajax';
     }
 
-    settings.authTransport = authTransport;
+    _settings.authTransport = authTransport;
   };
 
-  self.$get = ["$localStorage", ($localStorage) => {
+  self.$get = ["$localStorage", "$rootScope", ($localStorage, $rootScope) => {
     return {
       subscribe: (channel) => {
-        if(!settings.key) {
+        if(!_settings.key) {
           throw new Error('A key must be setted to initialize pusher');
         }
 
@@ -40,7 +40,9 @@ let pusher = () => {
           'X-Costumer-Token': costumer ? costumer.authentication_token : null,
         };
 
-        let pusher = new Pusher(settings.key, { authEndpoint: settings.authEndpoint, auth: { headers: headers } });
+        let settings = angular.extend(_settings.key, { auth: { headers: headers }, authEndpoint: `${_settings.baseUrl}/companies/${$rootScope.company.id}/me/pusher/authentication` });
+
+        let pusher = new Pusher(settings);
         return pusher.subscribe(channel);
       }
     }

@@ -1655,20 +1655,20 @@ angular.module('foodbox.utils').factory('TempCart', tempCart);
 'use strict';
 
 var pusher = function pusher() {
-  var settings = {
+  var _settings = {
     key: null,
-    authEndpoint: '/pusher/auth',
-    authTransport: 'ajax'
+    authTransport: 'ajax',
+    baseUrl: 'http://foodio.com.br/admin'
   };
 
-  var self = undefined;
+  var self = this;
 
   self.setKey = function (value) {
-    settings.key = value;
+    _settings.key = value;
   };
 
-  self.setAuthEndpoint = function (authEndpoint) {
-    settings.authEndpoint = authEndpoint;
+  self.setBaseUrl = function (baseUrl) {
+    _settings.baseUrl = baseUrl;
   };
 
   self.setAuthTransport = function (authTransport) {
@@ -1676,13 +1676,13 @@ var pusher = function pusher() {
       authTransport = 'ajax';
     }
 
-    settings.authTransport = authTransport;
+    _settings.authTransport = authTransport;
   };
 
-  self.$get = ["$localStorage", function ($localStorage) {
+  self.$get = ["$localStorage", "$rootScope", function ($localStorage, $rootScope) {
     return {
       subscribe: function subscribe(channel) {
-        if (!settings.key) {
+        if (!_settings.key) {
           throw new Error('A key must be setted to initialize pusher');
         }
 
@@ -1696,7 +1696,9 @@ var pusher = function pusher() {
           'X-Costumer-Token': costumer ? costumer.authentication_token : null
         };
 
-        var pusher = new Pusher(settings.key, { authEndpoint: settings.authEndpoint, auth: { headers: headers } });
+        var settings = angular.extend(_settings.key, { auth: { headers: headers }, authEndpoint: _settings.baseUrl + '/companies/' + $rootScope.company.id + '/me/pusher/authentication' });
+
+        var pusher = new Pusher(settings);
         return pusher.subscribe(channel);
       }
     };
