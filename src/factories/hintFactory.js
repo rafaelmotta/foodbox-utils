@@ -3,14 +3,16 @@ let hint = ($timeout, $window, ngAudio) => {
   return new class Hint {
 
     constructor() {
+      this.assetsPath = 'https://s3-sa-east-1.amazonaws.com/speedy-development';
+
       this.notifications = [];
       this.timeout = 5000;
       this.notification = $window.Notification || $window.mozNotification || $window.webkitNotification
 
       this.sound = {
-        success: ngAudio.load('/audios/success_notification.mp3'),
-        info:    ngAudio.load('/audios/success_notification.mp3'),
-        error:   ngAudio.load('/audios/error_notification.mp3')
+        success: ngAudio.load(`${this.assetsPath}/audios/success_notification.mp3`),
+        info:    ngAudio.load(`${this.assetsPath}/audios/success_notification.mp3`),
+        error:   ngAudio.load(`${this.assetsPath}/audios/error_notification.mp3`)
       };
 
       if(!this.notification) {
@@ -49,7 +51,7 @@ let hint = ($timeout, $window, ngAudio) => {
 
         let settings = {
           body: message,
-          icon: `/assets/app/icon-${type}.png`
+          icon: `${this.assetsPath}/icons/${type}.png`
         };
 
         // Só adiciona um hint se não houver nenhum hint com o mesmo conteudi
