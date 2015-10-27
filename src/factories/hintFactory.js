@@ -10,9 +10,9 @@ let hint = ($timeout, $window, ngAudio) => {
       this.notification = $window.Notification || $window.mozNotification || $window.webkitNotification
 
       this.sound = {
-        success: ngAudio.load(`${this.assetsPath}/audios/success_notification.mp3`),
-        info:    ngAudio.load(`${this.assetsPath}/audios/success_notification.mp3`),
-        error:   ngAudio.load(`${this.assetsPath}/audios/error_notification.mp3`)
+        success: ngAudio.load(`${this.assetsPath}/notifications/audios/success_notification.mp3`),
+        info:    ngAudio.load(`${this.assetsPath}/notifications/audios/success_notification.mp3`),
+        error:   ngAudio.load(`${this.assetsPath}/notifications/audios/error_notification.mp3`)
       };
 
       if(!this.notification) {
@@ -51,7 +51,7 @@ let hint = ($timeout, $window, ngAudio) => {
 
         let settings = {
           body: message,
-          icon: `${this.assetsPath}/icons/${type}.png`
+          icon: `${this.assetsPath}/notifications/icons/${type}.png`
         };
 
         // Só adiciona um hint se não houver nenhum hint com o mesmo conteudi
