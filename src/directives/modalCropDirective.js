@@ -25,6 +25,9 @@ let directive = ($modal, $templateCache, $parse, $timeout, Cropper) => {
             resolve: {
               imgUrlResolved() {
                 return url;
+              },
+              fileResolved() {
+                return file;
               }
             }
           });

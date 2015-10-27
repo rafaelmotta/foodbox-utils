@@ -315,7 +315,7 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var ctrl = function ctrl($scope, $modalInstance, $timeout, Cropper, imgUrlResolved) {
+var ctrl = function ctrl($scope, $modalInstance, $timeout, Cropper, imgUrlResolved, fileResolved) {
 
   return new ((function () {
     function Ctrl() {
@@ -324,7 +324,9 @@ var ctrl = function ctrl($scope, $modalInstance, $timeout, Cropper, imgUrlResolv
       _classCallCheck(this, Ctrl);
 
       $scope.imgToCrop = imgUrlResolved;
+
       this.fileData = null;
+      this.file = fileResolved;
 
       $scope.options = {
         maximize: true,
@@ -354,9 +356,11 @@ var ctrl = function ctrl($scope, $modalInstance, $timeout, Cropper, imgUrlResolv
     }, {
       key: 'crop',
       value: function crop() {
-        return Cropper.crop(file, this.fileData).then(function (blob) {
+        var _this2 = this;
+
+        return Cropper.crop(this.file, this.fileData).then(function (blob) {
           blob.lastModifiedDate = new Date();
-          blob.name = file.name;
+          blob.name = _this2.file.name;
 
           $timeout(function () {
             scope.model = [blob];
@@ -371,7 +375,7 @@ var ctrl = function ctrl($scope, $modalInstance, $timeout, Cropper, imgUrlResolv
   })())();
 };
 
-ctrl.$inject = ['$scope', '$modalInstance', '$timeout', 'Cropper', 'imgUrlResolved'];
+ctrl.$inject = ['$scope', '$modalInstance', '$timeout', 'Cropper', 'imgUrlResolved', 'fileResolved'];
 angular.module('foodbox.utils').controller('ModalCropController', ctrl);
 'use strict';
 
@@ -811,6 +815,9 @@ var directive = function directive($modal, $templateCache, $parse, $timeout, Cro
             resolve: {
               imgUrlResolved: function imgUrlResolved() {
                 return url;
+              },
+              fileResolved: function fileResolved() {
+                return file;
               }
             }
           });
