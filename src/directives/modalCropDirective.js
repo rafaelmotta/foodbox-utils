@@ -1,4 +1,4 @@
-let directive = ($modal, $templateCache, $parse, $timeout, Cropper, ModalCropController) => {
+let directive = ($modal, $templateCache, $parse, $timeout, Cropper) => {
   return {
     restrict: 'A',
     scope: false,
@@ -34,5 +34,5 @@ let directive = ($modal, $templateCache, $parse, $timeout, Cropper, ModalCropCon
   };
 };
 
-directive.$inject = ['$modal', '$templateCache', '$parse', '$timeout', 'Cropper', 'ModalCropController'];
+directive.$inject = ['$modal', '$templateCache', '$parse', '$timeout', 'Cropper'];
 angular.module("foodbox.utils").directive('modalCrop', directive);

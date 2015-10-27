@@ -4,6 +4,7 @@ let ctrl = ($scope, $modalInstance, $timeout, imgUrlResolved) => {
 
     constructor() {
       $scope.imgToCrop = imgUrlResolved;
+      this.fileData = null;
 
       $scope.options = {
         maximize: true,
@@ -14,7 +15,7 @@ let ctrl = ($scope, $modalInstance, $timeout, imgUrlResolved) => {
         touchDragZoom: false,
         aspectRatio: 2 / 2,
         crop: (newData) => {
-          return data = newData;
+          this.fileData = newData;
         }
       };
 
@@ -30,7 +31,7 @@ let ctrl = ($scope, $modalInstance, $timeout, imgUrlResolved) => {
     }
 
     crop() {
-      return Cropper.crop(file, data).then((blob) => {
+      return Cropper.crop(file, this.fileData).then((blob) => {
         blob.lastModifiedDate = new Date();
         blob.name = file.name;
 

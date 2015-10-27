@@ -319,9 +319,12 @@ var ctrl = function ctrl($scope, $modalInstance, $timeout, imgUrlResolved) {
 
   return new ((function () {
     function Ctrl() {
+      var _this = this;
+
       _classCallCheck(this, Ctrl);
 
       $scope.imgToCrop = imgUrlResolved;
+      this.fileData = null;
 
       $scope.options = {
         maximize: true,
@@ -332,7 +335,7 @@ var ctrl = function ctrl($scope, $modalInstance, $timeout, imgUrlResolved) {
         touchDragZoom: false,
         aspectRatio: 2 / 2,
         crop: function crop(newData) {
-          return data = newData;
+          _this.fileData = newData;
         }
       };
 
@@ -351,7 +354,7 @@ var ctrl = function ctrl($scope, $modalInstance, $timeout, imgUrlResolved) {
     }, {
       key: 'crop',
       value: function crop() {
-        return Cropper.crop(file, data).then(function (blob) {
+        return Cropper.crop(file, this.fileData).then(function (blob) {
           blob.lastModifiedDate = new Date();
           blob.name = file.name;
 
@@ -781,7 +784,7 @@ var directive = function directive() {
 angular.module('foodbox.utils').directive('mask', directive);
 'use strict';
 
-var directive = function directive($modal, $templateCache, $parse, $timeout, Cropper, ModalCropController) {
+var directive = function directive($modal, $templateCache, $parse, $timeout, Cropper) {
   return {
     restrict: 'A',
     scope: false,
@@ -817,7 +820,7 @@ var directive = function directive($modal, $templateCache, $parse, $timeout, Cro
   };
 };
 
-directive.$inject = ['$modal', '$templateCache', '$parse', '$timeout', 'Cropper', 'ModalCropController'];
+directive.$inject = ['$modal', '$templateCache', '$parse', '$timeout', 'Cropper'];
 angular.module("foodbox.utils").directive('modalCrop', directive);
 'use strict';
 
