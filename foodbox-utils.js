@@ -1385,6 +1385,30 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
+var modalDestroyer = function modalDestroyer() {
+  return new ((function () {
+    function ModalDestroyer() {
+      _classCallCheck(this, ModalDestroyer);
+    }
+
+    _createClass(ModalDestroyer, [{
+      key: 'destroyAll',
+      value: function destroyAll() {
+        $('.modal, .modal-backdrop').remove();
+      }
+    }]);
+
+    return ModalDestroyer;
+  })())();
+};
+
+angular.module('foodbox.utils').factory('modalDestroyer', modalDestroyer);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
 var modalProduct = function modalProduct($modal, storeProductApi, $templateCache) {
   return new ((function () {
     function ModalProduct() {
@@ -1717,7 +1741,8 @@ var pusher = function pusher() {
   var _settings = {
     key: null,
     authTransport: 'ajax',
-    baseUrl: 'http://foodio.com.br/admin'
+    baseUrl: 'http://foodio.com.br/admin',
+    authEndpoint: 'http://foodio.com.br/admin/companies/2/me/pusher/authentication'
   };
 
   var self = this;
