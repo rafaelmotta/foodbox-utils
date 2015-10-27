@@ -28,6 +28,9 @@ let directive = ($modal, $templateCache, $parse, $timeout, Cropper) => {
               },
               fileResolved() {
                 return file;
+              },
+              scopeResolved() {
+                return scope;
               }
             }
           });

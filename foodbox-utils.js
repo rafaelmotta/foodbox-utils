@@ -315,7 +315,7 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var ctrl = function ctrl($scope, $modalInstance, $timeout, Cropper, imgUrlResolved, fileResolved) {
+var ctrl = function ctrl($modalInstance, $timeout, Cropper, imgUrlResolved, fileResolved, scopeResolved) {
 
   return new ((function () {
     function Ctrl() {
@@ -327,6 +327,7 @@ var ctrl = function ctrl($scope, $modalInstance, $timeout, Cropper, imgUrlResolv
 
       this.fileData = null;
       this.file = fileResolved;
+      this.scope = scopeResolved;
 
       $scope.options = {
         maximize: true,
@@ -363,7 +364,7 @@ var ctrl = function ctrl($scope, $modalInstance, $timeout, Cropper, imgUrlResolv
           blob.name = _this2.file.name;
 
           $timeout(function () {
-            $scope.model = [blob];
+            _this2.scope.model = [blob];
           });
 
           _this2.close();
@@ -375,7 +376,7 @@ var ctrl = function ctrl($scope, $modalInstance, $timeout, Cropper, imgUrlResolv
   })())();
 };
 
-ctrl.$inject = ['$scope', '$modalInstance', '$timeout', 'Cropper', 'imgUrlResolved', 'fileResolved'];
+ctrl.$inject = ['$scope', '$modalInstance', '$timeout', 'Cropper', 'imgUrlResolved', 'fileResolved', 'scopeResolved'];
 angular.module('foodbox.utils').controller('ModalCropController', ctrl);
 'use strict';
 
@@ -818,6 +819,9 @@ var directive = function directive($modal, $templateCache, $parse, $timeout, Cro
               },
               fileResolved: function fileResolved() {
                 return file;
+              },
+              scopeResolved: function scopeResolved() {
+                return scope;
               }
             }
           });

@@ -1,4 +1,4 @@
-let ctrl = ($scope, $modalInstance, $timeout, Cropper, imgUrlResolved, fileResolved) => {
+let ctrl = ($modalInstance, $timeout, Cropper, imgUrlResolved, fileResolved, scopeResolved) => {
 
   return new class Ctrl {
 
@@ -7,6 +7,7 @@ let ctrl = ($scope, $modalInstance, $timeout, Cropper, imgUrlResolved, fileResol
 
       this.fileData = null;
       this.file = fileResolved;
+      this.scope = scopeResolved;
 
       $scope.options = {
         maximize: true,
@@ -38,7 +39,7 @@ let ctrl = ($scope, $modalInstance, $timeout, Cropper, imgUrlResolved, fileResol
         blob.name = this.file.name;
 
         $timeout(() => {
-          $scope.model = [blob];
+          this.scope.model = [blob];
         });
 
         this.close();
@@ -47,5 +48,5 @@ let ctrl = ($scope, $modalInstance, $timeout, Cropper, imgUrlResolved, fileResol
   }
 };
 
-ctrl.$inject = ['$scope', '$modalInstance', '$timeout', 'Cropper', 'imgUrlResolved', 'fileResolved'];
+ctrl.$inject = ['$scope', '$modalInstance', '$timeout', 'Cropper', 'imgUrlResolved', 'fileResolved', 'scopeResolved'];
 angular.module('foodbox.utils').controller('ModalCropController', ctrl);
