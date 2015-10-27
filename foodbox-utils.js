@@ -366,7 +366,7 @@ var ctrl = function ctrl($scope, $modalInstance, $timeout, Cropper, imgUrlResolv
             scope.model = [blob];
           });
 
-          $scope.close();
+          _this2.close();
         });
       }
     }]);

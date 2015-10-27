@@ -41,7 +41,7 @@ let ctrl = ($scope, $modalInstance, $timeout, Cropper, imgUrlResolved, fileResol
           scope.model = [blob];
         });
 
-        $scope.close();
+        this.close();
       });
     }
   }
