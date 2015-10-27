@@ -2,8 +2,7 @@ let pusher = () => {
   var _settings = {
     key: null,
     authTransport: 'ajax',
-    baseUrl: 'http://foodio.com.br/admin',
-    authEndpoint: 'http://foodio.com.br/admin/companies/2/me/pusher/authentication'
+    baseUrl: 'http://foodio.com.br/admin'
   };
 
   var self = this;

@@ -315,6 +315,67 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
+var ctrl = function ctrl($scope, $modalInstance, $timeout, imgUrlResolved) {
+
+  return new ((function () {
+    function Ctrl() {
+      _classCallCheck(this, Ctrl);
+
+      $scope.imgToCrop = imgUrlResolved;
+
+      $scope.options = {
+        maximize: true,
+        movable: false,
+        rotatable: false,
+        zoomable: false,
+        mouseWheelZoom: false,
+        touchDragZoom: false,
+        aspectRatio: 2 / 2,
+        crop: function crop(newData) {
+          return data = newData;
+        }
+      };
+
+      $scope.showEvent = 'show';
+
+      $timeout(function () {
+        return $scope.$broadcast($scope.showEvent);
+      });
+    }
+
+    _createClass(Ctrl, [{
+      key: 'close',
+      value: function close() {
+        $modalInstance.dismiss('close');
+      }
+    }, {
+      key: 'crop',
+      value: function crop() {
+        return Cropper.crop(file, data).then(function (blob) {
+          blob.lastModifiedDate = new Date();
+          blob.name = file.name;
+
+          $timeout(function () {
+            scope.model = [blob];
+          });
+
+          $scope.close();
+        });
+      }
+    }]);
+
+    return Ctrl;
+  })())();
+};
+
+ctrl.$inject = ['$scope', '$modalInstance', '$timeout', 'imgUrlResolved'];
+angular.module('foodbox.utils').controller('ModalCropController', ctrl);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
 var ctrl = function ctrl($scope, $modalInstance, $filter) {
 
   return new ((function () {
@@ -720,7 +781,7 @@ var directive = function directive() {
 angular.module('foodbox.utils').directive('mask', directive);
 'use strict';
 
-var directive = function directive($modal, $templateCache, $parse, $timeout, Cropper) {
+var directive = function directive($modal, $templateCache, $parse, $timeout, Cropper, ModalCropController) {
   return {
     restrict: 'A',
     scope: false,
@@ -734,62 +795,29 @@ var directive = function directive($modal, $templateCache, $parse, $timeout, Cro
         return false;
       }
 
-      return $el.on('change', function (e) {
-        var blob, data, file;
-        file = $el.get(0).files[0];
-        data = null;
-        return Cropper.encode(blob = file).then((function (_this) {
-          return function (url) {
-            var _this2 = this;
+      $el.on('change', function (e) {
+        var file = $el.get(0).files[0];
+        var data = null;
+        var blob = null;
 
-            return $modal.open({
-              template: $templateCache.get('/templates/modal-crop.html'),
-              windowClass: 'modal-crop',
-              controller: function controller($scope, $modalInstance, $timeout) {
-                $scope.imgToCrop = url;
-                $scope.options = {
-                  maximize: true,
-                  movable: false,
-                  rotatable: false,
-                  zoomable: false,
-                  mouseWheelZoom: false,
-                  touchDragZoom: false,
-                  aspectRatio: 2 / 2,
-                  crop: function crop(newData) {
-                    return data = newData;
-                  }
-                };
-                $scope.showEvent = 'show';
-                $timeout((function (_this) {
-                  return function () {
-                    return $scope.$broadcast($scope.showEvent);
-                  };
-                })(_this2));
-                $scope.close = function () {
-                  return $modalInstance.dismiss('close');
-                };
-                return $scope.crop = function () {
-                  return Cropper.crop(file, data).then(function (blob) {
-                    blob.lastModifiedDate = new Date();
-                    blob.name = file.name;
-                    $timeout((function (_this) {
-                      return function () {
-                        return scope.model = [blob];
-                      };
-                    })(this));
-                    return $scope.close();
-                  });
-                };
+        return Cropper.encode(blob = file).then(function (url) {
+          return $modal.open({
+            template: $templateCache.get('/templates/modal-crop.html'),
+            windowClass: 'modal-crop',
+            controller: 'ModalCropController as ctrl',
+            resolve: {
+              imgUrlResolved: function imgUrlResolved() {
+                return url;
               }
-            });
-          };
-        })(this));
+            }
+          });
+        });
       });
     }
   };
 };
 
-directive.$inject = ['$modal', '$templateCache', '$parse', '$timeout', 'Cropper'];
+directive.$inject = ['$modal', '$templateCache', '$parse', '$timeout', 'Cropper', 'ModalCropController'];
 angular.module("foodbox.utils").directive('modalCrop', directive);
 'use strict';
 
@@ -1743,8 +1771,7 @@ var pusher = function pusher() {
   var _settings = {
     key: null,
     authTransport: 'ajax',
-    baseUrl: 'http://foodio.com.br/admin',
-    authEndpoint: 'http://foodio.com.br/admin/companies/2/me/pusher/authentication'
+    baseUrl: 'http://foodio.com.br/admin'
   };
 
   var self = this;
