@@ -1,4 +1,4 @@
-let ctrl = ($scope, $modalInstance, $timeout, imgUrlResolved) => {
+let ctrl = ($scope, $modalInstance, $timeout, Cropper, imgUrlResolved) => {
 
   return new class Ctrl {
 
@@ -45,5 +45,5 @@ let ctrl = ($scope, $modalInstance, $timeout, imgUrlResolved) => {
   }
 };
 
-ctrl.$inject = ['$scope', '$modalInstance', '$timeout', 'imgUrlResolved'];
+ctrl.$inject = ['$scope', '$modalInstance', '$timeout', 'Cropper', 'imgUrlResolved'];
 angular.module('foodbox.utils').controller('ModalCropController', ctrl);

@@ -315,7 +315,7 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var ctrl = function ctrl($scope, $modalInstance, $timeout, imgUrlResolved) {
+var ctrl = function ctrl($scope, $modalInstance, $timeout, Cropper, imgUrlResolved) {
 
   return new ((function () {
     function Ctrl() {
@@ -371,7 +371,7 @@ var ctrl = function ctrl($scope, $modalInstance, $timeout, imgUrlResolved) {
   })())();
 };
 
-ctrl.$inject = ['$scope', '$modalInstance', '$timeout', 'imgUrlResolved'];
+ctrl.$inject = ['$scope', '$modalInstance', '$timeout', 'Cropper', 'imgUrlResolved'];
 angular.module('foodbox.utils').controller('ModalCropController', ctrl);
 'use strict';
 
