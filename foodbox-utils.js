@@ -1505,6 +1505,65 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
+var roleVerificator = function roleVerificator() {
+  return new ((function () {
+    function RoleVerificator() {
+      _classCallCheck(this, RoleVerificator);
+    }
+
+    _createClass(RoleVerificator, [{
+      key: 'hasRole',
+      value: function hasRole(roleToVerify, availableRoles) {
+        var found = false;
+
+        angular.forEach(availableRoles, function (roleAlias) {
+          if (roleAlias === roleToVerify.alias) {
+            found = true;
+          }
+        });
+
+        return found;
+      }
+    }]);
+
+    return RoleVerificator;
+  })())();
+};
+
+angular.module('foodbox.utils').factory('roleVerificator', roleVerificator);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var scrollTop = function scrollTop() {
+  return new ((function () {
+    function ScrollTop() {
+      _classCallCheck(this, ScrollTop);
+    }
+
+    _createClass(ScrollTop, [{
+      key: 'goTop',
+      value: function goTop() {
+        var delay = arguments.length <= 0 || arguments[0] === undefined ? 500 : arguments[0];
+
+        var position = 0;
+        $('html, body').animate({ scrollTop: position }, delay);
+      }
+    }]);
+
+    return ScrollTop;
+  })())();
+};
+
+angular.module('foodbox.utils').factory('scrollTop', scrollTop);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
 var storage = function storage($localStorage, $q) {
   return new ((function () {
     function Storage() {
@@ -1658,8 +1717,7 @@ var pusher = function pusher() {
   var _settings = {
     key: null,
     authTransport: 'ajax',
-    baseUrl: 'http://foodio.com.br/admin',
-    authEndpoint: 'http://foodio.com.br/admin/companies/2/me/pusher/authentication'
+    baseUrl: 'http://foodio.com.br/admin'
   };
 
   var self = this;
