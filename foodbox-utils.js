@@ -363,7 +363,7 @@ var ctrl = function ctrl($scope, $modalInstance, $timeout, Cropper, imgUrlResolv
           blob.name = _this2.file.name;
 
           $timeout(function () {
-            scope.model = [blob];
+            $scope.model = [blob];
           });
 
           _this2.close();

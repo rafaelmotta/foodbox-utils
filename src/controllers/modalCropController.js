@@ -38,7 +38,7 @@ let ctrl = ($scope, $modalInstance, $timeout, Cropper, imgUrlResolved, fileResol
         blob.name = this.file.name;
 
         $timeout(() => {
-          scope.model = [blob];
+          $scope.model = [blob];
         });
 
         this.close();
