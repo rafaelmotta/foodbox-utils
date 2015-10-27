@@ -1658,7 +1658,8 @@ var pusher = function pusher() {
   var _settings = {
     key: null,
     authTransport: 'ajax',
-    baseUrl: 'http://foodio.com.br/admin'
+    baseUrl: 'http://foodio.com.br/admin',
+    authEndpoint: 'http://foodio.com.br/admin/companies/2/me/pusher/authentication'
   };
 
   var self = this;
@@ -1667,8 +1668,8 @@ var pusher = function pusher() {
     _settings.key = value;
   };
 
-  self.setBaseUrl = function (baseUrl) {
-    _settings.baseUrl = baseUrl;
+  self.setBaseUrl = function (value) {
+    _settings.baseUrl = value;
   };
 
   self.setAuthTransport = function (authTransport) {
@@ -1696,9 +1697,7 @@ var pusher = function pusher() {
           'X-Costumer-Token': costumer ? costumer.authentication_token : null
         };
 
-        var settings = angular.extend(_settings.key, { auth: { headers: headers }, authEndpoint: _settings.baseUrl + '/companies/' + $rootScope.company.id + '/me/pusher/authentication' });
-
-        var pusher = new Pusher(settings);
+        var pusher = new Pusher(_settings.key, { authEndpoint: _settings.baseUrl + '/companies/' + $rootScope.company.id + '/me/pusher/authentication', auth: { headers: headers }, authTransport: _settings.authTransport });
         return pusher.subscribe(channel);
       }
     };
