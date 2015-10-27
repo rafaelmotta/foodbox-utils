@@ -1,4 +1,4 @@
-let ctrl = ($modalInstance, $timeout, Cropper, imgUrlResolved, fileResolved, scopeResolved) => {
+let ctrl = ($scope, $modalInstance, $timeout, Cropper, imgUrlResolved, fileResolved, scopeResolved) => {
 
   return new class Ctrl {
 
