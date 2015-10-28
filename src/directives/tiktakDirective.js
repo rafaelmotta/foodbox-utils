@@ -28,4 +28,4 @@ let directive = ($templateCache, $interval) => {
 };
 
 directive.$inject = ['$templateCache', '$interval'];
-angular.module('foodbox.utils').directive('tikTak', directive);
+angular.module('utils.foodio').directive('tikTak', directive);

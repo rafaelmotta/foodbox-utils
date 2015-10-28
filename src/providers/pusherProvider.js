@@ -47,4 +47,4 @@ let pusher = () => {
   }];
 };
 
-angular.module('foodbox.utils').provider('pusher', pusher);
+angular.module('utils.foodio').provider('pusher', pusher);

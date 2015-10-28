@@ -15,4 +15,4 @@ let roleVerificator = () => {
   };
 };
 
-angular.module('foodbox.utils').factory('roleVerificator', roleVerificator);
+angular.module('utils.foodio').factory('roleVerificator', roleVerificator);

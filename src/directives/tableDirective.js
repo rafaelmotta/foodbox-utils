@@ -7,6 +7,6 @@ let directive = () => {
   };
 };
 
-angular.module('foodbox.utils').directive('table', directive);
+angular.module('utils.foodio').directive('table', directive);
 
 

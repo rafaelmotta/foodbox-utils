@@ -11,4 +11,4 @@ let directive = ($templateCache) => {
 };
 
 directive.$inject = ['$templateCache'];
-angular.module('foodbox.utils').directive('deleteButton', directive);
+angular.module('utils.foodio').directive('deleteButton', directive);

@@ -37,4 +37,4 @@ let modalProduct = ($modal, storeProductApi, $templateCache) => {
 };
 
 modalProduct.$inject = ['$modal', 'storeProductApi', '$templateCache'];
-angular.module('foodbox.utils').factory('modalProduct', modalProduct);
+angular.module('utils.foodio').factory('modalProduct', modalProduct);

@@ -26,4 +26,4 @@ let ctrl = ($scope, $modalInstance, TempCart, meCartItemApi, cartResolved, store
 };
 
 ctrl.$inject = ['$scope', '$modalInstance', 'TempCart', 'meCartItemApi', 'cartResolved', 'storeProductResolved', 'cartItemResolved'];
-angular.module('foodbox.utils').controller('ModalProductCtrl', ctrl);
+angular.module('utils.foodio').controller('ModalProductCtrl', ctrl);

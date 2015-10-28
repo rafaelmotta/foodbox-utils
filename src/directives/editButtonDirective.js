@@ -11,4 +11,4 @@ let directive = ($templateCache) => {
 };
 
 directive.$inject = ['$templateCache'];
-angular.module('foodbox.utils').directive('editButton', directive);
+angular.module('utils.foodio').directive('editButton', directive);

@@ -27,4 +27,4 @@ let ctrl = ($scope, $modalInstance, $filter) => {
 };
 
 ctrl.$inject = ['$scope', '$modalInstance', '$filter'];
-angular.module('foodbox.utils').controller('ModalCustomPeriodCtrl', ctrl);
+angular.module('utils.foodio').controller('ModalCustomPeriodCtrl', ctrl);

@@ -6,12 +6,12 @@ var uglify = require('gulp-uglify');
 
 
 var templatesSources = ['./src/templates/*.html']
-var sources = ["./src/foodboox-utils.js", "./src/**/*.js"];
+var sources = ["./src/utils.foodio.js", "./src/**/*.js"];
 
 gulp.task('templates', function () {
   gulp.src(templatesSources)
      .pipe(ngHtml2Js({
-        moduleName: "foodbox.utils",
+        moduleName: "utils.foodio",
         prefix: "/templates/"
       }))
      .pipe(gulp.dest("./src/compiled-templates"));
@@ -20,7 +20,7 @@ gulp.task('templates', function () {
 gulp.task('babel', function () {
   gulp.src(sources)
     .pipe(babel())
-    .pipe(concat('foodbox-utils.js'))
+    .pipe(concat('utils.foodio.js'))
     .pipe(gulp.dest('./'));
 });
 

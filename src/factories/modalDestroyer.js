@@ -6,4 +6,4 @@ let modalDestroyer = () => {
   };
 };
 
-angular.module('foodbox.utils').factory('modalDestroyer', modalDestroyer);
+angular.module('utils.foodio').factory('modalDestroyer', modalDestroyer);

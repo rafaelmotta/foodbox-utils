@@ -29,4 +29,4 @@ let modalAddress = ($modal, $templateCache) => {
 };
 
 modalAddress.$inject = ['$modal', '$templateCache'];
-angular.module('foodbox.utils').factory('modalAddress', modalAddress);
+angular.module('utils.foodio').factory('modalAddress', modalAddress);

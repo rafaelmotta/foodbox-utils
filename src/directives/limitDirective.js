@@ -35,4 +35,4 @@ let directive = ($templateCache) => {
 };
 
 directive.$inject = ['$templateCache'];
-angular.module('foodbox.utils').directive('limit', directive);
+angular.module('utils.foodio').directive('limit', directive);

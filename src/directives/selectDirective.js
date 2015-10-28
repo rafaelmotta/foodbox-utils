@@ -7,4 +7,4 @@ let directive = () => {
   };
 };
 
-angular.module('foodbox.utils').directive('select', directive);
+angular.module('utils.foodio').directive('select', directive);

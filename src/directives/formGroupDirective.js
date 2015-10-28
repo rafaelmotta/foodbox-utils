@@ -19,4 +19,4 @@ let directive = ($templateCache) => {
 };
 
 directive.$inject = ['$templateCache'];
-angular.module("foodbox.utils").directive('formGroup', directive);
+angular.module("utils.foodio").directive('formGroup', directive);

@@ -8,4 +8,4 @@ let directive = () => {
   };
 };
 
-angular.module('foodbox.utils').directive('textarea', directive);
+angular.module('utils.foodio').directive('textarea', directive);

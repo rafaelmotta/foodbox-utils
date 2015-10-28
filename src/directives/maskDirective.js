@@ -19,4 +19,4 @@ let directive = () => {
   };
 };
 
-angular.module('foodbox.utils').directive('mask', directive);
+angular.module('utils.foodio').directive('mask', directive);

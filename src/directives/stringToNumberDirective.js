@@ -17,4 +17,4 @@ let directive = () => {
 };
 
 
-angular.module('foodbox.utils').directive('step', directive);
+angular.module('utils.foodio').directive('step', directive);

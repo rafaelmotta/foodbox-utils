@@ -110,4 +110,4 @@ let directive = ($templateCache) => {
 };
 
 directive.$inject = ['$templateCache'];
-angular.module('foodbox.utils').directive('map', directive);
+angular.module('utils.foodio').directive('map', directive);

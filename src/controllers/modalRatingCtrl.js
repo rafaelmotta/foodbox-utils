@@ -17,4 +17,4 @@ let ctrl = ($scope, $modalInstance) => {
 };
 
 ctrl.$inject = ['$scope', '$modalInstance'];
-angular.module('foodbox.utils').controller('ModalRatingCtrl', ctrl);
+angular.module('utils.foodio').controller('ModalRatingCtrl', ctrl);

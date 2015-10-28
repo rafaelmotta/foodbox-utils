@@ -49,4 +49,4 @@ let ctrl = ($scope, $modalInstance, $timeout, Cropper, imgUrlResolved, fileResol
 };
 
 ctrl.$inject = ['$scope', '$modalInstance', '$timeout', 'Cropper', 'imgUrlResolved', 'fileResolved', 'scopeResolved'];
-angular.module('foodbox.utils').controller('ModalCropController', ctrl);
+angular.module('utils.foodio').controller('ModalCropController', ctrl);

@@ -11,4 +11,4 @@ let directive = ($templateCache) => {
 };
 
 directive.$inject = ['$templateCache'];
-angular.module('foodbox.utils').directive('noResults', directive);
+angular.module('utils.foodio').directive('noResults', directive);

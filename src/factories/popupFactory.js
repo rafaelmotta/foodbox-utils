@@ -13,4 +13,4 @@ let popup = ($window, $q) => {
 };
 
 popup.$inject = ['$window', '$q'];
-angular.module('foodbox.utils').factory('popup', popup);
+angular.module('utils.foodio').factory('popup', popup);

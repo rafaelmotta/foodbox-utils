@@ -7,4 +7,4 @@ let scrollTop = () => {
   };
 };
 
-angular.module('foodbox.utils').factory('scrollTop', scrollTop);
+angular.module('utils.foodio').factory('scrollTop', scrollTop);

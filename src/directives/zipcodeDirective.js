@@ -41,4 +41,4 @@ let directive = (zipcodeApi) => {
 };
 
 directive.$inject = ['zipcodeApi'];
-angular.module('foodbox.utils').directive('zipcode', directive);
+angular.module('utils.foodio').directive('zipcode', directive);

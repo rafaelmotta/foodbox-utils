@@ -87,4 +87,4 @@ let tempCart = () => {
   };
 };
 
-angular.module('foodbox.utils').factory('TempCart', tempCart);
+angular.module('utils.foodio').factory('TempCart', tempCart);

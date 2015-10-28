@@ -37,4 +37,4 @@ let factory = ($rootScope, $state, hint) => {
 };
 
 factory.$inject = ['$rootScope', '$state', 'hint'];
-angular.module('foodbox.utils').factory('RequestError', factory);
+angular.module('utils.foodio').factory('RequestError', factory);

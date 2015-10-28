@@ -27,4 +27,4 @@ let httpHintInterceptor = ($q, $window, $rootScope) => {
 httpConfig.$inject = ['$httpProvider'];
 httpHintInterceptor.$inject = ['$q', '$window', '$rootScope'];
 
-angular.module("foodbox.utils").config(httpConfig).factory("httpHintInterceptor", httpHintInterceptor);
+angular.module("utils.foodio").config(httpConfig).factory("httpHintInterceptor", httpHintInterceptor);
