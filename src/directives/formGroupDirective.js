@@ -8,7 +8,8 @@ let directive = ($templateCache) => {
     priority: 10000,
     scope: {
       label: '@',
-      vertical: '@'
+      vertical: '@',
+      required: '@'
     },
     link: (scope, $el, attrs) => {
       scope.id = `field-${Math.floor((Math.random() * 50000) + 1)}`;
