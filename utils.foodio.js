@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('utils.foodio', ['ngStorage']);
+var app = angular.module('utils.foodio', ['ngStorage', 'constants.foodio']);
 'use strict';
 
 (function (module) {
@@ -1781,7 +1781,7 @@ var pusher = function pusher() {
     baseUrl: 'http://foodio.com.br/admin'
   };
 
-  var self = undefined;
+  var self = this;
 
   self.setKey = function (value) {
     _settings.key = value;

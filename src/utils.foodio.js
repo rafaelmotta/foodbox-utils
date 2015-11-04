@@ -1,1 +1,1 @@
-var app = angular.module('utils.foodio', ['ngStorage']);
+var app = angular.module('utils.foodio', ['ngStorage', 'constants.foodio']);
