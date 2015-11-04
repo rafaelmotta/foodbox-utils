@@ -1,19 +1,11 @@
-let hint = ($timeout, $window, ngAudio) => {
+let hint = ($timeout, $window, ngAudio, constants) => {
 
   return new class Hint {
 
     constructor() {
-      this.assetsPath = 'https://s3-sa-east-1.amazonaws.com/speedy-development';
-
       this.notifications = [];
       this.timeout = 5000;
       this.notification = $window.Notification || $window.mozNotification || $window.webkitNotification
-
-      this.sound = {
-        success: ngAudio.load(`${this.assetsPath}/notifications/audios/success_notification.mp3`),
-        info:    ngAudio.load(`${this.assetsPath}/notifications/audios/success_notification.mp3`),
-        error:   ngAudio.load(`${this.assetsPath}/notifications/audios/error_notification.mp3`)
-      };
 
       if(!this.notification) {
         return false;
@@ -51,7 +43,7 @@ let hint = ($timeout, $window, ngAudio) => {
 
         let settings = {
           body: message,
-          icon: `${this.assetsPath}/notifications/icons/${type}.png`
+          icon: `${constants.static}/notifications/icons/${type}.png`
         };
 
         // Só adiciona um hint se não houver nenhum hint com o mesmo conteudi
@@ -76,7 +68,9 @@ let hint = ($timeout, $window, ngAudio) => {
         }
       }
 
-      this.sound[type].play();
+      ngAudio
+        .load(`${constants.static}/notifications/audios/${type}_notification.mp3`)
+        .play();
     }
 
     _hasMessage(message) {
