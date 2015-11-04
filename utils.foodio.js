@@ -1258,7 +1258,7 @@ var hint = function hint($timeout, $window, ngAudio, constants) {
   })())();
 };
 
-hint.$inject = ['$timeout', '$window', 'ngAudio'];
+hint.$inject = ['$timeout', '$window', 'ngAudio', 'constants'];
 angular.module('utils.foodio').factory('hint', hint);
 'use strict';
 
