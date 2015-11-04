@@ -69,7 +69,7 @@ let hint = ($timeout, $window, ngAudio, constants) => {
       }
 
       ngAudio
-        .load(`${constants.static}/notifications/audios/${type}_notification.mp3`)
+        .load(`${constants.static}/notifications/audios/${type}.mp3`)
         .play();
     }
 

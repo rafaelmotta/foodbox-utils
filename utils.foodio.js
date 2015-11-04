@@ -1232,7 +1232,7 @@ var hint = function hint($timeout, $window, ngAudio, constants) {
           }
         }
 
-        ngAudio.load(constants['static'] + '/notifications/audios/' + type + '_notification.mp3').play();
+        ngAudio.load(constants['static'] + '/notifications/audios/' + type + '.mp3').play();
       }
     }, {
       key: '_hasMessage',
