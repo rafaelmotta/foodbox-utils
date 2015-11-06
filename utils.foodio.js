@@ -432,7 +432,7 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var ctrl = function ctrl($scope, $modalInstance, TempCart, meCartItemApi, cartResolved, storeProductResolved, cartItemResolved) {
+var ctrl = function ctrl($scope, $modalInstance, TempCart, cartItemApi, cartResolved, storeProductResolved, cartItemResolved) {
 
   return new ((function () {
     function ModalProductCustomizationCtrl() {
@@ -448,7 +448,7 @@ var ctrl = function ctrl($scope, $modalInstance, TempCart, meCartItemApi, cartRe
     _createClass(ModalProductCustomizationCtrl, [{
       key: 'add',
       value: function add() {
-        meCartItemApi[this._getCartMethod()]($scope.cartItem, { cart_id: $scope.cart.id }).then(function (cart) {
+        cartItemApi[this._getCartMethod()]($scope.cartItem, { cart_id: $scope.cart.id }).then(function (cart) {
           $modalInstance.close({ cart: cart.plain() });
         });
       }
@@ -468,7 +468,7 @@ var ctrl = function ctrl($scope, $modalInstance, TempCart, meCartItemApi, cartRe
   })())();
 };
 
-ctrl.$inject = ['$scope', '$modalInstance', 'TempCart', 'meCartItemApi', 'cartResolved', 'storeProductResolved', 'cartItemResolved'];
+ctrl.$inject = ['$scope', '$modalInstance', 'TempCart', 'cartItemApi', 'cartResolved', 'storeProductResolved', 'cartItemResolved'];
 angular.module('utils.foodio').controller('ModalProductCtrl', ctrl);
 'use strict';
 
