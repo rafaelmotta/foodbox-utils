@@ -40,7 +40,7 @@ let pusher = () => {
           'X-Costumer-Token': costumer ? costumer.authentication_token : null
         };
 
-        var pusher = new Pusher(_settings.key, { authEndpoint: `${_settings.baseUrl}/companies/${$rootScope.company.id}/me/pusher/authentication`, auth: { headers: headers }, authTransport: _settings.authTransport });
+        var pusher = new Pusher(_settings.key, { authEndpoint: `${_settings.baseUrl}/companies/${$rootScope.company.id}/sessions/pusher/authentication`, auth: { headers: headers }, authTransport: _settings.authTransport });
         return pusher.subscribe(channel);
       }
     };
