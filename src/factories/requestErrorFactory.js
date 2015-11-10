@@ -23,7 +23,7 @@ let factory = ($rootScope, $state, hint) => {
 
       if(angular.isArray(data.description)) {
         angular.forEach(data.description, (message) => {
-          hint.error(data.description);
+          hint.error(message);
         });
       } else {
         hint.error(data.description);
