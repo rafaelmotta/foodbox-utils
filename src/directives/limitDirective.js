@@ -1,7 +1,7 @@
 let directive = ($templateCache) => {
   return {
     restrict: 'E',
-    template: $templateCache.get('directives/limit.html'),
+    template: $templateCache.get('/templates/limit.html'),
     replace: true,
     scope: {
       maxlength: '=',
