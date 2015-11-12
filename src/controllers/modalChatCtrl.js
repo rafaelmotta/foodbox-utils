@@ -3,8 +3,20 @@ let ctrl = ($scope, $modalInstance, hint, pusher, chatMessageApi, chatResolved, 
   return new class ctrl {
 
     constructor() {
+
+      // Chat
       $scope.chat = chatResolved;
+
+      // Engloba pagination e data
+      $scope.messagesResponse = $scope.chat.messages;
+
+      // Apenas mensagem
+      $scope.messages = $scope.messagesResponse.data;
+
+      // Tipo de usuário que está no chat (costumer / employee)
       $scope.userType = userTypeResolved;
+
+      // Usuário que está no chat
       $scope.user = userResolved;
 
       $scope.message = {
@@ -12,6 +24,7 @@ let ctrl = ($scope, $modalInstance, hint, pusher, chatMessageApi, chatResolved, 
         sending: false
       };
 
+      // Ouve mensagens que chegam de outras pessoas no chat
       pusher.subscribe(`private-chat-${$scope.chat.id}`).bind('message:created', (response) => {
         let message = response.data;
 
@@ -20,7 +33,7 @@ let ctrl = ($scope, $modalInstance, hint, pusher, chatMessageApi, chatResolved, 
           return false;
         }
 
-        $scope.chat.messages.push(response.data);
+        $scope.messages(message);
         hint.success(message.content, { title: `${message.user.name} diz:`});
       });
     }
@@ -28,7 +41,6 @@ let ctrl = ($scope, $modalInstance, hint, pusher, chatMessageApi, chatResolved, 
     // Envia mensagem
     onKeyUp($event) {
       if($event.keyCode == 13 && !$event.shiftKey) {
-        $event.preventDefault();
         return this.send();
       }
     }
@@ -39,11 +51,11 @@ let ctrl = ($scope, $modalInstance, hint, pusher, chatMessageApi, chatResolved, 
 
       // Grava referencia de variável para posteriormente editar a mensagem enviada, com
       // dados do horário que foi criado, por exemplo
-      let index = $scope.chat.messages.length;
+      let index = $scope.messages;
 
       // Adiciona mensagem no scope
       // Fica com status 'enviando' até ser confirmado o envio
-      $scope.chat.messages.push({
+      $scope.messages.push({
         content: $scope.message.content,
         user: $scope.user
       });
@@ -51,7 +63,7 @@ let ctrl = ($scope, $modalInstance, hint, pusher, chatMessageApi, chatResolved, 
       chatMessageApi.create($scope.chat, $scope.message).then((response) => {
 
         // Altera scope
-        $scope.chat.messages[index] = response.data;
+        $scope.messages[index] = response.data;
         this._resetMessage();
       }, () => {
 

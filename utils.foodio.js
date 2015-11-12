@@ -118,7 +118,7 @@ var app = angular.module('utils.foodio', ['ngStorage', 'constants.foodio']);
     module = angular.module('utils.foodio', []);
   }
   module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/templates/modal-chat.html', '<div class="modal-header">\n' + '  <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="ctrl.close()"><span aria-hidden="true">&times;</span></button>\n' + '  <h4 class="modal-title">Mensagens ({{ chat.messages.length }})</h4>\n' + '</div>\n' + '<div class="modal-body">\n' + '  <ul class="list-unstyled">\n' + '    <li ng-repeat="m in chat.messages | orderBy: \'-id\'">\n' + '      <div class="row">\n' + '        <div class="col-md-2">\n' + '          <img ng-src="{{ m.user.photo }}" alt="Avatar" class="img-thumbnail" width="100" height="100"/>\n' + '        </div>\n' + '        <div class="col-md-10">\n' + '          <div>\n' + '            <span>{{ m.user.name }}</span>\n' + '            <small ng-show="m.created_at">{{ m.created_at }}</small>\n' + '            <small ng-show="!m.created_at" class="pending">Enviando...</small>\n' + '          </div>\n' + '          <p>{{ m.content }}</p>\n' + '        </div>\n' + '      </div>\n' + '    </li>\n' + '  </ul>\n' + '  <form ng-submit="ctrl.send()" name="form">\n' + '    <div class="row">\n' + '      <div class="col-md-10">\n' + '        <textarea rows="4" ng-model="message.content" ng-disabled="message.sending" placeholder="Digite sua mensagem" autofocus required ng-maxlength="500" ng-keyup="ctrl.onKeyUp($event)"></textarea>\n' + '      </div>\n' + '      <div class="col-md-2">\n' + '        <button class="btn btn-success btn-block" ng-disabled="message.content.length < 1 || message.sending">\n' + '          <span ng-show="!message.sending">Enviar</span>\n' + '          <span ng-show="message.sending">\n' + '            <i class="icon icon-spinner icon-spin"></i>\n' + '          </span>\n' + '        </button>\n' + '      </div>\n' + '    </div>\n' + '  </form>\n' + '</div>');
+    $templateCache.put('/templates/modal-chat.html', '<div class="modal-header">\n' + '  <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="ctrl.close()"><span aria-hidden="true">&times;</span></button>\n' + '  <h4 class="modal-title">Mensagens</h4>\n' + '</div>\n' + '<div class="modal-body">\n' + '  <ul class="list-unstyled">\n' + '    <li ng-repeat="m in messages | orderBy: \'-id\'">\n' + '      <div class="row">\n' + '        <div class="col-md-2">\n' + '          <img ng-src="{{ m.user.photo }}" alt="Avatar" class="img-thumbnail" width="100" height="100"/>\n' + '        </div>\n' + '        <div class="col-md-10">\n' + '          <div>\n' + '            <span>{{ m.user.name }}</span>\n' + '            <small ng-show="m.created_at">{{ m.created_at }}</small>\n' + '            <small ng-show="!m.created_at" class="pending">Enviando...</small>\n' + '          </div>\n' + '          <p>{{ m.content }}</p>\n' + '        </div>\n' + '      </div>\n' + '    </li>\n' + '  </ul>\n' + '  <form ng-submit="ctrl.send()" name="form">\n' + '    <div class="row">\n' + '      <div class="col-md-10">\n' + '        <textarea rows="4" ng-model="message.content" ng-disabled="message.sending" placeholder="Digite sua mensagem" autofocus required ng-maxlength="500" ng-keyup="ctrl.onKeyUp($event)"></textarea>\n' + '      </div>\n' + '      <div class="col-md-2">\n' + '        <button class="btn btn-success btn-block" ng-disabled="message.content.length < 1 || message.sending">\n' + '          <span ng-show="!message.sending">Enviar</span>\n' + '          <span ng-show="message.sending">\n' + '            <i class="icon icon-spinner icon-spin"></i>\n' + '          </span>\n' + '        </button>\n' + '      </div>\n' + '    </div>\n' + '  </form>\n' + '</div>');
   }]);
 })();
 'use strict';
@@ -260,8 +260,19 @@ var ctrl = function ctrl($scope, $modalInstance, hint, pusher, chatMessageApi, c
     function ctrl() {
       _classCallCheck(this, ctrl);
 
+      // Chat
       $scope.chat = chatResolved;
+
+      // Engloba pagination e data
+      $scope.messagesResponse = $scope.chat.messages;
+
+      // Apenas mensagem
+      $scope.messages = $scope.messagesResponse.data;
+
+      // Tipo de usuário que está no chat (costumer / employee)
       $scope.userType = userTypeResolved;
+
+      // Usuário que está no chat
       $scope.user = userResolved;
 
       $scope.message = {
@@ -269,6 +280,7 @@ var ctrl = function ctrl($scope, $modalInstance, hint, pusher, chatMessageApi, c
         sending: false
       };
 
+      // Ouve mensagens que chegam de outras pessoas no chat
       pusher.subscribe('private-chat-' + $scope.chat.id).bind('message:created', function (response) {
         var message = response.data;
 
@@ -277,7 +289,7 @@ var ctrl = function ctrl($scope, $modalInstance, hint, pusher, chatMessageApi, c
           return false;
         }
 
-        $scope.chat.messages.push(response.data);
+        $scope.messages(message);
         hint.success(message.content, { title: message.user.name + ' diz:' });
       });
     }
@@ -288,7 +300,6 @@ var ctrl = function ctrl($scope, $modalInstance, hint, pusher, chatMessageApi, c
       key: 'onKeyUp',
       value: function onKeyUp($event) {
         if ($event.keyCode == 13 && !$event.shiftKey) {
-          $event.preventDefault();
           return this.send();
         }
       }
@@ -302,11 +313,11 @@ var ctrl = function ctrl($scope, $modalInstance, hint, pusher, chatMessageApi, c
 
         // Grava referencia de variável para posteriormente editar a mensagem enviada, com
         // dados do horário que foi criado, por exemplo
-        var index = $scope.chat.messages.length;
+        var index = $scope.messages;
 
         // Adiciona mensagem no scope
         // Fica com status 'enviando' até ser confirmado o envio
-        $scope.chat.messages.push({
+        $scope.messages.push({
           content: $scope.message.content,
           user: $scope.user
         });
@@ -314,7 +325,7 @@ var ctrl = function ctrl($scope, $modalInstance, hint, pusher, chatMessageApi, c
         chatMessageApi.create($scope.chat, $scope.message).then(function (response) {
 
           // Altera scope
-          $scope.chat.messages[index] = response.data;
+          $scope.messages[index] = response.data;
           _this._resetMessage();
         }, function () {
 

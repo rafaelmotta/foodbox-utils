@@ -8,11 +8,11 @@ module.run(['$templateCache', function($templateCache) {
   $templateCache.put('/templates/modal-chat.html',
     '<div class="modal-header">\n' +
     '  <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="ctrl.close()"><span aria-hidden="true">&times;</span></button>\n' +
-    '  <h4 class="modal-title">Mensagens ({{ chat.messages.length }})</h4>\n' +
+    '  <h4 class="modal-title">Mensagens</h4>\n' +
     '</div>\n' +
     '<div class="modal-body">\n' +
     '  <ul class="list-unstyled">\n' +
-    '    <li ng-repeat="m in chat.messages | orderBy: \'-id\'">\n' +
+    '    <li ng-repeat="m in messages | orderBy: \'-id\'">\n' +
     '      <div class="row">\n' +
     '        <div class="col-md-2">\n' +
     '          <img ng-src="{{ m.user.photo }}" alt="Avatar" class="img-thumbnail" width="100" height="100"/>\n' +
