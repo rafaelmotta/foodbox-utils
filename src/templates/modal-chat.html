@@ -28,7 +28,9 @@
       <div class="col-md-2">
         <button class="btn btn-success btn-block" ng-disabled="message.content.length < 1 || message.sending">
           <span ng-show="!message.sending">Enviar</span>
-          <span ng-show="message.sending">Enviando...</span>
+          <span ng-show="message.sending">
+            <i class="icon icon-spinner icon-spin"></i>
+          </span>
         </button>
       </div>
     </div>

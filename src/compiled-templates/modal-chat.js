@@ -36,7 +36,9 @@ module.run(['$templateCache', function($templateCache) {
     '      <div class="col-md-2">\n' +
     '        <button class="btn btn-success btn-block" ng-disabled="message.content.length < 1 || message.sending">\n' +
     '          <span ng-show="!message.sending">Enviar</span>\n' +
-    '          <span ng-show="message.sending">Enviando...</span>\n' +
+    '          <span ng-show="message.sending">\n' +
+    '            <i class="icon icon-spinner icon-spin"></i>\n' +
+    '          </span>\n' +
     '        </button>\n' +
     '      </div>\n' +
     '    </div>\n' +

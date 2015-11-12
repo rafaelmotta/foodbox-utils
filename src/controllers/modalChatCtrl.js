@@ -48,7 +48,7 @@ let ctrl = ($scope, $modalInstance, hint, pusher, chatMessageApi, chatResolved, 
         user: $scope.user
       });
 
-      chatMessageApi.create($scope.chat, $scope.message).then(() => {
+      chatMessageApi.create($scope.chat, $scope.message).then((response) => {
 
         // Altera scope
         $scope.chat.messages[index] = response.data;
