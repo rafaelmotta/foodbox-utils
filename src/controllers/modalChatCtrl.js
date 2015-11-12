@@ -51,7 +51,7 @@ let ctrl = ($scope, $modalInstance, hint, pusher, chatMessageApi, chatResolved, 
 
       // Grava referencia de variável para posteriormente editar a mensagem enviada, com
       // dados do horário que foi criado, por exemplo
-      let index = $scope.messages;
+      let index = $scope.messages.length;
 
       // Adiciona mensagem no scope
       // Fica com status 'enviando' até ser confirmado o envio
@@ -66,7 +66,6 @@ let ctrl = ($scope, $modalInstance, hint, pusher, chatMessageApi, chatResolved, 
         $scope.messages[index] = response.data;
         this._resetMessage();
       }, () => {
-
         // Houve erro no envio
       });
     }
