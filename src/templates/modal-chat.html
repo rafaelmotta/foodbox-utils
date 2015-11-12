@@ -14,7 +14,7 @@
             <span>{{ m.user.name }}</span>
             <small ng-show="m.created_at">{{ m.created_at }}</small>
             <small ng-show="!m.created_at" class="message-pending">Enviando...</small>
-            <a ng-show="!m.created_at" class="message-error" ng-click="ctrl.send()" tooltip-placement="bottom" tooltip="Clique para reenviar">Falha no envio</a>
+            <a ng-show="m.failed" class="message-error" ng-click="ctrl.send()" tooltip-placement="bottom" tooltip="Clique para reenviar">Falha no envio</a>
           </div>
           <p>{{ m.content }}</p>
         </div>

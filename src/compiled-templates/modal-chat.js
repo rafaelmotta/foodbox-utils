@@ -22,7 +22,7 @@ module.run(['$templateCache', function($templateCache) {
     '            <span>{{ m.user.name }}</span>\n' +
     '            <small ng-show="m.created_at">{{ m.created_at }}</small>\n' +
     '            <small ng-show="!m.created_at" class="message-pending">Enviando...</small>\n' +
-    '            <a ng-show="!m.created_at" class="message-error" ng-click="ctrl.send()" tooltip-placement="bottom" tooltip="Clique para reenviar">Falha no envio</a>\n' +
+    '            <a ng-show="m.failed" class="message-error" ng-click="ctrl.send()" tooltip-placement="bottom" tooltip="Clique para reenviar">Falha no envio</a>\n' +
     '          </div>\n' +
     '          <p>{{ m.content }}</p>\n' +
     '        </div>\n' +
