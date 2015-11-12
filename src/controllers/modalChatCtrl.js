@@ -16,10 +16,12 @@ let ctrl = ($scope, $modalInstance, hint, pusher, chatMessageApi, chatResolved, 
         let message = response.data;
 
         // Só ouve se mensagem for criada por outra pessoa
-        if(message.user.id !== $scope.user.id && $scope.userType !== message.userable_type) {
-          $scope.chat.messages.push(response.data);
-          hint.success(message.content, { title: `${message.user.name} diz:`});
+        if(message.user.id === $scope.user.id && $scope.userType === message.userable_type) {
+          return false;
         }
+
+        $scope.chat.messages.push(response.data);
+        hint.success(message.content, { title: `${message.user.name} diz:`});
       });
     }
 
