@@ -31,7 +31,7 @@ module.run(['$templateCache', function($templateCache) {
     '  <form ng-submit="ctrl.send()" name="form">\n' +
     '    <div class="row">\n' +
     '      <div class="col-md-10">\n' +
-    '        <textarea rows="4" ng-model="message.content" disabled="message.sending" placeholder="Digite sua mensagem" autofocus required ng-maxlength="500" ng-keyup="ctrl.onKeyUp($event)"></textarea>\n' +
+    '        <textarea rows="4" ng-model="message.content" ng-disabled="message.sending" placeholder="Digite sua mensagem" autofocus required ng-maxlength="500" ng-keyup="ctrl.onKeyUp($event)"></textarea>\n' +
     '      </div>\n' +
     '      <div class="col-md-2">\n' +
     '        <button class="btn btn-success btn-block" ng-disabled="message.content.length < 1 || message.sending">\n' +
