@@ -18,10 +18,8 @@ module.run(['$templateCache', function($templateCache) {
     '          <img ng-src="{{ m.user.photo }}" alt="Avatar" class="img-thumbnail" width="100" height="100"/>\n' +
     '        </div>\n' +
     '        <div class="col-md-10">\n' +
-    '          <div class="message-user">\n' +
-    '            <span ng-show="m.user.id === user.id && m.userable_type === userType">Você</span>\n' +
-    '            <span ng-show="m.user.id !== user.id && m.userable_type === userType">{{ m.user.name }}</span>\n' +
-    '            <span ng-show="m.userable_type === \'Costumer\'">{{ m.user.name }}</span>\n' +
+    '          <div>\n' +
+    '            <span>{{ m.user.name }}</span>\n' +
     '            <small>{{ m.created_at }}</small>\n' +
     '          </div>\n' +
     '          <p>{{ m.content }}</p>\n' +
