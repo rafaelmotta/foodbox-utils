@@ -20,7 +20,8 @@ module.run(['$templateCache', function($templateCache) {
     '        <div class="col-md-10">\n' +
     '          <div>\n' +
     '            <span>{{ m.user.name }}</span>\n' +
-    '            <small>{{ m.created_at }}</small>\n' +
+    '            <small ng-show="m.created_at">{{ m.created_at }}</small>\n' +
+    '            <small ng-show="!m.created_at" class="pending">Enviando...</small>\n' +
     '          </div>\n' +
     '          <p>{{ m.content }}</p>\n' +
     '        </div>\n' +
@@ -30,11 +31,12 @@ module.run(['$templateCache', function($templateCache) {
     '  <form ng-submit="ctrl.send()" name="form">\n' +
     '    <div class="row">\n' +
     '      <div class="col-md-10">\n' +
-    '        <textarea rows="4" ng-model="message.content" placeholder="Digite sua mensagem" autofocus required ng-maxlength="500" ng-keyup="ctrl.onKeyUp($event)"></textarea>\n' +
+    '        <textarea rows="4" ng-model="message.content" disabled="message.sending" placeholder="Digite sua mensagem" autofocus required ng-maxlength="500" ng-keyup="ctrl.onKeyUp($event)"></textarea>\n' +
     '      </div>\n' +
     '      <div class="col-md-2">\n' +
-    '        <button class="btn btn-success btn-block" ng-disabled="message.content.length < 1">\n' +
-    '          Enviar\n' +
+    '        <button class="btn btn-success btn-block" ng-disabled="message.content.length < 1 || message.sending">\n' +
+    '          <span ng-show="!message.sending">Enviar</span>\n' +
+    '          <span ng-show="message.sending">Enviando...</span>\n' +
     '        </button>\n' +
     '      </div>\n' +
     '    </div>\n' +

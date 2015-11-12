@@ -12,7 +12,8 @@
         <div class="col-md-10">
           <div>
             <span>{{ m.user.name }}</span>
-            <small>{{ m.created_at }}</small>
+            <small ng-show="m.created_at">{{ m.created_at }}</small>
+            <small ng-show="!m.created_at" class="pending">Enviando...</small>
           </div>
           <p>{{ m.content }}</p>
         </div>
@@ -22,11 +23,12 @@
   <form ng-submit="ctrl.send()" name="form">
     <div class="row">
       <div class="col-md-10">
-        <textarea rows="4" ng-model="message.content" placeholder="Digite sua mensagem" autofocus required ng-maxlength="500" ng-keyup="ctrl.onKeyUp($event)"></textarea>
+        <textarea rows="4" ng-model="message.content" disabled="message.sending" placeholder="Digite sua mensagem" autofocus required ng-maxlength="500" ng-keyup="ctrl.onKeyUp($event)"></textarea>
       </div>
       <div class="col-md-2">
-        <button class="btn btn-success btn-block" ng-disabled="message.content.length < 1">
-          Enviar
+        <button class="btn btn-success btn-block" ng-disabled="message.content.length < 1 || message.sending">
+          <span ng-show="!message.sending">Enviar</span>
+          <span ng-show="message.sending">Enviando...</span>
         </button>
       </div>
     </div>

@@ -263,43 +263,74 @@ var ctrl = function ctrl($scope, $modalInstance, hint, pusher, chatMessageApi, c
       $scope.chat = chatResolved;
       $scope.userType = userTypeResolved;
       $scope.user = userResolved;
+
       $scope.message = {
-        content: ''
+        content: '',
+        sending: false
       };
 
       pusher.subscribe('private-chat-' + $scope.chat.id).bind('message:created', function (response) {
         var message = response.data;
 
+        // Só ouve se mensagem for criada por outra pessoa
         if (message.user.id !== $scope.user.id && $scope.userType !== message.userable_type) {
+          $scope.chat.messages.push(response.data);
           hint.success(message.content, { title: message.user.name + ' diz:' });
         }
-
-        $scope.chat.messages.push(response.data);
-
-        $scope.message = {
-          content: ''
-        };
       });
     }
+
+    // Envia mensagem
 
     _createClass(ctrl, [{
       key: 'onKeyUp',
       value: function onKeyUp($event) {
         if ($event.keyCode == 13 && !$event.shiftKey) {
           $event.preventDefault();
-          this.send();
-          return false;
+          return this.send();
         }
       }
     }, {
       key: 'send',
       value: function send() {
-        chatMessageApi.create($scope.chat, $scope.message).then(function () {});
+        var _this = this;
+
+        // Notifica view que mensagem está sendo enviada
+        $scope.message.sending = true;
+
+        // Grava referencia de variável para posteriormente editar a mensagem enviada, com
+        // dados do horário que foi criado, por exemplo
+        var index = $scope.chat.messages.length;
+
+        // Adiciona mensagem no scope
+        // Fica com status 'enviando' até ser confirmado o envio
+        $scope.chat.messages.push({
+          content: $scope.message.content,
+          user: $scope.user
+        });
+
+        chatMessageApi.create($scope.chat, $scope.message).then(function () {
+
+          // Altera scope
+          $scope.chat.messages[index] = response.data;
+          _this._resetMessage();
+        }, function () {
+
+          // Houve erro no envio
+        });
       }
     }, {
       key: 'close',
       value: function close() {
         $modalInstance.dismiss('close');
+      }
+    }, {
+      key: '_resetMessage',
+      value: function _resetMessage() {
+        $scope.message = {
+          content: '',
+          sending: false
+        };
       }
     }]);
 
