@@ -1215,6 +1215,9 @@ var hint = function hint($timeout, $window, ngAudio, constants) {
             var _notification = new this.notification(title, settings);
             this.notifications.push(_notification);
 
+            // Toca audio
+            ngAudio.load(constants['static'] + '/notifications/audios/' + type + '.mp3').play();
+
             if (options.autoClose) {
               $timeout(function () {
 
@@ -1231,8 +1234,6 @@ var hint = function hint($timeout, $window, ngAudio, constants) {
             }
           }
         }
-
-        ngAudio.load(constants['static'] + '/notifications/audios/' + type + '.mp3').play();
       }
     }, {
       key: '_hasMessage',
