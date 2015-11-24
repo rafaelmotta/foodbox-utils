@@ -11,7 +11,7 @@ module.run(['$templateCache', function($templateCache) {
     '  <h4 class="modal-title">Mensagens</h4>\n' +
     '</div>\n' +
     '<div class="modal-body">\n' +
-    '  <ul class="list-unstyled">\n' +
+    '  <ul class="list-unstyled" infinite-scroll=\'ctrl.loadMessages()\' infinite-scroll-distance=\'2\'>\n' +
     '    <li ng-repeat="m in messages | orderBy: \'-id\'">\n' +
     '      <div class="row">\n' +
     '        <div class="col-md-2">\n' +

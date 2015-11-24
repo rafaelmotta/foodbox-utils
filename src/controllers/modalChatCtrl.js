@@ -70,6 +70,10 @@ let ctrl = ($scope, $modalInstance, hint, pusher, chatMessageApi, chatResolved, 
       });
     }
 
+    loadMessages() {
+
+    }
+
     close() {
       $modalInstance.dismiss('close');
     }

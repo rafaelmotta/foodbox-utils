@@ -3,7 +3,7 @@
   <h4 class="modal-title">Mensagens</h4>
 </div>
 <div class="modal-body">
-  <ul class="list-unstyled">
+  <ul class="list-unstyled" infinite-scroll='ctrl.loadMessages()' infinite-scroll-distance='2'>
     <li ng-repeat="m in messages | orderBy: '-id'">
       <div class="row">
         <div class="col-md-2">
