@@ -20,7 +20,7 @@ module.run(['$templateCache', function($templateCache) {
     '<div class="modal-body clearfix">\n' +
     '\n' +
     '  <aside class="pull-left">\n' +
-    '    <img class="product-image img-thumbnail" ng-src="{{ product.img.thumb }}" width="280" height="280" alt="Foto do produto com nome {{ product.name }}">\n' +
+    '    <img class="product-image img-thumbnail" ng-src="{{ product.img.medium }}" width="280" height="280" alt="Foto do produto com nome {{ product.name }}">\n' +
     '    <p class="product-description">\n' +
     '      <i class="icon icon-shopping-cart"></i>\n' +
     '      {{ product.name }}\n' +
