@@ -5,7 +5,6 @@ let pusher = () => {
     baseUrl: 'http://foodio.com.br/admin'
   };
 
-  let connection = null;
   let self = this;
 
   self.setKey = (value) => {
@@ -27,25 +26,22 @@ let pusher = () => {
   self.$get = ["$localStorage", "$rootScope", function ($localStorage, $rootScope) {
     return {
       subscribe(channel) {
-        if(!connection) {
-          if (!_settings.key) {
-            throw new Error('A key must be setted to initialize pusher');
-          }
-
-          let costumer = $localStorage['currentCostumer'];
-          let employee = $localStorage['currentEmployee'];
-
-          let headers = {
-            'X-Employee-Email': employee ? employee.email : null,
-            'X-Employee-Token': employee ? employee.authentication_token : null,
-            'X-Costumer-Email': costumer ? costumer.email : null,
-            'X-Costumer-Token': costumer ? costumer.authentication_token : null
-          };
-
-          connection = new Pusher(_settings.key, { authEndpoint: _settings.baseUrl + '/companies/' + $rootScope.company.id + '/sessions/pusher/authentication', auth: { headers: headers }, authTransport: _settings.authTransport });
+        if (!_settings.key) {
+          throw new Error('A key must be setted to initialize pusher');
         }
 
-        return connection.subscribe(channel);
+        let costumer = $localStorage['currentCostumer'];
+        let employee = $localStorage['currentEmployee'];
+
+        let headers = {
+          'X-Employee-Email': employee ? employee.email : null,
+          'X-Employee-Token': employee ? employee.authentication_token : null,
+          'X-Costumer-Email': costumer ? costumer.email : null,
+          'X-Costumer-Token': costumer ? costumer.authentication_token : null
+        };
+
+        let pusher = new Pusher(_settings.key, { authEndpoint: _settings.baseUrl + '/companies/' + $rootScope.company.id + '/sessions/pusher/authentication', auth: { headers: headers }, authTransport: _settings.authTransport });
+        return pusher.subscribe(channel);
       }
     };
   }];
