@@ -1194,6 +1194,65 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
+var StoreCallbacks = function StoreCallbacks() {
+  return (function () {
+    function StoreCallbacks(store) {
+      _classCallCheck(this, StoreCallbacks);
+
+      if (store) this.setStore(store);
+      return this;
+    }
+
+    _createClass(StoreCallbacks, [{
+      key: 'setStore',
+      value: function setStore(store) {
+        this.store = store;
+      }
+    }, {
+      key: 'getDiffFromNow',
+      value: function getDiffFromNow(reference) {
+        moment(reference).diff(moment(), 'seconds');
+      }
+    }, {
+      key: 'toOpen',
+      value: function toOpen() {
+        var _this = this;
+
+        $q(function (resolve, reject) {
+          if (!_this.store.opening_time) {
+            return reject();
+          }
+
+          resolve({ event: 'toOpen', seconds: getDiffFromNow(_this.store.opening_time) });
+        });
+      }
+    }, {
+      key: 'toClose',
+      value: function toClose() {
+        var _this2 = this;
+
+        $q(function (resolve, reject) {
+          if (!_this2.store.closing_time) {
+            return reject();
+          }
+
+          resolve({ event: 'toClose', seconds: getDiffFromNow(_this2.store.closing_time) });
+        });
+      }
+    }]);
+
+    return StoreCallbacks;
+  })();
+};
+
+StoreCallbacks.$inject = ['$modal', '$templateCache'];
+angular.module('utils.foodio').factory('StoreCallbacks', StoreCallbacks);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
 var hint = function hint($timeout, $window, ngAudio, constants) {
 
   return new ((function () {
