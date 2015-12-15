@@ -3,210 +3,6 @@
 var app = angular.module('utils.foodio', ['ngStorage', 'constants.foodio']);
 'use strict';
 
-(function (module) {
-  try {
-    module = angular.module('utils.foodio');
-  } catch (e) {
-    module = angular.module('utils.foodio', []);
-  }
-  module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/templates/back-button.html', '<a href="javascript:history.back()" class="btn btn-default">Voltar</a>');
-  }]);
-})();
-'use strict';
-
-(function (module) {
-  try {
-    module = angular.module('utils.foodio');
-  } catch (e) {
-    module = angular.module('utils.foodio', []);
-  }
-  module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/templates/box.html', '<div class="box-container">\n' + '  <div class="box-header" ng-hide="hideHeader">\n' + '    <h2>\n' + '      <i class="icon icon-{{ icon }}"></i>\n' + '      {{ title }}\n' + '    </h2>\n' + '  </div>\n' + '  <div ng-transclude class="box-content {{ sizeClass }} {{ hideHeader ? \'box-hide-header\' : \'\' }}">\n' + '  </div>\n' + '</div>');
-  }]);
-})();
-'use strict';
-
-(function (module) {
-  try {
-    module = angular.module('utils.foodio');
-  } catch (e) {
-    module = angular.module('utils.foodio', []);
-  }
-  module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/templates/delete-button.html', '<button class="{{ class || \'btn btn-default btn-xs\' }}">\n' + '  <i class="icon icon-{{ icon || \'trash-o\' }}"></icon>\n' + '</button>');
-  }]);
-})();
-'use strict';
-
-(function (module) {
-  try {
-    module = angular.module('utils.foodio');
-  } catch (e) {
-    module = angular.module('utils.foodio', []);
-  }
-  module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/templates/edit-button.html', '<button class="btn btn-warning btn-xs">\n' + '  <i class="icon icon-{{ icon || \'pencil\' }}"></icon>\n' + '</button>');
-  }]);
-})();
-'use strict';
-
-(function (module) {
-  try {
-    module = angular.module('utils.foodio');
-  } catch (e) {
-    module = angular.module('utils.foodio', []);
-  }
-  module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/templates/experience-points.html', '<div class="experience-points-container">\n' + '  <div class="total-points"><i class="icon icon-shirtsinbulk"></i>3000 pontos</div>\n' + '  <div class="progress">\n' + '    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">\n' + '      <span class="sr-only">60% Complete</span>\n' + '    </div>\n' + '  </div>\n' + '  <div class="level-container">\n' + '    <div class="current-level">\n' + '      Level 5\n' + '    </div>\n' + '    <div class="next-level">\n' + '      <span>165 pontos para</span>\n' + '      Level 6\n' + '    </div>\n' + '  </div>\n' + '</div>');
-  }]);
-})();
-'use strict';
-
-(function (module) {
-  try {
-    module = angular.module('utils.foodio');
-  } catch (e) {
-    module = angular.module('utils.foodio', []);
-  }
-  module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/templates/form-group.html', '<div class="form-group" >\n' + '  <div ng-if="!vertical">\n' + '    <label for="{{ id }}" class="col-sm-4 control-label">{{ label }}\n' + '      <span ng-show="required" tooltip="Campo obrigatório" class="required-marker">*</span>\n' + '    </label>\n' + '    <div class="col-sm-8" ng-transclude></div>\n' + '  </div>\n' + '  <div ng-if="vertical">\n' + '    <label for="{{ id }}" class="control-label">{{ label }}</label>\n' + '    <div ng-transclude></div>\n' + '  </div>\n' + '</div>');
-  }]);
-})();
-'use strict';
-
-(function (module) {
-  try {
-    module = angular.module('utils.foodio');
-  } catch (e) {
-    module = angular.module('utils.foodio', []);
-  }
-  module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/templates/limit.html', '<p class="help-block">Restando <strong>{{ maxlength - length }}</strong> caracteres</p>');
-  }]);
-})();
-'use strict';
-
-(function (module) {
-  try {
-    module = angular.module('utils.foodio');
-  } catch (e) {
-    module = angular.module('utils.foodio', []);
-  }
-  module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/templates/map.html', '<div class="map-canvas"></div>');
-  }]);
-})();
-'use strict';
-
-(function (module) {
-  try {
-    module = angular.module('utils.foodio');
-  } catch (e) {
-    module = angular.module('utils.foodio', []);
-  }
-  module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/templates/modal-address.html', '<div class="modal-header">\n' + '  <h4 class="modal-title" ng-hide="address.id">Adicionar</h4>\n' + '  <h4 class="modal-title" ng-show="address.id">Editar</h4>\n' + '</div>\n' + '<div class="modal-body clearfix">\n' + '  <form name="addressForm" class="form-horizontal" ng-submit="ctrl.submit()">\n' + '    <form-group label="Nome" required="true">\n' + '      <input type="text" tabindex="1" ng-model="address.name" autofocus />\n' + '    </form-group>\n' + '    <form-group label="CEP" required="true">\n' + '      <input type="text" tabindex="2" ng-model="address.zipcode" required mask="99999-999" auto-unmask="true" zipcode zipcode-model="address" />\n' + '    </form-group>\n' + '    <form-group label="Cidade" required="true">\n' + '      <input type="text" tabindex="3" ng-model="address.city.name" disabled required />\n' + '    </form-group>\n' + '    <form-group label="Bairro" required="true">\n' + '      <input type="text" tabindex="4" ng-model="address.neighborhood.name" disabled required />\n' + '    </form-group>\n' + '    <form-group label="Rua" required="true">\n' + '      <input type="text" tabindex="5" ng-model="address.street" disabled required />\n' + '    </form-group>\n' + '    <form-group label="Número" required="true">\n' + '      <input type="text" tabindex="6" ng-model="address.number" required />\n' + '    </form-group>\n' + '    <form-group label="Complemento">\n' + '      <textarea ng-model="address.complement" tabindex="7" rows="3"></textarea>\n' + '    </form-group>\n' + '    <div class="modal-footer">\n' + '      <button class="btn btn-success">Salvar</button>\n' + '      <button class="btn btn-default" type="button" ng-click="ctrl.close()">Cancelar</button>\n' + '    </div>\n' + '  </form>\n' + '</div>\n' + '');
-  }]);
-})();
-'use strict';
-
-(function (module) {
-  try {
-    module = angular.module('utils.foodio');
-  } catch (e) {
-    module = angular.module('utils.foodio', []);
-  }
-  module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/templates/modal-chat.html', '<div class="modal-header">\n' + '  <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="ctrl.close()"><span aria-hidden="true">&times;</span></button>\n' + '  <h4 class="modal-title">Mensagens</h4>\n' + '</div>\n' + '<div class="modal-body">\n' + '  <ul class="list-unstyled" infinite-scroll=\'ctrl.loadMessages()\' infinite-scroll-distance=\'2\'>\n' + '    <li ng-repeat="m in messages | orderBy: \'-id\'">\n' + '      <div class="row">\n' + '        <div class="col-md-2">\n' + '          <img ng-src="{{ m.user.photo }}" alt="Avatar" class="img-thumbnail" width="100" height="100"/>\n' + '        </div>\n' + '        <div class="col-md-10">\n' + '          <div>\n' + '            <span>{{ m.user.name }}</span>\n' + '            <small ng-show="m.created_at">{{ m.created_at }}</small>\n' + '            <small ng-show="!m.created_at" class="message-pending">Enviando...</small>\n' + '            <a ng-show="m.failed" class="message-error" ng-click="ctrl.send()" tooltip-placement="bottom" tooltip="Clique para reenviar">Falha no envio</a>\n' + '          </div>\n' + '          <p>{{ m.content }}</p>\n' + '        </div>\n' + '      </div>\n' + '    </li>\n' + '  </ul>\n' + '  <form ng-submit="ctrl.send()" name="form">\n' + '    <div class="row">\n' + '      <div class="col-md-10">\n' + '        <textarea rows="4" ng-model="message.content" ng-disabled="message.sending" placeholder="Digite sua mensagem" autofocus required ng-maxlength="500" ng-keyup="ctrl.onKeyUp($event)"></textarea>\n' + '      </div>\n' + '      <div class="col-md-2">\n' + '        <button class="btn btn-success btn-block" ng-disabled="message.content.length < 1 || message.sending">\n' + '          <span ng-show="!message.sending">Enviar</span>\n' + '          <span ng-show="message.sending">\n' + '            <i class="icon icon-spinner icon-spin"></i>\n' + '          </span>\n' + '        </button>\n' + '      </div>\n' + '    </div>\n' + '  </form>\n' + '</div>');
-  }]);
-})();
-'use strict';
-
-(function (module) {
-  try {
-    module = angular.module('utils.foodio');
-  } catch (e) {
-    module = angular.module('utils.foodio', []);
-  }
-  module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/templates/modal-crop.html', '<div class="modal-header">\n' + '  <button type="button" class="close" ng-click="ctrl.close()"><span aria-hidden="true">&times;</span></button>\n' + '  <h4 class="modal-title">Recorte a imagem</h4>\n' + '</div>\n' + '<div class="modal-body">\n' + '  <img ng-src="{{ imgToCrop }}" ng-cropper ng-cropper-options="options" alt="Imagem a ser recortada" ng-cropper-show="showEvent" />\n' + '</div>\n' + '<div class="modal-footer">\n' + '  <button class="btn btn-primary" ng-click="ctrl.crop()">Salvar</button>\n' + '</div>');
-  }]);
-})();
-'use strict';
-
-(function (module) {
-  try {
-    module = angular.module('utils.foodio');
-  } catch (e) {
-    module = angular.module('utils.foodio', []);
-  }
-  module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/templates/modal-custom-period.html', '<div class="modal-header">\n' + '  <h4 class="modal-title">Escolher período</h4>\n' + '</div>\n' + '<div class="modal-body clearfix">\n' + '  <div class="row">\n' + '    <div class="col-md-6" ng-click="ctrl.open(\'fromDate\')">\n' + '      <div class="input-group">\n' + '        <input ng-model="period.fromDate" datepicker-options="options" datepicker-popup="dd/MM/yyyy" is-open="status.fromDate" disabled />\n' + '        <div class="input-group-addon">\n' + '          <i class="icon icon-calendar"></i>\n' + '        </div>\n' + '      </div>\n' + '    </div>\n' + '    <div class="col-md-6" ng-click="ctrl.open(\'toDate\')">\n' + '      <div class="input-group">\n' + '        <input ng-model="period.toDate" datepicker-options="options" datepicker-popup="dd/MM/yyyy" is-open="status.toDate" disabled />\n' + '        <div class="input-group-addon">\n' + '          <i class="icon icon-calendar"></i>\n' + '        </div>\n' + '      </div>\n' + '    </div>\n' + '  </div>\n' + '  <hr />\n' + '  <div class="row">\n' + '    <div class="col-md-6">\n' + '      <timepicker ng-model="period.fromTime" readonly-input="true" hour-step="1" minute-step="15" show-meridian="false" prevent-table="true" style="margin: 0 auto;"></timepicker>\n' + '    </div>\n' + '    <div class="col-md-6">\n' + '      <timepicker ng-model="period.toTime" readonly-input="true" hour-step="1" minute-step="15" show-meridian="false" prevent-table="true" style="margin: 0 auto;"></timepicker>\n' + '    </div>\n' + '  </div>\n' + '</div>\n' + '<div class="modal-footer">\n' + '  <button class="btn btn-default" type="button" ng-click="ctrl.close()">Cancelar</button>\n' + '  <button class="btn btn-success" ng-click="ctrl.next()">Próximo</button>\n' + '</div>');
-  }]);
-})();
-'use strict';
-
-(function (module) {
-  try {
-    module = angular.module('utils.foodio');
-  } catch (e) {
-    module = angular.module('utils.foodio', []);
-  }
-  module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/templates/modal-product.html', '<div class="modal-header">\n' + '  <button type="button" class="close" data-dismiss="modal" ng-click="ctrl.close()"><span aria-hidden="true">&times;</span></button>\n' + '  <div class="modal-title">\n' + '    <i class="icon icon-shopping-cart"></i>\n' + '    {{ product.name }}\n' + '  </div>\n' + '  <div class="product-total-price">\n' + '    {{ cartItem.total | currency: "R$" }}\n' + '  </div>\n' + '</div>\n' + '\n' + '<div class="modal-body clearfix">\n' + '\n' + '  <aside class="pull-left">\n' + '    <img class="product-image img-thumbnail" ng-src="{{ product.img.medium }}" width="280" height="280" alt="Foto do produto com nome {{ product.name }}">\n' + '    <p class="product-description">\n' + '      <i class="icon icon-shopping-cart"></i>\n' + '      {{ product.name }}\n' + '    </p>\n' + '    <p class="product-description" ng-show="product.description">\n' + '      <i class="icon icon-info-circle"></i>\n' + '      {{ product.description }}\n' + '    </p>\n' + '    <p class="product-description">\n' + '      <i class="icon icon-money"></i>\n' + '      A partir de {{ product.price | currency: "R$" }}\n' + '    </p>\n' + '  </aside>\n' + '\n' + '  <div class="product-options pull-right">\n' + '\n' + '    <label for="cart-item-amount">Selecione a quantidade:</label>\n' + '    <select id="cart-item-amount" ng-model="cartItem.amount" ng-options="i as i for i in [1,2,3,4,5,6,7,8,9,10]"></select>\n' + '\n' + '    <hr ng-show="product.addon_categories.length > 0">\n' + '\n' + '    <div ng-repeat="addonCategory in product.addon_categories" class="addon-categories-list">\n' + '\n' + '      <div class="addon-category-name">\n' + '        {{ addonCategory.name }}\n' + '        <small ng-show="addonCategory.max_itens > 0">\n' + '          Escolha até {{ addonCategory.max_itens }}\n' + '          <span ng-show="addonCategory.max_itens > 1">\n' + '            itens\n' + '          </span>\n' + '          <span ng-show="addonCategory.max_itens === 1">\n' + '            item\n' + '          </span>\n' + '        </small>\n' + '        <small ng-show="addonCategory.max_itens === 0">\n' + '          Escolha quantos itens você desejar\n' + '        </small>\n' + '      </div>\n' + '\n' + '      <div class="addons-list">\n' + '        <div ng-repeat="addon in addonCategory.addons" class="addon-item">\n' + '          <label ng-if="addonCategory.max_itens === 1" ng-disabled="!addon.available">\n' + '            <input type="radio" ng-disabled="!addon.available" ng-value="addon.id"  ng-model="cartItem.customization_fields[addonCategory.id]">\n' + '            {{ addon.name }}\n' + '            <span class="addon-price" ng-show="addon.price > 0 && addon.available">({{ addon.price | currency: "R$" }})</span>\n' + '            <span class="addon-unavailable" ng-show="!addon.available">Item não disponível</span>\n' + '          </label>\n' + '          <label ng-if="addonCategory.max_itens === 0" ng-disabled="!addon.available">\n' + '            <input type="checkbox" ng-disabled="!addon.available" ng-model="cartItem.customization_fields[addonCategory.id][addon.id]" ng-init="cartItem.customization_fields[addonCategory.id][addon.id] = cartItem.customization_fields[addonCategory.id][addon.id] && addon.available ? true : false" />\n' + '            {{ addon.name }}\n' + '            <span class="addon-price" ng-show="addon.price > 0 && addon.available">({{ addon.price | currency: "R$" }})</span>\n' + '            <span class="addon-unavailable" ng-show="!addon.available">Item não disponível</span>\n' + '          </label>\n' + '        </div>\n' + '      </div>\n' + '    </div>\n' + '\n' + '    <hr>\n' + '    <label for="cart-item-note">Deseja fazer alguma observação?</label>\n' + '    <textarea id="cart-item-note" rows="3" ng-model="cartItem.note"></textarea>\n' + '    <limit maxlength="150" model="cartItem.note"></limit>\n' + '  </div>\n' + '</div>\n' + '\n' + '<div class="modal-footer">\n' + '  <button class="btn btn-success" ng-click="ctrl.add()" ng-show="!isEditing">\n' + '    <i class="icon icon-plus-square"></i>\n' + '    Adicionar\n' + '  </button>\n' + '  <button class="btn btn-success" ng-click="ctrl.add()" ng-show="isEditing">\n' + '    <i class="icon icon-pencil"></i>\n' + '    Confirmar edição\n' + '  </button>\n' + '  <button class="btn btn-default" ng-click="ctrl.close()">\n' + '    Cancelar\n' + '  </button>\n' + '</div>');
-  }]);
-})();
-'use strict';
-
-(function (module) {
-  try {
-    module = angular.module('utils.foodio');
-  } catch (e) {
-    module = angular.module('utils.foodio', []);
-  }
-  module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/templates/modal-rating.html', '<div class="modal-header">\n' + '  <h4 class="modal-title">\n' + '    Avaliar pedido\n' + '  </h4>\n' + '</div>\n' + '<div class="modal-body">\n' + '  <p>1. Em uma escala de 1 a 10, sendo 1 altamente improvavel e 10 altamente provavel, qual a probabilidade de você indicar o speedy food a um amigo(a)?</p>\n' + '  <rating ng-model="rating.score" max="10" state-on="\'icon icon-star icon-star-filled\'" state-off="\'icon icon-star-o\'"></rating>\n' + '  <hr />\n' + '  <p>2. Qual a nota você daria para qualidade dos nossos produtos?</p>\n' + '  <rating ng-model="rating.quality" max="10" state-on="\'icon icon-star icon-star-filled\'" state-off="\'icon icon-star-o\'"></rating>\n' + '  <hr />\n' + '  <p>3. Qual a nota você daria para nosso serviço de entrega?</p>\n' + '  <rating ng-model="rating.delivery" max="10" state-on="\'icon icon-star icon-star-filled\'" state-off="\'icon icon-star-o\'"></rating>\n' + '  <hr /\n' + '  <p>4. Há algo que você não gostou que gostaria de registrar?</p>\n' + '  <textarea ng-model="rating.good_comment" rows="4" placeholder="Deixe em branco se você não tiver nenhum comentário"></textarea>\n' + '  <hr />\n' + '  <p>5. Há algo que você gostou que gostaria de registrar?</p>\n' + '  <textarea ng-model="rating.bad_comment" rows="4" placeholder="Deixe em branco se você não tiver nenhum comentário"></textarea>\n' + '  </div>\n' + '<div class="modal-footer">\n' + '  <button class="btn btn-success" ng-click="ctrl.save()">\n' + '    <i class="icon icon-pencil"></i>\n' + '    Confirmar edição\n' + '  </button>\n' + '  <button class="btn btn-default" ng-click="ctrl.close()">\n' + '    Cancelar\n' + '  </button>\n' + '</div>');
-  }]);
-})();
-'use strict';
-
-(function (module) {
-  try {
-    module = angular.module('utils.foodio');
-  } catch (e) {
-    module = angular.module('utils.foodio', []);
-  }
-  module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/templates/no-results.html', '<div class="row no-results">\n' + '  <div ng-class="{ \'col-md-4\': icon, \'hide\': !icon }">\n' + '    <i class="icon icon-{{ icon }}"></i>\n' + '  </div>\n' + '  <div ng-class="{ \'col-md-8\': icon, \'col-md-12\': !icon }">\n' + '    <p>{{ text }}</p>\n' + '  </div>\n' + '</div>\n' + '');
-  }]);
-})();
-'use strict';
-
-(function (module) {
-  try {
-    module = angular.module('utils.foodio');
-  } catch (e) {
-    module = angular.module('utils.foodio', []);
-  }
-  module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/templates/submit-form.html', '<div class="form-group form-submit">\n' + '  <div class="col-lg-offset-4 col-lg-8">\n' + '    <button type="submit" class="btn btn-success" tabindex="20">{{ text || "Salvar" }}</button>\n' + '    <div ng-transclude style="display: inline-block;"></div>\n' + '  </div>\n' + '</div>\n' + '\n' + '');
-  }]);
-})();
-'use strict';
-
-(function (module) {
-  try {
-    module = angular.module('utils.foodio');
-  } catch (e) {
-    module = angular.module('utils.foodio', []);
-  }
-  module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/templates/tik-tak.html', '<span>\n' + '  {{ value }}\n' + '</span>');
-  }]);
-})();
-'use strict';
-
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
@@ -549,6 +345,210 @@ var ctrl = function ctrl($scope, $modalInstance) {
 
 ctrl.$inject = ['$scope', '$modalInstance'];
 angular.module('utils.foodio').controller('ModalRatingCtrl', ctrl);
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('utils.foodio');
+  } catch (e) {
+    module = angular.module('utils.foodio', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/templates/back-button.html', '<a href="javascript:history.back()" class="btn btn-default">Voltar</a>');
+  }]);
+})();
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('utils.foodio');
+  } catch (e) {
+    module = angular.module('utils.foodio', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/templates/box.html', '<div class="box-container">\n' + '  <div class="box-header" ng-hide="hideHeader">\n' + '    <h2>\n' + '      <i class="icon icon-{{ icon }}"></i>\n' + '      {{ title }}\n' + '    </h2>\n' + '  </div>\n' + '  <div ng-transclude class="box-content {{ sizeClass }} {{ hideHeader ? \'box-hide-header\' : \'\' }}">\n' + '  </div>\n' + '</div>');
+  }]);
+})();
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('utils.foodio');
+  } catch (e) {
+    module = angular.module('utils.foodio', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/templates/delete-button.html', '<button class="{{ class || \'btn btn-default btn-xs\' }}">\n' + '  <i class="icon icon-{{ icon || \'trash-o\' }}"></icon>\n' + '</button>');
+  }]);
+})();
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('utils.foodio');
+  } catch (e) {
+    module = angular.module('utils.foodio', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/templates/edit-button.html', '<button class="btn btn-warning btn-xs">\n' + '  <i class="icon icon-{{ icon || \'pencil\' }}"></icon>\n' + '</button>');
+  }]);
+})();
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('utils.foodio');
+  } catch (e) {
+    module = angular.module('utils.foodio', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/templates/experience-points.html', '<div class="experience-points-container">\n' + '  <div class="total-points"><i class="icon icon-shirtsinbulk"></i>3000 pontos</div>\n' + '  <div class="progress">\n' + '    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">\n' + '      <span class="sr-only">60% Complete</span>\n' + '    </div>\n' + '  </div>\n' + '  <div class="level-container">\n' + '    <div class="current-level">\n' + '      Level 5\n' + '    </div>\n' + '    <div class="next-level">\n' + '      <span>165 pontos para</span>\n' + '      Level 6\n' + '    </div>\n' + '  </div>\n' + '</div>');
+  }]);
+})();
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('utils.foodio');
+  } catch (e) {
+    module = angular.module('utils.foodio', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/templates/form-group.html', '<div class="form-group" >\n' + '  <div ng-if="!vertical">\n' + '    <label for="{{ id }}" class="col-sm-4 control-label">{{ label }}\n' + '      <span ng-show="required" tooltip="Campo obrigatório" class="required-marker">*</span>\n' + '    </label>\n' + '    <div class="col-sm-8" ng-transclude></div>\n' + '  </div>\n' + '  <div ng-if="vertical">\n' + '    <label for="{{ id }}" class="control-label">{{ label }}</label>\n' + '    <div ng-transclude></div>\n' + '  </div>\n' + '</div>');
+  }]);
+})();
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('utils.foodio');
+  } catch (e) {
+    module = angular.module('utils.foodio', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/templates/limit.html', '<p class="help-block">Restando <strong>{{ maxlength - length }}</strong> caracteres</p>');
+  }]);
+})();
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('utils.foodio');
+  } catch (e) {
+    module = angular.module('utils.foodio', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/templates/map.html', '<div class="map-canvas"></div>');
+  }]);
+})();
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('utils.foodio');
+  } catch (e) {
+    module = angular.module('utils.foodio', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/templates/modal-address.html', '<div class="modal-header">\n' + '  <h4 class="modal-title" ng-hide="address.id">Adicionar</h4>\n' + '  <h4 class="modal-title" ng-show="address.id">Editar</h4>\n' + '</div>\n' + '<div class="modal-body clearfix">\n' + '  <form name="addressForm" class="form-horizontal" ng-submit="ctrl.submit()">\n' + '    <form-group label="Nome" required="true">\n' + '      <input type="text" tabindex="1" ng-model="address.name" autofocus />\n' + '    </form-group>\n' + '    <form-group label="CEP" required="true">\n' + '      <input type="text" tabindex="2" ng-model="address.zipcode" required mask="99999-999" auto-unmask="true" zipcode zipcode-model="address" />\n' + '    </form-group>\n' + '    <form-group label="Cidade" required="true">\n' + '      <input type="text" tabindex="3" ng-model="address.city.name" disabled required />\n' + '    </form-group>\n' + '    <form-group label="Bairro" required="true">\n' + '      <input type="text" tabindex="4" ng-model="address.neighborhood.name" disabled required />\n' + '    </form-group>\n' + '    <form-group label="Rua" required="true">\n' + '      <input type="text" tabindex="5" ng-model="address.street" disabled required />\n' + '    </form-group>\n' + '    <form-group label="Número" required="true">\n' + '      <input type="text" tabindex="6" ng-model="address.number" required />\n' + '    </form-group>\n' + '    <form-group label="Complemento">\n' + '      <textarea ng-model="address.complement" tabindex="7" rows="3"></textarea>\n' + '    </form-group>\n' + '    <div class="modal-footer">\n' + '      <button class="btn btn-success">Salvar</button>\n' + '      <button class="btn btn-default" type="button" ng-click="ctrl.close()">Cancelar</button>\n' + '    </div>\n' + '  </form>\n' + '</div>\n' + '');
+  }]);
+})();
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('utils.foodio');
+  } catch (e) {
+    module = angular.module('utils.foodio', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/templates/modal-chat.html', '<div class="modal-header">\n' + '  <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="ctrl.close()"><span aria-hidden="true">&times;</span></button>\n' + '  <h4 class="modal-title">Mensagens</h4>\n' + '</div>\n' + '<div class="modal-body">\n' + '  <ul class="list-unstyled" infinite-scroll=\'ctrl.loadMessages()\' infinite-scroll-distance=\'2\'>\n' + '    <li ng-repeat="m in messages | orderBy: \'-id\'">\n' + '      <div class="row">\n' + '        <div class="col-md-2">\n' + '          <img ng-src="{{ m.user.photo }}" alt="Avatar" class="img-thumbnail" width="100" height="100"/>\n' + '        </div>\n' + '        <div class="col-md-10">\n' + '          <div>\n' + '            <span>{{ m.user.name }}</span>\n' + '            <small ng-show="m.created_at">{{ m.created_at }}</small>\n' + '            <small ng-show="!m.created_at" class="message-pending">Enviando...</small>\n' + '            <a ng-show="m.failed" class="message-error" ng-click="ctrl.send()" tooltip-placement="bottom" tooltip="Clique para reenviar">Falha no envio</a>\n' + '          </div>\n' + '          <p>{{ m.content }}</p>\n' + '        </div>\n' + '      </div>\n' + '    </li>\n' + '  </ul>\n' + '  <form ng-submit="ctrl.send()" name="form">\n' + '    <div class="row">\n' + '      <div class="col-md-10">\n' + '        <textarea rows="4" ng-model="message.content" ng-disabled="message.sending" placeholder="Digite sua mensagem" autofocus required ng-maxlength="500" ng-keyup="ctrl.onKeyUp($event)"></textarea>\n' + '      </div>\n' + '      <div class="col-md-2">\n' + '        <button class="btn btn-success btn-block" ng-disabled="message.content.length < 1 || message.sending">\n' + '          <span ng-show="!message.sending">Enviar</span>\n' + '          <span ng-show="message.sending">\n' + '            <i class="icon icon-spinner icon-spin"></i>\n' + '          </span>\n' + '        </button>\n' + '      </div>\n' + '    </div>\n' + '  </form>\n' + '</div>');
+  }]);
+})();
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('utils.foodio');
+  } catch (e) {
+    module = angular.module('utils.foodio', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/templates/modal-crop.html', '<div class="modal-header">\n' + '  <button type="button" class="close" ng-click="ctrl.close()"><span aria-hidden="true">&times;</span></button>\n' + '  <h4 class="modal-title">Recorte a imagem</h4>\n' + '</div>\n' + '<div class="modal-body">\n' + '  <img ng-src="{{ imgToCrop }}" ng-cropper ng-cropper-options="options" alt="Imagem a ser recortada" ng-cropper-show="showEvent" />\n' + '</div>\n' + '<div class="modal-footer">\n' + '  <button class="btn btn-primary" ng-click="ctrl.crop()">Salvar</button>\n' + '</div>');
+  }]);
+})();
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('utils.foodio');
+  } catch (e) {
+    module = angular.module('utils.foodio', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/templates/modal-custom-period.html', '<div class="modal-header">\n' + '  <h4 class="modal-title">Escolher período</h4>\n' + '</div>\n' + '<div class="modal-body clearfix">\n' + '  <div class="row">\n' + '    <div class="col-md-6" ng-click="ctrl.open(\'fromDate\')">\n' + '      <div class="input-group">\n' + '        <input ng-model="period.fromDate" datepicker-options="options" datepicker-popup="dd/MM/yyyy" is-open="status.fromDate" disabled />\n' + '        <div class="input-group-addon">\n' + '          <i class="icon icon-calendar"></i>\n' + '        </div>\n' + '      </div>\n' + '    </div>\n' + '    <div class="col-md-6" ng-click="ctrl.open(\'toDate\')">\n' + '      <div class="input-group">\n' + '        <input ng-model="period.toDate" datepicker-options="options" datepicker-popup="dd/MM/yyyy" is-open="status.toDate" disabled />\n' + '        <div class="input-group-addon">\n' + '          <i class="icon icon-calendar"></i>\n' + '        </div>\n' + '      </div>\n' + '    </div>\n' + '  </div>\n' + '  <hr />\n' + '  <div class="row">\n' + '    <div class="col-md-6">\n' + '      <timepicker ng-model="period.fromTime" readonly-input="true" hour-step="1" minute-step="15" show-meridian="false" prevent-table="true" style="margin: 0 auto;"></timepicker>\n' + '    </div>\n' + '    <div class="col-md-6">\n' + '      <timepicker ng-model="period.toTime" readonly-input="true" hour-step="1" minute-step="15" show-meridian="false" prevent-table="true" style="margin: 0 auto;"></timepicker>\n' + '    </div>\n' + '  </div>\n' + '</div>\n' + '<div class="modal-footer">\n' + '  <button class="btn btn-default" type="button" ng-click="ctrl.close()">Cancelar</button>\n' + '  <button class="btn btn-success" ng-click="ctrl.next()">Próximo</button>\n' + '</div>');
+  }]);
+})();
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('utils.foodio');
+  } catch (e) {
+    module = angular.module('utils.foodio', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/templates/modal-product.html', '<div class="modal-header">\n' + '  <button type="button" class="close" data-dismiss="modal" ng-click="ctrl.close()"><span aria-hidden="true">&times;</span></button>\n' + '  <div class="modal-title">\n' + '    <i class="icon icon-shopping-cart"></i>\n' + '    {{ product.name }}\n' + '  </div>\n' + '  <div class="product-total-price">\n' + '    {{ cartItem.total | currency: "R$" }}\n' + '  </div>\n' + '</div>\n' + '\n' + '<div class="modal-body clearfix">\n' + '\n' + '  <aside class="pull-left">\n' + '    <img class="product-image img-thumbnail" ng-src="{{ product.img.medium }}" width="280" height="280" alt="Foto do produto com nome {{ product.name }}">\n' + '    <p class="product-description">\n' + '      <i class="icon icon-shopping-cart"></i>\n' + '      {{ product.name }}\n' + '    </p>\n' + '    <p class="product-description" ng-show="product.description">\n' + '      <i class="icon icon-info-circle"></i>\n' + '      {{ product.description }}\n' + '    </p>\n' + '    <p class="product-description">\n' + '      <i class="icon icon-money"></i>\n' + '      A partir de {{ product.price | currency: "R$" }}\n' + '    </p>\n' + '  </aside>\n' + '\n' + '  <div class="product-options pull-right">\n' + '\n' + '    <label for="cart-item-amount">Selecione a quantidade:</label>\n' + '    <select id="cart-item-amount" ng-model="cartItem.amount" ng-options="i as i for i in [1,2,3,4,5,6,7,8,9,10]"></select>\n' + '\n' + '    <hr ng-show="product.addon_categories.length > 0">\n' + '\n' + '    <div ng-repeat="addonCategory in product.addon_categories" class="addon-categories-list">\n' + '\n' + '      <div class="addon-category-name">\n' + '        {{ addonCategory.name }}\n' + '        <small ng-show="addonCategory.max_itens > 0">\n' + '          Escolha até {{ addonCategory.max_itens }}\n' + '          <span ng-show="addonCategory.max_itens > 1">\n' + '            itens\n' + '          </span>\n' + '          <span ng-show="addonCategory.max_itens === 1">\n' + '            item\n' + '          </span>\n' + '        </small>\n' + '        <small ng-show="addonCategory.max_itens === 0">\n' + '          Escolha quantos itens você desejar\n' + '        </small>\n' + '      </div>\n' + '\n' + '      <div class="addons-list">\n' + '        <div ng-repeat="addon in addonCategory.addons" class="addon-item">\n' + '          <label ng-if="addonCategory.max_itens === 1" ng-disabled="!addon.available">\n' + '            <input type="radio" ng-disabled="!addon.available" ng-value="addon.id"  ng-model="cartItem.customization_fields[addonCategory.id]">\n' + '            {{ addon.name }}\n' + '            <span class="addon-price" ng-show="addon.price > 0 && addon.available">({{ addon.price | currency: "R$" }})</span>\n' + '            <span class="addon-unavailable" ng-show="!addon.available">Item não disponível</span>\n' + '          </label>\n' + '          <label ng-if="addonCategory.max_itens === 0" ng-disabled="!addon.available">\n' + '            <input type="checkbox" ng-disabled="!addon.available" ng-model="cartItem.customization_fields[addonCategory.id][addon.id]" ng-init="cartItem.customization_fields[addonCategory.id][addon.id] = cartItem.customization_fields[addonCategory.id][addon.id] && addon.available ? true : false" />\n' + '            {{ addon.name }}\n' + '            <span class="addon-price" ng-show="addon.price > 0 && addon.available">({{ addon.price | currency: "R$" }})</span>\n' + '            <span class="addon-unavailable" ng-show="!addon.available">Item não disponível</span>\n' + '          </label>\n' + '        </div>\n' + '      </div>\n' + '    </div>\n' + '\n' + '    <hr>\n' + '    <label for="cart-item-note">Deseja fazer alguma observação?</label>\n' + '    <textarea id="cart-item-note" rows="3" ng-model="cartItem.note"></textarea>\n' + '    <limit maxlength="150" model="cartItem.note"></limit>\n' + '  </div>\n' + '</div>\n' + '\n' + '<div class="modal-footer">\n' + '  <button class="btn btn-success" ng-click="ctrl.add()" ng-show="!isEditing">\n' + '    <i class="icon icon-plus-square"></i>\n' + '    Adicionar\n' + '  </button>\n' + '  <button class="btn btn-success" ng-click="ctrl.add()" ng-show="isEditing">\n' + '    <i class="icon icon-pencil"></i>\n' + '    Confirmar edição\n' + '  </button>\n' + '  <button class="btn btn-default" ng-click="ctrl.close()">\n' + '    Cancelar\n' + '  </button>\n' + '</div>');
+  }]);
+})();
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('utils.foodio');
+  } catch (e) {
+    module = angular.module('utils.foodio', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/templates/modal-rating.html', '<div class="modal-header">\n' + '  <h4 class="modal-title">\n' + '    Avaliar pedido\n' + '  </h4>\n' + '</div>\n' + '<div class="modal-body">\n' + '  <p>1. Em uma escala de 1 a 10, sendo 1 altamente improvavel e 10 altamente provavel, qual a probabilidade de você indicar o speedy food a um amigo(a)?</p>\n' + '  <rating ng-model="rating.score" max="10" state-on="\'icon icon-star icon-star-filled\'" state-off="\'icon icon-star-o\'"></rating>\n' + '  <hr />\n' + '  <p>2. Qual a nota você daria para qualidade dos nossos produtos?</p>\n' + '  <rating ng-model="rating.quality" max="10" state-on="\'icon icon-star icon-star-filled\'" state-off="\'icon icon-star-o\'"></rating>\n' + '  <hr />\n' + '  <p>3. Qual a nota você daria para nosso serviço de entrega?</p>\n' + '  <rating ng-model="rating.delivery" max="10" state-on="\'icon icon-star icon-star-filled\'" state-off="\'icon icon-star-o\'"></rating>\n' + '  <hr /\n' + '  <p>4. Há algo que você não gostou que gostaria de registrar?</p>\n' + '  <textarea ng-model="rating.good_comment" rows="4" placeholder="Deixe em branco se você não tiver nenhum comentário"></textarea>\n' + '  <hr />\n' + '  <p>5. Há algo que você gostou que gostaria de registrar?</p>\n' + '  <textarea ng-model="rating.bad_comment" rows="4" placeholder="Deixe em branco se você não tiver nenhum comentário"></textarea>\n' + '  </div>\n' + '<div class="modal-footer">\n' + '  <button class="btn btn-success" ng-click="ctrl.save()">\n' + '    <i class="icon icon-pencil"></i>\n' + '    Confirmar edição\n' + '  </button>\n' + '  <button class="btn btn-default" ng-click="ctrl.close()">\n' + '    Cancelar\n' + '  </button>\n' + '</div>');
+  }]);
+})();
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('utils.foodio');
+  } catch (e) {
+    module = angular.module('utils.foodio', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/templates/no-results.html', '<div class="row no-results">\n' + '  <div ng-class="{ \'col-md-4\': icon, \'hide\': !icon }">\n' + '    <i class="icon icon-{{ icon }}"></i>\n' + '  </div>\n' + '  <div ng-class="{ \'col-md-8\': icon, \'col-md-12\': !icon }">\n' + '    <p>{{ text }}</p>\n' + '  </div>\n' + '</div>\n' + '');
+  }]);
+})();
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('utils.foodio');
+  } catch (e) {
+    module = angular.module('utils.foodio', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/templates/submit-form.html', '<div class="form-group form-submit">\n' + '  <div class="col-lg-offset-4 col-lg-8">\n' + '    <button type="submit" class="btn btn-success" tabindex="20">{{ text || "Salvar" }}</button>\n' + '    <div ng-transclude style="display: inline-block;"></div>\n' + '  </div>\n' + '</div>\n' + '\n' + '');
+  }]);
+})();
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('utils.foodio');
+  } catch (e) {
+    module = angular.module('utils.foodio', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/templates/tik-tak.html', '<span>\n' + '  {{ value }}\n' + '</span>');
+  }]);
+})();
 'use strict';
 
 var directive = function directive($templateCache) {
@@ -1223,7 +1223,7 @@ var StoreCallbacks = function StoreCallbacks($q) {
             return reject();
           }
 
-          return resolve({ event: 'toOpen', seconds: getDiffFromNow(_this.store.opening_time) });
+          return resolve({ event: 'toOpen', seconds: _this.getDiffFromNow(_this.store.opening_time) });
         });
       }
     }, {
@@ -1236,7 +1236,7 @@ var StoreCallbacks = function StoreCallbacks($q) {
             return reject();
           }
 
-          return resolve({ event: 'toClose', seconds: getDiffFromNow(_this2.store.closing_time) });
+          return resolve({ event: 'toClose', seconds: _this2.getDiffFromNow(_this2.store.closing_time) });
         });
       }
     }]);

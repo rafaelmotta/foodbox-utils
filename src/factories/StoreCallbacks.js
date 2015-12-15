@@ -19,7 +19,7 @@ let StoreCallbacks = ($q) => {
           return reject();
         }
 
-        return resolve({ event: 'toOpen', seconds: getDiffFromNow(this.store.opening_time) })
+        return resolve({ event: 'toOpen', seconds: this.getDiffFromNow(this.store.opening_time) })
       });
     }
 
@@ -29,7 +29,7 @@ let StoreCallbacks = ($q) => {
           return reject();
         }
 
-        return resolve({ event: 'toClose', seconds: getDiffFromNow(this.store.closing_time) })
+        return resolve({ event: 'toClose', seconds: this.getDiffFromNow(this.store.closing_time) })
       });
     }
 
