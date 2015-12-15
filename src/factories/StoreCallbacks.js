@@ -10,26 +10,26 @@ let StoreCallbacks = ($q) => {
     }
 
     getDiffFromNow(reference) {
-      moment(reference).diff(moment(), 'seconds');
+      return moment(reference).diff(moment(), 'seconds');
     }
 
     toOpen() {
-      $q((resolve, reject) => {
+      return $q((resolve, reject) => {
         if(!this.store.opening_time) {
           return reject();
         }
 
-        resolve({ event: 'toOpen', seconds: getDiffFromNow(this.store.opening_time) })
+        return resolve({ event: 'toOpen', seconds: getDiffFromNow(this.store.opening_time) })
       });
     }
 
     toClose() {
-      $q((resolve, reject) => {
+      return $q((resolve, reject) => {
         if(!this.store.closing_time) {
           return reject();
         }
 
-        resolve({ event: 'toClose', seconds: getDiffFromNow(this.store.closing_time) })
+        return resolve({ event: 'toClose', seconds: getDiffFromNow(this.store.closing_time) })
       });
     }
 
