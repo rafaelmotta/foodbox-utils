@@ -1,4 +1,4 @@
-let StoreCallbacks = () => {
+let StoreCallbacks = ($q) => {
   return class StoreCallbacks {
     constructor(store) {
       if(store) this.setStore(store);
@@ -36,5 +36,5 @@ let StoreCallbacks = () => {
   };
 };
 
-StoreCallbacks.$inject = ['$modal', '$templateCache'];
+StoreCallbacks.$inject = ['$q'];
 angular.module('utils.foodio').factory('StoreCallbacks', StoreCallbacks);
