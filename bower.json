@@ -18,7 +18,7 @@
     "tests"
   ],
   "dependencies": {
-    "angularLocalStorage": "ngStorage#~0.3.2",
+    "ngstorage": "~0.3.0",
     "constants-foodio": "*",
     "moment": "~2.10.6"
   }
