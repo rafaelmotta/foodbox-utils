@@ -9,7 +9,7 @@ module.run(['$templateCache', function($templateCache) {
     '<div class="modal-header">\n' +
     '  <button type="button" class="close" data-dismiss="modal" ng-click="ctrl.close()"><span aria-hidden="true">&times;</span></button>\n' +
     '  <div class="modal-title">\n' +
-    '    <i class="icon icon-shopping-cart"></i>\n' +
+    '    <i class="fa fa-shopping-cart"></i>\n' +
     '    {{ product.name }}\n' +
     '  </div>\n' +
     '  <div class="product-total-price">\n' +
@@ -22,15 +22,15 @@ module.run(['$templateCache', function($templateCache) {
     '  <aside class="pull-left">\n' +
     '    <img class="product-image img-thumbnail" ng-src="{{ product.img.medium }}" width="280" height="280" alt="Foto do produto com nome {{ product.name }}">\n' +
     '    <p class="product-description">\n' +
-    '      <i class="icon icon-shopping-cart"></i>\n' +
+    '      <i class="fa fa-shopping-cart"></i>\n' +
     '      {{ product.name }}\n' +
     '    </p>\n' +
     '    <p class="product-description" ng-show="product.description">\n' +
-    '      <i class="icon icon-info-circle"></i>\n' +
+    '      <i class="fa fa-info-circle"></i>\n' +
     '      {{ product.description }}\n' +
     '    </p>\n' +
     '    <p class="product-description">\n' +
-    '      <i class="icon icon-money"></i>\n' +
+    '      <i class="fa fa-money"></i>\n' +
     '      A partir de {{ product.price | currency: "R$" }}\n' +
     '    </p>\n' +
     '  </aside>\n' +
@@ -46,33 +46,32 @@ module.run(['$templateCache', function($templateCache) {
     '\n' +
     '      <div class="addon-category-name">\n' +
     '        {{ addonCategory.name }}\n' +
-    '        <small ng-show="addonCategory.max_itens > 0">\n' +
-    '          Escolha até {{ addonCategory.max_itens }}\n' +
-    '          <span ng-show="addonCategory.max_itens > 1">\n' +
-    '            itens\n' +
-    '          </span>\n' +
-    '          <span ng-show="addonCategory.max_itens === 1">\n' +
-    '            item\n' +
-    '          </span>\n' +
+    '        <small ng-show="!addonCategory.max && !addonCategory.min">\n' +
+    '          Escolha quantos ingredientes desejar</span>\n' +
     '        </small>\n' +
-    '        <small ng-show="addonCategory.max_itens === 0">\n' +
-    '          Escolha quantos itens você desejar\n' +
+    '        <small ng-show="!addonCategory.max && addonCategory.min">\n' +
+    '          Escolha pelo menos {{ addonCategory.min }} <span ng-show="addonCategory.min === 1">ingrediente</span><span ng-show="addonCategory.min > 1">ingredientes</span>\n' +
+    '        </small>\n' +
+    '        <small ng-show="addonCategory.max">\n' +
+    '          <span ng-show="addonCategory.max === 1 && addonCategory.min === 1">Escolha ao menos 1 ingrediente</span>\n' +
+    '          <span ng-show="addonCategory.max === 1 && !addonCategory.min">Escolha ao menos 1 ingrediente</span>\n' +
+    '          <span ng-show="addonCategory.max > 1 && addonCategory.min > 1">Escolha ao menos {{ addonCategory.min }} ingredientes e no máximo {{ addonCategory.max }} ingredientes</span>\n' +
     '        </small>\n' +
     '      </div>\n' +
     '\n' +
     '      <div class="addons-list">\n' +
     '        <div ng-repeat="addon in addonCategory.addons" class="addon-item">\n' +
-    '          <label ng-if="addonCategory.max_itens === 1" ng-disabled="!addon.available">\n' +
+    '          <label ng-if="addonCategory.max === 1" ng-disabled="!addon.available">\n' +
     '            <input type="radio" ng-disabled="!addon.available" ng-value="addon.id"  ng-model="cartItem.customization_fields[addonCategory.id]">\n' +
     '            {{ addon.name }}\n' +
     '            <span class="addon-price" ng-show="addon.price > 0 && addon.available">({{ addon.price | currency: "R$" }})</span>\n' +
-    '            <span class="addon-unavailable" ng-show="!addon.available">Item não disponível</span>\n' +
+    '            <span class="addon-unavailable" ng-show="!addon.available">Ingrediente não disponível</span>\n' +
     '          </label>\n' +
-    '          <label ng-if="addonCategory.max_itens === 0" ng-disabled="!addon.available">\n' +
+    '          <label ng-if="addonCategory.max === 0" ng-disabled="!addon.available">\n' +
     '            <input type="checkbox" ng-disabled="!addon.available" ng-model="cartItem.customization_fields[addonCategory.id][addon.id]" ng-init="cartItem.customization_fields[addonCategory.id][addon.id] = cartItem.customization_fields[addonCategory.id][addon.id] && addon.available ? true : false" />\n' +
     '            {{ addon.name }}\n' +
     '            <span class="addon-price" ng-show="addon.price > 0 && addon.available">({{ addon.price | currency: "R$" }})</span>\n' +
-    '            <span class="addon-unavailable" ng-show="!addon.available">Item não disponível</span>\n' +
+    '            <span class="addon-unavailable" ng-show="!addon.available">Ingrediente não disponível</span>\n' +
     '          </label>\n' +
     '        </div>\n' +
     '      </div>\n' +
@@ -87,11 +86,11 @@ module.run(['$templateCache', function($templateCache) {
     '\n' +
     '<div class="modal-footer">\n' +
     '  <button class="btn btn-success" ng-click="ctrl.add()" ng-show="!isEditing">\n' +
-    '    <i class="icon icon-plus-square"></i>\n' +
+    '    <i class="fa fa-plus-square"></i>\n' +
     '    Adicionar\n' +
     '  </button>\n' +
     '  <button class="btn btn-success" ng-click="ctrl.add()" ng-show="isEditing">\n' +
-    '    <i class="icon icon-pencil"></i>\n' +
+    '    <i class="fa fa-pencil"></i>\n' +
     '    Confirmar edição\n' +
     '  </button>\n' +
     '  <button class="btn btn-default" ng-click="ctrl.close()">\n' +
