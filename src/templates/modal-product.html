@@ -60,7 +60,7 @@
             <span class="addon-price" ng-show="addon.price > 0 && addon.available">({{ addon.price | currency: "R$" }})</span>
             <span class="addon-unavailable" ng-show="!addon.available">Ingrediente não disponível</span>
           </label>
-          <label ng-if="(addonCategory.max > 0 || !addonCategory.min || addonCategory.max !== 1)"
+          <label ng-if="(addonCategory.max > 1 || addonCategory.min > 1) || (!addonCategory.max && !addonCategory.min)"
             ng-disabled="!addon.available">
             <input type="checkbox" ng-disabled="!addon.available" ng-model="cartItem.customization_fields[addonCategory.id][addon.id]" ng-init="cartItem.customization_fields[addonCategory.id][addon.id] = cartItem.customization_fields[addonCategory.id][addon.id] && addon.available ? true : false" />
             {{ addon.name }}
