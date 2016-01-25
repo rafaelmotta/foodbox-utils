@@ -1,5 +1,7 @@
 'use strict';
 
+var app = angular.module('utils.foodio', ['ngStorage', 'constants.foodio']);
+
 (function (module) {
   try {
     module = angular.module('utils.foodio');
