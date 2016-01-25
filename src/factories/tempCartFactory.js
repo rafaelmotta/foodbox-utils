@@ -23,7 +23,7 @@ let tempCart = () => {
         this.$scope.cartItem.customization_fields[addonCategory.id] = {};
 
         angular.forEach(addonCategory.addons, (addon) => {
-          if(addonCategory.min === 1) {
+          if(addonCategory.max === 1) {
             this.$scope.cartItem.customization_fields[addonCategory.id] = addonCategory.addons[0].id;
           } else {
             let fill = (addonCategory.auto_fill && !parseFloat(addon.price) && addon.available) ? true : false;
