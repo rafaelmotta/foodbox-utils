@@ -15,7 +15,7 @@ module.run(['$templateCache', function($templateCache) {
     '      <div class="input-group">\n' +
     '        <input ng-model="period.fromDate" datepicker-options="options" datepicker-popup="dd/MM/yyyy" is-open="status.fromDate" disabled />\n' +
     '        <div class="input-group-addon">\n' +
-    '          <i class="icon icon-calendar"></i>\n' +
+    '          <i class="fa fa-calendar"></i>\n' +
     '        </div>\n' +
     '      </div>\n' +
     '    </div>\n' +
@@ -23,7 +23,7 @@ module.run(['$templateCache', function($templateCache) {
     '      <div class="input-group">\n' +
     '        <input ng-model="period.toDate" datepicker-options="options" datepicker-popup="dd/MM/yyyy" is-open="status.toDate" disabled />\n' +
     '        <div class="input-group-addon">\n' +
-    '          <i class="icon icon-calendar"></i>\n' +
+    '          <i class="fa fa-calendar"></i>\n' +
     '        </div>\n' +
     '      </div>\n' +
     '    </div>\n' +
