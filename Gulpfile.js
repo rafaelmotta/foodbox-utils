@@ -6,7 +6,7 @@ var uglify = require('gulp-uglify');
 
 
 var templatesSources = ['./src/templates/*.html']
-var sources = ["./src/utils.foodio.js", "./src/**/*.js"];
+var sources = ["./src/bootstrap.js", "./src/**/*.js"];
 
 gulp.task('templates', function () {
   gulp.src(templatesSources)
