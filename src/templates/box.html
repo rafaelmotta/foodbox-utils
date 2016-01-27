@@ -1,7 +1,7 @@
 <div class="box-container">
   <div class="box-header" ng-hide="hideHeader">
     <h2>
-      <i class="fa fa-{{ icon }}"></i>
+      <i class="fa fa-{{ icon }}" ng-hide="!icon"></i>
       {{ title }}
     </h2>
   </div>

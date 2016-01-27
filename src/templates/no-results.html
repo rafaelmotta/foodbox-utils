@@ -1,8 +1,8 @@
 <div class="row no-results">
-  <div ng-class="{ 'col-md-4': fa, 'hide': !fa }">
-    <i class="fa fa-{{ fa }}"></i>
+  <div ng-class="{ 'col-md-4': icon, 'hide': !icon }">
+    <i ng-hide="!icon" class="fa fa-{{ icon }}"></i>
   </div>
-  <div ng-class="{ 'col-md-8': fa, 'col-md-12': !fa }">
+  <div ng-class="{ 'col-md-8': icon, 'col-md-12': !icon }">
     <p>{{ text }}</p>
   </div>
 </div>

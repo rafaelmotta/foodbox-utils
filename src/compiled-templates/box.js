@@ -9,7 +9,7 @@ module.run(['$templateCache', function($templateCache) {
     '<div class="box-container">\n' +
     '  <div class="box-header" ng-hide="hideHeader">\n' +
     '    <h2>\n' +
-    '      <i class="fa fa-{{ icon }}"></i>\n' +
+    '      <i class="fa fa-{{ icon }}" ng-hide="!icon"></i>\n' +
     '      {{ title }}\n' +
     '    </h2>\n' +
     '  </div>\n' +
