@@ -25,10 +25,6 @@ module.run(['$templateCache', function($templateCache) {
     '      <i class="fa fa-shopping-cart"></i>\n' +
     '      {{ product.name }}\n' +
     '    </p>\n' +
-    '    <p class="product-description" ng-show="product.description">\n' +
-    '      <i class="fa fa-info-circle"></i>\n' +
-    '      {{ product.description }}\n' +
-    '    </p>\n' +
     '    <p class="product-description">\n' +
     '      <i class="fa fa-money"></i>\n' +
     '      A partir de {{ product.price | currency: "R$" }}\n' +
@@ -37,6 +33,9 @@ module.run(['$templateCache', function($templateCache) {
     '\n' +
     '  <div class="product-options pull-right">\n' +
     '\n' +
+    '    <label>Descrição:</label>\n' +
+    '    <blockquote>{{ product.description }}</blockquote>\n' +
+    '    <hr />\n' +
     '    <label for="cart-item-amount">Selecione a quantidade:</label>\n' +
     '    <select id="cart-item-amount" ng-model="cartItem.amount" ng-options="i as i for i in [1,2,3,4,5,6,7,8,9,10]"></select>\n' +
     '\n' +

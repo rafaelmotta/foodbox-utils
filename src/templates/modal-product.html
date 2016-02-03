@@ -17,10 +17,6 @@
       <i class="fa fa-shopping-cart"></i>
       {{ product.name }}
     </p>
-    <p class="product-description" ng-show="product.description">
-      <i class="fa fa-info-circle"></i>
-      {{ product.description }}
-    </p>
     <p class="product-description">
       <i class="fa fa-money"></i>
       A partir de {{ product.price | currency: "R$" }}
@@ -29,6 +25,9 @@
 
   <div class="product-options pull-right">
 
+    <label>Descrição:</label>
+    <blockquote>{{ product.description }}</blockquote>
+    <hr />
     <label for="cart-item-amount">Selecione a quantidade:</label>
     <select id="cart-item-amount" ng-model="cartItem.amount" ng-options="i as i for i in [1,2,3,4,5,6,7,8,9,10]"></select>
 
