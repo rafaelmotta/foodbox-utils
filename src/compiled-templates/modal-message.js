@@ -7,11 +7,11 @@ try {
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('/templates/modal-message.html',
     '<div class="modal-header">\n' +
-    '  <h4>{{ title }}</h4>\n' +
+    '  <h4>{{ message.title }}</h4>\n' +
     '</div>\n' +
-    '<div class="modal-content">\n' +
+    '<div class="modal-body">\n' +
     '  <div class="alert alert-info">\n' +
-    '    {{ content }}\n' +
+    '    {{ message.content }}\n' +
     '  </div>\n' +
     '</div>\n' +
     '<div class="modal-footer">\n' +

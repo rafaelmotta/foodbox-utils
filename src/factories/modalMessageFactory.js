@@ -6,7 +6,7 @@ let modal = ($modal, $templateCache) => {
         controller: 'ModalMessageCtrl as ctrl',
         windowClass: 'modal-message',
         resolve: {
-          dataResolved: () => {
+          messageResolved: () => {
             return params;
           }
         }

@@ -154,7 +154,7 @@ var app = angular.module('utils.foodio', ['ngStorage', 'constants.foodio']);
     module = angular.module('utils.foodio', []);
   }
   module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/templates/modal-message.html', '<div class="modal-header">\n' + '  <h4>{{ title }}</h4>\n' + '</div>\n' + '<div class="modal-content">\n' + '  <div class="alert alert-info">\n' + '    {{ content }}\n' + '  </div>\n' + '</div>\n' + '<div class="modal-footer">\n' + '  <button class="btn btn-default" ng-click="ctrl.close();">\n' + '    Fechar\n' + '  </button>\n' + '</div>');
+    $templateCache.put('/templates/modal-message.html', '<div class="modal-header">\n' + '  <h4>{{ message.title }}</h4>\n' + '</div>\n' + '<div class="modal-body">\n' + '  <div class="alert alert-info">\n' + '    {{ message.content }}\n' + '  </div>\n' + '</div>\n' + '<div class="modal-footer">\n' + '  <button class="btn btn-default" ng-click="ctrl.close();">\n' + '    Fechar\n' + '  </button>\n' + '</div>');
   }]);
 })();
 'use strict';
@@ -490,14 +490,16 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var ctrl = function ctrl($scope, $modalInstance, ngAudio, constants, dataResolved) {
+var ctrl = function ctrl($scope, $modalInstance, ngAudio, constants, messageResolved) {
 
   return new ((function () {
     function Ctrl() {
       _classCallCheck(this, Ctrl);
 
-      $scope.title = dataResolved.title || 'Atenção';
-      $scope.message = dataResolved.content || '';
+      $scope.message = {
+        title: messageResolved.title || 'Atenção',
+        content: messageResolved.content || ''
+      };
 
       ngAudio.load(constants['static'] + '/notifications/audios/success.mp3').play();
     }
@@ -513,7 +515,7 @@ var ctrl = function ctrl($scope, $modalInstance, ngAudio, constants, dataResolve
   })())();
 };
 
-ctrl.$inject = ['$scope', '$modalInstance', 'ngAudio', 'constants', 'dataResolved'];
+ctrl.$inject = ['$scope', '$modalInstance', 'ngAudio', 'constants', 'messageResolved'];
 angular.module('utils.foodio').controller('ModalMessageCtrl', ctrl);
 'use strict';
 
@@ -592,6 +594,39 @@ var ctrl = function ctrl($scope, $modalInstance) {
 
 ctrl.$inject = ['$scope', '$modalInstance'];
 angular.module('utils.foodio').controller('ModalRatingCtrl', ctrl);
+'use strict';
+
+var directive = function directive($window) {
+  return {
+    restrict: 'A',
+    link: function link($scope, $element, attrs) {
+      var win = angular.element($window);
+      var topOffset = $element[0].offsetTop;
+
+      var width = $element.width();
+      $element.css('width', width);
+
+      function affixElement() {
+        if ($window.pageYOffset > attrs.affixer) {
+          $element.css('position', 'fixed');
+          $element.css('top', '0px');
+        } else {
+          $element.css('position', '');
+          $element.css('top', '');
+        }
+      }
+
+      $scope.$on('$routeChangeStart', function () {
+        win.unbind('scroll', affixElement);
+      });
+
+      win.bind('scroll', affixElement);
+    }
+  };
+};
+
+directive.$inject = ['$window'];
+angular.module('utils.foodio').directive('affixed', directive);
 'use strict';
 
 var directive = function directive($templateCache) {
@@ -1552,7 +1587,7 @@ var modal = function modal($modal, $templateCache) {
           controller: 'ModalMessageCtrl as ctrl',
           windowClass: 'modal-message',
           resolve: {
-            dataResolved: function dataResolved() {
+            messageResolved: function messageResolved() {
               return params;
             }
           }

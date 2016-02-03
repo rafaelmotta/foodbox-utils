@@ -1,9 +1,11 @@
-let ctrl = ($scope, $modalInstance, ngAudio, constants, dataResolved) => {
+let ctrl = ($scope, $modalInstance, ngAudio, constants, messageResolved) => {
 
   return new class Ctrl {
     constructor() {
-      $scope.title = dataResolved.title || 'Atenção';
-      $scope.message = dataResolved.content || '';
+      $scope.message = {
+        title: messageResolved.title || 'Atenção',
+        content: messageResolved.content || '',
+      };
 
       ngAudio.load(`${constants.static}/notifications/audios/success.mp3`).play();
     }
@@ -14,5 +16,5 @@ let ctrl = ($scope, $modalInstance, ngAudio, constants, dataResolved) => {
   }
 };
 
-ctrl.$inject = ['$scope', '$modalInstance', 'ngAudio', 'constants', 'dataResolved'];
+ctrl.$inject = ['$scope', '$modalInstance', 'ngAudio', 'constants', 'messageResolved'];
 angular.module('utils.foodio').controller('ModalMessageCtrl', ctrl);
