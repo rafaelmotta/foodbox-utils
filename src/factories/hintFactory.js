@@ -39,6 +39,15 @@ let hint = ($timeout, $window, ngAudio, constants) => {
         options.autoClose = true;
       }
 
+      // Toca audio
+      ngAudio
+        .load(`${constants.static}/notifications/audios/${type}.mp3`)
+        .play();
+
+      if(!message) {
+        return false;
+      }
+
       if(this.notification.permission === 'granted') {
 
         let settings = {
@@ -50,11 +59,6 @@ let hint = ($timeout, $window, ngAudio, constants) => {
         if(!this._hasMessage(settings.body)) {
           var _notification = new this.notification(title, settings);
           this.notifications.push(_notification);
-
-          // Toca audio
-          ngAudio
-            .load(`${constants.static}/notifications/audios/${type}.mp3`)
-            .play();
 
           if(options.autoClose) {
             $timeout(() => {
@@ -75,14 +79,14 @@ let hint = ($timeout, $window, ngAudio, constants) => {
         let style = 1;
 
         if(type === 'error') {
-          style = 2;
+          style = 3;
         }
 
         if(type === 'info') {
           style = 4;
         }
 
-        notie.alert(style, message, options.timeout);
+        notie.alert(style, message, (options.timeout / 1000));
       }
     }
 
