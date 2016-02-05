@@ -14,7 +14,9 @@ module.run(['$templateCache', function($templateCache) {
     '    <div class="col-sm-8" ng-transclude></div>\n' +
     '  </div>\n' +
     '  <div ng-if="vertical">\n' +
-    '    <label for="{{ id }}" class="control-label">{{ label }}</label>\n' +
+    '    <label for="{{ id }}" class="control-label">{{ label }}\n' +
+    '      <span ng-show="required" tooltip="Campo obrigatório" class="required-marker">*</span>\n' +
+    '    </label>\n' +
     '    <div ng-transclude></div>\n' +
     '  </div>\n' +
     '</div>');
