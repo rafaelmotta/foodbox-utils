@@ -71,6 +71,18 @@ let hint = ($timeout, $window, ngAudio, constants) => {
             }, options.timeout);
           }
         }
+      } else {
+        let style = 1;
+
+        if(type === 'error') {
+          style = 2;
+        }
+
+        if(type === 'info') {
+          style = 4;
+        }
+
+        notie.alert(style, message, options.timeout);
       }
     }
 

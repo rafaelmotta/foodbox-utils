@@ -1274,6 +1274,18 @@ var hint = function hint($timeout, $window, ngAudio, constants) {
               }, options.timeout);
             }
           }
+        } else {
+          var style = 1;
+
+          if (type === 'error') {
+            style = 2;
+          }
+
+          if (type === 'info') {
+            style = 4;
+          }
+
+          notie.alert(style, message, options.timeout);
         }
       }
     }, {
