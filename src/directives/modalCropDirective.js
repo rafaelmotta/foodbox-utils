@@ -1,4 +1,4 @@
-let directive = ($modal, $templateCache, $parse, $timeout, Cropper) => {
+let directive = ($uibModal, $templateCache, $parse, $timeout, Cropper) => {
   return {
     restrict: 'A',
     scope: false,
@@ -18,7 +18,7 @@ let directive = ($modal, $templateCache, $parse, $timeout, Cropper) => {
         let blob = null;
 
         return Cropper.encode((blob = file)).then((url) => {
-          return $modal.open({
+          return $uibModal.open({
             template: $templateCache.get('/templates/modal-crop.html'),
             windowClass: 'modal-crop',
             controller: 'ModalCropController as ctrl',
@@ -40,5 +40,5 @@ let directive = ($modal, $templateCache, $parse, $timeout, Cropper) => {
   };
 };
 
-directive.$inject = ['$modal', '$templateCache', '$parse', '$timeout', 'Cropper'];
+directive.$inject = ['$uibModal', '$templateCache', '$parse', '$timeout', 'Cropper'];
 angular.module("utils.foodio").directive('modalCrop', directive);
