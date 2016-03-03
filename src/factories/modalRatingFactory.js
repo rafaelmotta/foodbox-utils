@@ -1,7 +1,7 @@
-let modalRating = ($modal, $templateCache) => {
+let modalRating = ($uibModal, $templateCache) => {
   return new class ModalRating {
     open(order){
-      return $modal.open({
+      return $uibModal.open({
         template: $templateCache.get('/templates/modal-rating.html'),
         controller: 'ModalRatingCtrl as ctrl',
         windowClass: 'modal-rating',
@@ -15,5 +15,5 @@ let modalRating = ($modal, $templateCache) => {
   };
 };
 
-modalRating.$inject = ['$modal', '$templateCache'];
+modalRating.$inject = ['$uibModal', '$templateCache'];
 angular.module('utils.foodio').factory('modalRating', modalRating);

@@ -1,4 +1,4 @@
-let ctrl = ($scope, $modalInstance) => {
+let ctrl = ($scope, $uibModalInstance) => {
 
   return new class ModalRatingCtrl {
     constructor() {
@@ -6,15 +6,15 @@ let ctrl = ($scope, $modalInstance) => {
     }
 
     save() {
-      $modalInstance.close({ rating: rating.plain() });
+      $uibModalInstance.close({ rating: rating.plain() });
     }
 
     close() {
-      $modalInstance.dismiss('close');
+      $uibModalInstance.dismiss('close');
     }
 
   };
 };
 
-ctrl.$inject = ['$scope', '$modalInstance'];
+ctrl.$inject = ['$scope', '$uibModalInstance'];
 angular.module('utils.foodio').controller('ModalRatingCtrl', ctrl);

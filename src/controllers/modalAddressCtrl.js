@@ -1,4 +1,4 @@
-let ctrl = ($scope, $modalInstance, addressResolved, onSubmitResolved) => {
+let ctrl = ($scope, $uibModalInstance, addressResolved, onSubmitResolved) => {
 
   return new class ctrl {
 
@@ -11,12 +11,12 @@ let ctrl = ($scope, $modalInstance, addressResolved, onSubmitResolved) => {
       let method = this._getMethod();
 
       $scope.onSubmit({ address: $scope.address, method: method }).then((response) => {
-        $modalInstance.close({ address: response.data, method: method });
+        $uibModalInstance.close({ address: response.data, method: method });
       });
     }
 
     close() {
-      $modalInstance.dismiss('close');
+      $uibModalInstance.dismiss('close');
     }
 
      _getMethod() {
@@ -25,5 +25,5 @@ let ctrl = ($scope, $modalInstance, addressResolved, onSubmitResolved) => {
   };
 };
 
-ctrl.$inject = ['$scope', '$modalInstance', 'addressResolved', 'onSubmitResolved'];
+ctrl.$inject = ['$scope', '$uibModalInstance', 'addressResolved', 'onSubmitResolved'];
 angular.module('utils.foodio').controller('ModalAddressCtrl', ctrl);

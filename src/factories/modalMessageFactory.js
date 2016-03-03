@@ -1,7 +1,7 @@
-let modal = ($modal, $templateCache) => {
+let modal = ($uibModal, $templateCache) => {
   return new class Modal {
     open(params = {}){
-      return $modal.open({
+      return $uibModal.open({
         template: $templateCache.get('/templates/modal-message.html'),
         controller: 'ModalMessageCtrl as ctrl',
         windowClass: 'modal-message',
@@ -15,5 +15,5 @@ let modal = ($modal, $templateCache) => {
   };
 };
 
-modal.$inject = ['$modal', '$templateCache'];
+modal.$inject = ['$uibModal', '$templateCache'];
 angular.module('utils.foodio').factory('modalMessage', modal);

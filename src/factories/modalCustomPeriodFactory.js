@@ -1,7 +1,7 @@
-let modalCustomPeriod = ($modal, $templateCache) => {
+let modalCustomPeriod = ($uibModal, $templateCache) => {
   return new class ModalCustomPeriod {
     open(){
-      return $modal.open({
+      return $uibModal.open({
         template: $templateCache.get('/templates/modal-custom-period.html'),
         controller: 'ModalCustomPeriodCtrl as ctrl',
         windowClass: 'modal-custom-period'
@@ -10,5 +10,5 @@ let modalCustomPeriod = ($modal, $templateCache) => {
   };
 };
 
-modalCustomPeriod.$inject = ['$modal', '$templateCache'];
+modalCustomPeriod.$inject = ['$uibModal', '$templateCache'];
 angular.module('utils.foodio').factory('modalCustomPeriod', modalCustomPeriod);

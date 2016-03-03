@@ -1,4 +1,4 @@
-let ctrl = ($scope, $modalInstance, $filter) => {
+let ctrl = ($scope, $uibModalInstance, $filter) => {
 
   return new class ModalCustomPeriodCtrl {
     constructor() {
@@ -16,15 +16,15 @@ let ctrl = ($scope, $modalInstance, $filter) => {
 
     // Fecha o modal e envia os dados selecionados
     next() {
-      $modalInstance.close($scope.period);
+      $uibModalInstance.close($scope.period);
     }
 
     // Fecha o modal sem enviar os dados selecionados
     close() {
-      $modalInstance.dismiss('close');
+      $uibModalInstance.dismiss('close');
     }
   };
 };
 
-ctrl.$inject = ['$scope', '$modalInstance', '$filter'];
+ctrl.$inject = ['$scope', '$uibModalInstance', '$filter'];
 angular.module('utils.foodio').controller('ModalCustomPeriodCtrl', ctrl);

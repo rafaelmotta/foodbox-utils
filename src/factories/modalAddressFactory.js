@@ -1,4 +1,4 @@
-let modalAddress = ($modal, $templateCache) => {
+let modalAddress = ($uibModal, $templateCache) => {
 
   return new class ModalAddress {
 
@@ -11,7 +11,7 @@ let modalAddress = ($modal, $templateCache) => {
         throw new Error('Modal Address Factory must have onSubmit function!')
       }
 
-      return $modal.open({
+      return $uibModal.open({
         template: $templateCache.get('/templates/modal-address.html'),
         controller: 'ModalAddressCtrl as ctrl',
         windowClass: 'modal-address',
@@ -28,5 +28,5 @@ let modalAddress = ($modal, $templateCache) => {
   };
 };
 
-modalAddress.$inject = ['$modal', '$templateCache'];
+modalAddress.$inject = ['$uibModal', '$templateCache'];
 angular.module('utils.foodio').factory('modalAddress', modalAddress);

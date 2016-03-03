@@ -1,4 +1,4 @@
-let ctrl = ($scope, $modalInstance, $timeout, Cropper, imgUrlResolved, fileResolved, scopeResolved) => {
+let ctrl = ($scope, $uibModalInstance, $timeout, Cropper, imgUrlResolved, fileResolved, scopeResolved) => {
 
   return new class Ctrl {
 
@@ -30,7 +30,7 @@ let ctrl = ($scope, $modalInstance, $timeout, Cropper, imgUrlResolved, fileResol
     }
 
     close() {
-      $modalInstance.dismiss('close');
+      $uibModalInstance.dismiss('close');
     }
 
     crop() {
@@ -48,5 +48,5 @@ let ctrl = ($scope, $modalInstance, $timeout, Cropper, imgUrlResolved, fileResol
   }
 };
 
-ctrl.$inject = ['$scope', '$modalInstance', '$timeout', 'Cropper', 'imgUrlResolved', 'fileResolved', 'scopeResolved'];
+ctrl.$inject = ['$scope', '$uibModalInstance', '$timeout', 'Cropper', 'imgUrlResolved', 'fileResolved', 'scopeResolved'];
 angular.module('utils.foodio').controller('ModalCropController', ctrl);

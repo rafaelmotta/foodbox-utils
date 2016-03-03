@@ -1,4 +1,4 @@
-let ctrl = ($scope, $modalInstance, hint, pusher, chatMessageApi, chatResolved, userResolved, userTypeResolved) => {
+let ctrl = ($scope, $uibModalInstance, hint, pusher, chatMessageApi, chatResolved, userResolved, userTypeResolved) => {
 
   return new class ctrl {
 
@@ -75,7 +75,7 @@ let ctrl = ($scope, $modalInstance, hint, pusher, chatMessageApi, chatResolved, 
     }
 
     close() {
-      $modalInstance.dismiss('close');
+      $uibModalInstance.dismiss('close');
     }
 
     _resetMessage() {
@@ -87,5 +87,5 @@ let ctrl = ($scope, $modalInstance, hint, pusher, chatMessageApi, chatResolved, 
   };
 };
 
-ctrl.$inject = ['$scope', '$modalInstance', 'hint', 'pusher', 'chatMessageApi', 'chatResolved', 'userResolved', 'userTypeResolved'];
+ctrl.$inject = ['$scope', '$uibModalInstance', 'hint', 'pusher', 'chatMessageApi', 'chatResolved', 'userResolved', 'userTypeResolved'];
 angular.module('utils.foodio').controller('ModalChatCtrl', ctrl);
