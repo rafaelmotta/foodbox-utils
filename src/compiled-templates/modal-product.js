@@ -34,7 +34,7 @@ module.run(['$templateCache', function($templateCache) {
     '  <div class="product-options pull-right">\n' +
     '\n' +
     '    <label>Descrição:</label>\n' +
-    '    <blockquote>{{ product.description }}</blockquote>\n' +
+    '    <blockquote ng-show="product.description">{{ product.description }}</blockquote>\n' +
     '    <hr />\n' +
     '    <label for="cart-item-amount">Selecione a quantidade:</label>\n' +
     '    <select id="cart-item-amount" ng-model="cartItem.amount" ng-options="i as i for i in [1,2,3,4,5,6,7,8,9,10]"></select>\n' +
@@ -45,16 +45,12 @@ module.run(['$templateCache', function($templateCache) {
     '\n' +
     '      <div class="addon-category-name">\n' +
     '        {{ addonCategory.name }}\n' +
-    '        <small ng-show="!addonCategory.max && !addonCategory.min">\n' +
-    '          Escolha quantos ingredientes desejar</span>\n' +
-    '        </small>\n' +
-    '        <small ng-show="!addonCategory.max && addonCategory.min">\n' +
-    '          Escolha pelo menos {{ addonCategory.min }} <span ng-show="addonCategory.min === 1">ingrediente</span><span ng-show="addonCategory.min > 1">ingredientes</span>\n' +
-    '        </small>\n' +
+    '        <small ng-show="!addonCategory.max && !addonCategory.min">Escolha quantos ingredientes desejar</span></small>\n' +
+    '        <small ng-show="!addonCategory.max && addonCategory.min">Escolha pelo menos {{ addonCategory.min }} <span ng-show="addonCategory.min === 1">ingrediente</span><span ng-show="addonCategory.min > 1">ingredientes</span></small>\n' +
     '        <small ng-show="addonCategory.max">\n' +
-    '          <span ng-show="addonCategory.max === 1 && addonCategory.min === 1">Escolha ao menos 1 ingrediente</span>\n' +
-    '          <span ng-show="addonCategory.max === 1 && !addonCategory.min">Escolha ao menos 1 ingrediente</span>\n' +
+    '          <span ng-show="addonCategory.max === 1 && addonCategory.min === 1 || addonCategory.max === 1 && !addonCategory.min">Escolha ao menos 1 ingrediente</span>\n' +
     '          <span ng-show="addonCategory.max > 1 && addonCategory.min > 1">Escolha ao menos {{ addonCategory.min }} ingredientes e no máximo {{ addonCategory.max }} ingredientes</span>\n' +
+    '          <span ng-show="addonCategory.max > 1 && addonCategory.min == 1">Escolha entre {{ addonCategory.min }} à {{ addonCategory.max }} ingredientes</span>\n' +
     '        </small>\n' +
     '      </div>\n' +
     '\n' +
