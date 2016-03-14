@@ -4,7 +4,7 @@ let PrinterManager = (hint) => {
     constructor(options = {}) {
 
       if(options.autoConnect) {
-        this._connect();
+        this.connect();
       } else {
         this.socket = {
           disconnected: true, connected: false
@@ -34,7 +34,7 @@ let PrinterManager = (hint) => {
 
     // @name _connect
     // @description Conecta com o socket
-    _connect(options = {}) {
+    connect(options = {}) {
       this.socket = io(options.address || 'http://localhost:7333');
 
       // Adiciona evento de erro
