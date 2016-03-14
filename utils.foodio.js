@@ -603,15 +603,18 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var PrinterManager = function PrinterManager(hint) {
 
   return (function () {
-    function PrinterManager(options) {
+    function PrinterManager() {
+      var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
       _classCallCheck(this, PrinterManager);
 
-      if (!options) {
-        options = {};
+      if (options.autoConnect) {
+        this._connect();
+      } else {
+        this.socket = {
+          disconnected: true, connected: false
+        };
       }
-
-      this.socket = io(options.address || 'http://localhost:7333');
-      this._appendEvents();
 
       return this;
     }
@@ -639,14 +642,21 @@ var PrinterManager = function PrinterManager(hint) {
         });
       }
 
-      // @name _appendEvents
-      // @description Adiciona eventos do socket
+      // @name _connect
+      // @description Conecta com o socket
     }, {
-      key: '_appendEvents',
-      value: function _appendEvents() {
+      key: '_connect',
+      value: function _connect() {
+        var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+        this.socket = io(options.address || 'http://localhost:7333');
+
+        // Adiciona evento de erro
         this.socket.on('print:error', function (data) {
           hint[data.type](data.description);
         });
+
+        return this.socket;
       }
     }]);
 

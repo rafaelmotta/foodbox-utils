@@ -1,13 +1,15 @@
 let PrinterManager = (hint) => {
 
   return class PrinterManager {
-    constructor(options) {
-      if(!options) {
-        options = {};
-      }
+    constructor(options = {}) {
 
-      this.socket = io(options.address || 'http://localhost:7333');
-      this._appendEvents();
+      if(options.autoConnect) {
+        this._connect();
+      } else {
+        this.socket = {
+          disconnected: true, connected: false
+        };
+      }
 
       return this;
     }
@@ -30,12 +32,17 @@ let PrinterManager = (hint) => {
       });
     }
 
-    // @name _appendEvents
-    // @description Adiciona eventos do socket
-    _appendEvents() {
+    // @name _connect
+    // @description Conecta com o socket
+    _connect(options = {}) {
+      this.socket = io(options.address || 'http://localhost:7333');
+
+      // Adiciona evento de erro
       this.socket.on('print:error', (data) => {
         hint[data.type](data.description);
       });
+
+      return this.socket;
     }
   };
 };
