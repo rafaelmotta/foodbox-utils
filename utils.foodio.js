@@ -596,56 +596,66 @@ ctrl.$inject = ['$scope', '$uibModalInstance'];
 angular.module('utils.foodio').controller('ModalRatingCtrl', ctrl);
 'use strict';
 
-var pusher = function pusher() {
-  var _settings = {
-    key: null,
-    authTransport: 'ajax',
-    baseUrl: 'http://foodio.com.br/admin'
-  };
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-  var self = this;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-  self.setKey = function (value) {
-    _settings.key = value;
-  };
+var PrinterManager = function PrinterManager(hint) {
 
-  self.setBaseUrl = function (value) {
-    _settings.baseUrl = value;
-  };
+  return (function () {
+    function PrinterManager(options) {
+      _classCallCheck(this, PrinterManager);
 
-  self.setAuthTransport = function (authTransport) {
-    if (authTransport !== 'ajax' && authTransport !== 'jsonp') {
-      authTransport = 'ajax';
+      if (!options) {
+        options = {};
+      }
+
+      this.socket = io(options.address || 'http://localhost:7333');
+      this._appendEvents();
+
+      return this;
     }
 
-    _settings.authTransport = authTransport;
-  };
+    // @name print
+    // @description Realiza impressão utilizando socket.io
+    // @params {Object} options - Layout, impressora e dados opcionais para impressão
 
-  self.$get = ["$localStorage", "$rootScope", function ($localStorage, $rootScope) {
-    return {
-      subscribe: function subscribe(channel) {
-        if (!_settings.key) {
-          throw new Error('A key must be setted to initialize pusher');
-        }
+    _createClass(PrinterManager, [{
+      key: 'print',
+      value: function print(options) {
+        var _this = this;
 
-        var costumer = $localStorage['currentCostumer'];
-        var employee = $localStorage['currentEmployee'];
+        return new Promise(function (resolve, reject) {
 
-        var headers = {
-          'X-Employee-Email': employee ? employee.email : null,
-          'X-Employee-Token': employee ? employee.authentication_token : null,
-          'X-Costumer-Email': costumer ? costumer.email : null,
-          'X-Costumer-Token': costumer ? costumer.authentication_token : null
-        };
+          // Evita de tentar imprimir se o programa de impressão não estiver
+          if (_this.socket.disconnected) {
+            var exception = "O programa de impressão não encontra-se ativo. Instale-o e inicie para prosseguir!";
+            hint.error(exception);
 
-        var pusher = new Pusher(_settings.key, { authEndpoint: _settings.baseUrl + '/companies/' + $rootScope.company.id + '/sessions/pusher/authentication', auth: { headers: headers }, authTransport: _settings.authTransport });
-        return pusher.subscribe(channel);
+            reject(exception);
+          }
+
+          return resolve(_this.socket.emit('print', { layout: options.layout, printer: options.printer, data: options.data || null }));
+        });
       }
-    };
-  }];
+
+      // @name _appendEvents
+      // @description Adiciona eventos do socket
+    }, {
+      key: '_appendEvents',
+      value: function _appendEvents() {
+        this.socket.on('print:error', function (data) {
+          hint[data.type](data.description);
+        });
+      }
+    }]);
+
+    return PrinterManager;
+  })();
 };
 
-angular.module('utils.foodio').provider('pusher', pusher);
+PrinterManager.$inject = ['hint'];
+angular.module('utils.foodio').factory('PrinterManager', PrinterManager);
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -2060,3 +2070,55 @@ var directive = function directive(zipcodeApi) {
 
 directive.$inject = ['zipcodeApi'];
 angular.module('utils.foodio').directive('zipcode', directive);
+'use strict';
+
+var pusher = function pusher() {
+  var _settings = {
+    key: null,
+    authTransport: 'ajax',
+    baseUrl: 'http://foodio.com.br/admin'
+  };
+
+  var self = this;
+
+  self.setKey = function (value) {
+    _settings.key = value;
+  };
+
+  self.setBaseUrl = function (value) {
+    _settings.baseUrl = value;
+  };
+
+  self.setAuthTransport = function (authTransport) {
+    if (authTransport !== 'ajax' && authTransport !== 'jsonp') {
+      authTransport = 'ajax';
+    }
+
+    _settings.authTransport = authTransport;
+  };
+
+  self.$get = ["$localStorage", "$rootScope", function ($localStorage, $rootScope) {
+    return {
+      subscribe: function subscribe(channel) {
+        if (!_settings.key) {
+          throw new Error('A key must be setted to initialize pusher');
+        }
+
+        var costumer = $localStorage['currentCostumer'];
+        var employee = $localStorage['currentEmployee'];
+
+        var headers = {
+          'X-Employee-Email': employee ? employee.email : null,
+          'X-Employee-Token': employee ? employee.authentication_token : null,
+          'X-Costumer-Email': costumer ? costumer.email : null,
+          'X-Costumer-Token': costumer ? costumer.authentication_token : null
+        };
+
+        var pusher = new Pusher(_settings.key, { authEndpoint: _settings.baseUrl + '/companies/' + $rootScope.company.id + '/sessions/pusher/authentication', auth: { headers: headers }, authTransport: _settings.authTransport });
+        return pusher.subscribe(channel);
+      }
+    };
+  }];
+};
+
+angular.module('utils.foodio').provider('pusher', pusher);
