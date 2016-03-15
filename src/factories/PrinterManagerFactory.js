@@ -6,12 +6,19 @@ let PrinterManager = (hint) => {
       if(options.autoConnect) {
         this.connect();
       } else {
-        this.socket = {
-          disconnected: true, connected: false
-        };
+        this._resetSocket();
       }
 
       return this;
+    }
+
+    // @name _resetSocket
+    // @description Realiza impressão utilizando socket.io
+    _resetSocket() {
+      return this.socket = {
+        disconnected: true,
+        connected: false
+      };
     }
 
     // @name print
@@ -32,7 +39,7 @@ let PrinterManager = (hint) => {
       });
     }
 
-    // @name _connect
+    // @name connect
     // @description Conecta com o socket
     connect(options = {}) {
       this.socket = io(options.address || 'http://localhost:7333');
@@ -43,6 +50,12 @@ let PrinterManager = (hint) => {
       });
 
       return this.socket;
+    }
+
+    // @name disconnect
+    // @description Desconecta socket
+    disconnect() {
+      return this._resetSocket();
     }
   };
 };
