@@ -28,7 +28,7 @@ let PrinterManager = (hint) => {
       return new Promise((resolve, reject) => {
 
         // Evita de tentar imprimir se o programa de impressão não estiver
-        if(this.socket.disconnected) {
+        if(!this.socket || this.socket.disconnected) {
           let exception = "O programa de impressão não encontra-se ativo. Instale-o e inicie para prosseguir!";
           hint.error(exception);
 
@@ -55,7 +55,7 @@ let PrinterManager = (hint) => {
     // @name disconnect
     // @description Desconecta socket
     disconnect() {
-      return this._resetSocket();
+      return this.socket = null;
     }
   };
 };
