@@ -55,7 +55,7 @@ let PrinterManager = (hint) => {
     // @name disconnect
     // @description Desconecta socket
     disconnect() {
-      return this._resetSocket();
+      return this.socket = null;
     }
   };
 };
