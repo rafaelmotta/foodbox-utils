@@ -34,7 +34,7 @@ module.run(['$templateCache', function($templateCache) {
     '  <div class="product-options pull-right">\n' +
     '\n' +
     '    <label>Descrição:</label>\n' +
-    '    <blockquote ng-show="product.description">{{ product.description }}</blockquote>\n' +
+    '    <blockquote ng-show="product.description" ng-bind-html="product.description"></blockquote>\n' +
     '    <hr />\n' +
     '    <label for="cart-item-amount">Selecione a quantidade:</label>\n' +
     '    <select id="cart-item-amount" ng-model="cartItem.amount" ng-options="i as i for i in [1,2,3,4,5,6,7,8,9,10]"></select>\n' +
