@@ -2139,7 +2139,7 @@ var pusher = function pusher() {
     baseUrl: 'http://foodio.com.br/admin'
   };
 
-  var self = this;
+  var self = undefined;
 
   self.setKey = function (value) {
     _settings.key = value;
