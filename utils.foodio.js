@@ -94,6 +94,18 @@ var app = angular.module('utils.foodio', ['ngStorage', 'constants.foodio']);
     module = angular.module('utils.foodio', []);
   }
   module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/templates/loading-bar.html', '<div class="loading-bar">\n' + '  <i class="fa fa-refresh fa-spin"></i>\n' + '</div>');
+  }]);
+})();
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('utils.foodio');
+  } catch (e) {
+    module = angular.module('utils.foodio', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
     $templateCache.put('/templates/map.html', '<div class="map-canvas"></div>');
   }]);
 })();
@@ -769,6 +781,27 @@ var directive = function directive($templateCache) {
 
 directive.$inject = ['$templateCache'];
 angular.module('utils.foodio').directive('limit', directive);
+'use strict';
+
+var directive = function directive($rootScope, $templateCache) {
+  return {
+    restrict: 'E',
+    replace: true,
+    template: $templateCache.get('/templates/loading-bar.html'),
+    link: function link() {
+      $rootScope.$on('request:start', function () {
+        $('.loading-bar').show();
+      });
+
+      $rootScope.$on('request:end', function () {
+        $('.loading-bar').hide();
+      });
+    }
+  };
+};
+
+directive.$inject = ['$rootScope', '$templateCache'];
+angular.module('utils.foodio').directive('loadingBar', directive);
 'use strict';
 
 var directive = function directive($templateCache) {
@@ -2106,7 +2139,7 @@ var pusher = function pusher() {
     baseUrl: 'http://foodio.com.br/admin'
   };
 
-  var self = this;
+  var self = undefined;
 
   self.setKey = function (value) {
     _settings.key = value;
