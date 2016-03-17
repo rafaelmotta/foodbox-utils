@@ -1,4 +1,4 @@
-let directive = ($rootScope, $templateCache) => {
+let directive = ($rootScope, $templateCache, Restangular) => {
   return {
     restrict: 'E',
     replace: true,
@@ -15,5 +15,5 @@ let directive = ($rootScope, $templateCache) => {
   };
 };
 
-directive.$inject = ['$rootScope', '$templateCache'];
+directive.$inject = ['$rootScope', '$templateCache', 'Restangular'];
 angular.module('utils.foodio').directive('loadingBar', directive);

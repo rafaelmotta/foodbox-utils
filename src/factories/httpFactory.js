@@ -27,7 +27,7 @@ let httpHintInterceptor = ($q, $window, $rootScope) => {
 httpHintInterceptor.$inject = ['$q', '$window', '$rootScope'];
 angular.module("utils.foodio").config(httpConfig).factory("httpHintInterceptor", httpHintInterceptor);
 
-let RestangularInterceptors = ($Restangular, $rootscope) => {
+let RestangularInterceptors = (Restangular, $rootScope) => {
   return new class RestangularInterceptors {
     constructor() {
       Restangular.addRequestInterceptor(() => {
@@ -42,5 +42,6 @@ let RestangularInterceptors = ($Restangular, $rootscope) => {
   }
 };
 
+RestangularInterceptors.$inject = ['Restangular', '$rootScope'];
 angular.module('utils.foodio').factory('RestangularInterceptors', RestangularInterceptors);
 
