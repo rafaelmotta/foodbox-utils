@@ -30,8 +30,9 @@ angular.module("utils.foodio").config(httpConfig).factory("httpHintInterceptor",
 let RestangularInterceptors = (Restangular, $rootScope) => {
   return new class RestangularInterceptors {
     constructor() {
-      Restangular.addRequestInterceptor(() => {
+      Restangular.addRequestInterceptor((element) => {
         $rootScope.$emit('request:start');
+        return element;
       });
 
       Restangular.addResponseInterceptor((data) => {
