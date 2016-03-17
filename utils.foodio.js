@@ -1442,19 +1442,21 @@ hint.$inject = ['$timeout', '$window', 'ngAudio', 'constants'];
 angular.module('utils.foodio').factory('hint', hint);
 'use strict';
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
 var httpConfig = function httpConfig($httpProvider) {
   return $httpProvider.interceptors.push("httpHintInterceptor");
 };
+
+httpConfig.$inject = ['$httpProvider'];
 
 var httpHintInterceptor = function httpHintInterceptor($q, $window, $rootScope) {
   return {
     request: function request(config) {
       config.timeout = 12000;
-      $rootScope.$emit('request:start');
       return config || $q.when(config);
     },
     response: function response(_response) {
-      $rootScope.$emit('request:end');
       return _response || $q.when(_response);
     },
     responseError: function responseError(response) {
@@ -1467,10 +1469,25 @@ var httpHintInterceptor = function httpHintInterceptor($q, $window, $rootScope) 
   };
 };
 
-httpConfig.$inject = ['$httpProvider'];
 httpHintInterceptor.$inject = ['$q', '$window', '$rootScope'];
-
 angular.module("utils.foodio").config(httpConfig).factory("httpHintInterceptor", httpHintInterceptor);
+
+var RestangularInterceptors = function RestangularInterceptors($Restangular, $rootscope) {
+  return new function RestangularInterceptors() {
+    _classCallCheck(this, RestangularInterceptors);
+
+    Restangular.addRequestInterceptor(function () {
+      $rootScope.$emit('request:start');
+    });
+
+    Restangular.addResponseInterceptor(function (data) {
+      $rootScope.$emit('request:end');
+      return data;
+    });
+  }();
+};
+
+angular.module('utils.foodio').factory('RestangularInterceptors', RestangularInterceptors);
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -2139,7 +2156,7 @@ var pusher = function pusher() {
     baseUrl: 'http://foodio.com.br/admin'
   };
 
-  var self = undefined;
+  var self = this;
 
   self.setKey = function (value) {
     _settings.key = value;

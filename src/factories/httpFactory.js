@@ -2,16 +2,15 @@ let httpConfig = ($httpProvider) => {
   return $httpProvider.interceptors.push("httpHintInterceptor");
 };
 
+httpConfig.$inject = ['$httpProvider'];
 
 let httpHintInterceptor = ($q, $window, $rootScope) => {
   return {
     request: function(config) {
       config.timeout = 12000;
-      $rootScope.$emit('request:start');
       return config || $q.when(config);
     },
     response: function(response) {
-      $rootScope.$emit('request:end');
       return response || $q.when(response);
     },
     responseError: function(response) {
@@ -24,7 +23,24 @@ let httpHintInterceptor = ($q, $window, $rootScope) => {
   };
 };
 
-httpConfig.$inject = ['$httpProvider'];
-httpHintInterceptor.$inject = ['$q', '$window', '$rootScope'];
 
+httpHintInterceptor.$inject = ['$q', '$window', '$rootScope'];
 angular.module("utils.foodio").config(httpConfig).factory("httpHintInterceptor", httpHintInterceptor);
+
+let RestangularInterceptors = ($Restangular, $rootscope) => {
+  return new class RestangularInterceptors {
+    constructor() {
+      Restangular.addRequestInterceptor(() => {
+        $rootScope.$emit('request:start');
+      });
+
+      Restangular.addResponseInterceptor((data) => {
+        $rootScope.$emit('request:end');
+        return data;
+      });
+    }
+  }
+};
+
+angular.module('utils.foodio').factory('RestangularInterceptors', RestangularInterceptors);
+
