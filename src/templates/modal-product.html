@@ -38,11 +38,13 @@
       <div class="addon-category-name">
         {{ addonCategory.name }}
         <small ng-show="!addonCategory.max && !addonCategory.min">Escolha quantos ingredientes desejar</span></small>
-        <small ng-show="!addonCategory.max && addonCategory.min">Escolha pelo menos {{ addonCategory.min }} <span ng-show="addonCategory.min === 1">ingrediente</span><span ng-show="addonCategory.min > 1">ingredientes</span></small>
+        <small ng-show="!addonCategory.max && addonCategory.min">
+          Escolha pelo menos {{ addonCategory.min }} <span ng-show="addonCategory.min === 1">ingrediente</span><span ng-show="addonCategory.min > 1">ingredientes</span>
+        </small>
         <small ng-show="addonCategory.max">
           <span ng-show="addonCategory.max === 1 && addonCategory.min === 1 || addonCategory.max === 1 && !addonCategory.min">Escolha ao menos 1 ingrediente</span>
-          <span ng-show="addonCategory.max > 1 && addonCategory.min > 1">Escolha ao menos {{ addonCategory.min }} ingredientes e no máximo {{ addonCategory.max }} ingredientes</span>
-          <span ng-show="addonCategory.max > 1 && addonCategory.min == 1">Escolha entre {{ addonCategory.min }} à {{ addonCategory.max }} ingredientes</span>
+          <span ng-show="addonCategory.max > 1 && addonCategory.min >= 1">Escolha entre {{ addonCategory.min }} à {{ addonCategory.max }} ingredientes</span>
+          <span ng-show="addonCategory.max > 1 && !addonCategory.min">Escolha até {{ addonCategory.max }} ingredientes</span>
         </small>
       </div>
 
