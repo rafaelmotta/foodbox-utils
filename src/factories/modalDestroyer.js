@@ -1,9 +1,28 @@
-let modalDestroyer = () => {
+let modalDestroyer = ($interval) => {
   return new class ModalDestroyer {
+    constructor() {
+      this.interval = null;
+    }
+
     destroyAll() {
-      $('.modal, .modal-backdrop').remove();
+      $('.modal').remove();
+      $('.modal-backdrop').hide();
+      $('body').removeClass('modal-open');
+
+      if(this.interval) {
+        $interval.cancel(this.interval);
+      }
+
+      this.interval = $interval(() => {
+        var $modal = $('.modal');
+
+        if($modal.length) {
+          $('.modal-backdrop').show();
+        }
+      }, 100);
     }
   };
 };
 
+modalDestroyer.$inject = ['$interval'];
 angular.module('utils.foodio').factory('modalDestroyer', modalDestroyer);
