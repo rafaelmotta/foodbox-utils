@@ -16,8 +16,10 @@ let modalDestroyer = ($interval) => {
       this.interval = $interval(() => {
         var $modal = $('.modal');
 
-        if($modal.length) {
+        if ($modal.length) {
           $('.modal-backdrop').show();
+        } else {
+          $('.modal-backdrop').hide();
         }
       }, 100);
     }
