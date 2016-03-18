@@ -7,7 +7,7 @@ httpConfig.$inject = ['$httpProvider'];
 let httpHintInterceptor = ($q, $window, $rootScope) => {
   return {
     request: function(config) {
-      config.timeout = 12000;
+      config.timeout = 20000;
       return config || $q.when(config);
     },
     response: function(response) {
