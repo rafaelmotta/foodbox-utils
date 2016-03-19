@@ -1137,10 +1137,12 @@ angular.module('utils.foodio').directive('noResults', directive);
 'use strict';
 
 var directive = function directive($rootScope, $templateCache, printManager) {
+
+  console.log($templateCache.get('/templates/print-button.html'));
+
   return {
     restrict: 'E',
     replace: true,
-    transclude: true,
     template: $templateCache.get('/templates/print-button.html'),
     scope: {
       icon: '@',
@@ -2004,7 +2006,7 @@ var printManager = function printManager($rootScope, hint, printerApi, $uibModal
     // @name disconnect
     // @description Desconecta socket
     disconnect: function disconnect() {
-      return new Promise(function (resove, reject) {
+      return new Promise(function (resolve, reject) {
         resolve(socket = null);
       });
     },
@@ -2038,6 +2040,10 @@ var printManager = function printManager($rootScope, hint, printerApi, $uibModal
         // Evita de tentar imprimir se o programa de impressão não estiver
         if (!socket || socket.disconnected) {
           return _this2._throwError(reject, "O programa de impressão não encontra-se ativo. Instale-o e inicie para prosseguir!");
+        }
+
+        if (options.printer) {
+          return resolve(options.printer);
         }
 
         // Não há impressora cadastrada
@@ -2392,7 +2398,7 @@ var pusher = function pusher() {
     baseUrl: 'http://foodio.com.br/admin'
   };
 
-  var self = undefined;
+  var self = this;
 
   self.setKey = function (value) {
     _settings.key = value;

@@ -36,7 +36,7 @@ let printManager = ($rootScope, hint, printerApi, $uibModal, $templateCache) => 
     // @name disconnect
     // @description Desconecta socket
     disconnect() {
-      return new Promise((resove, reject) => {
+      return new Promise((resolve, reject) => {
         resolve(socket = null);
       });
     },
@@ -66,6 +66,10 @@ let printManager = ($rootScope, hint, printerApi, $uibModal, $templateCache) => 
         // Evita de tentar imprimir se o programa de impressão não estiver
         if(!socket || socket.disconnected) {
           return this._throwError(reject, "O programa de impressão não encontra-se ativo. Instale-o e inicie para prosseguir!");
+        }
+
+        if(options.printer) {
+          return resolve(options.printer);
         }
 
         // Não há impressora cadastrada
