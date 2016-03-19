@@ -97,7 +97,8 @@ let printManager = ($rootScope, hint, printerApi, $uibModal, $templateCache) => 
         resolve: {
           printersResolved() {
             return printerApi.fetch().then((response) => {
-              return response.data;
+              printers = response.data;
+              return printers;
             });
           },
           printerChooseResolved() {
