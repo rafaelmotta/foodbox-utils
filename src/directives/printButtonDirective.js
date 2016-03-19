@@ -2,6 +2,7 @@ let directive = ($rootScope, $templateCache, printManager) => {
   return {
     restrict: 'E',
     replace: true,
+    transclude: true,
     template: $templateCache.get('/templates/print-button.html'),
     scope: {
       layout: '@',
@@ -10,6 +11,8 @@ let directive = ($rootScope, $templateCache, printManager) => {
     },
     link: (scope, el, attrs) => {
       el.on('click', (e) => {
+        e.stopPropagation();
+
         let data = {}
         data[scope.printDataKey] = scope.printData;
         printManager.print({ layout: scope.layout, data: data });
