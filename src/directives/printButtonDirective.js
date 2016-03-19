@@ -5,6 +5,7 @@ let directive = ($rootScope, $templateCache, printManager) => {
     transclude: true,
     template: $templateCache.get('/templates/print-button.html'),
     scope: {
+      icon: '@',
       layout: '@',
       printData: '=',
       printDataKey: '@'
