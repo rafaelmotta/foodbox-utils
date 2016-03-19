@@ -91,7 +91,7 @@ let printManager = ($rootScope, hint, printerApi, $uibModal, $templateCache) => 
     // @description Abre modal
     openModal() {
       let modal = $uibModal.open({
-        templateUrl: $templateCache.get('/templates/modal-printer-manager.html'),
+        template: $templateCache.get('/templates/modal-printer-manager.html'),
         controller: 'ModalPrintManagerController as ctrl',
         windowClass: 'modal-printer',
         resolve: {
