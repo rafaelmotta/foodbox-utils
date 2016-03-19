@@ -96,7 +96,9 @@ let printManager = ($rootScope, hint, printerApi, $uibModal, $templateCache) => 
         windowClass: 'modal-printer',
         resolve: {
           printersResolved() {
-            return printers;
+            return printerApi.fetch().then((response) => {
+              return response.data;
+            });
           },
           printerChooseResolved() {
             return true;
