@@ -1959,7 +1959,7 @@ popup.$inject = ['$window', '$q'];
 angular.module('utils.foodio').factory('popup', popup);
 'use strict';
 
-var printManager = function printManager($rootScope, hint, printerApi, $uibModal) {
+var printManager = function printManager($rootScope, hint, printerApi, $uibModal, $templateCache) {
 
   var socket = null;
   var printers = [];
@@ -2053,9 +2053,11 @@ var printManager = function printManager($rootScope, hint, printerApi, $uibModal
       });
     },
 
+    // @name openModal
+    // @description Abre modal
     openModal: function openModal() {
       var modal = $uibModal.open({
-        templateUrl: 'app/components/modal-printer-manager/modal-printer-manager.html',
+        templateUrl: $templateCache.get('/templates/modal-printer-manager.html'),
         controller: 'ModalPrintManagerController as ctrl',
         windowClass: 'modal-printer',
         resolve: {
@@ -2097,7 +2099,7 @@ var printManager = function printManager($rootScope, hint, printerApi, $uibModal
   };
 };
 
-printManager.$inject = ['$rootScope', 'hint', 'printerApi', '$uibModal'];
+printManager.$inject = ['$rootScope', 'hint', 'printerApi', '$uibModal', '$templateCache'];
 angular.module('utils.foodio').factory('printManager', printManager);
 'use strict';
 
@@ -2379,7 +2381,7 @@ var pusher = function pusher() {
     baseUrl: 'http://foodio.com.br/admin'
   };
 
-  var self = this;
+  var self = undefined;
 
   self.setKey = function (value) {
     _settings.key = value;

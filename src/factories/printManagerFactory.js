@@ -1,4 +1,4 @@
-let printManager = ($rootScope, hint, printerApi, $uibModal) => {
+let printManager = ($rootScope, hint, printerApi, $uibModal, $templateCache) => {
 
   let socket = null;
   let printers = [];
@@ -87,9 +87,11 @@ let printManager = ($rootScope, hint, printerApi, $uibModal) => {
       });
     },
 
+    // @name openModal
+    // @description Abre modal
     openModal() {
       let modal = $uibModal.open({
-        templateUrl: 'app/components/modal-printer-manager/modal-printer-manager.html',
+        templateUrl: $templateCache.get('/templates/modal-printer-manager.html'),
         controller: 'ModalPrintManagerController as ctrl',
         windowClass: 'modal-printer',
         resolve: {
@@ -131,5 +133,5 @@ let printManager = ($rootScope, hint, printerApi, $uibModal) => {
   }
 };
 
-printManager.$inject = ['$rootScope', 'hint', 'printerApi', '$uibModal'];
+printManager.$inject = ['$rootScope', 'hint', 'printerApi', '$uibModal', '$templateCache'];
 angular.module('utils.foodio').factory('printManager', printManager);
