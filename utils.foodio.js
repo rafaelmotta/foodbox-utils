@@ -178,6 +178,18 @@ var app = angular.module('utils.foodio', ['ngStorage', 'constants.foodio']);
     module = angular.module('utils.foodio', []);
   }
   module.run(['$templateCache', function ($templateCache) {
+    $templateCache.put('/templates/modal-print-manager.html', '<div class="modal-header">\n' + '  <h4 class="modal-title">Software de impressão</h4>\n' + '</div>\n' + '<div class="modal-body">\n' + '  <div class="alert alert-danger" ng-show="socket && socket.disconnected">\n' + '    Software de impressão está ativo mas não há conexão\n' + '  </div>\n' + '  <div ng-show="!socket">\n' + '    <div class="alert alert-warning">\n' + '      <p>Software de impressão está inativo.</p>\n' + '      <p>\n' + '        Clique <a href="#" ng-click="ctrl.toggleOptions()">aqui</a>\n' + '        para\n' + '        <span ng-hide="options.show">exibir</span>\n' + '        <span ng-show="options.show">esconder</span>\n' + '        as opções avançadas.\n' + '      </p>\n' + '    </div>\n' + '    <div ng-show="options.show">\n' + '      <hr />\n' + '      <form class="form-horizontal">\n' + '        <form-group label="Nome" required="true">\n' + '          <input type="number" ng-model="options.port" />\n' + '          <p class="help-block">Porta do socket do programa</p>\n' + '        </form-group>\n' + '      </form>\n' + '      </div>\n' + '  </div>\n' + '  <div ng-show="socket.connected">\n' + '    <div class="alert alert-info">\n' + '      Software de impressão está ativo e ouvindo pedidos de impressão\n' + '    </div>\n' + '    <hr />\n' + '    <table>\n' + '    <thead>\n' + '      <tr>\n' + '        <th style="width: 30%;">Nome</th>\n' + '        <th style="width: 15%;">IP</th>\n' + '        <th style="width: 15%;">Porta</th>\n' + '        <th style="width: 15%;">Padrão</th>\n' + '        <th style="width: 15%;">Ações</th>\n' + '      </tr>\n' + '    </thead>\n' + '    <tbody>\n' + '      <tr ng-repeat="p in printers | orderBy: \'order\'" ng-click="ctrl.choosePrinter(p)" ng-class="{ success: printer.id === p.id }">\n' + '        <td>{{ p.name }}</td>\n' + '        <td>{{ p.ip }}</td>\n' + '        <td>{{ p.port }}</td>\n' + '        <td><i class="fa" ng-class="{ \'fa-check\': p.default, \'fa-remove\': !p.default }"></i></td>\n' + '        <td class="table-actions">\n' + '          <button class="btn btn-xs btn-default" uib-tooltip="Impressão de teste" tooltip-placement="top" ng-click="ctrl.print();">\n' + '            <i class="fa fa-print"></i>\n' + '          </button>\n' + '        </td>\n' + '      </tr>\n' + '    </tbody>\n' + '  </table>\n' + '  </div>\n' + '</div>\n' + '<div class="modal-footer">\n' + '  <button class="btn btn-success" ng-click="ctrl.connect()" ng-show="!socket">Conectar</button>\n' + '  <button class="btn btn-danger" ng-click="ctrl.disconnect()" ng-show="socket && !choosingPrinter">Desconectar</button>\n' + '  <button class="btn btn-danger" ng-click="ctrl.next()" ng-show="choosingPrinter" ng-disabled="!printer">Escolher</button>\n' + '  <button class="btn btn-default" ng-click="ctrl.close()">Fechar</button>\n' + '</div>');
+  }]);
+})();
+'use strict';
+
+(function (module) {
+  try {
+    module = angular.module('utils.foodio');
+  } catch (e) {
+    module = angular.module('utils.foodio', []);
+  }
+  module.run(['$templateCache', function ($templateCache) {
     $templateCache.put('/templates/modal-product.html', '<div class="modal-header">\n' + '  <button type="button" class="close" data-dismiss="modal" ng-click="ctrl.close()"><span aria-hidden="true">&times;</span></button>\n' + '  <div class="modal-title">\n' + '    <i class="fa fa-shopping-cart"></i>\n' + '    {{ product.name }}\n' + '  </div>\n' + '  <div class="product-total-price">\n' + '    {{ cartItem.total | currency: "R$" }}\n' + '  </div>\n' + '</div>\n' + '\n' + '<div class="modal-body clearfix">\n' + '\n' + '  <aside class="pull-left">\n' + '    <img class="product-image img-thumbnail" ng-src="{{ product.img.medium }}" width="280" height="280" alt="Foto do produto com nome {{ product.name }}">\n' + '    <p class="product-description">\n' + '      <i class="fa fa-shopping-cart"></i>\n' + '      {{ product.name }}\n' + '    </p>\n' + '    <p class="product-description">\n' + '      <i class="fa fa-money"></i>\n' + '      A partir de {{ product.price | currency: "R$" }}\n' + '    </p>\n' + '  </aside>\n' + '\n' + '  <div class="product-options pull-right">\n' + '\n' + '    <label>Descrição:</label>\n' + '    <blockquote ng-show="product.description" ng-bind-html="product.description"></blockquote>\n' + '    <hr />\n' + '    <label for="cart-item-amount">Selecione a quantidade:</label>\n' + '    <select id="cart-item-amount" ng-model="cartItem.amount" ng-options="i as i for i in [1,2,3,4,5,6,7,8,9,10]"></select>\n' + '\n' + '    <hr ng-show="product.addon_categories.length > 0">\n' + '\n' + '    <div ng-repeat="addonCategory in product.addon_categories" class="addon-categories-list">\n' + '\n' + '      <div class="addon-category-name">\n' + '        {{ addonCategory.name }}\n' + '        <small ng-show="!addonCategory.max && !addonCategory.min">Escolha quantos ingredientes desejar</span></small>\n' + '        <small ng-show="!addonCategory.max && addonCategory.min">\n' + '          Escolha pelo menos {{ addonCategory.min }} <span ng-show="addonCategory.min === 1">ingrediente</span><span ng-show="addonCategory.min > 1">ingredientes</span>\n' + '        </small>\n' + '        <small ng-show="addonCategory.max">\n' + '          <span ng-show="addonCategory.max === 1 && addonCategory.min === 1 || addonCategory.max === 1 && !addonCategory.min">Escolha ao menos 1 ingrediente</span>\n' + '          <span ng-show="addonCategory.max > 1 && addonCategory.min >= 1">Escolha entre {{ addonCategory.min }} à {{ addonCategory.max }} ingredientes</span>\n' + '          <span ng-show="addonCategory.max > 1 && !addonCategory.min">Escolha até {{ addonCategory.max }} ingredientes</span>\n' + '        </small>\n' + '      </div>\n' + '\n' + '      <div class="addons-list">\n' + '        <div ng-repeat="addon in addonCategory.addons" class="addon-item">\n' + '          <label ng-if="(addonCategory.max === 1 && addonCategory.min === 1) || (addonCategory.max === 1 && !addonCategory.min) || (!addonCategory.max && addonCategory.min === 1)"\n' + '            ng-disabled="!addon.available">\n' + '            <input type="radio" ng-disabled="!addon.available" ng-value="addon.id"  ng-model="cartItem.customization_fields[addonCategory.id]">\n' + '            {{ addon.name }}\n' + '            <span class="addon-price" ng-show="addon.price > 0 && addon.available">({{ addon.price | currency: "R$" }})</span>\n' + '            <span class="addon-unavailable" ng-show="!addon.available">Ingrediente não disponível</span>\n' + '          </label>\n' + '          <label ng-if="(addonCategory.max > 1 || addonCategory.min > 1) || (!addonCategory.max && !addonCategory.min)"\n' + '            ng-disabled="!addon.available">\n' + '            <input type="checkbox" ng-disabled="!addon.available" ng-model="cartItem.customization_fields[addonCategory.id][addon.id]" ng-init="cartItem.customization_fields[addonCategory.id][addon.id] = cartItem.customization_fields[addonCategory.id][addon.id] && addon.available ? true : false" />\n' + '            {{ addon.name }}\n' + '            <span class="addon-price" ng-show="addon.price > 0 && addon.available">({{ addon.price | currency: "R$" }})</span>\n' + '            <span class="addon-unavailable" ng-show="!addon.available">Ingrediente não disponível</span>\n' + '          </label>\n' + '        </div>\n' + '      </div>\n' + '    </div>\n' + '\n' + '    <hr>\n' + '    <label for="cart-item-note">Deseja fazer alguma observação?</label>\n' + '    <textarea id="cart-item-note" rows="3" ng-model="cartItem.note"></textarea>\n' + '    <limit maxlength="150" model="cartItem.note"></limit>\n' + '  </div>\n' + '</div>\n' + '\n' + '<div class="modal-footer">\n' + '  <button class="btn btn-success" ng-click="ctrl.add()" ng-show="!isEditing">\n' + '    <i class="fa fa-plus-square"></i>\n' + '    Adicionar\n' + '  </button>\n' + '  <button class="btn btn-success" ng-click="ctrl.add()" ng-show="isEditing">\n' + '    <i class="fa fa-pencil"></i>\n' + '    Confirmar edição\n' + '  </button>\n' + '  <button class="btn btn-default" ng-click="ctrl.close()">\n' + '    Cancelar\n' + '  </button>\n' + '</div>');
   }]);
 })();
@@ -214,7 +226,7 @@ var app = angular.module('utils.foodio', ['ngStorage', 'constants.foodio']);
     module = angular.module('utils.foodio', []);
   }
   module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/templates/printer-button.html', '<button></button>');
+    $templateCache.put('/templates/printer-button.html', '<button ng-disabled="$root.socket.disconnected">\n' + '  <i class="fa fa-{{ icon }}"></i>\n' + '</button>');
   }]);
 })();
 'use strict';
@@ -541,6 +553,103 @@ var ctrl = function ctrl($scope, $uibModalInstance, ngAudio, constants, messageR
 
 ctrl.$inject = ['$scope', '$uibModalInstance', 'ngAudio', 'constants', 'messageResolved'];
 angular.module('utils.foodio').controller('ModalMessageCtrl', ctrl);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var ModalPrintManagerController = function ModalPrintManagerController($scope, $rootScope, $uibModal, $uibModalInstance, printManager, printersResolved, printerChooseResolved) {
+
+  return new ((function () {
+    function Ctrl() {
+      _classCallCheck(this, Ctrl);
+
+      $scope.options = {
+        show: false,
+        port: 7333
+      };
+
+      $scope.printers = printersResolved;
+      $scope.choosingPrinter = printerChooseResolved;
+      $scope.printer = null;
+    }
+
+    // @toggleOptions
+    // @description Exibe / esconde opções avançadas
+
+    _createClass(Ctrl, [{
+      key: 'toggleOptions',
+      value: function toggleOptions() {
+        $scope.options.show = !$scope.options.show;
+      }
+
+      // @name connect
+      // @description Connecta com o software
+    }, {
+      key: 'connect',
+      value: function connect() {
+        $scope.options.printers = angular.copy($scope.printers);
+        printManager.connect($scope.options).then(this._afterConnect.bind(this));
+      }
+
+      // @name connect
+      // @description Connecta com o software
+      // @params {Object} socket - Socket.io
+    }, {
+      key: '_afterConnect',
+      value: function _afterConnect(socket) {
+        $rootScope.socket = socket;
+      }
+
+      // @name connect
+      // @description Desconecta do software
+    }, {
+      key: 'disconnect',
+      value: function disconnect() {
+        $rootScope.socket = this.printManager.disconnect();
+      }
+    }, {
+      key: 'choosePrinter',
+      value: function choosePrinter(printer) {
+        if ($scope.choosingPrinter) {
+
+          if ($scope.printer && printer.id === $scope.printer.id) {
+            return $scope.printer = null;
+          }
+
+          $scope.printer = printer;
+        }
+      }
+    }, {
+      key: 'next',
+      value: function next() {
+        $uibModalInstance.close({ printer: $scope.printer });
+      }
+
+      // @name print
+      // @description Realiza impressão de teste
+    }, {
+      key: 'print',
+      value: function print(options) {
+        printManager.print({ layout: 'test', printer: { ip: '192.168.0.51', port: '9100' } });
+      }
+
+      // @name close
+      // @description Fecha modal
+    }, {
+      key: 'close',
+      value: function close() {
+        $uibModalInstance.close();
+      }
+    }]);
+
+    return Ctrl;
+  })())();
+};
+
+ModalPrintManagerController.$inject = ["$scope", "$rootScope", "$uibModal", "$uibModalInstance", "printManager", "printersResolved", "printerChooseResolved"];
+angular.module('utils.foodio').controller('ModalPrintManagerController', ModalPrintManagerController);
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -1032,27 +1141,7 @@ var directive = function directive($rootScope, $templateCache, printerManager) {
       dataKey: '@'
     },
     link: function link(scope, el, attrs) {
-      el.on('click', function (e) {
-        e.stopPropagation();
-
-        var printer = {
-          ip: '192.168.0.51',
-          port: 9100
-        };
-
-        var data = {
-          company: $rootScope.company,
-          store: $rootScope.currentStore
-        };
-
-        data[scope.dataKey] = scope.data;
-
-        $rootScope.printerManager.print({
-          layout: scope.layout,
-          printer: printer,
-          data: data
-        });
-      });
+      el.on('click', function (e) {});
     }
   };
 };
@@ -1742,6 +1831,148 @@ modal.$inject = ['$uibModal', '$templateCache'];
 angular.module('utils.foodio').factory('modalMessage', modal);
 'use strict';
 
+var printManager = function printManager($rootScope, hint, printerApi, $uibModal) {
+
+  var socket = null;
+  var printers = [];
+
+  return {
+
+    // @name connect
+    // @description Conecta com o socket
+    connect: function connect() {
+      var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+      // Seta impressoras
+      if (options.printers && options.printers.length) {
+        printers = options.printers;
+      }
+
+      return new Promise(function (resolve, reject) {
+
+        // Previne de criar se já está criado
+        if (socket) {
+          return resolve(socket);
+        }
+
+        var address = options.port ? 'http://localhost:' + options.port : 'http://localhost:7333';
+        socket = io(address);
+
+        // Adiciona evento de erro
+        socket.on('print:error', function (data) {
+          hint[data.type](data.description);
+        });
+
+        return resolve(socket);
+      });
+    },
+
+    // @name disconnect
+    // @description Desconecta socket
+    disconnect: function disconnect() {
+      return new Promise(function (resove, reject) {
+        resolve(socket = null);
+      });
+    },
+
+    // @name print
+    // @description Realiza impressão utilizando socket.io
+    // @params {Object} options - Layout, impressora e dados opcionais para impressão
+    print: function print(options) {
+      var _this = this;
+
+      return new Promise(function (resolve, reject) {
+        return _this._prepareToPrint(options).then(function (printer) {
+
+          var data = options.data || {};
+          data.company = $rootScope.company;
+          data.store = $rootScope.currentStore;
+
+          return resolve(socket.emit('print', { layout: options.layout, printer: printer, data: data }));
+        });
+      });
+    },
+
+    // @name _prepareToPrint
+    // @description Valida dados e escolhe impressora
+    // @params {Object} options - Layout, impressora e dados opcionais para impressão
+    _prepareToPrint: function _prepareToPrint(options) {
+      var _this2 = this;
+
+      return new Promise(function (resolve, reject) {
+
+        // Evita de tentar imprimir se o programa de impressão não estiver
+        if (!socket || socket.disconnected) {
+          return _this2._throwError(reject, "O programa de impressão não encontra-se ativo. Instale-o e inicie para prosseguir!");
+        }
+
+        // Não há impressora cadastrada
+        if (!printers.length) {
+          return _this2._throwError(reject, "Você não possui nenhuma impressora cadastrada. Cadastre uma para prosseguir!");
+        }
+
+        // Só há uma impressora, dessa forma usa ela
+        if (printers.length === 1) {
+          return resolve(printers[0]);
+        }
+
+        // Exibe modal para escolher impressora
+        if (printers.length > 1) {
+          _this2.openModal().result.then(function (result) {
+            return resolve(result.printer);
+          });
+        }
+      });
+    },
+
+    openModal: function openModal() {
+      var modal = $uibModal.open({
+        templateUrl: 'app/components/modal-printer-manager/modal-printer-manager.html',
+        controller: 'ModalPrintManagerController as ctrl',
+        windowClass: 'modal-printer',
+        resolve: {
+          printersResolved: function printersResolved() {
+            return printers;
+          },
+          printerChooseResolved: function printerChooseResolved() {
+            return true;
+          }
+        }
+      });
+
+      return modal;
+    },
+
+    // @name _throwError
+    // @description Exibe erro e rejeita prommessa
+    // @param {Fn} reject - Reject promise
+    // @param {String} errorMsg - Mensagem de erro
+    _throwError: function _throwError(reject, errorMsg) {
+      hint.error(errorMsg);
+      reject(errorMsg);
+    },
+
+    // @name _fetchPrinters
+    // @description Busca impressoras
+    _fetchPrinters: function _fetchPrinters() {
+      return printerApi.fetch();
+    },
+
+    // @name _resetSocket
+    // @description Realiza impressão utilizando socket.io
+    _resetSocket: function _resetSocket() {
+      return socket = {
+        disconnected: true,
+        connected: false
+      };
+    }
+  };
+};
+
+printManager.$inject = ['$rootScope', 'hint', 'printerApi', '$uibModal'];
+angular.module('utils.foodio').factory('printManager', printManager);
+'use strict';
+
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
@@ -2140,7 +2371,7 @@ var pusher = function pusher() {
     baseUrl: 'http://foodio.com.br/admin'
   };
 
-  var self = this;
+  var self = undefined;
 
   self.setKey = function (value) {
     _settings.key = value;

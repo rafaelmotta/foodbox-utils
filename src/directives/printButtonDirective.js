@@ -10,25 +10,7 @@ let directive = ($rootScope, $templateCache, printerManager) => {
     },
     link: (scope, el, attrs) => {
       el.on('click', (e) => {
-        e.stopPropagation();
 
-        let printer = {
-          ip: '192.168.0.51',
-          port: 9100
-        };
-
-        let data = {
-          company: $rootScope.company,
-          store: $rootScope.currentStore
-        };
-
-        data[scope.dataKey] = scope.data;
-
-        $rootScope.printerManager.print({
-          layout: scope.layout,
-          printer: printer,
-          data: data
-        });
       });
     }
   };
