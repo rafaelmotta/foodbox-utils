@@ -56,7 +56,7 @@ module.run(['$templateCache', function($templateCache) {
     '        <td>{{ p.port }}</td>\n' +
     '        <td><i class="fa" ng-class="{ \'fa-check\': p.default, \'fa-remove\': !p.default }"></i></td>\n' +
     '        <td class="table-actions">\n' +
-    '          <button class="btn btn-xs btn-default" uib-tooltip="Impressão de teste" tooltip-placement="top" ng-click="ctrl.print();">\n' +
+    '          <button class="btn btn-xs btn-default" uib-tooltip="Impressão de teste" tooltip-placement="top" ng-click="ctrl.print(p); $event.stopPropagation();">\n' +
     '            <i class="fa fa-print"></i>\n' +
     '          </button>\n' +
     '        </td>\n' +

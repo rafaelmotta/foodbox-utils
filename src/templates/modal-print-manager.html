@@ -48,7 +48,7 @@
         <td>{{ p.port }}</td>
         <td><i class="fa" ng-class="{ 'fa-check': p.default, 'fa-remove': !p.default }"></i></td>
         <td class="table-actions">
-          <button class="btn btn-xs btn-default" uib-tooltip="Impressão de teste" tooltip-placement="top" ng-click="ctrl.print();">
+          <button class="btn btn-xs btn-default" uib-tooltip="Impressão de teste" tooltip-placement="top" ng-click="ctrl.print(p); $event.stopPropagation();">
             <i class="fa fa-print"></i>
           </button>
         </td>

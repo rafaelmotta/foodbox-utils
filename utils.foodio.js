@@ -178,7 +178,7 @@ var app = angular.module('utils.foodio', ['ngStorage', 'constants.foodio']);
     module = angular.module('utils.foodio', []);
   }
   module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/templates/modal-print-manager.html', '<div class="modal-header">\n' + '  <h4 class="modal-title">Software de impressão</h4>\n' + '</div>\n' + '<div class="modal-body">\n' + '  <div class="alert alert-danger" ng-show="socket && socket.disconnected">\n' + '    Software de impressão está ativo mas não há conexão\n' + '  </div>\n' + '  <div ng-show="!socket">\n' + '    <div class="alert alert-warning">\n' + '      <p>Software de impressão está inativo.</p>\n' + '      <p>\n' + '        Clique <a href="#" ng-click="ctrl.toggleOptions()">aqui</a>\n' + '        para\n' + '        <span ng-hide="options.show">exibir</span>\n' + '        <span ng-show="options.show">esconder</span>\n' + '        as opções avançadas.\n' + '      </p>\n' + '    </div>\n' + '    <div ng-show="options.show">\n' + '      <hr />\n' + '      <form class="form-horizontal">\n' + '        <form-group label="Nome" required="true">\n' + '          <input type="number" ng-model="options.port" />\n' + '          <p class="help-block">Porta do socket do programa</p>\n' + '        </form-group>\n' + '      </form>\n' + '      </div>\n' + '  </div>\n' + '  <div ng-show="socket.connected">\n' + '    <div class="alert alert-info">\n' + '      Software de impressão está ativo e ouvindo pedidos de impressão\n' + '    </div>\n' + '    <hr />\n' + '    <table>\n' + '    <thead>\n' + '      <tr>\n' + '        <th style="width: 30%;">Nome</th>\n' + '        <th style="width: 15%;">IP</th>\n' + '        <th style="width: 15%;">Porta</th>\n' + '        <th style="width: 15%;">Padrão</th>\n' + '        <th style="width: 15%;">Ações</th>\n' + '      </tr>\n' + '    </thead>\n' + '    <tbody>\n' + '      <tr ng-repeat="p in printers | orderBy: \'order\'" ng-click="ctrl.choosePrinter(p)" ng-class="{ success: printer.id === p.id }">\n' + '        <td>{{ p.name }}</td>\n' + '        <td>{{ p.ip }}</td>\n' + '        <td>{{ p.port }}</td>\n' + '        <td><i class="fa" ng-class="{ \'fa-check\': p.default, \'fa-remove\': !p.default }"></i></td>\n' + '        <td class="table-actions">\n' + '          <button class="btn btn-xs btn-default" uib-tooltip="Impressão de teste" tooltip-placement="top" ng-click="ctrl.print();">\n' + '            <i class="fa fa-print"></i>\n' + '          </button>\n' + '        </td>\n' + '      </tr>\n' + '    </tbody>\n' + '  </table>\n' + '  </div>\n' + '</div>\n' + '<div class="modal-footer">\n' + '  <button class="btn btn-success" ng-click="ctrl.connect()" ng-show="!socket">Conectar</button>\n' + '  <button class="btn btn-danger" ng-click="ctrl.disconnect()" ng-show="socket && !choosingPrinter">Desconectar</button>\n' + '  <button class="btn btn-danger" ng-click="ctrl.next()" ng-show="choosingPrinter" ng-disabled="!printer">Escolher</button>\n' + '  <button class="btn btn-default" ng-click="ctrl.close()">Fechar</button>\n' + '</div>');
+    $templateCache.put('/templates/modal-print-manager.html', '<div class="modal-header">\n' + '  <h4 class="modal-title">Software de impressão</h4>\n' + '</div>\n' + '<div class="modal-body">\n' + '  <div class="alert alert-danger" ng-show="socket && socket.disconnected">\n' + '    Software de impressão está ativo mas não há conexão\n' + '  </div>\n' + '  <div ng-show="!socket">\n' + '    <div class="alert alert-warning">\n' + '      <p>Software de impressão está inativo.</p>\n' + '      <p>\n' + '        Clique <a href="#" ng-click="ctrl.toggleOptions()">aqui</a>\n' + '        para\n' + '        <span ng-hide="options.show">exibir</span>\n' + '        <span ng-show="options.show">esconder</span>\n' + '        as opções avançadas.\n' + '      </p>\n' + '    </div>\n' + '    <div ng-show="options.show">\n' + '      <hr />\n' + '      <form class="form-horizontal">\n' + '        <form-group label="Nome" required="true">\n' + '          <input type="number" ng-model="options.port" />\n' + '          <p class="help-block">Porta do socket do programa</p>\n' + '        </form-group>\n' + '      </form>\n' + '      </div>\n' + '  </div>\n' + '  <div ng-show="socket.connected">\n' + '    <div class="alert alert-info">\n' + '      Software de impressão está ativo e ouvindo pedidos de impressão\n' + '    </div>\n' + '    <hr />\n' + '    <table>\n' + '    <thead>\n' + '      <tr>\n' + '        <th style="width: 30%;">Nome</th>\n' + '        <th style="width: 15%;">IP</th>\n' + '        <th style="width: 15%;">Porta</th>\n' + '        <th style="width: 15%;">Padrão</th>\n' + '        <th style="width: 15%;">Ações</th>\n' + '      </tr>\n' + '    </thead>\n' + '    <tbody>\n' + '      <tr ng-repeat="p in printers | orderBy: \'order\'" ng-click="ctrl.choosePrinter(p)" ng-class="{ success: printer.id === p.id }">\n' + '        <td>{{ p.name }}</td>\n' + '        <td>{{ p.ip }}</td>\n' + '        <td>{{ p.port }}</td>\n' + '        <td><i class="fa" ng-class="{ \'fa-check\': p.default, \'fa-remove\': !p.default }"></i></td>\n' + '        <td class="table-actions">\n' + '          <button class="btn btn-xs btn-default" uib-tooltip="Impressão de teste" tooltip-placement="top" ng-click="ctrl.print(p); $event.stopPropagation();">\n' + '            <i class="fa fa-print"></i>\n' + '          </button>\n' + '        </td>\n' + '      </tr>\n' + '    </tbody>\n' + '  </table>\n' + '  </div>\n' + '</div>\n' + '<div class="modal-footer">\n' + '  <button class="btn btn-success" ng-click="ctrl.connect()" ng-show="!socket">Conectar</button>\n' + '  <button class="btn btn-danger" ng-click="ctrl.disconnect()" ng-show="socket && !choosingPrinter">Desconectar</button>\n' + '  <button class="btn btn-danger" ng-click="ctrl.next()" ng-show="choosingPrinter" ng-disabled="!printer">Escolher</button>\n' + '  <button class="btn btn-default" ng-click="ctrl.close()">Fechar</button>\n' + '</div>');
   }]);
 })();
 'use strict';
@@ -553,11 +553,11 @@ var ctrl = function ctrl($scope, $uibModalInstance, ngAudio, constants, messageR
 
 ctrl.$inject = ['$scope', '$uibModalInstance', 'ngAudio', 'constants', 'messageResolved'];
 angular.module('utils.foodio').controller('ModalMessageCtrl', ctrl);
-'use strict';
+"use strict";
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ModalPrintManagerController = function ModalPrintManagerController($scope, $rootScope, $uibModal, $uibModalInstance, printManager, printersResolved, printerChooseResolved) {
 
@@ -579,7 +579,7 @@ var ModalPrintManagerController = function ModalPrintManagerController($scope, $
     // @description Exibe / esconde opções avançadas
 
     _createClass(Ctrl, [{
-      key: 'toggleOptions',
+      key: "toggleOptions",
       value: function toggleOptions() {
         $scope.options.show = !$scope.options.show;
       }
@@ -587,7 +587,7 @@ var ModalPrintManagerController = function ModalPrintManagerController($scope, $
       // @name connect
       // @description Connecta com o software
     }, {
-      key: 'connect',
+      key: "connect",
       value: function connect() {
         $scope.options.printers = angular.copy($scope.printers);
         printManager.connect($scope.options).then(this._afterConnect.bind(this));
@@ -597,7 +597,7 @@ var ModalPrintManagerController = function ModalPrintManagerController($scope, $
       // @description Connecta com o software
       // @params {Object} socket - Socket.io
     }, {
-      key: '_afterConnect',
+      key: "_afterConnect",
       value: function _afterConnect(socket) {
         $rootScope.socket = socket;
       }
@@ -605,12 +605,12 @@ var ModalPrintManagerController = function ModalPrintManagerController($scope, $
       // @name connect
       // @description Desconecta do software
     }, {
-      key: 'disconnect',
+      key: "disconnect",
       value: function disconnect() {
         $rootScope.socket = this.printManager.disconnect();
       }
     }, {
-      key: 'choosePrinter',
+      key: "choosePrinter",
       value: function choosePrinter(printer) {
         if ($scope.choosingPrinter) {
 
@@ -622,7 +622,7 @@ var ModalPrintManagerController = function ModalPrintManagerController($scope, $
         }
       }
     }, {
-      key: 'next',
+      key: "next",
       value: function next() {
         $uibModalInstance.close({ printer: $scope.printer });
       }
@@ -630,15 +630,15 @@ var ModalPrintManagerController = function ModalPrintManagerController($scope, $
       // @name print
       // @description Realiza impressão de teste
     }, {
-      key: 'print',
-      value: function print(options) {
-        printManager.print({ layout: 'test', printer: { ip: '192.168.0.51', port: '9100' } });
+      key: "print",
+      value: function print(printer) {
+        printManager.print({ layout: 'test', printer: printer });
       }
 
       // @name close
       // @description Fecha modal
     }, {
-      key: 'close',
+      key: "close",
       value: function close() {
         $uibModalInstance.close();
       }

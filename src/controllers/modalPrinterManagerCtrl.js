@@ -57,8 +57,8 @@ let ModalPrintManagerController = ($scope, $rootScope, $uibModal, $uibModalInsta
 
     // @name print
     // @description Realiza impressão de teste
-    print(options) {
-      printManager.print({ layout: 'test', printer: { ip: '192.168.0.51', port: '9100' }});
+    print(printer) {
+      printManager.print({ layout: 'test', printer: printer });
     }
 
     // @name close
