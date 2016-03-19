@@ -80,7 +80,7 @@ let printManager = ($rootScope, hint, printerApi, $uibModal, $templateCache) => 
 
         // Exibe modal para escolher impressora
         if(printers.length > 1) {
-          this.openModal().result.then((result) => {
+          this.openModal({ printerChooser: true }).result.then((result) => {
             return resolve(result.printer);
           });
         }
@@ -89,7 +89,7 @@ let printManager = ($rootScope, hint, printerApi, $uibModal, $templateCache) => 
 
     // @name openModal
     // @description Abre modal
-    openModal() {
+    openModal(options = {}) {
       let modal = $uibModal.open({
         template: $templateCache.get('/templates/modal-print-manager.html'),
         controller: 'ModalPrintManagerController as ctrl',
@@ -102,7 +102,7 @@ let printManager = ($rootScope, hint, printerApi, $uibModal, $templateCache) => 
             });
           },
           printerChooseResolved() {
-            return true;
+            return options.printerChooser || false;
           }
         }
       });
