@@ -607,7 +607,7 @@ var ModalPrintManagerController = function ModalPrintManagerController($scope, $
     }, {
       key: "disconnect",
       value: function disconnect() {
-        printerManager.disconnect().then(this._afterDisconnect.bind(this));
+        printManager.disconnect().then(this._afterDisconnect.bind(this));
       }
     }, {
       key: "_afterDisconnect",
@@ -2392,7 +2392,7 @@ var pusher = function pusher() {
     baseUrl: 'http://foodio.com.br/admin'
   };
 
-  var self = this;
+  var self = undefined;
 
   self.setKey = function (value) {
     _settings.key = value;

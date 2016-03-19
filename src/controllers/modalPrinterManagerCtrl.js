@@ -36,7 +36,7 @@ let ModalPrintManagerController = ($scope, $rootScope, $uibModal, $uibModalInsta
     // @name connect
     // @description Desconecta do software
     disconnect() {
-      printerManager.disconnect().then(this._afterDisconnect.bind(this));
+      printManager.disconnect().then(this._afterDisconnect.bind(this));
     }
 
     _afterDisconnect(socket) {
