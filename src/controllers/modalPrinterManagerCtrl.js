@@ -36,7 +36,11 @@ let ModalPrintManagerController = ($scope, $rootScope, $uibModal, $uibModalInsta
     // @name connect
     // @description Desconecta do software
     disconnect() {
-      $rootScope.socket = this.printManager.disconnect();
+      printerManager.disconnect().then(this._afterDisconnect.bind(this));
+    }
+
+    _afterDisconnect(socket) {
+      $rootScope.socket = null;
     }
 
     choosePrinter(printer) {
@@ -57,7 +61,8 @@ let ModalPrintManagerController = ($scope, $rootScope, $uibModal, $uibModalInsta
 
     // @name print
     // @description Realiza impressão de teste
-    print(printer) {
+    print(printer, $event) {
+      $event.stopPropagation();
       printManager.print({ layout: 'test', printer: printer });
     }
 
