@@ -1,4 +1,4 @@
-let printManager = ($rootScope, hint, printerApi, $uibModal, $templateCache) => {
+let printManager = ($rootScope, hint, printerApi, orderApi, $uibModal, $templateCache) => {
 
   let socket = null;
   let printers = [];
@@ -46,21 +46,18 @@ let printManager = ($rootScope, hint, printerApi, $uibModal, $templateCache) => 
     // @params {Object} options - Layout, impressora e dados opcionais para impressão
     print(options) {
       return new Promise((resolve, reject) => {
-        return this._prepareToPrint(options).then((printer) => {
-
-          let data = options.data || {};
-          data.company = $rootScope.company;
-          data.store = $rootScope.currentStore;
-
-          return resolve(socket.emit('print', { layout: options.layout, printer: printer, data: data}));
+        return this._getPrinter(options).then((printer) => {
+          return this._getData(options).then((data) => {
+            return resolve(socket.emit('print', { layout: options.layout, printer: printer, data: data }));
+          });
         });
       });
     },
 
-    // @name _prepareToPrint
+    // @name _getPrinter
     // @description Valida dados e escolhe impressora
     // @params {Object} options - Layout, impressora e dados opcionais para impressão
-    _prepareToPrint(options) {
+    _getPrinter(options) {
       return new Promise((resolve, reject) => {
 
         // Evita de tentar imprimir se o programa de impressão não estiver
@@ -87,6 +84,24 @@ let printManager = ($rootScope, hint, printerApi, $uibModal, $templateCache) => 
           this.openModal({ printerChooser: true }).result.then((result) => {
             return resolve(result.printer);
           });
+        }
+      });
+    },
+
+    _getData(options) {
+      return new Promise((resolve, reject) => {
+        let data = {
+          company: $rootScope.company,
+          store: $rootScope.currentStore
+        };
+
+        if(options.data && options.data.order) {
+          orderApi.show(options.data.order.id).then((response) => {
+            data.order = response.data;
+            return resolve(data);
+          });
+        } else {
+          return resolve(data);
         }
       });
     },
@@ -140,5 +155,5 @@ let printManager = ($rootScope, hint, printerApi, $uibModal, $templateCache) => 
   }
 };
 
-printManager.$inject = ['$rootScope', 'hint', 'printerApi', '$uibModal', '$templateCache'];
+printManager.$inject = ['$rootScope', 'hint', 'printerApi', 'orderApi', '$uibModal', '$templateCache'];
 angular.module('utils.foodio').factory('printManager', printManager);
