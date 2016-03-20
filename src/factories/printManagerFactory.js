@@ -48,6 +48,7 @@ let printManager = ($rootScope, hint, printerApi, orderApi, $uibModal, $template
       return new Promise((resolve, reject) => {
         return this._getPrinter(options).then((printer) => {
           return this._getData(options).then((data) => {
+            socket.emit('print:start');
             return resolve(socket.emit('print', { layout: options.layout, printer: printer, data: data }));
           });
         });
@@ -96,7 +97,7 @@ let printManager = ($rootScope, hint, printerApi, orderApi, $uibModal, $template
         };
 
         if(options.data && options.data.order) {
-          orderApi.show(options.data.order.id).then((response) => {
+          orderApi.show({ id: options.data.order.id }).then((response) => {
             data.order = response.data;
             return resolve(data);
           });
