@@ -1,9 +1,28 @@
-let printManager = ($rootScope, hint, printerApi, orderApi, $uibModal, $templateCache) => {
+let printManager = ($rootScope, $localStorage, hint, printerApi, orderApi, $uibModal, $templateCache) => {
 
   let socket = null;
   let printers = [];
 
   return {
+
+    // @name autoStart
+    // @description Realiza auto conexão com socket
+    autoStart() {
+
+      return new Promise((resolve, reject) => {
+        if($localStorage.socket) {
+
+          socket = $localStorage.socket;
+          $rootScope.socket = socket;
+
+          printApi.fetch().then((response) => {
+            printers = response.data;
+          });
+
+          resolve(socket);
+        }
+      });
+    },
 
     // @name connect
     // @description Conecta com o socket
@@ -24,6 +43,8 @@ let printManager = ($rootScope, hint, printerApi, orderApi, $uibModal, $template
         let address = options.port ? `http://localhost:${options.port}` : 'http://localhost:7333';
         socket = io(address);
 
+        $localStorage.socket = socket;
+
         // Adiciona evento de erro
         socket.on('print:error', (data) => {
           hint[data.type](data.description);
@@ -37,6 +58,7 @@ let printManager = ($rootScope, hint, printerApi, orderApi, $uibModal, $template
     // @description Desconecta socket
     disconnect() {
       return new Promise((resolve, reject) => {
+        $localStorage.socket = null;
         resolve(socket = null);
       });
     },
@@ -156,5 +178,5 @@ let printManager = ($rootScope, hint, printerApi, orderApi, $uibModal, $template
   }
 };
 
-printManager.$inject = ['$rootScope', 'hint', 'printerApi', 'orderApi', '$uibModal', '$templateCache'];
+printManager.$inject = ['$rootScope', '$localStorage', 'hint', 'printerApi', 'orderApi', '$uibModal', '$templateCache'];
 angular.module('utils.foodio').factory('printManager', printManager);
