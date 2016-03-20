@@ -1,7 +1,4 @@
 let directive = ($rootScope, $templateCache, printManager) => {
-
-  console.log($templateCache.get('/templates/print-button.html'));
-
   return {
     restrict: 'E',
     replace: true,
