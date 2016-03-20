@@ -13,9 +13,11 @@ let directive = ($rootScope, $templateCache, printManager) => {
       el.on('click', (e) => {
         e.stopPropagation();
 
-        let data = {}
-        data[scope.printDataKey] = scope.printData;
-        printManager.print({ layout: scope.layout, data: data });
+        if($rootScope.socket && $rootScope.socket.connected) {
+          let data = {}
+          data[scope.printDataKey] = scope.printData;
+          printManager.print({ layout: scope.layout, data: data });
+        }
       });
     }
   };
