@@ -2,27 +2,9 @@ let printManager = ($rootScope, $localStorage, hint, printerApi, orderApi, $uibM
 
   let socket = null;
   let printers = [];
+  let channel = duel.channel('socket');
 
   return {
-
-    // @name autoStart
-    // @description Realiza auto conexão com socket
-    autoStart() {
-
-      return new Promise((resolve, reject) => {
-        if($localStorage.socket) {
-
-          socket = $localStorage.socket;
-          $rootScope.socket = socket;
-
-          printApi.fetch().then((response) => {
-            printers = response.data;
-          });
-
-          resolve(socket);
-        }
-      });
-    },
 
     // @name connect
     // @description Conecta com o socket
@@ -43,7 +25,7 @@ let printManager = ($rootScope, $localStorage, hint, printerApi, orderApi, $uibM
         let address = options.port ? `http://localhost:${options.port}` : 'http://localhost:7333';
         socket = io(address);
 
-        $localStorage.socket = socket;
+        channel.broadcast('socket:connected', socket);
 
         // Adiciona evento de erro
         socket.on('print:error', (data) => {
@@ -58,7 +40,6 @@ let printManager = ($rootScope, $localStorage, hint, printerApi, orderApi, $uibM
     // @description Desconecta socket
     disconnect() {
       return new Promise((resolve, reject) => {
-        $localStorage.socket = null;
         resolve(socket = null);
       });
     },
