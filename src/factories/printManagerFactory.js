@@ -25,7 +25,7 @@ let printManager = ($rootScope, $localStorage, hint, printerApi, orderApi, $uibM
         let address = options.port ? `http://localhost:${options.port}` : 'http://localhost:7333';
         socket = io(address);
 
-        channel.broadcast('socket:connected', socket);
+        channel.broadcast('socket:connected', true);
 
         // Adiciona evento de erro
         socket.on('print:error', (data) => {
