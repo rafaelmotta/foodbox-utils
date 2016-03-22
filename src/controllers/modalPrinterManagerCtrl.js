@@ -23,13 +23,17 @@ let ModalPrintManagerController = ($scope, $rootScope, $uibModal, $uibModalInsta
     // @description Connecta com o software
     connect() {
       $scope.options.printers = angular.copy($scope.printers);
-      printManager.connect($scope.options)
+      printManager.connect($scope.options).then(this._afterConnect.bind(this));
     }
 
     // @name connect
     // @description Desconecta do software
     disconnect() {
       printManager.disconnect().then(this._afterDisconnect.bind(this));
+    }
+
+    _afterConnect(socket) {
+      $rootScope.socket = socket;
     }
 
     _afterDisconnect(socket) {
