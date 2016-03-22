@@ -25,7 +25,7 @@ let printManager = ($rootScope, $localStorage, hint, printerApi, orderApi, $uibM
         let address = options.port ? `http://localhost:${options.port}` : 'http://localhost:7333';
         socket = io(address);
 
-        channel.broadcast('socket:connected', true);
+        channel.broadcast('socket:connected', { connected: true });
 
         // Adiciona evento de erro
         socket.on('print:error', (data) => {
@@ -40,6 +40,7 @@ let printManager = ($rootScope, $localStorage, hint, printerApi, orderApi, $uibM
     // @description Desconecta socket
     disconnect() {
       return new Promise((resolve, reject) => {
+        channel.broadcast('socket:disconnected', { disconnected: true });
         resolve(socket = null);
       });
     },

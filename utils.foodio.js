@@ -2008,7 +2008,7 @@ var printManager = function printManager($rootScope, $localStorage, hint, printe
         var address = options.port ? 'http://localhost:' + options.port : 'http://localhost:7333';
         socket = io(address);
 
-        channel.broadcast('socket:connected', true);
+        channel.broadcast('socket:connected', { connected: true });
 
         // Adiciona evento de erro
         socket.on('print:error', function (data) {
@@ -2023,6 +2023,7 @@ var printManager = function printManager($rootScope, $localStorage, hint, printe
     // @description Desconecta socket
     disconnect: function disconnect() {
       return new Promise(function (resolve, reject) {
+        channel.broadcast('socket:disconnected', { disconnected: true });
         resolve(socket = null);
       });
     },
