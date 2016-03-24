@@ -1984,7 +1984,6 @@ var printManager = function printManager($rootScope, $localStorage, hint, printe
 
   var socket = null;
   var printers = [];
-  var channel = duel.channel('socket');
 
   return {
 
@@ -1992,6 +1991,8 @@ var printManager = function printManager($rootScope, $localStorage, hint, printe
     // @description Conecta com o socket
     connect: function connect() {
       var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+      var channel = duel.channel('socket');
 
       // Seta impressoras
       if (options.printers && options.printers.length) {
@@ -2022,6 +2023,8 @@ var printManager = function printManager($rootScope, $localStorage, hint, printe
     // @name disconnect
     // @description Desconecta socket
     disconnect: function disconnect() {
+      var channel = duel.channel('socket');
+
       return new Promise(function (resolve, reject) {
         channel.broadcast('socket:disconnected', { disconnected: true });
         resolve(socket = null);

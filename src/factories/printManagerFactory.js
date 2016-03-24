@@ -2,13 +2,13 @@ let printManager = ($rootScope, $localStorage, hint, printerApi, orderApi, $uibM
 
   let socket = null;
   let printers = [];
-  let channel = duel.channel('socket');
 
   return {
 
     // @name connect
     // @description Conecta com o socket
     connect(options = {}) {
+      let channel = duel.channel('socket');
 
       // Seta impressoras
       if(options.printers && options.printers.length) {
@@ -39,6 +39,8 @@ let printManager = ($rootScope, $localStorage, hint, printerApi, orderApi, $uibM
     // @name disconnect
     // @description Desconecta socket
     disconnect() {
+      let channel = duel.channel('socket');
+
       return new Promise((resolve, reject) => {
         channel.broadcast('socket:disconnected', { disconnected: true });
         resolve(socket = null);
