@@ -13,13 +13,13 @@ module.run(['$templateCache', function($templateCache) {
     '</div>\n' +
     '<div class="modal-body">\n' +
     '  <p>1. Em uma escala de 1 a 10, sendo 1 altamente improvavel e 10 altamente provavel, qual a probabilidade de você indicar o speedy food a um amigo(a)?</p>\n' +
-    '  <rating ng-model="rating.score" max="10" state-on="\'fa fa-star fa-star-filled\'" state-off="\'fa fa-star-o\'"></rating>\n' +
+    '  <uib-rating ng-model="rating.score" max="10" state-on="\'fa fa-star fa-star-filled\'" state-off="\'fa fa-star-o\'"></uib-rating>\n' +
     '  <hr />\n' +
     '  <p>2. Qual a nota você daria para qualidade dos nossos produtos?</p>\n' +
-    '  <rating ng-model="rating.quality" max="10" state-on="\'fa fa-star fa-star-filled\'" state-off="\'fa fa-star-o\'"></rating>\n' +
+    '  <uib-rating ng-model="rating.quality" max="10" state-on="\'fa fa-star fa-star-filled\'" state-off="\'fa fa-star-o\'"></uib-rating>\n' +
     '  <hr />\n' +
     '  <p>3. Qual a nota você daria para nosso serviço de entrega?</p>\n' +
-    '  <rating ng-model="rating.delivery" max="10" state-on="\'fa fa-star fa-star-filled\'" state-off="\'fa fa-star-o\'"></rating>\n' +
+    '  <uib-rating ng-model="rating.delivery" max="10" state-on="\'fa fa-star fa-star-filled\'" state-off="\'fa fa-star-o\'"></uib-rating>\n' +
     '  <hr /\n' +
     '  <p>4. Há algo que você não gostou que gostaria de registrar?</p>\n' +
     '  <textarea ng-model="rating.good_comment" rows="4" placeholder="Deixe em branco se você não tiver nenhum comentário"></textarea>\n' +
