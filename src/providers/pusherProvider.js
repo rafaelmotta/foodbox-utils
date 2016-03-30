@@ -27,7 +27,11 @@ let pusher = () => {
     return {
       subscribe(channel) {
         if (!_settings.key) {
-          throw new Error('A key must be setted to initialize pusher');
+          throw new Error('É necessário uma chave para utilizar esse serviço');
+        }
+
+        if (!channel) {
+          throw new Error('Deve ser passado um canal para se inscrever');
         }
 
         let costumer = $localStorage['currentCostumer'];
@@ -42,6 +46,13 @@ let pusher = () => {
 
         let pusher = new Pusher(_settings.key, { authEndpoint: _settings.baseUrl + '/companies/' + $rootScope.company.id + '/sessions/pusher/authentication', auth: { headers: headers }, authTransport: _settings.authTransport });
         return pusher.subscribe(channel);
+      },
+      unsubscribe(channel) {
+        if (!channel) {
+          throw new Error('Deve ser passado um canal para se desinscrever');
+        }
+
+        return pusher.unsubscribe(channel);
       }
     };
   }];
