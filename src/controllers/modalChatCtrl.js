@@ -33,7 +33,7 @@ let ctrl = ($scope, $uibModalInstance, hint, pusher, chatMessageApi, chatResolve
           return false;
         }
 
-        $scope.messages(message);
+        $scope.messages.push(message);
         hint.success(message.content, { title: `${message.user.name} diz:`});
       });
     }
