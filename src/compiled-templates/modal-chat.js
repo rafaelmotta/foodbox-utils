@@ -15,7 +15,7 @@ module.run(['$templateCache', function($templateCache) {
     '    <li ng-repeat="m in messages | orderBy: \'-id\'">\n' +
     '      <div class="row">\n' +
     '        <div class="col-md-2">\n' +
-    '          <img ng-src="{{ m.user.photo }}" alt="Avatar" class="img-thumbnail" width="100" height="100"/>\n' +
+    '          <img ng-src="{{ m.user.avatar.thumb }}" alt="Avatar" class="img-thumbnail" width="100" height="100"/>\n' +
     '        </div>\n' +
     '        <div class="col-md-10">\n' +
     '          <div>\n' +
