@@ -1,20 +1,13 @@
-let ctrl = ($scope, $uibModalInstance, hint, pusher, chatMessageApi, chatResolved, userResolved, userTypeResolved) => {
+let ctrl = ($scope, $uibModalInstance, hint, pusher, chatMessageApi, chatResolved, userResolved, userTypeResolved, onScrollResolved) => {
 
   return new class ctrl {
 
     constructor() {
-
-      // Chat
       $scope.chat = chatResolved;
-
-      // Engloba pagination e data
       $scope.messagesResponse = $scope.chat.messages;
-
-      // Apenas mensagem
       $scope.messages = $scope.messagesResponse.data;
-
-      // Tipo de usuário que está no chat (costumer / employee)
       $scope.userType = userTypeResolved;
+      $scope.onScroll = onScrollResolved;
 
       // Usuário que está no chat
       $scope.user = userResolved;
@@ -70,8 +63,12 @@ let ctrl = ($scope, $uibModalInstance, hint, pusher, chatMessageApi, chatResolve
       });
     }
 
-    loadMessages() {
-
+    onScroll() {
+      $scope.onScroll($scope.chat).then((response) => {
+        $scope.chat = response.data;
+        $scope.messagesResponse = $scope.chat.messages;
+        $scope.messages = $scope.messagesResponse.data;
+      });
     }
 
     close() {

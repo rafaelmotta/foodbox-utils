@@ -6,6 +6,9 @@ let modal = ($uibModal, $templateCache) => {
         controller: 'ModalChatCtrl as ctrl',
         windowClass: 'modal-chat',
         resolve: {
+          onScrollResolved: () => {
+            return params.onScroll;
+          },
           chatResolved: () => {
             return params.chat;
           },
