@@ -55,7 +55,7 @@ let printManager = ($rootScope, $localStorage, hint, printerApi, orderApi, $uibM
         return this._getPrinter(options).then((printer) => {
           return this._getData(options).then((data) => {
             socket.emit('print:start');
-            return resolve(socket.emit('print', { layout: options.layout, printer: printer, data: data }));
+            return resolve(socket.emit('print', { layout: options.layout, copies: options.copies, printer: printer, data: data }));
           });
         });
       });
