@@ -2044,7 +2044,7 @@ var printManager = function printManager($rootScope, $localStorage, hint, printe
         return _this._getPrinter(options).then(function (printer) {
           return _this._getData(options).then(function (data) {
 
-            if (options.layout === 'delivery' && data.order.order_type.alias !== 'delivery') {
+            if (options.layout === 'delivery' && data.order.order_type.type !== 'delivery') {
               return _this._throwError(reject, "Para imprimir uma via delivery é necessário que o pedido seja do tipo delivery");
             }
 
