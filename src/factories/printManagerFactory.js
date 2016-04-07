@@ -54,6 +54,11 @@ let printManager = ($rootScope, $localStorage, hint, printerApi, orderApi, $uibM
       return new Promise((resolve, reject) => {
         return this._getPrinter(options).then((printer) => {
           return this._getData(options).then((data) => {
+
+            if(options.layout === 'delivery' && data.order.order_type.alias !== 'delivery') {
+              this._throwError(reject, "Para imprimir uma via delivery é necessário que o pedido seja do tipo delivery");
+            }
+
             socket.emit('print:start');
             return resolve(socket.emit('print', { layout: options.layout, copies: options.copies, printer: printer, data: data }));
           });
