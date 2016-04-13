@@ -26,7 +26,10 @@
       <textarea ng-model="address.complement" tabindex="7" rows="3"></textarea>
     </form-group>
     <div class="modal-footer">
-      <button class="btn btn-success">Salvar</button>
+      <button class="btn btn-success">
+        <i class="fa fa-circle-o-notch fa-spin with-loader hide"></i>
+        Salvar
+      </button>
       <button class="btn btn-default" type="button" ng-click="ctrl.close()">Cancelar</button>
     </div>
   </form>
