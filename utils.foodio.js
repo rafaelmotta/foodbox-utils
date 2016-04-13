@@ -1482,7 +1482,12 @@ var hint = function hint($timeout, $window, toaster, constants) {
             }
           }
         } else {
-          toaster.pop({ type: type, title: title, body: message, timeout: options.timeout });
+          toaster.pop({
+            type: type,
+            title: title,
+            body: message,
+            timeout: options.timeout
+          });
         }
       }
     }, {
