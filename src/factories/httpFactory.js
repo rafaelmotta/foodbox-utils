@@ -3,13 +3,13 @@ let RestangularInterceptors = (Restangular, $rootScope) => {
     constructor() {
       Restangular.addRequestInterceptor((element) => {
         $rootScope.$emit('request:start');
-        $('.with-loader').addClass('on-request');
+        $('.with-loader').removeClass('hide');
         return element;
       });
 
       Restangular.addResponseInterceptor((data) => {
         $rootScope.$emit('request:end');
-        $('.with-loader').removeClass('on-request');
+        $('.with-loader').addClass('on-request');
         return data;
       });
     }
