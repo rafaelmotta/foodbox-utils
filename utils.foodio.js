@@ -906,45 +906,6 @@ directive.$inject = ['$templateCache'];
 angular.module('utils.foodio').directive('limit', directive);
 'use strict';
 
-var directive = function directive($rootScope, $templateCache, RestangularInterceptors) {
-  return {
-    restrict: 'E',
-    replace: true,
-    template: $templateCache.get('/templates/loading-bar.html'),
-    link: function link() {
-      var $bar = $('.loading-bar');
-
-      $rootScope.$on('request:start', function () {
-        $bar.show();
-      });
-
-      $rootScope.$on('request:end', function () {
-        $bar.hide();
-      });
-
-      $rootScope.$watch('socket', function (socket) {
-        if (socket) {
-          socket.on('print:start', function () {
-            $bar.show();
-          });
-
-          socket.on('print:end', function () {
-            $bar.hide();
-          });
-
-          socket.on('print:error', function () {
-            $bar.hide();
-          });
-        }
-      });
-    }
-  };
-};
-
-directive.$inject = ['$rootScope', '$templateCache', 'RestangularInterceptors'];
-angular.module('utils.foodio').directive('loadingBar', directive);
-'use strict';
-
 var directive = function directive($templateCache) {
   return {
     restrict: 'E',
@@ -1519,34 +1480,6 @@ angular.module('utils.foodio').factory('hint', hint);
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var httpConfig = function httpConfig($httpProvider) {
-  return $httpProvider.interceptors.push("httpHintInterceptor");
-};
-
-httpConfig.$inject = ['$httpProvider'];
-
-var httpHintInterceptor = function httpHintInterceptor($q, $window, $rootScope) {
-  return {
-    request: function request(config) {
-      config.timeout = 20000;
-      return config || $q.when(config);
-    },
-    response: function response(_response) {
-      return _response || $q.when(_response);
-    },
-    responseError: function responseError(response) {
-      $rootScope.$emit('request:end', {
-        error: true
-      });
-      $rootScope.$emit('request:error', response.data.error);
-      return $q.reject(response);
-    }
-  };
-};
-
-httpHintInterceptor.$inject = ['$q', '$window', '$rootScope'];
-angular.module("utils.foodio").config(httpConfig).factory("httpHintInterceptor", httpHintInterceptor);
 
 var RestangularInterceptors = function RestangularInterceptors(Restangular, $rootScope) {
   return new function RestangularInterceptors() {
