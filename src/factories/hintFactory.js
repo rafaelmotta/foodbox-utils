@@ -1,4 +1,4 @@
-let hint = ($timeout, $window, ngAudio, constants) => {
+let hint = ($timeout, $window, toaster, constants) => {
 
   return new class Hint {
 
@@ -40,9 +40,7 @@ let hint = ($timeout, $window, ngAudio, constants) => {
       }
 
       // Toca audio
-      ngAudio
-        .load(`${constants.static}/notifications/audios/${type}.mp3`)
-        .play();
+      let audio = new Audio(`${constants.static}/notifications/audios/${type}.mp3`).play();
 
       if(!message) {
         return false;
@@ -76,17 +74,7 @@ let hint = ($timeout, $window, ngAudio, constants) => {
           }
         }
       } else {
-        let style = 1;
-
-        if(type === 'error') {
-          style = 3;
-        }
-
-        if(type === 'info') {
-          style = 4;
-        }
-
-        notie.alert(style, message, (options.timeout / 1000));
+        toaster.pop({ type: type, title: title, body: message, timeout: options.timeout });
       }
     }
 
@@ -108,5 +96,5 @@ let hint = ($timeout, $window, ngAudio, constants) => {
   };
 };
 
-hint.$inject = ['$timeout', '$window', 'ngAudio', 'constants'];
+hint.$inject = ['$timeout', '$window', 'constants'];
 angular.module('utils.foodio').factory('hint', hint);

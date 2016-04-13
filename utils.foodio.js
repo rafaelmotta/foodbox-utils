@@ -1392,7 +1392,7 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var hint = function hint($timeout, $window, ngAudio, constants) {
+var hint = function hint($timeout, $window, toaster, constants) {
 
   return new ((function () {
     function Hint() {
@@ -1448,7 +1448,7 @@ var hint = function hint($timeout, $window, ngAudio, constants) {
         }
 
         // Toca audio
-        ngAudio.load(constants['static'] + '/notifications/audios/' + type + '.mp3').play();
+        var audio = new Audio(constants['static'] + '/notifications/audios/' + type + '.mp3').play();
 
         if (!message) {
           return false;
@@ -1482,17 +1482,7 @@ var hint = function hint($timeout, $window, ngAudio, constants) {
             }
           }
         } else {
-          var style = 1;
-
-          if (type === 'error') {
-            style = 3;
-          }
-
-          if (type === 'info') {
-            style = 4;
-          }
-
-          notie.alert(style, message, options.timeout / 1000);
+          toaster.pop({ type: type, title: title, body: message, timeout: options.timeout });
         }
       }
     }, {
@@ -1519,7 +1509,7 @@ var hint = function hint($timeout, $window, ngAudio, constants) {
   })())();
 };
 
-hint.$inject = ['$timeout', '$window', 'ngAudio', 'constants'];
+hint.$inject = ['$timeout', '$window', 'constants'];
 angular.module('utils.foodio').factory('hint', hint);
 'use strict';
 
