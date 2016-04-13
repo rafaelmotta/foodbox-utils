@@ -1509,7 +1509,7 @@ var hint = function hint($timeout, $window, toaster, constants) {
   })())();
 };
 
-hint.$inject = ['$timeout', '$window', 'constants'];
+hint.$inject = ['$timeout', '$window', 'toaster', 'constants'];
 angular.module('utils.foodio').factory('hint', hint);
 'use strict';
 
