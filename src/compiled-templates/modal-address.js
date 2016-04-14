@@ -34,8 +34,7 @@ module.run(['$templateCache', function($templateCache) {
     '      <textarea ng-model="address.complement" tabindex="7" rows="3"></textarea>\n' +
     '    </form-group>\n' +
     '    <div class="modal-footer">\n' +
-    '      <button class="btn btn-success">\n' +
-    '        <i class="fa fa-circle-o-notch fa-spin with-loader hide"></i>\n' +
+    '      <button class="btn btn-success" loading-spinner>\n' +
     '        Salvar\n' +
     '      </button>\n' +
     '      <button class="btn btn-default" type="button" ng-click="ctrl.close()">Cancelar</button>\n' +

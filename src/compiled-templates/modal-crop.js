@@ -14,7 +14,7 @@ module.run(['$templateCache', function($templateCache) {
     '  <img ng-src="{{ imgToCrop }}" ng-cropper ng-cropper-options="options" alt="Imagem a ser recortada" ng-cropper-show="showEvent" />\n' +
     '</div>\n' +
     '<div class="modal-footer">\n' +
-    '  <button class="btn btn-primary" ng-click="ctrl.crop()">Salvar</button>\n' +
+    '  <button class="btn btn-primary" ng-click="ctrl.crop()" loading-spinner>Salvar</button>\n' +
     '</div>');
 }]);
 })();
