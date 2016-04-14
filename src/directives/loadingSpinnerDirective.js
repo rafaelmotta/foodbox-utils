@@ -2,10 +2,10 @@ let directive = ($compile) => {
   return {
     restrict: 'A',
     link: (scope, $el, attrs) => {
-      $el.attr('ng-disabled', 'withLoader.inAction');
-      $el.append('<i class="fa fa-circle-o-notch fa-spin with-loader hide"></i>');
+      attrs.$set('ngDisabled', 'withLoader.inAction');
+      $el.prepend('<i class="fa fa-circle-o-notch fa-spin with-loader hide"></i> ');
 
-      $compile($el(scope));
+      $compile($el)(scope);
     }
   };
 };
