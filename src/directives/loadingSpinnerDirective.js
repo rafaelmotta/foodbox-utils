@@ -5,6 +5,8 @@ let directive = ($compile) => {
       attrs.$set('ngDisabled', 'withLoader.inAction');
       $el.prepend('<i class="fa fa-circle-o-notch fa-spin with-loader hide"></i> ');
 
+      $el.removeAttr('loading-spinner');
+
       $compile($el)(scope);
     }
   };
