@@ -13,7 +13,7 @@ let RestangularInterceptors = (Restangular, $rootScope) => {
       Restangular.addResponseInterceptor((data) => {
         $rootScope.$emit('request:end');
 
-        $('.with-loader').addClass('on-request');
+        $('.with-loader').addClass('hide');
         $rootScope.withLoader = { inAction: false };
 
 
