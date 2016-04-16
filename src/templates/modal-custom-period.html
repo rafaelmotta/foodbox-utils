@@ -5,7 +5,7 @@
   <div class="row">
     <div class="col-md-6" ng-click="ctrl.open('fromDate')">
       <div class="input-group">
-        <input ng-model="period.fromDate" datepicker-options="options" datepicker-popup="dd/MM/yyyy" is-open="status.fromDate" disabled />
+        <input ng-model="period.fromDate" datepicker-options="options" uib-datepicker-popup="dd/MM/yyyy" is-open="status.fromDate" disabled />
         <div class="input-group-addon">
           <i class="fa fa-calendar"></i>
         </div>
@@ -13,7 +13,7 @@
     </div>
     <div class="col-md-6" ng-click="ctrl.open('toDate')">
       <div class="input-group">
-        <input ng-model="period.toDate" datepicker-options="options" datepicker-popup="dd/MM/yyyy" is-open="status.toDate" disabled />
+        <input ng-model="period.toDate" datepicker-options="options" uib-datepicker-popup="dd/MM/yyyy" is-open="status.toDate" disabled />
         <div class="input-group-addon">
           <i class="fa fa-calendar"></i>
         </div>
