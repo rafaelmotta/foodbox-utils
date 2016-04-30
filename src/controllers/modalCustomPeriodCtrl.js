@@ -2,16 +2,28 @@ let ctrl = ($scope, $uibModalInstance, $filter) => {
 
   return new class ModalCustomPeriodCtrl {
     constructor() {
-      let date = $filter('date')(new Date(), "dd/MM/yyyy");
+      $scope.period  = {
+        fromDate: new Date(),
+        toDate: new Date(),
+        fromTime: new Date().setHours(0,0,0,0),
+        toTime: new Date().setHours(23, 59, 59, 0)
+      };
 
-      $scope.period  = { fromDate: date, toDate: date, fromTime: new Date().setHours(0,0,0,0), toTime: new Date().setHours(23, 59, 59, 0) };
-      $scope.status  = { fromDate: false, toDate: false };
-      $scope.options = { showWeeks: false };
+      $scope.popups = {
+        fromDate: {
+          opened: false,
+          options: {}
+        },
+        toDate: {
+          opened: false,
+          options: {}
+        }
+      };
     }
 
     // Abre o datepicker
     open(name) {
-      $scope.status[name] = !$scope.status[name];
+      $scope.popups[name].opened = !$scope.popups[name].opened;
     }
 
     // Fecha o modal e envia os dados selecionados

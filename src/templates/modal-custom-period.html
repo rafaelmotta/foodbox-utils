@@ -5,7 +5,7 @@
   <div class="row">
     <div class="col-md-6" ng-click="ctrl.open('fromDate')">
       <div class="input-group">
-        <input ng-model="period.fromDate" datepicker-options="options" uib-datepicker-popup="dd/MM/yyyy" is-open="status.fromDate" disabled />
+        <input ng-model="period.fromDate" clear-text="Resetar" close-text="Feito" current-text="Hoje" uib-datepicker-popup="dd/MM/yyyy" datepicker-options="popups.fromDate.options" is-open="popups.fromDate.opened" ng-click="ctrl.togglePopup('fromDate')" />
         <div class="input-group-addon">
           <i class="fa fa-calendar"></i>
         </div>
@@ -13,7 +13,7 @@
     </div>
     <div class="col-md-6" ng-click="ctrl.open('toDate')">
       <div class="input-group">
-        <input ng-model="period.toDate" datepicker-options="options" uib-datepicker-popup="dd/MM/yyyy" is-open="status.toDate" disabled />
+        <input ng-model="period.toDate" clear-text="Resetar" close-text="Feito" current-text="Hoje" uib-datepicker-popup="dd/MM/yyyy" datepicker-options="popups.toDate.options" is-open="popups.toDate.opened" ng-click="ctrl.togglePopup('toDate')" />
         <div class="input-group-addon">
           <i class="fa fa-calendar"></i>
         </div>
@@ -23,10 +23,10 @@
   <hr />
   <div class="row">
     <div class="col-md-6">
-      <timepicker ng-model="period.fromTime" readonly-input="true" hour-step="1" minute-step="15" show-meridian="false" prevent-table="true" style="margin: 0 auto;"></timepicker>
+      <uib-timepicker ng-model="period.fromTime" readonly-input="true" hour-step="1" minute-step="15" show-meridian="false" prevent-table="true" style="margin: 0 auto;"></uib-timepicker>
     </div>
     <div class="col-md-6">
-      <timepicker ng-model="period.toTime" readonly-input="true" hour-step="1" minute-step="15" show-meridian="false" prevent-table="true" style="margin: 0 auto;"></timepicker>
+      <uib-timepicker ng-model="period.toTime" readonly-input="true" hour-step="1" minute-step="15" show-meridian="false" prevent-table="true" style="margin: 0 auto;"></uib-timepicker>
     </div>
   </div>
 </div>

@@ -13,7 +13,7 @@ module.run(['$templateCache', function($templateCache) {
     '  <div class="row">\n' +
     '    <div class="col-md-6" ng-click="ctrl.open(\'fromDate\')">\n' +
     '      <div class="input-group">\n' +
-    '        <input ng-model="period.fromDate" datepicker-options="options" uib-datepicker-popup="dd/MM/yyyy" is-open="status.fromDate" disabled />\n' +
+    '        <input ng-model="period.fromDate" clear-text="Resetar" close-text="Feito" current-text="Hoje" uib-datepicker-popup="dd/MM/yyyy" datepicker-options="popups.fromDate.options" is-open="popups.fromDate.opened" ng-click="ctrl.togglePopup(\'fromDate\')" />\n' +
     '        <div class="input-group-addon">\n' +
     '          <i class="fa fa-calendar"></i>\n' +
     '        </div>\n' +
@@ -21,7 +21,7 @@ module.run(['$templateCache', function($templateCache) {
     '    </div>\n' +
     '    <div class="col-md-6" ng-click="ctrl.open(\'toDate\')">\n' +
     '      <div class="input-group">\n' +
-    '        <input ng-model="period.toDate" datepicker-options="options" uib-datepicker-popup="dd/MM/yyyy" is-open="status.toDate" disabled />\n' +
+    '        <input ng-model="period.toDate" clear-text="Resetar" close-text="Feito" current-text="Hoje" uib-datepicker-popup="dd/MM/yyyy" datepicker-options="popups.toDate.options" is-open="popups.toDate.opened" ng-click="ctrl.togglePopup(\'toDate\')" />\n' +
     '        <div class="input-group-addon">\n' +
     '          <i class="fa fa-calendar"></i>\n' +
     '        </div>\n' +
@@ -31,10 +31,10 @@ module.run(['$templateCache', function($templateCache) {
     '  <hr />\n' +
     '  <div class="row">\n' +
     '    <div class="col-md-6">\n' +
-    '      <timepicker ng-model="period.fromTime" readonly-input="true" hour-step="1" minute-step="15" show-meridian="false" prevent-table="true" style="margin: 0 auto;"></timepicker>\n' +
+    '      <uib-timepicker ng-model="period.fromTime" readonly-input="true" hour-step="1" minute-step="15" show-meridian="false" prevent-table="true" style="margin: 0 auto;"></uib-timepicker>\n' +
     '    </div>\n' +
     '    <div class="col-md-6">\n' +
-    '      <timepicker ng-model="period.toTime" readonly-input="true" hour-step="1" minute-step="15" show-meridian="false" prevent-table="true" style="margin: 0 auto;"></timepicker>\n' +
+    '      <uib-timepicker ng-model="period.toTime" readonly-input="true" hour-step="1" minute-step="15" show-meridian="false" prevent-table="true" style="margin: 0 auto;"></uib-timepicker>\n' +
     '    </div>\n' +
     '  </div>\n' +
     '</div>\n' +
