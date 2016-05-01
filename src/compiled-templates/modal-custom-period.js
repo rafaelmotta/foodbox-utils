@@ -14,11 +14,17 @@ module.run(['$templateCache', function($templateCache) {
     '    <div class="col-md-6" ng-click="ctrl.open(\'fromDate\')">\n' +
     '      <div class="input-group">\n' +
     '        <input ng-model="period.fromDate" clear-text="Resetar" close-text="Feito" current-text="Hoje" uib-datepicker-popup="dd/MM/yyyy" datepicker-options="popups.fromDate.options" is-open="popups.fromDate.opened" ng-click="ctrl.togglePopup(\'fromDate\')" />\n' +
+    '        <div class="input-group-addon">\n' +
+    '          <i class="fa fa-calendar"></i>\n' +
+    '        </div>\n' +
     '      </div>\n' +
     '    </div>\n' +
     '    <div class="col-md-6" ng-click="ctrl.open(\'toDate\')">\n' +
     '      <div class="input-group">\n' +
     '        <input ng-model="period.toDate" clear-text="Resetar" close-text="Feito" current-text="Hoje" uib-datepicker-popup="dd/MM/yyyy" datepicker-options="popups.toDate.options" is-open="popups.toDate.opened" ng-click="ctrl.togglePopup(\'toDate\')" />\n' +
+    '        <div class="input-group-addon">\n' +
+    '          <i class="fa fa-calendar"></i>\n' +
+    '        </div>\n' +
     '      </div>\n' +
     '    </div>\n' +
     '  </div>\n' +
