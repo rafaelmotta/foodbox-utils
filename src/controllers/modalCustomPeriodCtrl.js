@@ -4,7 +4,7 @@ let ctrl = ($scope, $uibModalInstance, datePeriodResolved) => {
     constructor() {
       $scope.datePeriod = datePeriodResolved;
 
-      if($scope.datePeriod && !_.isEmpty($scope.datePeriod)) {
+      if($scope.datePeriod && $scope.datePeriod.fromDate && $scope.datePeriod.toDate) {
         $scope.period = angular.copy($scope.datePeriod);
       } else {
         $scope.period  = {
