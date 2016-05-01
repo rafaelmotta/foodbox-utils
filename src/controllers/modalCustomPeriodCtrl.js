@@ -1,12 +1,13 @@
-let ctrl = ($scope, $uibModalInstance, $filter) => {
+let ctrl = ($scope, $uibModalInstance, datePeriodResolved) => {
 
   return new class ModalCustomPeriodCtrl {
     constructor() {
+
       $scope.period  = {
-        fromDate: new Date(),
-        toDate: new Date(),
-        fromTime: new Date().setHours(0,0,0,0),
-        toTime: new Date().setHours(23, 59, 59, 0)
+        fromDate: datePeriodResolved.fromDate || new Date(),
+        toDate: datePeriodResolved.fromDate || new Date(),
+        fromTime: datePeriodResolved.fromDate || new Date().setHours(0,0,0,0),
+        toTime: datePeriodResolved.fromDate || new Date().setHours(23, 59, 59, 0)
       };
 
       $scope.popups = {
@@ -38,5 +39,5 @@ let ctrl = ($scope, $uibModalInstance, $filter) => {
   };
 };
 
-ctrl.$inject = ['$scope', '$uibModalInstance', '$filter'];
+ctrl.$inject = ['$scope', '$uibModalInstance', 'datePeriodResolved'];
 angular.module('utils.foodio').controller('ModalCustomPeriodCtrl', ctrl);

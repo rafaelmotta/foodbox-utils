@@ -478,17 +478,17 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var ctrl = function ctrl($scope, $uibModalInstance, $filter) {
+var ctrl = function ctrl($scope, $uibModalInstance, datePeriodResolved) {
 
   return new ((function () {
     function ModalCustomPeriodCtrl() {
       _classCallCheck(this, ModalCustomPeriodCtrl);
 
       $scope.period = {
-        fromDate: new Date(),
-        toDate: new Date(),
-        fromTime: new Date().setHours(0, 0, 0, 0),
-        toTime: new Date().setHours(23, 59, 59, 0)
+        fromDate: datePeriodResolved.fromDate || new Date(),
+        toDate: datePeriodResolved.fromDate || new Date(),
+        fromTime: datePeriodResolved.fromDate || new Date().setHours(0, 0, 0, 0),
+        toTime: datePeriodResolved.fromDate || new Date().setHours(23, 59, 59, 0)
       };
 
       $scope.popups = {
@@ -530,7 +530,7 @@ var ctrl = function ctrl($scope, $uibModalInstance, $filter) {
   })())();
 };
 
-ctrl.$inject = ['$scope', '$uibModalInstance', '$filter'];
+ctrl.$inject = ['$scope', '$uibModalInstance', 'datePeriodResolved'];
 angular.module('utils.foodio').controller('ModalCustomPeriodCtrl', ctrl);
 'use strict';
 
@@ -1762,10 +1762,17 @@ var modalCustomPeriod = function modalCustomPeriod($uibModal, $templateCache) {
     _createClass(ModalCustomPeriod, [{
       key: 'open',
       value: function open() {
+        var datePeriod = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+
         return $uibModal.open({
           template: $templateCache.get('/templates/modal-custom-period.html'),
           controller: 'ModalCustomPeriodCtrl as ctrl',
-          windowClass: 'modal-custom-period'
+          windowClass: 'modal-custom-period',
+          resolve: function resolve() {
+            datePeriodResolved: (function () {
+              return datePeriod;
+            });
+          }
         });
       }
     }]);
