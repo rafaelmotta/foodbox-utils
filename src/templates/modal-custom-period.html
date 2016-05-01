@@ -5,18 +5,12 @@
   <div class="row">
     <div class="col-md-6" ng-click="ctrl.open('fromDate')">
       <div class="input-group">
-        <input ng-model="period.fromDate" clear-text="Resetar" close-text="Feito" current-text="Hoje" uib-datepicker-popup="dd/MM/yyyy" datepicker-options="popups.fromDate.options" is-open="popups.fromDate.opened" disabled />
-        <div class="input-group-addon" ng-click="ctrl.togglePopup('fromDate')" >
-          <i class="fa fa-calendar"></i>
-        </div>
+        <input ng-model="period.fromDate" clear-text="Resetar" close-text="Feito" current-text="Hoje" uib-datepicker-popup="dd/MM/yyyy" datepicker-options="popups.fromDate.options" is-open="popups.fromDate.opened" ng-click="ctrl.togglePopup('fromDate')" />
       </div>
     </div>
     <div class="col-md-6" ng-click="ctrl.open('toDate')">
       <div class="input-group">
-        <input ng-model="period.toDate" clear-text="Resetar" close-text="Feito" current-text="Hoje" uib-datepicker-popup="dd/MM/yyyy" datepicker-options="popups.toDate.options" is-open="popups.toDate.opened" disabled />
-        <div class="input-group-addon" ng-click="ctrl.togglePopup('toDate')">
-          <i class="fa fa-calendar"></i>
-        </div>
+        <input ng-model="period.toDate" clear-text="Resetar" close-text="Feito" current-text="Hoje" uib-datepicker-popup="dd/MM/yyyy" datepicker-options="popups.toDate.options" is-open="popups.toDate.opened" ng-click="ctrl.togglePopup('toDate')" />
       </div>
     </div>
   </div>
