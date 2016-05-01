@@ -4,7 +4,7 @@ let ctrl = ($scope, $uibModalInstance, datePeriodResolved) => {
     constructor() {
       $scope.datePeriod = datePeriodResolved;
 
-      if($scope.datePeriod) {
+      if($scope.datePeriod && !_.isEmpty($scope.datePeriod)) {
         $scope.period = angular.copy($scope.datePeriod);
       } else {
         $scope.period  = {
@@ -14,7 +14,6 @@ let ctrl = ($scope, $uibModalInstance, datePeriodResolved) => {
           toTime: new Date().setHours(23, 59, 59, 0)
         };
       }
-
 
       $scope.popups = {
         fromDate: {
