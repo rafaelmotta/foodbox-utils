@@ -1,13 +1,13 @@
 let modalCustomPeriod = ($uibModal, $templateCache) => {
   return new class ModalCustomPeriod {
-    open(datePeriod = null){
+    open(params = {}){
       return $uibModal.open({
         template: $templateCache.get('/templates/modal-custom-period.html'),
         controller: 'ModalCustomPeriodCtrl as ctrl',
         windowClass: 'modal-custom-period',
         resolve: {
           datePeriodResolved: () => {
-            return datePeriod;
+            return params.datePeriod;
           }
         }
       });
