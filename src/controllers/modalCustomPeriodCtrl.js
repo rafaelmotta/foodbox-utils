@@ -2,14 +2,11 @@ let ctrl = ($scope, $uibModalInstance, datePeriodResolved) => {
 
   return new class ModalCustomPeriodCtrl {
     constructor() {
-
-      $scope.datePeriod = datePeriodResolved;
-
       $scope.period  = {
-        fromDate: $scope.datePeriod.fromDate || new Date(),
-        toDate: $scope.datePeriod.fromDate || new Date(),
-        fromTime: $scope.datePeriod.fromDate || new Date().setHours(0,0,0,0),
-        toTime: $scope.datePeriod.fromDate || new Date().setHours(23, 59, 59, 0)
+        fromDate: datePeriodResolved.fromDate || new Date(),
+        toDate: datePeriodResolved.fromDate || new Date(),
+        fromTime: datePeriodResolved.fromDate || new Date().setHours(0,0,0,0),
+        toTime: datePeriodResolved.fromDate || new Date().setHours(23, 59, 59, 0)
       };
 
       $scope.popups = {
