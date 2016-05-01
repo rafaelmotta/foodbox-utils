@@ -5,7 +5,7 @@ let modalCustomPeriod = ($uibModal, $templateCache) => {
         template: $templateCache.get('/templates/modal-custom-period.html'),
         controller: 'ModalCustomPeriodCtrl as ctrl',
         windowClass: 'modal-custom-period',
-        resolve() {
+        resolve: {
           datePeriodResolved: () => {
             return datePeriod;
           }
