@@ -30,6 +30,10 @@ let HttpToken = ($q, $state, $http, hint, storage) => {
         $http.defaults.headers.common[`X-${this.key}-Email`] = user.email;
         $http.defaults.headers.common[`X-${this.key}-Token`] = user.authentication_token;
 
+        if(user.store && user.store.id) {
+          $http.defaults.headers.common[`X-Store-Id`] = user.store.id;
+        }
+
         storage.set(`current${this.key}`, user);
 
         resolve(this.get());

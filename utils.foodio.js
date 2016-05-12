@@ -1618,6 +1618,10 @@ var HttpToken = function HttpToken($q, $state, $http, hint, storage) {
           $http.defaults.headers.common['X-' + _this2.key + '-Email'] = user.email;
           $http.defaults.headers.common['X-' + _this2.key + '-Token'] = user.authentication_token;
 
+          if (user.store && user.store.id) {
+            $http.defaults.headers.common['X-Store-Id'] = user.store.id;
+          }
+
           storage.set('current' + _this2.key, user);
 
           resolve(_this2.get());
