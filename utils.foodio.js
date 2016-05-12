@@ -1326,69 +1326,6 @@ directive.$inject = ['zipcodeApi'];
 angular.module('utils.foodio').directive('zipcode', directive);
 'use strict';
 
-var pusher = function pusher() {
-  var _settings = {
-    key: null,
-    authTransport: 'ajax',
-    baseUrl: 'http://foodio.com.br/admin'
-  };
-
-  var self = this;
-
-  self.setKey = function (value) {
-    _settings.key = value;
-  };
-
-  self.setBaseUrl = function (value) {
-    _settings.baseUrl = value;
-  };
-
-  self.setAuthTransport = function (authTransport) {
-    if (authTransport !== 'ajax' && authTransport !== 'jsonp') {
-      authTransport = 'ajax';
-    }
-
-    _settings.authTransport = authTransport;
-  };
-
-  self.$get = ["$localStorage", "$rootScope", function ($localStorage, $rootScope) {
-    return {
-      subscribe: function subscribe(channel) {
-        if (!_settings.key) {
-          throw new Error('É necessário uma chave para utilizar esse serviço');
-        }
-
-        if (!channel) {
-          throw new Error('Deve ser passado um canal para se inscrever');
-        }
-
-        var costumer = $localStorage['currentCostumer'];
-        var employee = $localStorage['currentEmployee'];
-
-        var headers = {
-          'X-Employee-Email': employee ? employee.email : null,
-          'X-Employee-Token': employee ? employee.authentication_token : null,
-          'X-Costumer-Email': costumer ? costumer.email : null,
-          'X-Costumer-Token': costumer ? costumer.authentication_token : null
-        };
-
-        var pusher = new Pusher(_settings.key, { authEndpoint: _settings.baseUrl + '/companies/' + $rootScope.company.id + '/sessions/pusher/authentication', auth: { headers: headers }, authTransport: _settings.authTransport });
-        return pusher.subscribe(channel);
-      },
-      unsubscribe: function unsubscribe(channel) {
-        if (!channel) {
-          throw new Error('Deve ser passado um canal para se desinscrever');
-        }
-
-        return pusher.unsubscribe(channel);
-      }
-    };
-  }];
-};
-
-angular.module('utils.foodio').provider('pusher', pusher);
-'use strict';
-
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
@@ -2503,3 +2440,66 @@ var tempCart = function tempCart() {
 };
 
 angular.module('utils.foodio').factory('TempCart', tempCart);
+'use strict';
+
+var pusher = function pusher() {
+  var _settings = {
+    key: null,
+    authTransport: 'ajax',
+    baseUrl: 'http://foodio.com.br/admin'
+  };
+
+  var self = this;
+
+  self.setKey = function (value) {
+    _settings.key = value;
+  };
+
+  self.setBaseUrl = function (value) {
+    _settings.baseUrl = value;
+  };
+
+  self.setAuthTransport = function (authTransport) {
+    if (authTransport !== 'ajax' && authTransport !== 'jsonp') {
+      authTransport = 'ajax';
+    }
+
+    _settings.authTransport = authTransport;
+  };
+
+  self.$get = ["$localStorage", "$rootScope", function ($localStorage, $rootScope) {
+    return {
+      subscribe: function subscribe(channel) {
+        if (!_settings.key) {
+          throw new Error('É necessário uma chave para utilizar esse serviço');
+        }
+
+        if (!channel) {
+          throw new Error('Deve ser passado um canal para se inscrever');
+        }
+
+        var costumer = $localStorage['currentCostumer'];
+        var employee = $localStorage['currentEmployee'];
+
+        var headers = {
+          'X-Employee-Email': employee ? employee.email : null,
+          'X-Employee-Token': employee ? employee.authentication_token : null,
+          'X-Costumer-Email': costumer ? costumer.email : null,
+          'X-Costumer-Token': costumer ? costumer.authentication_token : null
+        };
+
+        var pusher = new Pusher(_settings.key, { authEndpoint: _settings.baseUrl + '/companies/' + $rootScope.company.id + '/sessions/pusher/authentication', auth: { headers: headers }, authTransport: _settings.authTransport });
+        return pusher.subscribe(channel);
+      },
+      unsubscribe: function unsubscribe(channel) {
+        if (!channel) {
+          throw new Error('Deve ser passado um canal para se desinscrever');
+        }
+
+        return pusher.unsubscribe(channel);
+      }
+    };
+  }];
+};
+
+angular.module('utils.foodio').provider('pusher', pusher);
