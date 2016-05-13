@@ -6,8 +6,9 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('/templates/edit-button.html',
-    '<button class="btn btn-warning btn-xs">\n' +
+    '<button class="btn btn-warning btn-xs" type="button">\n' +
     '  <i class="fa fa-{{ icon || \'pencil\' }}"></i>\n' +
-    '</button>');
+    '</button>\n' +
+    '');
 }]);
 })();
