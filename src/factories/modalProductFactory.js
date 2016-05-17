@@ -23,7 +23,7 @@ let modalProduct = ($uibModal, productApi, $templateCache) => {
             return params.cart
           },
           productResolved: () => {
-            return productApi.show(params.product).then((response) => {
+            return productApi.show(params.productCategory, params.productSubcategory, params.product).then((response) => {
               return response.data;
             });
           },

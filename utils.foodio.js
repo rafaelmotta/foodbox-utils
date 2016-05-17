@@ -1909,7 +1909,7 @@ var modalProduct = function modalProduct($uibModal, productApi, $templateCache) 
               return params.cart;
             },
             productResolved: function productResolved() {
-              return productApi.show(params.product).then(function (response) {
+              return productApi.show(params.productCategory, params.productSubcategory, params.product).then(function (response) {
                 return response.data;
               });
             },
