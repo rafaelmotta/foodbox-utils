@@ -33,9 +33,12 @@ module.run(['$templateCache', function($templateCache) {
     '\n' +
     '  <div class="product-options pull-right">\n' +
     '\n' +
-    '    <label>Descrição:</label>\n' +
-    '    <blockquote ng-show="product.description" ng-bind-html="product.description"></blockquote>\n' +
-    '    <hr />\n' +
+    '    <div ng-show="product.description" >\n' +
+    '      <label>Descrição:</label>\n' +
+    '      <blockquote ng-bind-html="product.description"></blockquote>\n' +
+    '      <hr />\n' +
+    '    </div>\n' +
+    '\n' +
     '    <label for="cart-item-amount">Selecione a quantidade:</label>\n' +
     '    <select id="cart-item-amount" ng-model="cartItem.amount" ng-options="i as i for i in [1,2,3,4,5,6,7,8,9,10]"></select>\n' +
     '\n' +
@@ -95,6 +98,7 @@ module.run(['$templateCache', function($templateCache) {
     '  <button class="btn btn-default" ng-click="ctrl.close()">\n' +
     '    Cancelar\n' +
     '  </button>\n' +
-    '</div>');
+    '</div>\n' +
+    '');
 }]);
 })();
