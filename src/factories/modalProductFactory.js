@@ -1,4 +1,4 @@
-let modalProduct = ($uibModal, storeProductApi, $templateCache) => {
+let modalProduct = ($uibModal, productApi, $templateCache) => {
   return new class ModalProduct {
     open(params){
 
@@ -22,8 +22,8 @@ let modalProduct = ($uibModal, storeProductApi, $templateCache) => {
           cartResolved: () => {
             return params.cart
           },
-          storeProductResolved: () => {
-            return storeProductApi.show(params.product).then((response) => {
+          productResolved: () => {
+            return productApi.show(params.product).then((response) => {
               return response.data;
             });
           },
@@ -36,5 +36,5 @@ let modalProduct = ($uibModal, storeProductApi, $templateCache) => {
   };
 };
 
-modalProduct.$inject = ['$uibModal', 'storeProductApi', '$templateCache'];
+modalProduct.$inject = ['$uibModal', 'productApi', '$templateCache'];
 angular.module('utils.foodio').factory('modalProduct', modalProduct);

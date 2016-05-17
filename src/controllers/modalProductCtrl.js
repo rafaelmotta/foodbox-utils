@@ -1,8 +1,8 @@
-let ctrl = ($scope, $uibModalInstance, TempCart, cartItemApi, cartResolved, storeProductResolved, cartItemResolved) => {
+let ctrl = ($scope, $uibModalInstance, TempCart, cartItemApi, cartResolved, productResolved, cartItemResolved) => {
 
   return new class ModalProductCustomizationCtrl {
     constructor() {
-      $scope.product = storeProductResolved;
+      $scope.product = productResolved;
       $scope.cart = cartResolved;
       $scope.cartItem = cartItemResolved;
 
@@ -25,5 +25,5 @@ let ctrl = ($scope, $uibModalInstance, TempCart, cartItemApi, cartResolved, stor
   };
 };
 
-ctrl.$inject = ['$scope', '$uibModalInstance', 'TempCart', 'cartItemApi', 'cartResolved', 'storeProductResolved', 'cartItemResolved'];
+ctrl.$inject = ['$scope', '$uibModalInstance', 'TempCart', 'cartItemApi', 'cartResolved', 'productResolved', 'cartItemResolved'];
 angular.module('utils.foodio').controller('ModalProductCtrl', ctrl);
