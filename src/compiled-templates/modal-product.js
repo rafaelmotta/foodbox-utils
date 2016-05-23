@@ -33,6 +33,10 @@ module.run(['$templateCache', function($templateCache) {
     '\n' +
     '  <div class="product-options pull-right">\n' +
     '\n' +
+    '    <div>\n' +
+    '      {{ cartItem }}\n' +
+    '    </div>\n' +
+    '\n' +
     '    <div ng-show="product.description">\n' +
     '      <label>Descrição:</label>\n' +
     '      <blockquote ng-bind-html="product.description"></blockquote>\n' +
