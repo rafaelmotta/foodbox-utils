@@ -68,7 +68,7 @@
 
           <label ng-if="(addonCategory.max > 1 || addonCategory.min > 1) || (!addonCategory.max && !addonCategory.min)"
             ng-disabled="!addon.available">
-            <input type="checkbox" ng-change="ctrl.updatePrice()" ng-disabled="!addon.available" ng-value="{ id: addon.id }"  ng-model="cartItem.cart_item_addons[key][_key]" ng-init="cartItem.cart_item_addons[key][_key] = {}" />
+            <input type="checkbox" ng-change="ctrl.updatePrice()" ng-disabled="!addon.available" ng-value="{ id: addon.id }"  ng-model="cartItem.cart_item_addons[key][addon.id]" ng-init="cartItem.cart_item_addons[key][adddon.id] = {}" />
             {{ addon.name }}
             <span class="addon-price" ng-show="addon.price > 0 && addon.available">({{ addon.price | currency: "R$" }})</span>
             <span class="addon-unavailable" ng-show="!addon.available">Ingrediente não disponível</span>
