@@ -25,7 +25,7 @@
 
   <div class="product-options pull-right">
 
-    <div ng-show="product.description" >
+    <div ng-show="product.description">
       <label>Descrição:</label>
       <blockquote ng-bind-html="product.description"></blockquote>
       <hr />
@@ -34,9 +34,9 @@
     <label for="cart-item-amount">Selecione a quantidade:</label>
     <select id="cart-item-amount" ng-model="cartItem.amount" ng-options="i as i for i in [1,2,3,4,5,6,7,8,9,10]"></select>
 
-    <hr ng-show="product.addon_categories.length > 0">
+    <hr ng-show="product.product_addon_categories.length > 0">
 
-    <div ng-repeat="addonCategory in product.addon_categories" class="addon-categories-list">
+    <div ng-repeat="addonCategory in product.product_addon_categories" class="addon-categories-list">
 
       <div class="addon-category-name">
         {{ addonCategory.name }}
@@ -52,7 +52,7 @@
       </div>
 
       <div class="addons-list">
-        <div ng-repeat="addon in addonCategory.addons" class="addon-item">
+        <div ng-repeat="addon in addonCategory.product_addons" class="addon-item">
           <label ng-if="(addonCategory.max === 1 && addonCategory.min === 1) || (addonCategory.max === 1 && !addonCategory.min) || (!addonCategory.max && addonCategory.min === 1)"
             ng-disabled="!addon.available">
             <input type="radio" ng-disabled="!addon.available" ng-value="addon.id"  ng-model="cartItem.customization_fields[addonCategory.id]">

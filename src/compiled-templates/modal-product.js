@@ -33,7 +33,7 @@ module.run(['$templateCache', function($templateCache) {
     '\n' +
     '  <div class="product-options pull-right">\n' +
     '\n' +
-    '    <div ng-show="product.description" >\n' +
+    '    <div ng-show="product.description">\n' +
     '      <label>Descrição:</label>\n' +
     '      <blockquote ng-bind-html="product.description"></blockquote>\n' +
     '      <hr />\n' +
@@ -42,9 +42,9 @@ module.run(['$templateCache', function($templateCache) {
     '    <label for="cart-item-amount">Selecione a quantidade:</label>\n' +
     '    <select id="cart-item-amount" ng-model="cartItem.amount" ng-options="i as i for i in [1,2,3,4,5,6,7,8,9,10]"></select>\n' +
     '\n' +
-    '    <hr ng-show="product.addon_categories.length > 0">\n' +
+    '    <hr ng-show="product.product_addon_categories.length > 0">\n' +
     '\n' +
-    '    <div ng-repeat="addonCategory in product.addon_categories" class="addon-categories-list">\n' +
+    '    <div ng-repeat="addonCategory in product.product_addon_categories" class="addon-categories-list">\n' +
     '\n' +
     '      <div class="addon-category-name">\n' +
     '        {{ addonCategory.name }}\n' +
@@ -60,7 +60,7 @@ module.run(['$templateCache', function($templateCache) {
     '      </div>\n' +
     '\n' +
     '      <div class="addons-list">\n' +
-    '        <div ng-repeat="addon in addonCategory.addons" class="addon-item">\n' +
+    '        <div ng-repeat="addon in addonCategory.product_addons" class="addon-item">\n' +
     '          <label ng-if="(addonCategory.max === 1 && addonCategory.min === 1) || (addonCategory.max === 1 && !addonCategory.min) || (!addonCategory.max && addonCategory.min === 1)"\n' +
     '            ng-disabled="!addon.available">\n' +
     '            <input type="radio" ng-disabled="!addon.available" ng-value="addon.id"  ng-model="cartItem.customization_fields[addonCategory.id]">\n' +
