@@ -6,8 +6,8 @@ let ctrl = ($scope, $uibModalInstance, cartItemApi, cartResolved, productResolve
       $scope.cart = cartResolved;
 
       let defaultCartItem = {
-        amount: 0,
-        note: 0,
+        amount: 1,
+        note: null,
         total: $scope.product.price,
         product: $scope.product,
         cart_item_addons_to_remove: [],
