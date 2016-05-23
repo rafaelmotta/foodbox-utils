@@ -34,7 +34,7 @@ module.run(['$templateCache', function($templateCache) {
     '  <div class="product-options pull-right">\n' +
     '\n' +
     '    <div>\n' +
-    '      {{ cartItem }}\n' +
+    '      {{ cartItem.cart_item_addons }}\n' +
     '    </div>\n' +
     '\n' +
     '    <div ng-show="product.description">\n' +
@@ -48,7 +48,7 @@ module.run(['$templateCache', function($templateCache) {
     '\n' +
     '    <hr ng-show="product.product_addon_categories.length > 0">\n' +
     '\n' +
-    '    <div ng-repeat="addonCategory in product.product_addon_categories" class="addon-categories-list">\n' +
+    '    <div ng-repeat="(key, addonCategory) in product.product_addon_categories" class="addon-categories-list">\n' +
     '\n' +
     '      <div class="addon-category-name">\n' +
     '        {{ addonCategory.name }}\n' +
@@ -64,14 +64,16 @@ module.run(['$templateCache', function($templateCache) {
     '      </div>\n' +
     '\n' +
     '      <div class="addons-list">\n' +
-    '        <div ng-repeat="(key, addon) in addonCategory.product_addons" class="addon-item">\n' +
+    '        <div ng-repeat="(_key, addon) in addonCategory.product_addons" class="addon-item">\n' +
+    '\n' +
     '          <label ng-if="(addonCategory.max === 1 && addonCategory.min === 1) || (addonCategory.max === 1 && !addonCategory.min) || (!addonCategory.max && addonCategory.min === 1)"\n' +
     '            ng-disabled="!addon.available">\n' +
-    '            <input type="radio"  ng-change="ctrl.updatePrice()" ng-disabled="!addon.available" ng-value="addon.id" ng-model="cartItem.cart_item_addons[key]">\n' +
+    '            <input type="radio"  ng-change="ctrl.updatePrice()" ng-disabled="!addon.available" ng-value="addon.id" ng-model="cartItem.cart_item_addons[key]" ng-init="cartItem.cart_item_addons[key] = addonCategory.product_addons[0]">\n' +
     '            {{ addon.name }}\n' +
     '            <span class="addon-price" ng-show="addon.price > 0 && addon.available">({{ addon.price | currency: "R$" }})</span>\n' +
     '            <span class="addon-unavailable" ng-show="!addon.available">Ingrediente não disponível</span>\n' +
     '          </label>\n' +
+    '\n' +
     '          <label ng-if="(addonCategory.max > 1 || addonCategory.min > 1) || (!addonCategory.max && !addonCategory.min)"\n' +
     '            ng-disabled="!addon.available">\n' +
     '            <input type="checkbox" ng-change="ctrl.updatePrice()" ng-disabled="!addon.available" ng-model="cartItem.cart_item_addons[key]" />\n' +
