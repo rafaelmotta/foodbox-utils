@@ -10,8 +10,7 @@ let ctrl = ($scope, $uibModalInstance, cartItemApi, cartResolved, productResolve
         note: null,
         total: $scope.product.price,
         product: $scope.product,
-        cart_item_addons_to_remove: [],
-        cart_item_addons_to_put: []
+        cart_item_addons: []
       }
 
       $scope.cartItem = cartItemResolved || defaultCartItem;
@@ -22,8 +21,8 @@ let ctrl = ($scope, $uibModalInstance, cartItemApi, cartResolved, productResolve
     updatePrice() {
       let addonsPrice = 0;
 
-      for(let i in $scope.cartItem.cart_item_addons_to_put) {
-        let addon = $scope.cartItem.cart_item_addons_to_put[i];
+      for(let i in $scope.cartItem.cart_item_addons) {
+        let addon = $scope.cartItem.cart_item_addons[i];
         addonsPrice += parseFloat(addon.price);
       }
 
