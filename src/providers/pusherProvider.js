@@ -1,11 +1,11 @@
 let pusher = () => {
+  let self = this;
+
   let _settings = {
     key: null,
     authTransport: 'ajax',
     baseUrl: 'http://foodio.com.br/admin'
   };
-
-  let self = this;
 
   self.setKey = (value) => {
     _settings.key = value;
