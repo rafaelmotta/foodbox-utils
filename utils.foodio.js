@@ -696,7 +696,7 @@ var ctrl = function ctrl($scope, $uibModalInstance, cartItemApi, cartResolved, p
       for (var i in $scope.product.product_addon_categories) {
         var addonCategory = $scope.product.product_addon_categories[i];
 
-        for (var j in $scope.product.product_addon_categories[i].product_addons[j]) {
+        for (var j in $scope.product.product_addon_categories[i].product_addons) {
           var addon = $scope.product.product_addon_categories[i].product_addons[j];
 
           if (addonCategory.max === 1 && addonCategory.min === 1 || addonCategory.max === 1 && !addonCategory.min || !addonCategory.max && addonCategory.min === 1) {
@@ -704,7 +704,7 @@ var ctrl = function ctrl($scope, $uibModalInstance, cartItemApi, cartResolved, p
           } else {
             var selected = false;
 
-            if (cartItemResolved.cart_item_addons_to_put.length) {
+            if (cartItemResolved && cartItemResolved.cart_item_addons_to_put.length) {
               if (_.findWhere(cartItemResolved.cart_item_addons_to_put, { product_addon_id: addon.id })) {
                 selected = true;
               }
