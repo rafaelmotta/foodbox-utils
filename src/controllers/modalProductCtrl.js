@@ -13,6 +13,24 @@ let ctrl = ($scope, $uibModalInstance, cartItemApi, cartResolved, productResolve
         cart_item_addons: []
       }
 
+      for(let i in $scope.product.product_addon_categories) {
+        let addonCategory = $scope.product.product_addon_categories[i];
+
+        for(let j in $scope.product.product_addon_categories[i].product_addons[j]) {
+          let addon = $scope.product.product_addon_categories[i].product_addons[j];
+
+          if((addonCategory.max === 1 && addonCategory.min === 1) || (addonCategory.max === 1 && !addonCategory.min)|| (!addonCategory.max && addonCategory.min === 1))  {
+            defaultCartItem.cart_item_addons[i][j] = {
+              id: addon.id,
+              price: addon.price,
+              selected: addonCategory.auto_fill ? true : false
+            };
+          } else {
+            defaultCartItem.cart_item_addons[i] = addonCategory.product_addons[0];
+          }
+        }
+      }
+
       $scope.cartItem = cartItemResolved || defaultCartItem;
     }
 
