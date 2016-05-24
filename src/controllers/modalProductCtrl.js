@@ -6,8 +6,8 @@ let ctrl = ($scope, $uibModalInstance, cartItemApi, cartResolved, productResolve
       $scope.cart = cartResolved;
 
       let defaultCartItem = {
-        amount: 1,
-        note: null,
+        amount: cartItemResolved ? cartItemResolved.amount : 1,
+        note: cartItemResolved ? cartItemResolved.note : null,
         total: $scope.product.price,
         product: $scope.product,
         cart_item_addons: []
@@ -43,7 +43,7 @@ let ctrl = ($scope, $uibModalInstance, cartItemApi, cartResolved, productResolve
         }
       }
 
-      $scope.cartItem = cartItemResolved || defaultCartItem;
+      $scope.cartItem = defaultCartItem;
     }
 
     // @name updatePrice
