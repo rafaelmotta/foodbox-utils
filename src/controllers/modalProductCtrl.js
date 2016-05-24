@@ -22,8 +22,15 @@ let ctrl = ($scope, $uibModalInstance, cartItemApi, cartResolved, productResolve
       let addonsPrice = 0;
 
       for(let i in $scope.cartItem.cart_item_addons) {
-        let addon = $scope.cartItem.cart_item_addons[i];
-        addonsPrice += parseFloat(addon.price);
+        let a = $scope.cartItem.cart_item_addons[i];
+
+        if(a.id && a.price) {
+          addonsPrice += parseFloat(a.price);
+        } else {
+          for(let j in a) {
+            addonsPrice += parseFloat(j.price);
+          }
+        }
       }
 
       $scope.cartItem.total = (parseFloat($scope.product.price) + addonsPrice) * $scope.cartItem.amount;

@@ -705,8 +705,15 @@ var ctrl = function ctrl($scope, $uibModalInstance, cartItemApi, cartResolved, p
         var addonsPrice = 0;
 
         for (var i in $scope.cartItem.cart_item_addons) {
-          var addon = $scope.cartItem.cart_item_addons[i];
-          addonsPrice += parseFloat(addon.price);
+          var a = $scope.cartItem.cart_item_addons[i];
+
+          if (a.id && a.price) {
+            addonsPrice += parseFloat(a.price);
+          } else {
+            for (var j in a) {
+              addonsPrice += parseFloat(j.price);
+            }
+          }
         }
 
         $scope.cartItem.total = (parseFloat($scope.product.price) + addonsPrice) * $scope.cartItem.amount;
