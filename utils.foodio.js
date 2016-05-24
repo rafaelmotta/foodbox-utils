@@ -714,6 +714,10 @@ var ctrl = function ctrl($scope, $uibModalInstance, cartItemApi, cartResolved, p
               }
             }
 
+            if (!defaultCartItem.cart_item_addons[i]) {
+              defaultCartItem.cart_item_addons[i] = [];
+            }
+
             defaultCartItem.cart_item_addons[i][j] = {
               id: addon.id,
               price: addon.price,

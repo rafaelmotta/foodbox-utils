@@ -35,12 +35,15 @@ let ctrl = ($scope, $uibModalInstance, cartItemApi, cartResolved, productResolve
               }
             }
 
+            if(!defaultCartItem.cart_item_addons[i]) {
+              defaultCartItem.cart_item_addons[i] = [];
+            }
+
             defaultCartItem.cart_item_addons[i][j] = {
               id: addon.id,
               price: addon.price,
               selected: selected
             };
-
           }
         }
       }
