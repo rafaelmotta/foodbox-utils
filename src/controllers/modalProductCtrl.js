@@ -90,7 +90,7 @@ let ctrl = ($scope, $uibModalInstance, cartItemApi, cartResolved, productResolve
     }
 
     _getCartMethod() {
-      return $scope.cartItem ? 'update' : 'create';
+      return $scope.cartItem.id ? 'update' : 'create';
     }
   };
 };

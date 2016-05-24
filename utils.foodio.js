@@ -778,7 +778,7 @@ var ctrl = function ctrl($scope, $uibModalInstance, cartItemApi, cartResolved, p
     }, {
       key: '_getCartMethod',
       value: function _getCartMethod() {
-        return $scope.cartItem ? 'update' : 'create';
+        return $scope.cartItem.id ? 'update' : 'create';
       }
     }]);
 
