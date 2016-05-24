@@ -684,10 +684,11 @@ var ctrl = function ctrl($scope, $uibModalInstance, cartItemApi, cartResolved, p
 
       $scope.product = productResolved;
       $scope.cart = cartResolved;
+      $scope.cartItem = cartItemResolved;
 
       var defaultCartItem = {
-        amount: cartItemResolved ? cartItemResolved.amount : 1,
-        note: cartItemResolved ? cartItemResolved.note : null,
+        amount: $scope.cartItem ? cartItemResolved.amount : 1,
+        note: $scope.cartItem ? cartItemResolved.note : null,
         total: $scope.product.price,
         product: $scope.product,
         cart_item_addons: []
@@ -777,7 +778,7 @@ var ctrl = function ctrl($scope, $uibModalInstance, cartItemApi, cartResolved, p
     }, {
       key: '_getCartMethod',
       value: function _getCartMethod() {
-        return $scope.cartItem.id ? 'update' : 'create';
+        return $scope.cartItem ? 'update' : 'create';
       }
     }]);
 
