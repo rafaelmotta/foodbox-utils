@@ -28,7 +28,11 @@ let ctrl = ($scope, $uibModalInstance, cartItemApi, cartResolved, productResolve
           addonsPrice += parseFloat(a.price);
         } else {
           for(let j in a) {
-            addonsPrice += parseFloat(j.price);
+            let addon = a[j];
+
+            if(addon.selected) {
+              addonsPrice += parseFloat(addon.price);
+            }
           }
         }
       }

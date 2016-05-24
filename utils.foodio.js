@@ -711,7 +711,11 @@ var ctrl = function ctrl($scope, $uibModalInstance, cartItemApi, cartResolved, p
             addonsPrice += parseFloat(a.price);
           } else {
             for (var j in a) {
-              addonsPrice += parseFloat(j.price);
+              var addon = a[j];
+
+              if (addon.selected) {
+                addonsPrice += parseFloat(addon.price);
+              }
             }
           }
         }
