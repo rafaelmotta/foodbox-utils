@@ -68,7 +68,7 @@ module.run(['$templateCache', function($templateCache) {
     '\n' +
     '          <label ng-if="(addonCategory.max === 1 && addonCategory.min === 1) || (addonCategory.max === 1 && !addonCategory.min) || (!addonCategory.max && addonCategory.min === 1)"\n' +
     '            ng-disabled="!addon.available">\n' +
-    '            <input type="radio"  ng-change="ctrl.updatePrice()" ng-disabled="!addon.available" ng-value="{ id: addon.id }" ng-model="cartItem.cart_item_addons[key]" ng-init="cartItem.cart_item_addons[key] = { id: addonCategory.product_addons[0] }">\n' +
+    '            <input type="radio"  ng-change="ctrl.updatePrice()" ng-disabled="!addon.available" ng-value="{ id: addon.id }" ng-model="cartItem.cart_item_addons[key]" ng-init="cartItem.cart_item_addons[key] = { id: addonCategory.product_addons[0].id }">\n' +
     '            {{ addon.name }}\n' +
     '            <span class="addon-price" ng-show="addon.price > 0 && addon.available">({{ addon.price | currency: "R$" }})</span>\n' +
     '            <span class="addon-unavailable" ng-show="!addon.available">Ingrediente não disponível</span>\n' +
