@@ -700,10 +700,22 @@ var ctrl = function ctrl($scope, $uibModalInstance, cartItemApi, cartResolved, p
           var addon = $scope.product.product_addon_categories[i].product_addons[j];
 
           if (addonCategory.max === 1 && addonCategory.min === 1 || addonCategory.max === 1 && !addonCategory.min || !addonCategory.max && addonCategory.min === 1) {
+            var selected = false;
+
+            if (cartItemResolved.cart_item_addons_to_put.length) {
+              if (_.findWhere(cartItemResolved.cart_item_addons_to_put, { id: addon.id })) {
+                selected = true;
+              }
+            } else {
+              if (addonCategory.auto_fill) {
+                selected = true;
+              }
+            }
+
             defaultCartItem.cart_item_addons[i][j] = {
               id: addon.id,
               price: addon.price,
-              selected: addonCategory.auto_fill ? true : false
+              selected: selected
             };
           } else {
             defaultCartItem.cart_item_addons[i] = addonCategory.product_addons[0];
