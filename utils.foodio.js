@@ -2504,7 +2504,7 @@ angular.module('utils.foodio').factory('TempCart', tempCart);
 'use strict';
 
 var pusher = function pusher() {
-  var self = undefined;
+  var self = this;
 
   var _settings = {
     key: null,
