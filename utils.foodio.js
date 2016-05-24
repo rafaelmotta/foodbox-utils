@@ -709,10 +709,6 @@ var ctrl = function ctrl($scope, $uibModalInstance, cartItemApi, cartResolved, p
           addonsPrice += parseFloat(addon.price);
         }
 
-        console.log(addonsPrice);
-        console.log($scope.product.price);
-        console.log($scope.cartItem.amount);
-
         $scope.cartItem.total = (parseFloat($scope.product.price) + addonsPrice) * $scope.cartItem.amount;
       }
 
