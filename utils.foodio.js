@@ -697,12 +697,24 @@ var ctrl = function ctrl($scope, $uibModalInstance, cartItemApi, cartResolved, p
       for (var i in $scope.product.product_addon_categories) {
         var addonCategory = $scope.product.product_addon_categories[i];
 
+        if (addonCategory.max === 1 && addonCategory.min === 1 || addonCategory.max === 1 && !addonCategory.min || !addonCategory.max && addonCategory.min === 1) {
+          defaultCartItem.cart_item_addons[i] = addonCategory.product_addons[0];
+
+          if (cartItemResolved && cartItemResolved.cart_item_addons_to_put.length) {
+            var c = cartItemResolved.cart_item_addons_to_put[i];
+
+            for (var j in $scope.product.product_addon_categories[i].product_addons) {
+              if ($scope.product.product_addon_categories[i].product_addons[j].id === cartItemResolved.cart_item_addons_to_put[i].product_addon_id) {
+                defaultCartItem.cart_item_addons[i] = $scope.product.product_addon_categories[i].product_addons[j];
+              }
+            }
+          }
+        }
+
         for (var j in $scope.product.product_addon_categories[i].product_addons) {
           var addon = $scope.product.product_addon_categories[i].product_addons[j];
 
-          if (addonCategory.max === 1 && addonCategory.min === 1 || addonCategory.max === 1 && !addonCategory.min || !addonCategory.max && addonCategory.min === 1) {
-            defaultCartItem.cart_item_addons[i] = addonCategory.product_addons[0];
-          } else {
+          if (addonCategory.max === 1 && addonCategory.min === 1 || addonCategory.max === 1 && !addonCategory.min || !addonCategory.max && addonCategory.min === 1) {} else {
             var selected = false;
 
             if (cartItemResolved && cartItemResolved.cart_item_addons_to_put.length) {
@@ -769,6 +781,9 @@ var ctrl = function ctrl($scope, $uibModalInstance, cartItemApi, cartResolved, p
           $uibModalInstance.close({ cart: cart.plain() });
         });
       }
+    }, {
+      key: '_setAddons',
+      value: function _setAddons() {}
 
       // @name close
       // @description Fecha modal

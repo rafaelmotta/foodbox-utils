@@ -17,11 +17,24 @@ let ctrl = ($scope, $uibModalInstance, cartItemApi, cartResolved, productResolve
       for(let i in $scope.product.product_addon_categories) {
         let addonCategory = $scope.product.product_addon_categories[i];
 
+        if (addonCategory.max === 1 && addonCategory.min === 1 || addonCategory.max === 1 && !addonCategory.min || !addonCategory.max && addonCategory.min === 1) {
+          defaultCartItem.cart_item_addons[i] = addonCategory.product_addons[0];
+
+          if(cartItemResolved && cartItemResolved.cart_item_addons_to_put.length) {
+            let c = cartItemResolved.cart_item_addons_to_put[i];
+
+            for(let j in $scope.product.product_addon_categories[i].product_addons) {
+              if($scope.product.product_addon_categories[i].product_addons[j].id === cartItemResolved.cart_item_addons_to_put[i].product_addon_id) {
+                defaultCartItem.cart_item_addons[i] = $scope.product.product_addon_categories[i].product_addons[j];
+              }
+            }
+          }
+        }
+
         for(let j in $scope.product.product_addon_categories[i].product_addons) {
           let addon = $scope.product.product_addon_categories[i].product_addons[j];
 
           if((addonCategory.max === 1 && addonCategory.min === 1) || (addonCategory.max === 1 && !addonCategory.min)|| (!addonCategory.max && addonCategory.min === 1))  {
-            defaultCartItem.cart_item_addons[i] = addonCategory.product_addons[0];
 
           } else {
             let selected = false;
@@ -83,6 +96,10 @@ let ctrl = ($scope, $uibModalInstance, cartItemApi, cartResolved, productResolve
       cartItemApi[method]($scope.cartItem, { cart_id: $scope.cart.id }).then((cart) => {
         $uibModalInstance.close({ cart: cart.plain() });
       });
+    }
+
+    _setAddons() {
+
     }
 
     // @name close
