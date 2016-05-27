@@ -8,9 +8,7 @@
     {{ cartItem.total | currency: "R$" }}
   </div>
 </div>
-
 <div class="modal-body clearfix">
-
   <aside class="pull-left">
     <img class="product-image img-thumbnail" ng-src="{{ product.img.medium }}" width="280" height="280" alt="Foto do produto com nome {{ product.name }}">
     <p class="product-description">
@@ -22,26 +20,16 @@
       A partir de {{ product.price | currency: "R$" }}
     </p>
   </aside>
-
   <div class="product-options pull-right">
-
-    <div>
-      {{ cartItem.cart_items }}
-    </div>
-
     <div ng-show="product.description">
       <label>Descrição:</label>
       <blockquote ng-bind-html="product.description"></blockquote>
       <hr />
     </div>
-
     <label for="cart-item-amount">Selecione a quantidade:</label>
     <select id="cart-item-amount" ng-model="cartItem.amount" ng-options="i as i for i in [1,2,3,4,5,6,7,8,9,10]" ng-change="ctrl.updatePrice()"></select>
-
     <hr ng-show="product.product_addon_categories.length > 0">
-
     <div ng-repeat="(key, addonCategory) in product.product_addon_categories" class="addon-categories-list">
-
       <div class="addon-category-name">
         {{ addonCategory.name }}
         <small ng-show="!addonCategory.max && !addonCategory.min">Escolha quantos ingredientes desejar</span></small>
@@ -54,10 +42,8 @@
           <span ng-show="addonCategory.max > 1 && !addonCategory.min">Escolha até {{ addonCategory.max }} ingredientes</span>
         </small>
       </div>
-
       <div class="addons-list">
         <div ng-repeat="(_key, addon) in addonCategory.product_addons" class="addon-item">
-
           <label ng-if="(addonCategory.max === 1 && addonCategory.min === 1) || (addonCategory.max === 1 && !addonCategory.min) || (!addonCategory.max && addonCategory.min === 1)"
             ng-disabled="!addon.available">
             <input type="radio" ng-change="ctrl.updatePrice()" ng-disabled="!addon.available" ng-value="addon" ng-model="cartItem.cart_item_addons[key]">
@@ -65,7 +51,6 @@
             <span class="addon-price" ng-show="addon.price > 0 && addon.available">({{ addon.price | currency: "R$" }})</span>
             <span class="addon-unavailable" ng-show="!addon.available">Ingrediente não disponível</span>
           </label>
-
           <label ng-if="(addonCategory.max > 1 || addonCategory.min > 1) || (!addonCategory.max && !addonCategory.min)"
             ng-disabled="!addon.available">
             <input type="checkbox" ng-change="ctrl.updatePrice()" ng-disabled="!addon.available" ng-model="cartItem.cart_item_addons[key][_key].selected"  />
@@ -76,22 +61,20 @@
         </div>
       </div>
     </div>
-
     <hr>
     <label for="cart-item-note">Deseja fazer alguma observação?</label>
     <textarea id="cart-item-note" rows="3" ng-model="cartItem.note"></textarea>
     <limit maxlength="150" model="cartItem.note"></limit>
   </div>
 </div>
-
 <div class="modal-footer">
-  <button class="btn btn-success" ng-click="ctrl.add()" ng-show="!isEditing">
+  <button class="btn btn-success" ng-click="ctrl.add()" ng-show="!cartItem.id">
     <i class="fa fa-plus-square"></i>
     Adicionar
   </button>
-  <button class="btn btn-success" ng-click="ctrl.add()" ng-show="isEditing">
+  <button class="btn btn-success" ng-click="ctrl.add()" ng-show="cartItem.id">
     <i class="fa fa-pencil"></i>
-    Confirmar edição
+    Editar
   </button>
   <button class="btn btn-default" ng-click="ctrl.close()">
     Cancelar
