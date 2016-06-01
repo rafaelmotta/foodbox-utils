@@ -11,6 +11,7 @@ let ctrl = ($scope, $uibModalInstance, cartItemApi, cartResolved, productResolve
         note: cartItemResolved ? cartItemResolved.note : null,
         total: $scope.product.price,
         product: $scope.product,
+        bonificable: $scope.product.bonificable,
         cart_item_addons: []
       }
 
@@ -96,10 +97,6 @@ let ctrl = ($scope, $uibModalInstance, cartItemApi, cartResolved, productResolve
       cartItemApi[method]($scope.cartItem, { cart_id: $scope.cart.id }).then((cart) => {
         $uibModalInstance.close({ cart: cart.plain() });
       });
-    }
-
-    _setAddons() {
-
     }
 
     // @name close
