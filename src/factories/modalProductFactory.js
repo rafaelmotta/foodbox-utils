@@ -19,15 +19,18 @@ let modalProduct = ($uibModal, menuApi, $templateCache) => {
         controller: 'ModalProductCtrl as ctrl',
         windowClass: 'modal-product',
         resolve: {
-          cartResolved: () => {
+          bonificationResolved() {
+            return params.product.bonification;
+          },
+          cartResolved() {
             return params.cart
           },
-          productResolved: () => {
+          productResolved() {
             return menuApi.show(params.product).then((response) => {
               return response.data;
             });
           },
-          cartItemResolved: () => {
+          cartItemResolved() {
             return params.cartItem;
           }
         }
