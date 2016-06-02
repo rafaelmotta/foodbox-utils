@@ -26,6 +26,13 @@
       <blockquote ng-bind-html="product.description"></blockquote>
       <hr />
     </div>
+    <div ng-show="product.bonifications.length">
+      <label>Você ganha:</label>
+      <span ng-repeat="(key, b) in product.bonifications">
+        <strong>{{ b.amount }}x</strong>{{ b.bonification.name.toLowerCase() }}<span ng-show="key !== product.bonifications.length - 1 && key !== product.bonifications.length - 2">,</span><span ng-show="key === product.bonifications.length - 2"> e</span><span ng-show="(key) === product.bonifications.length - 1">.</span>
+      </span>
+      <hr />
+    </div>
     <label for="cart-item-amount">Selecione a quantidade:</label>
     <select id="cart-item-amount" ng-model="cartItem.amount" ng-options="i as i for i in [1,2,3,4,5,6,7,8,9,10]" ng-change="ctrl.updatePrice()"></select>
     <hr ng-show="product.product_addon_categories.length > 0">

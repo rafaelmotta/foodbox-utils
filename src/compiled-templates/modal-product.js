@@ -34,6 +34,13 @@ module.run(['$templateCache', function($templateCache) {
     '      <blockquote ng-bind-html="product.description"></blockquote>\n' +
     '      <hr />\n' +
     '    </div>\n' +
+    '    <div ng-show="product.bonifications.length">\n' +
+    '      <label>Você ganha:</label>\n' +
+    '      <span ng-repeat="(key, b) in product.bonifications">\n' +
+    '        <strong>{{ b.amount }}x</strong>{{ b.bonification.name.toLowerCase() }}<span ng-show="key !== product.bonifications.length - 1 && key !== product.bonifications.length - 2">,</span><span ng-show="key === product.bonifications.length - 2"> e</span><span ng-show="(key) === product.bonifications.length - 1">.</span>\n' +
+    '      </span>\n' +
+    '      <hr />\n' +
+    '    </div>\n' +
     '    <label for="cart-item-amount">Selecione a quantidade:</label>\n' +
     '    <select id="cart-item-amount" ng-model="cartItem.amount" ng-options="i as i for i in [1,2,3,4,5,6,7,8,9,10]" ng-change="ctrl.updatePrice()"></select>\n' +
     '    <hr ng-show="product.product_addon_categories.length > 0">\n' +
