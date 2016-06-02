@@ -35,10 +35,12 @@ module.run(['$templateCache', function($templateCache) {
     '      <hr />\n' +
     '    </div>\n' +
     '    <div ng-show="product.bonifications.length">\n' +
-    '      <label>Você ganha:</label>\n' +
-    '      <span ng-repeat="(key, b) in product.bonifications">\n' +
-    '        <strong>{{ b.amount }}x</strong>{{ b.bonification.name.toLowerCase() }}<span ng-show="key !== product.bonifications.length - 1 && key !== product.bonifications.length - 2">,</span><span ng-show="key === product.bonifications.length - 2"> e</span><span ng-show="(key) === product.bonifications.length - 1">.</span>\n' +
-    '      </span>\n' +
+    '      <label>Na compra desse produto você ganha:</label>\n' +
+    '      <blockquote>\n' +
+    '        <span ng-repeat="(key, b) in product.bonifications">\n' +
+    '          <strong>{{ b.amount * cartItem.amount }}x</strong>{{ b.bonification.name.toLowerCase() }}<span ng-show="key !== product.bonifications.length - 1 && key !== product.bonifications.length - 2">,</span><span ng-show="key === product.bonifications.length - 2"> e</span><span ng-show="(key) === product.bonifications.length - 1">.</span>\n' +
+    '        </span>\n' +
+    '      </blockquote>\n' +
     '      <hr />\n' +
     '    </div>\n' +
     '    <label for="cart-item-amount">Selecione a quantidade:</label>\n' +
