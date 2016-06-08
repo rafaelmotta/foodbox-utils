@@ -34,15 +34,6 @@ module.run(['$templateCache', function($templateCache) {
     '      <blockquote ng-bind-html="product.description"></blockquote>\n' +
     '      <hr />\n' +
     '    </div>\n' +
-    '    <div ng-show="product.bonifications.length">\n' +
-    '      <label>Na compra desse produto você ganha:</label>\n' +
-    '      <blockquote>\n' +
-    '        <span ng-repeat="(key, b) in product.bonifications">\n' +
-    '          <strong>{{ b.amount * cartItem.amount }}x </strong>{{ b.bonification.name.toLowerCase() }}<span ng-show="key !== product.bonifications.length - 1 && key !== product.bonifications.length - 2">,</span><span ng-show="key === product.bonifications.length - 2"> e</span><span ng-show="(key) === product.bonifications.length - 1">.</span>\n' +
-    '        </span>\n' +
-    '      </blockquote>\n' +
-    '      <hr />\n' +
-    '    </div>\n' +
     '    <label for="cart-item-amount">Selecione a quantidade:</label>\n' +
     '    <select id="cart-item-amount" ng-model="cartItem.amount" ng-options="i as i for i in [1,2,3,4,5,6,7,8,9,10]" ng-change="ctrl.updatePrice()"></select>\n' +
     '    <hr ng-show="product.product_addon_categories.length > 0">\n' +
@@ -67,6 +58,7 @@ module.run(['$templateCache', function($templateCache) {
     '            {{ addon.name }}\n' +
     '            <span class="addon-price" ng-show="addon.price > 0 && addon.available">({{ addon.price | currency: "R$" }})</span>\n' +
     '            <span class="addon-unavailable" ng-show="!addon.available">Ingrediente não disponível</span>\n' +
+    '            <span class="addon-description" ng-show="addon.available && addon.description">{{ addon.description }}</span>\n' +
     '          </label>\n' +
     '          <label ng-if="(addonCategory.max > 1 || addonCategory.min > 1) || (!addonCategory.max && !addonCategory.min)"\n' +
     '            ng-disabled="!addon.available">\n' +
