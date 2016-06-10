@@ -34,9 +34,6 @@ module.run(['$templateCache', function($templateCache) {
     '      <blockquote ng-bind-html="product.description"></blockquote>\n' +
     '      <hr />\n' +
     '    </div>\n' +
-    '\n' +
-    '    {{ cartItem }}\n' +
-    '\n' +
     '    <label for="cart-item-amount">Selecione a quantidade:</label>\n' +
     '    <select id="cart-item-amount" ng-model="cartItem.amount" ng-options="i as i for i in [1,2,3,4,5,6,7,8,9,10]" ng-change="ctrl.updatePrice()"></select>\n' +
     '    <hr ng-show="product.product_addon_categories.length > 0">\n' +
