@@ -53,7 +53,7 @@ module.run(['$templateCache', function($templateCache) {
     '      <div class="addons-list">\n' +
     '        <div ng-repeat="(_key, addon) in addonCategory.product_addons" class="addon-item">\n' +
     '\n' +
-    '          <label ng-disabled="!addon.available" ng-if="!addon.multiple">\n' +
+    '          <label ng-disabled="!addon.available" ng-if="!addonCategory.multiple">\n' +
     '            <input type="radio" ng-model="cartItem.cart_item_addons[key]" ng-change="ctrl.updatePrice()" ng-disabled="!addon.available" ng-value="addon" />\n' +
     '            {{ addon.name }}\n' +
     '            <span class="addon-price" ng-show="addon.price > 0 && addon.available">({{ addon.price | currency: "R$" }})</span>\n' +
@@ -61,7 +61,7 @@ module.run(['$templateCache', function($templateCache) {
     '            <span class="addon-description" ng-show="addon.available && addon.description">{{ addon.description }}</span>\n' +
     '          </label>\n' +
     '\n' +
-    '          <label ng-disabled="!addon.available" ng-if="addon.multiple">\n' +
+    '          <label ng-disabled="!addon.available" ng-if="addonCategory.multiple">\n' +
     '            <input type="checkbox" ng-model="cartItem.cart_item_addons[key][_key].selected" ng-change="ctrl.updatePrice()" ng-disabled="!addon.available" />\n' +
     '            {{ addon.name }}\n' +
     '            <span class="addon-price" ng-show="addon.price > 0 && addon.available">({{ addon.price | currency: "R$" }})</span>\n' +
