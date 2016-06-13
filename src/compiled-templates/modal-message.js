@@ -10,14 +10,13 @@ module.run(['$templateCache', function($templateCache) {
     '  <h4>{{ message.title }}</h4>\n' +
     '</div>\n' +
     '<div class="modal-body">\n' +
-    '  <div class="alert alert-info">\n' +
-    '    {{ message.content }}\n' +
-    '  </div>\n' +
+    '  <div class="alert alert-info" ng-bind-html="message.content"></div>\n' +
     '</div>\n' +
     '<div class="modal-footer">\n' +
     '  <button class="btn btn-default" ng-click="ctrl.close();">\n' +
     '    Fechar\n' +
     '  </button>\n' +
-    '</div>');
+    '</div>\n' +
+    '');
 }]);
 })();

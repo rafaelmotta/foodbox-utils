@@ -2,9 +2,7 @@
   <h4>{{ message.title }}</h4>
 </div>
 <div class="modal-body">
-  <div class="alert alert-info">
-    {{ message.content }}
-  </div>
+  <div class="alert alert-info" ng-bind-html="message.content"></div>
 </div>
 <div class="modal-footer">
   <button class="btn btn-default" ng-click="ctrl.close();">
