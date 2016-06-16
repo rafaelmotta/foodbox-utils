@@ -778,7 +778,7 @@ var ctrl = function ctrl($scope, $uibModalInstance, cartItemApi, cartResolved, p
       value: function add() {
         var method = this._getCartMethod();
 
-        cartItemApi[method]($scope.cartItem, { cart_id: $scope.cart.id }).then(function (cart) {
+        cartItemApi[method]($scope.cart, $scope.cartItem).then(function (cart) {
           $uibModalInstance.close({ cart: cart.plain() });
         });
       }
