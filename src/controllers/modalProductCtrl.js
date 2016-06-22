@@ -94,7 +94,7 @@ let ctrl = ($scope, $uibModalInstance, cartItemApi, cartResolved, productResolve
     add() {
       let method = this._getCartMethod();
 
-      cartItemApi[method]($scope.cart, $scope.cartItem).then((cart) => {
+      cartItemApi[method]($scope.cartItem, $scope.cart).then((cart) => {
         $uibModalInstance.close({ cart: cart.plain() });
       });
     }
