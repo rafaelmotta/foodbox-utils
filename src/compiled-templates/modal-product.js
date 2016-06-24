@@ -25,7 +25,11 @@ module.run(['$templateCache', function($templateCache) {
     '    </p>\n' +
     '    <p class="product-description">\n' +
     '      <i class="fa fa-money"></i>\n' +
-    '      A partir de {{ product.price | currency: "R$" }}\n' +
+    '      A partir de <strong>{{ product.price | currency: "R$" }}</strong>\n' +
+    '    </p>\n' +
+    '    <p class="product-description">\n' +
+    '      <i class="fa fa-trophy"></i>\n' +
+    '      Ganhe <strong>{{ product.club_points }}</strong> pontos\n' +
     '    </p>\n' +
     '  </aside>\n' +
     '  <div class="product-options pull-right">\n' +
@@ -56,6 +60,9 @@ module.run(['$templateCache', function($templateCache) {
     '          <label ng-disabled="!addon.available" ng-if="!addonCategory.multiple">\n' +
     '            <input type="radio" ng-model="cartItem.cart_item_addons[key]" ng-change="ctrl.updatePrice()" ng-disabled="!addon.available" ng-value="addon" />\n' +
     '            {{ addon.name }}\n' +
+    '            <a href="#" uib-tooltip="Ganhe {{ addon.club_points }} pontos" tooltip-placement="bottom" nf-if="addon.club_points" tooltip-append-to-body="true">\n' +
+    '              <i class="fa fa-trophy"></i>\n' +
+    '            </a>\n' +
     '            <span class="addon-price" ng-show="addon.price > 0 && addon.available">({{ addon.price | currency: "R$" }})</span>\n' +
     '            <span class="addon-unavailable" ng-show="!addon.available">Ingrediente não disponível</span>\n' +
     '            <span class="addon-description" ng-show="addon.available && addon.description">{{ addon.description }}</span>\n' +
@@ -64,6 +71,9 @@ module.run(['$templateCache', function($templateCache) {
     '          <label ng-disabled="!addon.available" ng-if="addonCategory.multiple">\n' +
     '            <input type="checkbox" ng-model="cartItem.cart_item_addons[key][_key].selected" ng-change="ctrl.updatePrice()" ng-disabled="!addon.available" />\n' +
     '            {{ addon.name }}\n' +
+    '            <a href="#" uib-tooltip="Ganhe {{ addon.club_points }} pontos" tooltip-placement="bottom" nf-if="addon.club_points" tooltip-append-to-body="true">\n' +
+    '              <i class="fa fa-trophy"></i>\n' +
+    '            </a>\n' +
     '            <span class="addon-price" ng-show="addon.price > 0 && addon.available">({{ addon.price | currency: "R$" }})</span>\n' +
     '            <span class="addon-unavailable" ng-show="!addon.available">Ingrediente não disponível</span>\n' +
     '          </label>\n' +
