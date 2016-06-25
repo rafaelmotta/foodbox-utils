@@ -22,6 +22,9 @@
     <p class="product-description" ng-if="product.club_points">
       <i class="fa fa-trophy"></i>
       Ganhe <strong>{{ product.club_points }}</strong> pontos
+      <a href="#" uib-tooltip="Ao comprar esse produto você ganha {{ product.club_points }} pontos no nosso programa de fidelidade" tooltip-placement="bottom" tooltip-append-to-body="true">
+        <i class="fa fa-info-circle"></i>
+      </a>
     </p>
   </aside>
   <div class="product-options pull-right">

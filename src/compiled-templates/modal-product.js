@@ -30,6 +30,9 @@ module.run(['$templateCache', function($templateCache) {
     '    <p class="product-description" ng-if="product.club_points">\n' +
     '      <i class="fa fa-trophy"></i>\n' +
     '      Ganhe <strong>{{ product.club_points }}</strong> pontos\n' +
+    '      <a href="#" uib-tooltip="Ao comprar esse produto você ganha {{ product.club_points }} pontos no nosso programa de fidelidade" tooltip-placement="bottom" tooltip-append-to-body="true">\n' +
+    '        <i class="fa fa-info-circle"></i>\n' +
+    '      </a>\n' +
     '    </p>\n' +
     '  </aside>\n' +
     '  <div class="product-options pull-right">\n' +
