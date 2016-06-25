@@ -19,7 +19,7 @@
       <i class="fa fa-money"></i>
       A partir de <strong>{{ product.price | currency: "R$" }}</strong>
     </p>
-    <p class="product-description">
+    <p class="product-description" ng-if="product.club_points">
       <i class="fa fa-trophy"></i>
       Ganhe <strong>{{ product.club_points }}</strong> pontos
     </p>
@@ -52,7 +52,7 @@
           <label ng-disabled="!addon.available" ng-if="!addonCategory.multiple">
             <input type="radio" ng-model="cartItem.cart_item_addons[key]" ng-change="ctrl.updatePrice()" ng-disabled="!addon.available" ng-value="addon" />
             {{ addon.name }}
-            <a href="#" uib-tooltip="Ganhe {{ addon.club_points }} pontos" tooltip-placement="bottom" nf-if="addon.club_points" tooltip-append-to-body="true">
+            <a ng-if="addon.club_points" href="#" uib-tooltip="Ganhe {{ addon.club_points }} pontos" tooltip-placement="bottom" tooltip-append-to-body="true">
               <i class="fa fa-trophy"></i>
             </a>
             <span class="addon-price" ng-show="addon.price > 0 && addon.available">({{ addon.price | currency: "R$" }})</span>
@@ -63,7 +63,7 @@
           <label ng-disabled="!addon.available" ng-if="addonCategory.multiple">
             <input type="checkbox" ng-model="cartItem.cart_item_addons[key][_key].selected" ng-change="ctrl.updatePrice()" ng-disabled="!addon.available" />
             {{ addon.name }}
-            <a href="#" uib-tooltip="Ganhe {{ addon.club_points }} pontos" tooltip-placement="bottom" nf-if="addon.club_points" tooltip-append-to-body="true">
+            <a ng-if="addon.club_points" href="#" uib-tooltip="Ganhe {{ addon.club_points }} pontos" tooltip-placement="bottom" tooltip-append-to-body="true">
               <i class="fa fa-trophy"></i>
             </a>
             <span class="addon-price" ng-show="addon.price > 0 && addon.available">({{ addon.price | currency: "R$" }})</span>
