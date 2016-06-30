@@ -28,7 +28,7 @@
     </p>
     <p class="product-description" ng-if="product.bonifications.length">
       <i class="fa fa-trophy"></i>
-      Ganhe <span ng-repeat="(key, bonification) in product.bonifications">{{ bonification.amount }}x {{ bonification.name }} <span ng-if="key !== product.bonifications.length - 1">,</span></span>
+      Ganhe <span ng-repeat="(key, b) in product.bonifications">{{ b.amount }}x {{ b.bonification.name }} <span ng-if="key !== product.bonifications.length - 1">,</span></span>
     </p>
   </aside>
   <div class="product-options pull-right">
