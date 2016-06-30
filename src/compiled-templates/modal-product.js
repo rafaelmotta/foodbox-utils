@@ -36,7 +36,12 @@ module.run(['$templateCache', function($templateCache) {
     '    </p>\n' +
     '    <p class="product-description" ng-if="product.bonifications.length">\n' +
     '      <i class="fa fa-trophy"></i>\n' +
-    '      Ganhe <span ng-repeat="(key, b) in product.bonifications">{{ b.amount }}x {{ b.bonification.name }} <span ng-if="key !== product.bonifications.length - 1">,</span></span>\n' +
+    '      Ganhe:\n' +
+    '        <ul>\n' +
+    '          <li ng-repeat="(key, b) in product.bonifications">\n' +
+    '            <strong>{{ b.amount }}x</strong> {{ b.bonification.name }}\n' +
+    '          </li>\n' +
+    '        </ul>\n' +
     '    </p>\n' +
     '  </aside>\n' +
     '  <div class="product-options pull-right">\n' +
