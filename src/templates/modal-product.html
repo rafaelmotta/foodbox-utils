@@ -26,15 +26,15 @@
         <i class="fa fa-info-circle"></i>
       </a>
     </p>
-    <p class="product-description" ng-if="product.bonifications.length">
+    <div class="product-description" ng-if="product.bonifications.length">
       <i class="fa fa-trophy"></i>
-      Ganhe:
+      Receba:
         <ul>
           <li ng-repeat="(key, b) in product.bonifications">
             <strong>{{ b.amount }}x</strong> {{ b.bonification.name }}
           </li>
         </ul>
-    </p>
+    </div>
   </aside>
   <div class="product-options pull-right">
     <div ng-show="product.description">

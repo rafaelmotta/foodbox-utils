@@ -34,15 +34,15 @@ module.run(['$templateCache', function($templateCache) {
     '        <i class="fa fa-info-circle"></i>\n' +
     '      </a>\n' +
     '    </p>\n' +
-    '    <p class="product-description" ng-if="product.bonifications.length">\n' +
+    '    <div class="product-description" ng-if="product.bonifications.length">\n' +
     '      <i class="fa fa-trophy"></i>\n' +
-    '      Ganhe:\n' +
+    '      Receba:\n' +
     '        <ul>\n' +
     '          <li ng-repeat="(key, b) in product.bonifications">\n' +
     '            <strong>{{ b.amount }}x</strong> {{ b.bonification.name }}\n' +
     '          </li>\n' +
     '        </ul>\n' +
-    '    </p>\n' +
+    '    </div>\n' +
     '  </aside>\n' +
     '  <div class="product-options pull-right">\n' +
     '    <div ng-show="product.description">\n' +
