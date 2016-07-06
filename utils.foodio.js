@@ -755,7 +755,7 @@ var ctrl = function ctrl($scope, $uibModalInstance, cartItemApi, cartResolved, p
         for (var i in $scope.cartItem.cart_item_addons) {
           var a = $scope.cartItem.cart_item_addons[i];
 
-          if (a.id && a.price) {
+          if (a.id && a.price !== null) {
             addonsPrice += parseFloat(a.price);
           } else {
             for (var j in a) {
