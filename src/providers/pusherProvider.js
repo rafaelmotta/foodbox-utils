@@ -8,6 +8,7 @@ let pusher = () => {
   };
 
   let connection = null;
+  var channels = {};
 
   self.setKey = (value) => {
     _settings.key = value;
@@ -47,15 +48,23 @@ let pusher = () => {
           'X-Store-Id': employee ? employee.store.id : null
         };
 
-        if(!connection) {
+        if (!connection) {
           connection = new Pusher(_settings.key, { authEndpoint: _settings.baseUrl + '/companies/' + $rootScope.company.id + '/sessions/pusher/authentication', auth: { headers: headers }, authTransport: _settings.authTransport });
         }
 
-        return connection;
+        if(!channels[channel]) {
+          channels[channel] = connection.subscribe(channel);
+        }
+
+        return channels[channel];
       },
       unsubscribe(channel) {
         if (!channel) {
           throw new Error('Deve ser passado um canal para se desinscrever');
+        }
+
+        if(channels[channel]) {
+          delete channels[channel];
         }
 
         return pusher.unsubscribe(channel);

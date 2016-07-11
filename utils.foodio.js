@@ -2548,6 +2548,7 @@ var pusher = function pusher() {
   };
 
   var connection = null;
+  var channels = {};
 
   self.setKey = function (value) {
     _settings.key = value;
@@ -2591,11 +2592,19 @@ var pusher = function pusher() {
           connection = new Pusher(_settings.key, { authEndpoint: _settings.baseUrl + '/companies/' + $rootScope.company.id + '/sessions/pusher/authentication', auth: { headers: headers }, authTransport: _settings.authTransport });
         }
 
-        return connection;
+        if (!channels[channel]) {
+          channels[channel] = connection.subscribe(channel);
+        }
+
+        return channels[channel];
       },
       unsubscribe: function unsubscribe(channel) {
         if (!channel) {
           throw new Error('Deve ser passado um canal para se desinscrever');
+        }
+
+        if (channels[channel]) {
+          delete channels[channel];
         }
 
         return pusher.unsubscribe(channel);
