@@ -5,6 +5,10 @@ let ctrl = ($scope, $uibModalInstance, cartItemApi, cartResolved, productResolve
       $scope.product = productResolved;
       $scope.cart = cartResolved;
 
+      $scope.buttons = {
+        disabled: false
+      };
+
       let defaultCartItem = {
         id: cartItemResolved ? cartItemResolved.id : null,
         amount: cartItemResolved ? cartItemResolved.amount : 1,
@@ -94,8 +98,13 @@ let ctrl = ($scope, $uibModalInstance, cartItemApi, cartResolved, productResolve
     add() {
       let method = this._getCartMethod();
 
+      // Desabilita botão
+      $scope.buttons.disabled = true;
+
       cartItemApi[method]($scope.cart, $scope.cartItem).then((cart) => {
         $uibModalInstance.close({ cart: cart.plain() });
+      }, () => {
+        $scope.buttons.disabled = false;
       });
     }
 

@@ -99,15 +99,15 @@ module.run(['$templateCache', function($templateCache) {
     '  </div>\n' +
     '</div>\n' +
     '<div class="modal-footer">\n' +
-    '  <button class="btn btn-success" ng-click="ctrl.add()" ng-show="!cartItem.id">\n' +
-    '    <i class="fa fa-plus-square"></i>\n' +
+    '  <button class="btn btn-success" ng-click="ctrl.add()" ng-show="!cartItem.id" ng-disabled="buttons.disabled">\n' +
+    '    <i class="fa" ng-class="\'fa-plus-square\': !buttons.disabled, \'fa-spinner fa-spin\': buttons.disabled"></i>\n' +
     '    Adicionar\n' +
     '  </button>\n' +
-    '  <button class="btn btn-success" ng-click="ctrl.add()" ng-show="cartItem.id">\n' +
-    '    <i class="fa fa-pencil"></i>\n' +
+    '  <button class="btn btn-success" ng-click="ctrl.add()" ng-show="cartItem.id" ng-disabled="buttons.disabled">\n' +
+    '    <i class="fa" ng-class="\'fa-pencil\': !buttons.disabled, \'fa-spinner fa-spin\': buttons.disabled"></i>\n' +
     '    Editar\n' +
     '  </button>\n' +
-    '  <button class="btn btn-default" ng-click="ctrl.close()">\n' +
+    '  <button class="btn btn-default" ng-click="ctrl.close()" ng-disabled="buttons.disabled">\n' +
     '    Cancelar\n' +
     '  </button>\n' +
     '</div>\n' +
