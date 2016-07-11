@@ -92,11 +92,11 @@
 </div>
 <div class="modal-footer">
   <button class="btn btn-success" ng-click="ctrl.add()" ng-show="!cartItem.id" ng-disabled="buttons.disabled">
-    <i class="fa" ng-class="'fa-plus-square': !buttons.disabled, 'fa-spinner fa-spin': buttons.disabled"></i>
+    <i class="fa" ng-class="{ 'fa-plus-square': !buttons.disabled, 'fa-spinner fa-spin': buttons.disabled }"></i>
     Adicionar
   </button>
   <button class="btn btn-success" ng-click="ctrl.add()" ng-show="cartItem.id" ng-disabled="buttons.disabled">
-    <i class="fa" ng-class="'fa-pencil': !buttons.disabled, 'fa-spinner fa-spin': buttons.disabled"></i>
+    <i class="fa" ng-class="{ 'fa-pencil': !buttons.disabled, 'fa-spinner fa-spin': buttons.disabled }"></i>
     Editar
   </button>
   <button class="btn btn-default" ng-click="ctrl.close()" ng-disabled="buttons.disabled">
