@@ -7,7 +7,7 @@ let pusher = () => {
     baseUrl: 'http://foodio.com.br/admin'
   };
 
-  let channels = {};
+  let connection = null;
 
   self.setKey = (value) => {
     _settings.key = value;
@@ -47,12 +47,11 @@ let pusher = () => {
           'X-Store-Id': employee ? employee.store.id : null
         };
 
-        if(!channels[channel]) {
-          let pusher = new Pusher(_settings.key, { authEndpoint: _settings.baseUrl + '/companies/' + $rootScope.company.id + '/sessions/pusher/authentication', auth: { headers: headers }, authTransport: _settings.authTransport });
-          channels[channel] = pusher.subscribe(channel);
+        if(!connection) {
+          connection = new Pusher(_settings.key, { authEndpoint: _settings.baseUrl + '/companies/' + $rootScope.company.id + '/sessions/pusher/authentication', auth: { headers: headers }, authTransport: _settings.authTransport });
         }
 
-        return channels[channel];
+        return connection;
       },
       unsubscribe(channel) {
         if (!channel) {

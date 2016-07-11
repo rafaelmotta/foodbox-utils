@@ -2547,7 +2547,7 @@ var pusher = function pusher() {
     baseUrl: 'http://foodio.com.br/admin'
   };
 
-  var channels = {};
+  var connection = null;
 
   self.setKey = function (value) {
     _settings.key = value;
@@ -2587,12 +2587,11 @@ var pusher = function pusher() {
           'X-Store-Id': employee ? employee.store.id : null
         };
 
-        if (!channels[channel]) {
-          var _pusher = new Pusher(_settings.key, { authEndpoint: _settings.baseUrl + '/companies/' + $rootScope.company.id + '/sessions/pusher/authentication', auth: { headers: headers }, authTransport: _settings.authTransport });
-          channels[channel] = _pusher.subscribe(channel);
+        if (!connection) {
+          connection = new Pusher(_settings.key, { authEndpoint: _settings.baseUrl + '/companies/' + $rootScope.company.id + '/sessions/pusher/authentication', auth: { headers: headers }, authTransport: _settings.authTransport });
         }
 
-        return channels[channel];
+        return connection;
       },
       unsubscribe: function unsubscribe(channel) {
         if (!channel) {
