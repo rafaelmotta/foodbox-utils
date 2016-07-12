@@ -13,30 +13,30 @@ module.run(['$templateCache', function($templateCache) {
     '      <span class="input-group-addon">\n' +
     '        <i class="fa fa-remove"></i>\n' +
     '      </span>\n' +
-    '      <input type="text" ng-model="coupon.code" disabled readonly />\n' +
+    '      <input type="text" ng-model="options.code" disabled readonly />\n' +
     '    </div>\n' +
     '    <div>\n' +
     '      <hr />\n' +
     '      <ul class="list-unstyled">\n' +
-    '        <li ng-if="coupon.ends_at">\n' +
+    '        <li ng-if="options.ends_at">\n' +
     '          <i class="fa fa-calendar"></i>\n' +
-    '          Válido até <strong>{{ coupon.ends_at }}</strong>\n' +
+    '          Válido até <strong>{{ options.ends_at }}</strong>\n' +
     '        </li>\n' +
-    '        <li ng-if="coupon.min_value">\n' +
+    '        <li ng-if="options.min_value">\n' +
     '          <i class="fa fa-shopping-cart"></i>\n' +
-    '          Pedido minímo: <strong>{{ coupon.min_value | currency: "R$" }}</strong>\n' +
+    '          Pedido minímo: <strong>{{ options.min_value | currency: "R$" }}</strong>\n' +
     '        </li>\n' +
-    '        <li ng-show="coupon.type_of === \'shipping\'">\n' +
+    '        <li ng-show="options.type_of === \'shipping\'">\n' +
     '          <i class="fa fa-motorcycle"></i>\n' +
-    '          {{ coupon.type_of | translate }}\n' +
+    '          {{ options.type_of | translate }}\n' +
     '        </li>\n' +
-    '        <li ng-if="coupon.value">\n' +
+    '        <li ng-if="options.value">\n' +
     '          <i class="fa fa-ticket"></i>\n' +
-    '          <span ng-show="coupon.type_of === \'absolute\'">\n' +
-    '            Desconto de <strong>{{ coupon.value | currency: "R$" }}</strong>\n' +
+    '          <span ng-show="options.type_of === \'absolute\'">\n' +
+    '            Desconto de <strong>{{ options.value | currency: "R$" }}</strong>\n' +
     '          </span>\n' +
-    '          <span ng-show="coupon.type_of === \'percetage\'">\n' +
-    '            Desconto de <strong>{{ coupon.value }}%</strong>\n' +
+    '          <span ng-show="options.type_of === \'percetage\'">\n' +
+    '            Desconto de <strong>{{ options.value }}%</strong>\n' +
     '          </span>\n' +
     '        </li>\n' +
     '      </ul>\n' +

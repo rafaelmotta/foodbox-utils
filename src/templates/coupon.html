@@ -5,30 +5,30 @@
       <span class="input-group-addon">
         <i class="fa fa-remove"></i>
       </span>
-      <input type="text" ng-model="coupon.code" disabled readonly />
+      <input type="text" ng-model="options.code" disabled readonly />
     </div>
     <div>
       <hr />
       <ul class="list-unstyled">
-        <li ng-if="coupon.ends_at">
+        <li ng-if="options.ends_at">
           <i class="fa fa-calendar"></i>
-          Válido até <strong>{{ coupon.ends_at }}</strong>
+          Válido até <strong>{{ options.ends_at }}</strong>
         </li>
-        <li ng-if="coupon.min_value">
+        <li ng-if="options.min_value">
           <i class="fa fa-shopping-cart"></i>
-          Pedido minímo: <strong>{{ coupon.min_value | currency: "R$" }}</strong>
+          Pedido minímo: <strong>{{ options.min_value | currency: "R$" }}</strong>
         </li>
-        <li ng-show="coupon.type_of === 'shipping'">
+        <li ng-show="options.type_of === 'shipping'">
           <i class="fa fa-motorcycle"></i>
-          {{ coupon.type_of | translate }}
+          {{ options.type_of | translate }}
         </li>
-        <li ng-if="coupon.value">
+        <li ng-if="options.value">
           <i class="fa fa-ticket"></i>
-          <span ng-show="coupon.type_of === 'absolute'">
-            Desconto de <strong>{{ coupon.value | currency: "R$" }}</strong>
+          <span ng-show="options.type_of === 'absolute'">
+            Desconto de <strong>{{ options.value | currency: "R$" }}</strong>
           </span>
-          <span ng-show="coupon.type_of === 'percetage'">
-            Desconto de <strong>{{ coupon.value }}%</strong>
+          <span ng-show="options.type_of === 'percetage'">
+            Desconto de <strong>{{ options.value }}%</strong>
           </span>
         </li>
       </ul>
