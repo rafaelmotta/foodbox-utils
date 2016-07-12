@@ -10,9 +10,6 @@ module.run(['$templateCache', function($templateCache) {
     '  <div class="thumbnail">\n' +
     '    <i class="fa fa-ticket icon-ticket"></i>\n' +
     '    <div class="input-group">\n' +
-    '      <span class="input-group-addon">\n' +
-    '        <i class="fa fa-remove"></i>\n' +
-    '      </span>\n' +
     '      <input type="text" ng-model="options.code" disabled readonly />\n' +
     '    </div>\n' +
     '    <div>\n' +
