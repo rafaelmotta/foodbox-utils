@@ -1576,7 +1576,7 @@ var hint = function hint($timeout, $window, toaster, constants) {
           return false;
         }
 
-        if (this.notification.permission === 'granted') {
+        if (this.notification && this.notification.permission === 'granted') {
 
           var settings = {
             body: message,
