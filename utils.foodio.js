@@ -1661,7 +1661,11 @@ var httpHintInterceptor = function httpHintInterceptor($q, $window, $rootScope) 
       $rootScope.$emit('request:end', {
         error: true
       });
-      $rootScope.$emit('request:error', response.data.error);
+
+      if (response && response.data && response.data.error) {
+        $rootScope.$emit('request:error', response.data.error);
+      }
+
       return $q.reject(response);
     }
   };
