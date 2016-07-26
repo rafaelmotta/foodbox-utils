@@ -41,7 +41,7 @@ module.run(['$templateCache', function($templateCache) {
     '        </li>\n' +
     '        <li ng-if="options.conditions">\n' +
     '          <div ng-repeat="condition in options.conditions">\n' +
-    '            <div ng-if="condition.type === \'PaymentMethod\' && condition.types.length > 0">\n' +
+    '            <div ng-if="condition.type === \'PaymentMethod\' && condition.itens.length > 0">\n' +
     '              <i class="fa fa-credit-card"></i>\n' +
     '              Forma de pagamento\n' +
     '              <ul class="list-unstyled">\n' +
