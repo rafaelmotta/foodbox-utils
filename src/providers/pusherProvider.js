@@ -8,7 +8,8 @@ let pusher = () => {
   };
 
   let connection = null;
-  var channels = {};
+  let channels = {};
+  let headers = null;
 
   self.setKey = (value) => {
     _settings.key = value;
@@ -40,7 +41,7 @@ let pusher = () => {
         let costumer = $localStorage['currentCostumer'];
         let employee = $localStorage['currentEmployee'];
 
-        let headers = {
+        let _headers = {
           'X-Employee-Email': employee ? employee.email : null,
           'X-Employee-Token': employee ? employee.authentication_token : null,
           'X-Costumer-Email': costumer ? costumer.email : null,
@@ -48,7 +49,9 @@ let pusher = () => {
           'X-Store-Id': employee ? employee.store.id : null
         };
 
-        if (!connection) {
+        let headersChanged = headers &&  JSON.stringify(headers) === JSON.stringify(_headers) ? true : false;
+        if ((!connection) || (connection && headersChanged)) {
+          headers = _headers;
           connection = new Pusher(_settings.key, { authEndpoint: _settings.baseUrl + '/companies/' + $rootScope.company.id + '/sessions/pusher/authentication', auth: { headers: headers }, authTransport: _settings.authTransport });
         }
 
