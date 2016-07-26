@@ -39,6 +39,19 @@ module.run(['$templateCache', function($templateCache) {
     '            Desconto de <strong>{{ options.value }}%</strong>\n' +
     '          </span>\n' +
     '        </li>\n' +
+    '        <li ng-if="options.conditions">\n' +
+    '          <div ng-repeat="condition in options.conditions">\n' +
+    '            <div ng-if="condition.type === \'PaymentMethod\' && condition.types.length > 0">\n' +
+    '              <i class="fa fa-credit-card"></i>\n' +
+    '              Forma de pagamento\n' +
+    '              <ul class="list-unstyled">\n' +
+    '                <li ng-repeat="type in condition.types">\n' +
+    '                  {{ type.alias | translate }}\n' +
+    '                </li>\n' +
+    '              </ul>\n' +
+    '            </div>\n' +
+    '          </div>\n' +
+    '        </li>\n' +
     '      </ul>\n' +
     '    </div>\n' +
     '  </div>\n' +

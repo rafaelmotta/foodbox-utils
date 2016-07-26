@@ -31,6 +31,19 @@
             Desconto de <strong>{{ options.value }}%</strong>
           </span>
         </li>
+        <li ng-if="options.conditions">
+          <div ng-repeat="condition in options.conditions">
+            <div ng-if="condition.type === 'PaymentMethod' && condition.types.length > 0">
+              <i class="fa fa-credit-card"></i>
+              Forma de pagamento
+              <ul class="list-unstyled">
+                <li ng-repeat="type in condition.types">
+                  {{ type.alias | translate }}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
       </ul>
     </div>
   </div>
