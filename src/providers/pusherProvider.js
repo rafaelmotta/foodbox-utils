@@ -49,7 +49,7 @@ let pusher = () => {
           'X-Store-Id': employee ? employee.store.id : null
         };
 
-        let headersChanged = headers &&  JSON.stringify(headers) === JSON.stringify(_headers) ? true : false;
+        let headersChanged = headers &&  JSON.stringify(headers) === JSON.stringify(_headers) ? false : true;
         if ((!connection) || (connection && headersChanged)) {
           headers = _headers;
           connection = new Pusher(_settings.key, { authEndpoint: _settings.baseUrl + '/companies/' + $rootScope.company.id + '/sessions/pusher/authentication', auth: { headers: headers }, authTransport: _settings.authTransport });
