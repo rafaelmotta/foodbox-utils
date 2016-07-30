@@ -22,7 +22,7 @@ let ctrl = ($scope, $uibModalInstance, addressResolved, onSubmitResolved) => {
     }
 
     // @description Callback após enviar dados
-    _afterSubmit(response) {
+    _afterSubmit(response, method) {
       this.toggleButtonState();
       $uibModalInstance.close({ address: response.data, method: method });
     }
