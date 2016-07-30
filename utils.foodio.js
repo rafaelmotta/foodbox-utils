@@ -130,7 +130,7 @@ var app = angular.module('utils.foodio', ['ngStorage', 'constants.foodio']);
     module = angular.module('utils.foodio', []);
   }
   module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/templates/modal-address.html', '<form name="addressForm" class="form-horizontal" ng-submit="ctrl.submit()">\n' + '    <div class="modal-header">\n' + '      <h4 class="modal-title" ng-hide="address.id">Adicionar endereço</h4>\n' + '      <h4 class="modal-title" ng-show="address.id">Editar endereço</h4>\n' + '    </div>\n' + '  <div class="modal-body clearfix">\n' + '    <form-group label="Nome" required="true">\n' + '      <input type="text" tabindex="1" ng-model="address.name" autofocus />\n' + '    </form-group>\n' + '    <form-group label="CEP" required="true">\n' + '      <input type="text" tabindex="2" ng-model="address.zipcode" required mask="99999-999" auto-unmask="true" zipcode zipcode-model="address" />\n' + '    </form-group>\n' + '    <form-group label="Cidade" required="true">\n' + '      <input type="text" tabindex="3" ng-model="address.city.name" disabled required />\n' + '    </form-group>\n' + '    <form-group label="Bairro" required="true">\n' + '      <input type="text" tabindex="4" ng-model="address.neighborhood.name" disabled required />\n' + '    </form-group>\n' + '    <form-group label="Rua" required="true">\n' + '      <input type="text" tabindex="5" ng-model="address.street" disabled required />\n' + '    </form-group>\n' + '    <form-group label="Número" required="true">\n' + '      <input type="text" tabindex="6" ng-model="address.number" required />\n' + '    </form-group>\n' + '    <form-group label="Complemento">\n' + '      <textarea ng-model="address.complement" tabindex="7" rows="3"></textarea>\n' + '    </form-group>\n' + '    <div class="modal-footer">\n' + '      <button class="btn btn-success" type="submit" ng-disabled="button.disabled || form.$invalid">\n' + '        <i class="fa fa-save" ng-show="button.disabled"></i>\n' + '        Salvar\n' + '      </button>\n' + '      <button class="btn btn-default" type="button" ng-click="ctrl.close()" ng-disabled="button.disabled">Cancelar</button>\n' + '    </div>\n' + '  </div>\n' + '</form>\n' + '');
+    $templateCache.put('/templates/modal-address.html', '<form name="form" class="form-horizontal" ng-submit="ctrl.submit()">\n' + '    <div class="modal-header">\n' + '      <h4 class="modal-title" ng-hide="address.id">Adicionar endereço</h4>\n' + '      <h4 class="modal-title" ng-show="address.id">Editar endereço</h4>\n' + '    </div>\n' + '  <div class="modal-body clearfix">\n' + '    <form-group label="Nome" required="true">\n' + '      <input type="text" tabindex="1" ng-model="address.name" autofocus />\n' + '    </form-group>\n' + '    <form-group label="CEP" required="true">\n' + '      <input type="text" tabindex="2" ng-model="address.zipcode" required mask="99999-999" auto-unmask="true" zipcode zipcode-model="address" />\n' + '    </form-group>\n' + '    <form-group label="Cidade" required="true">\n' + '      <input type="text" tabindex="3" ng-model="address.city.name" disabled required />\n' + '    </form-group>\n' + '    <form-group label="Bairro" required="true">\n' + '      <input type="text" tabindex="4" ng-model="address.neighborhood.name" disabled required />\n' + '    </form-group>\n' + '    <form-group label="Rua" required="true">\n' + '      <input type="text" tabindex="5" ng-model="address.street" disabled required />\n' + '    </form-group>\n' + '    <form-group label="Número" required="true">\n' + '      <input type="text" tabindex="6" ng-model="address.number" required />\n' + '    </form-group>\n' + '    <form-group label="Complemento">\n' + '      <textarea ng-model="address.complement" tabindex="7" rows="3"></textarea>\n' + '    </form-group>\n' + '    <div class="modal-footer">\n' + '      <button class="btn btn-success" type="submit" ng-disabled="button.disabled || form.$invalid">\n' + '        <i class="fa fa-save" ng-show="button.disabled"></i>\n' + '        Salvar\n' + '      </button>\n' + '      <button class="btn btn-default" type="button" ng-click="ctrl.close()" ng-disabled="button.disabled">Cancelar</button>\n' + '    </div>\n' + '  </div>\n' + '</form>\n' + '');
   }]);
 })();
 'use strict';
@@ -267,6 +267,598 @@ var app = angular.module('utils.foodio', ['ngStorage', 'constants.foodio']);
 })();
 'use strict';
 
+var directive = function directive($window) {
+  return {
+    restrict: 'A',
+    link: function link($scope, $element, attrs) {
+      var win = angular.element($window);
+      var topOffset = $element[0].offsetTop;
+
+      var width = $element.width();
+      $element.css('width', width);
+
+      function affixElement() {
+        if ($window.pageYOffset > attrs.affixer) {
+          $element.css('position', 'fixed');
+          $element.css('top', '0px');
+        } else {
+          $element.css('position', '');
+          $element.css('top', '');
+        }
+      }
+
+      $scope.$on('$routeChangeStart', function () {
+        win.unbind('scroll', affixElement);
+      });
+
+      win.bind('scroll', affixElement);
+    }
+  };
+};
+
+directive.$inject = ['$window'];
+angular.module('utils.foodio').directive('affixed', directive);
+'use strict';
+
+var directive = function directive($templateCache) {
+  return {
+    restrict: 'E',
+    replace: true,
+    transclude: true,
+    template: $templateCache.get('/templates/box.html'),
+    scope: {
+      title: '@',
+      icon: '@',
+      containerClass: '@'
+    }
+  };
+};
+
+directive.$inject = ['$templateCache'];
+angular.module('utils.foodio').directive('box', directive);
+'use strict';
+
+var directive = function directive($templateCache) {
+  return {
+    restrict: 'E',
+    replace: true,
+    template: $templateCache.get('/templates/coupon.html'),
+    scope: {
+      options: '='
+    }
+  };
+};
+
+directive.$inject = ['$templateCache'];
+angular.module('utils.foodio').directive('coupon', directive);
+'use strict';
+
+var directive = function directive($templateCache) {
+  return {
+    restrict: 'E',
+    replace: true,
+    template: $templateCache.get('/templates/delete-button.html'),
+    scope: {
+      'class': '@',
+      icon: '@'
+    }
+  };
+};
+
+directive.$inject = ['$templateCache'];
+angular.module('utils.foodio').directive('deleteButton', directive);
+'use strict';
+
+var directive = function directive($templateCache) {
+  return {
+    restrict: 'E',
+    replace: true,
+    template: $templateCache.get('/templates/edit-button.html'),
+    scope: {
+      'class': '@',
+      icon: '@'
+    }
+  };
+};
+
+directive.$inject = ['$templateCache'];
+angular.module('utils.foodio').directive('editButton', directive);
+'use strict';
+
+var directive = function directive($templateCache) {
+  return {
+    restrict: 'E',
+    require: '^form',
+    transclude: true,
+    replace: true,
+    template: $templateCache.get('/templates/form-group.html'),
+    priority: 10000,
+    scope: {
+      label: '@',
+      vertical: '@',
+      required: '@'
+    },
+    link: function link(scope, $el, attrs) {
+      scope.id = 'field-' + Math.floor(Math.random() * 50000 + 1);
+      $el.find('input, textarea').attr('id', scope.id);
+    }
+  };
+};
+
+directive.$inject = ['$templateCache'];
+angular.module("utils.foodio").directive('formGroup', directive);
+'use strict';
+
+var directive = function directive() {
+  return {
+    restrict: 'E',
+    link: function link(scope, $el, attrs) {
+      $el.append('<input type="text" style="display:none" />').append('<input type="password" style="display:none" />');
+    }
+  };
+};
+
+angular.module('utils.foodio').directive('form', directive);
+'use strict';
+
+var directive = function directive() {
+  return {
+    restrict: 'E',
+    link: function link(scope, $el, attrs) {
+      var el = $el[0];
+
+      if (el.type !== 'radio' && el.type !== 'checkbox') {
+        el.classList.add('form-control');
+      }
+    }
+  };
+};
+
+angular.module('utils.foodio').directive('input', directive);
+'use strict';
+
+var directive = function directive($templateCache) {
+  return {
+    restrict: 'E',
+    template: $templateCache.get('/templates/limit.html'),
+    replace: true,
+    scope: {
+      maxlength: '=',
+      model: '='
+    },
+    link: function link(scope, $el, attrs) {
+      scope.maxlength = parseInt(scope.maxlength, 10);
+
+      if (_.isNaN(scope.maxlength) || !_.isNumber(scope.maxlength)) {
+        throw new Error('Valor do atributo maxlength da directiva limit deve ser numeral.');
+      }
+
+      // Verifica se o elemento antes da directiva é um input
+      var $textarea = $el.prev();
+      var type = $textarea.get(0).type;
+
+      if (type !== 'textarea') {
+        throw new Error('Elemento antes da directiva limit deve ser um textarea');
+      }
+
+      // Adiciona atributo maxlength no HTML para previnir de usuário digitar um valor com mais de 300 carácteres
+      $textarea.attr('maxlength', scope.maxlength);
+
+      // Usamos o valor length para lidar com o tamanho de chars do textarea
+      scope.length = 0;
+      scope.$watch('model', function (message) {
+        scope.length = message ? message.length : 0;
+      });
+    }
+  };
+};
+
+directive.$inject = ['$templateCache'];
+angular.module('utils.foodio').directive('limit', directive);
+'use strict';
+
+var directive = function directive($compile) {
+  return {
+    restrict: 'A',
+    link: function link(scope, $el, attrs) {
+      attrs.$set('ngDisabled', 'withLoader.inAction');
+      $el.prepend('<i class="fa fa-circle-o-notch fa-spin with-loader hide"></i> ');
+
+      $el.removeAttr('loading-spinner');
+
+      $compile($el)(scope);
+    }
+  };
+};
+
+directive.$inject = ['$compile'];
+angular.module('utils.foodio').directive('loadingSpinner', directive);
+'use strict';
+
+var directive = function directive($templateCache) {
+  return {
+    restrict: 'E',
+    template: $templateCache.get('/templates/map.html'),
+    replace: true,
+    scope: {
+      latitude: '=',
+      longitude: '=',
+      scrollWheel: '=',
+      zoom: '=',
+      markers: '=',
+      route: '=',
+      disableButtons: '='
+    },
+    link: function link(scope, $el, attrs) {
+      var markers = [];
+
+      scope.$watch('[latitude, longitude, markers]', function () {
+        scope.map ? reset() : initialize();
+      }, true);
+
+      var initialize = function initialize() {
+        if (!scope.latitude || !scope.longitude) {
+          return false;
+        }
+
+        scope.map = new GMaps({
+          div: $el.get(0),
+          lat: scope.latitude,
+          lng: scope.longitude,
+          zoom: scope.zoom || 15,
+          scrollwheel: scope.scrollWheel || false,
+          disableDefaultUI: scope.disableButtons || false
+        });
+
+        if (scope.markers) {
+          addMarkers();
+        }
+
+        if (scope.route) {
+          drawRoute();
+        }
+      };
+
+      var addMarkers = function addMarkers() {
+        for (var i in markers) {
+          var marker = markers[i];
+          marker.setMap(null);
+        }
+
+        markers = [];
+
+        if (!angular.isArray(scope.markers)) {
+          throw new Error('Markers must be an array');
+        }
+
+        var _loop = function (i) {
+          var m = scope.markers[i];
+
+          if (!m.latitude || !m.longitude) {
+            throw new Error('Marker must have a latitude and longitude');
+          }
+
+          var marker = scope.map.addMarker({
+            lat: m.latitude,
+            lng: m.longitude,
+            infoWindow: m.title ? { content: '<p>' + m.title + '</p>' } : null,
+            draggable: angular.isFunction(m.onDrag) ? true : false
+          });
+
+          if (m.animate) {
+            marker.setAnimation(google.maps.Animation.BOUNCE);
+          }
+
+          if (angular.isFunction(m.onDrag)) {
+            google.maps.event.addListener(marker, 'dragend', function (event) {
+              marker.onDrag({ latitude: event.latLng.lat(), longitude: event.latLng.lng() });
+            });
+          }
+
+          markers.push(marker);
+        };
+
+        for (var i in scope.markers) {
+          _loop(i);
+        }
+      };
+
+      var drawRoute = function drawRoute() {
+        if (!scope.route.destination || !scope.route.origin) {
+          throw new Error('Route must have a destination and a origin');
+        }
+
+        scope.map.drawRoute({
+          destination: [scope.route.destination.latitude, scope.route.destination.longitude],
+          origin: [scope.route.origin.latitude, scope.route.origin.longitude],
+          travelMode: 'driving',
+          strokeColor: '#DD390D',
+          strokeOpacity: 0.6,
+          strokeWeight: 6
+        });
+      };
+
+      var reset = function reset() {
+        if (scope.markers) {
+          addMarkers();
+        }
+
+        var position = new google.maps.LatLng(scope.latitude, scope.longitude);
+        scope.map.panTo(position);
+      };
+    }
+  };
+};
+
+directive.$inject = ['$templateCache'];
+angular.module('utils.foodio').directive('map', directive);
+'use strict';
+
+var directive = function directive() {
+  return {
+    restrict: 'A',
+    link: function link(scope, $el, attrs) {
+      if (attrs.mask === 'phone') {
+        return $el.inputmask('(99) 9999-9999[9]');
+      }
+
+      if (attrs.mask === 'date') {
+        return $el.inputmask('99/99/9999');
+      }
+
+      if (attrs.mask === 'zipcode') {
+        return $el.inputmask('99999-999', { autoUnmask: true });
+      }
+
+      $el.inputmask(attrs.mask, { autoUnmask: attrs.autoUnmask || false });
+    }
+  };
+};
+
+angular.module('utils.foodio').directive('mask', directive);
+'use strict';
+
+var directive = function directive($uibModal, $templateCache, $parse, $timeout, Cropper) {
+  return {
+    restrict: 'A',
+    scope: false,
+    require: 'ngModel',
+    scope: {
+      model: '=ngModel'
+    },
+    link: function link(scope, $el, attrs, ngModel) {
+
+      if ($el.get(0).type.toLowerCase() !== 'file') {
+        return false;
+      }
+
+      $el.on('change', function (e) {
+        var file = $el.get(0).files[0];
+        var data = null;
+        var blob = null;
+
+        return Cropper.encode(blob = file).then(function (url) {
+          return $uibModal.open({
+            template: $templateCache.get('/templates/modal-crop.html'),
+            windowClass: 'modal-crop',
+            controller: 'ModalCropController as ctrl',
+            resolve: {
+              imgUrlResolved: function imgUrlResolved() {
+                return url;
+              },
+              fileResolved: function fileResolved() {
+                return file;
+              },
+              scopeResolved: function scopeResolved() {
+                return scope;
+              }
+            }
+          });
+        });
+      });
+    }
+  };
+};
+
+directive.$inject = ['$uibModal', '$templateCache', '$parse', '$timeout', 'Cropper'];
+angular.module("utils.foodio").directive('modalCrop', directive);
+'use strict';
+
+var directive = function directive($templateCache) {
+  return {
+    restrict: 'E',
+    replace: true,
+    template: $templateCache.get('/templates/no-results.html'),
+    scope: {
+      text: '@',
+      icon: '@'
+    }
+  };
+};
+
+directive.$inject = ['$templateCache'];
+angular.module('utils.foodio').directive('noResults', directive);
+'use strict';
+
+var directive = function directive($rootScope, $templateCache, printManager) {
+  return {
+    restrict: 'E',
+    replace: true,
+    template: $templateCache.get('/templates/print-button.html'),
+    scope: {
+      icon: '@',
+      layout: '@',
+      printData: '=',
+      printDataKey: '@'
+    },
+    link: function link(scope, el, attrs) {
+      el.on('click', function (e) {
+        e.stopPropagation();
+
+        if ($rootScope.socket && $rootScope.socket.connected) {
+          var data = {};
+          data[scope.printDataKey] = scope.printData;
+          printManager.print({ layout: scope.layout, data: data });
+        }
+      });
+    }
+  };
+};
+
+directive.$inject = ['$rootScope', '$templateCache', 'printManager'];
+angular.module('utils.foodio').directive('printButton', directive);
+'use strict';
+
+var directive = function directive() {
+  return {
+    restrict: 'E',
+    link: function link(scope, $el, attrs) {
+      $el[0].classList.add('form-control');
+    }
+  };
+};
+
+angular.module('utils.foodio').directive('select', directive);
+'use strict';
+
+var directive = function directive() {
+  return {
+    restrict: 'A',
+    require: 'ngModel',
+    link: function link(scope, $el, attrs, ngModel) {
+      if ($el.get(0).type === 'number') {
+        ngModel.$parsers.push(function (value) {
+          if (value) return value.toString();
+        });
+
+        ngModel.$formatters.push(function (value) {
+          if (value) return parseFloat(value, 10);
+        });
+      }
+    }
+  };
+};
+
+angular.module('utils.foodio').directive('step', directive);
+'use strict';
+
+var directive = function directive($templateCache) {
+  return {
+    restrict: 'E',
+    template: $templateCache.get('/templates/submit-form.html'),
+    replace: true,
+    transclude: true,
+    require: '^form',
+    scope: {
+      text: '@'
+    }
+  };
+};
+
+directive.$inject = ['$templateCache'];
+angular.module('utils.foodio').directive('submitForm', directive);
+"use strict";
+
+var directive = function directive() {
+  return {
+    restrict: 'E',
+    link: function link(scope, $el, attrs) {
+      $el.addClass("table table-hover table-striped").wrap("<div class='table-responsive'></div>");
+    }
+  };
+};
+
+angular.module('utils.foodio').directive('table', directive);
+'use strict';
+
+var directive = function directive() {
+  return {
+    restrict: 'E',
+    link: function link(scope, $el, attrs) {
+      var el = $el[0];
+      el.classList.add('form-control');
+    }
+  };
+};
+
+angular.module('utils.foodio').directive('textarea', directive);
+'use strict';
+
+var directive = function directive($templateCache, $interval) {
+  return {
+    restrict: 'E',
+    replace: true,
+    template: $templateCache.get('/templates/tik-tak.html'),
+    scope: {
+      interval: '@',
+      value: '=',
+      operator: '@'
+    },
+    link: function link(scope, $el, attrs) {
+      var operator = scope.operator && (scope.operator == '+' || scope.operator == '-') ? scope.operator : '-';
+
+      var operation = {
+        '+': function _(a, b) {
+          return parseFloat(a) + parseFloat(b);
+        },
+        '-': function _(a, b) {
+          return parseFloat(a) - parseFloat(b);
+        }
+      };
+
+      $interval(function () {
+        scope.value = operation[operator](scope.value, 1);
+      }, scope.interval);
+    }
+  };
+};
+
+directive.$inject = ['$templateCache', '$interval'];
+angular.module('utils.foodio').directive('tikTak', directive);
+'use strict';
+
+var directive = function directive(zipcodeApi) {
+  return {
+    restrict: 'A',
+    scope: {
+      zipcode: '&ngModel',
+      model: '=zipcodeModel'
+    },
+    link: function link(scope, $el, attrs) {
+      var _zipcode = null;
+
+      scope.$watch(scope.zipcode, function (value, oldValue) {
+        if (!value) return false;
+        if (value.length !== 8) return false;
+        if (value === oldValue) return false;
+        if (_zipcode === value) return false;
+
+        _zipcode = value;
+
+        var number = scope.model.number ? scope.model.number : null;
+
+        zipcodeApi.fetch({ zipcode: _zipcode, number: number }).then(function (response) {
+          var data = response.data;
+
+          scope.model.latitude = data.latitude;
+          scope.model.longitude = data.longitude;
+          scope.model.neighborhood = data.neighborhood;
+          scope.model.city = data.city;
+          scope.model.street = data.street;
+          scope.model.city_id = data.city.id;
+          scope.model.neighborhood_id = data.neighborhood.id;
+
+          $el.parents('.form-group').siblings().find("input[ng-model='address.number']").focus();
+        });
+      });
+    }
+  };
+};
+
+directive.$inject = ['zipcodeApi'];
+angular.module('utils.foodio').directive('zipcode', directive);
+'use strict';
+
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
@@ -290,16 +882,20 @@ var ctrl = function ctrl($scope, $uibModalInstance, addressResolved, onSubmitRes
     _createClass(ctrl, [{
       key: 'submit',
       value: function submit() {
+        var _this = this;
+
         this.toggleButtonState();
         var method = this._getMethod();
 
-        $scope.onSubmit({ address: $scope.address, method: method }).then(this._afterSubmit.bind(this));
+        $scope.onSubmit({ address: $scope.address, method: method }).then(function (response) {
+          _this._afterSubmit(response, method);
+        });
       }
 
       // @description Callback após enviar dados
     }, {
       key: '_afterSubmit',
-      value: function _afterSubmit() {
+      value: function _afterSubmit(response) {
         this.toggleButtonState();
         $uibModalInstance.close({ address: response.data, method: method });
       }
@@ -2089,595 +2685,3 @@ var pusher = function pusher() {
 };
 
 angular.module('utils.foodio').provider('pusher', pusher);
-'use strict';
-
-var directive = function directive($window) {
-  return {
-    restrict: 'A',
-    link: function link($scope, $element, attrs) {
-      var win = angular.element($window);
-      var topOffset = $element[0].offsetTop;
-
-      var width = $element.width();
-      $element.css('width', width);
-
-      function affixElement() {
-        if ($window.pageYOffset > attrs.affixer) {
-          $element.css('position', 'fixed');
-          $element.css('top', '0px');
-        } else {
-          $element.css('position', '');
-          $element.css('top', '');
-        }
-      }
-
-      $scope.$on('$routeChangeStart', function () {
-        win.unbind('scroll', affixElement);
-      });
-
-      win.bind('scroll', affixElement);
-    }
-  };
-};
-
-directive.$inject = ['$window'];
-angular.module('utils.foodio').directive('affixed', directive);
-'use strict';
-
-var directive = function directive($templateCache) {
-  return {
-    restrict: 'E',
-    replace: true,
-    transclude: true,
-    template: $templateCache.get('/templates/box.html'),
-    scope: {
-      title: '@',
-      icon: '@',
-      containerClass: '@'
-    }
-  };
-};
-
-directive.$inject = ['$templateCache'];
-angular.module('utils.foodio').directive('box', directive);
-'use strict';
-
-var directive = function directive($templateCache) {
-  return {
-    restrict: 'E',
-    replace: true,
-    template: $templateCache.get('/templates/coupon.html'),
-    scope: {
-      options: '='
-    }
-  };
-};
-
-directive.$inject = ['$templateCache'];
-angular.module('utils.foodio').directive('coupon', directive);
-'use strict';
-
-var directive = function directive($templateCache) {
-  return {
-    restrict: 'E',
-    replace: true,
-    template: $templateCache.get('/templates/delete-button.html'),
-    scope: {
-      'class': '@',
-      icon: '@'
-    }
-  };
-};
-
-directive.$inject = ['$templateCache'];
-angular.module('utils.foodio').directive('deleteButton', directive);
-'use strict';
-
-var directive = function directive($templateCache) {
-  return {
-    restrict: 'E',
-    replace: true,
-    template: $templateCache.get('/templates/edit-button.html'),
-    scope: {
-      'class': '@',
-      icon: '@'
-    }
-  };
-};
-
-directive.$inject = ['$templateCache'];
-angular.module('utils.foodio').directive('editButton', directive);
-'use strict';
-
-var directive = function directive($templateCache) {
-  return {
-    restrict: 'E',
-    require: '^form',
-    transclude: true,
-    replace: true,
-    template: $templateCache.get('/templates/form-group.html'),
-    priority: 10000,
-    scope: {
-      label: '@',
-      vertical: '@',
-      required: '@'
-    },
-    link: function link(scope, $el, attrs) {
-      scope.id = 'field-' + Math.floor(Math.random() * 50000 + 1);
-      $el.find('input, textarea').attr('id', scope.id);
-    }
-  };
-};
-
-directive.$inject = ['$templateCache'];
-angular.module("utils.foodio").directive('formGroup', directive);
-'use strict';
-
-var directive = function directive() {
-  return {
-    restrict: 'E',
-    link: function link(scope, $el, attrs) {
-      $el.append('<input type="text" style="display:none" />').append('<input type="password" style="display:none" />');
-    }
-  };
-};
-
-angular.module('utils.foodio').directive('form', directive);
-'use strict';
-
-var directive = function directive() {
-  return {
-    restrict: 'E',
-    link: function link(scope, $el, attrs) {
-      var el = $el[0];
-
-      if (el.type !== 'radio' && el.type !== 'checkbox') {
-        el.classList.add('form-control');
-      }
-    }
-  };
-};
-
-angular.module('utils.foodio').directive('input', directive);
-'use strict';
-
-var directive = function directive($templateCache) {
-  return {
-    restrict: 'E',
-    template: $templateCache.get('/templates/limit.html'),
-    replace: true,
-    scope: {
-      maxlength: '=',
-      model: '='
-    },
-    link: function link(scope, $el, attrs) {
-      scope.maxlength = parseInt(scope.maxlength, 10);
-
-      if (_.isNaN(scope.maxlength) || !_.isNumber(scope.maxlength)) {
-        throw new Error('Valor do atributo maxlength da directiva limit deve ser numeral.');
-      }
-
-      // Verifica se o elemento antes da directiva é um input
-      var $textarea = $el.prev();
-      var type = $textarea.get(0).type;
-
-      if (type !== 'textarea') {
-        throw new Error('Elemento antes da directiva limit deve ser um textarea');
-      }
-
-      // Adiciona atributo maxlength no HTML para previnir de usuário digitar um valor com mais de 300 carácteres
-      $textarea.attr('maxlength', scope.maxlength);
-
-      // Usamos o valor length para lidar com o tamanho de chars do textarea
-      scope.length = 0;
-      scope.$watch('model', function (message) {
-        scope.length = message ? message.length : 0;
-      });
-    }
-  };
-};
-
-directive.$inject = ['$templateCache'];
-angular.module('utils.foodio').directive('limit', directive);
-'use strict';
-
-var directive = function directive($compile) {
-  return {
-    restrict: 'A',
-    link: function link(scope, $el, attrs) {
-      attrs.$set('ngDisabled', 'withLoader.inAction');
-      $el.prepend('<i class="fa fa-circle-o-notch fa-spin with-loader hide"></i> ');
-
-      $el.removeAttr('loading-spinner');
-
-      $compile($el)(scope);
-    }
-  };
-};
-
-directive.$inject = ['$compile'];
-angular.module('utils.foodio').directive('loadingSpinner', directive);
-'use strict';
-
-var directive = function directive($templateCache) {
-  return {
-    restrict: 'E',
-    template: $templateCache.get('/templates/map.html'),
-    replace: true,
-    scope: {
-      latitude: '=',
-      longitude: '=',
-      scrollWheel: '=',
-      zoom: '=',
-      markers: '=',
-      route: '=',
-      disableButtons: '='
-    },
-    link: function link(scope, $el, attrs) {
-      var markers = [];
-
-      scope.$watch('[latitude, longitude, markers]', function () {
-        scope.map ? reset() : initialize();
-      }, true);
-
-      var initialize = function initialize() {
-        if (!scope.latitude || !scope.longitude) {
-          return false;
-        }
-
-        scope.map = new GMaps({
-          div: $el.get(0),
-          lat: scope.latitude,
-          lng: scope.longitude,
-          zoom: scope.zoom || 15,
-          scrollwheel: scope.scrollWheel || false,
-          disableDefaultUI: scope.disableButtons || false
-        });
-
-        if (scope.markers) {
-          addMarkers();
-        }
-
-        if (scope.route) {
-          drawRoute();
-        }
-      };
-
-      var addMarkers = function addMarkers() {
-        for (var i in markers) {
-          var marker = markers[i];
-          marker.setMap(null);
-        }
-
-        markers = [];
-
-        if (!angular.isArray(scope.markers)) {
-          throw new Error('Markers must be an array');
-        }
-
-        var _loop = function (i) {
-          var m = scope.markers[i];
-
-          if (!m.latitude || !m.longitude) {
-            throw new Error('Marker must have a latitude and longitude');
-          }
-
-          var marker = scope.map.addMarker({
-            lat: m.latitude,
-            lng: m.longitude,
-            infoWindow: m.title ? { content: '<p>' + m.title + '</p>' } : null,
-            draggable: angular.isFunction(m.onDrag) ? true : false
-          });
-
-          if (m.animate) {
-            marker.setAnimation(google.maps.Animation.BOUNCE);
-          }
-
-          if (angular.isFunction(m.onDrag)) {
-            google.maps.event.addListener(marker, 'dragend', function (event) {
-              marker.onDrag({ latitude: event.latLng.lat(), longitude: event.latLng.lng() });
-            });
-          }
-
-          markers.push(marker);
-        };
-
-        for (var i in scope.markers) {
-          _loop(i);
-        }
-      };
-
-      var drawRoute = function drawRoute() {
-        if (!scope.route.destination || !scope.route.origin) {
-          throw new Error('Route must have a destination and a origin');
-        }
-
-        scope.map.drawRoute({
-          destination: [scope.route.destination.latitude, scope.route.destination.longitude],
-          origin: [scope.route.origin.latitude, scope.route.origin.longitude],
-          travelMode: 'driving',
-          strokeColor: '#DD390D',
-          strokeOpacity: 0.6,
-          strokeWeight: 6
-        });
-      };
-
-      var reset = function reset() {
-        if (scope.markers) {
-          addMarkers();
-        }
-
-        var position = new google.maps.LatLng(scope.latitude, scope.longitude);
-        scope.map.panTo(position);
-      };
-    }
-  };
-};
-
-directive.$inject = ['$templateCache'];
-angular.module('utils.foodio').directive('map', directive);
-'use strict';
-
-var directive = function directive() {
-  return {
-    restrict: 'A',
-    link: function link(scope, $el, attrs) {
-      if (attrs.mask === 'phone') {
-        return $el.inputmask('(99) 9999-9999[9]');
-      }
-
-      if (attrs.mask === 'date') {
-        return $el.inputmask('99/99/9999');
-      }
-
-      if (attrs.mask === 'zipcode') {
-        return $el.inputmask('99999-999', { autoUnmask: true });
-      }
-
-      $el.inputmask(attrs.mask, { autoUnmask: attrs.autoUnmask || false });
-    }
-  };
-};
-
-angular.module('utils.foodio').directive('mask', directive);
-'use strict';
-
-var directive = function directive($uibModal, $templateCache, $parse, $timeout, Cropper) {
-  return {
-    restrict: 'A',
-    scope: false,
-    require: 'ngModel',
-    scope: {
-      model: '=ngModel'
-    },
-    link: function link(scope, $el, attrs, ngModel) {
-
-      if ($el.get(0).type.toLowerCase() !== 'file') {
-        return false;
-      }
-
-      $el.on('change', function (e) {
-        var file = $el.get(0).files[0];
-        var data = null;
-        var blob = null;
-
-        return Cropper.encode(blob = file).then(function (url) {
-          return $uibModal.open({
-            template: $templateCache.get('/templates/modal-crop.html'),
-            windowClass: 'modal-crop',
-            controller: 'ModalCropController as ctrl',
-            resolve: {
-              imgUrlResolved: function imgUrlResolved() {
-                return url;
-              },
-              fileResolved: function fileResolved() {
-                return file;
-              },
-              scopeResolved: function scopeResolved() {
-                return scope;
-              }
-            }
-          });
-        });
-      });
-    }
-  };
-};
-
-directive.$inject = ['$uibModal', '$templateCache', '$parse', '$timeout', 'Cropper'];
-angular.module("utils.foodio").directive('modalCrop', directive);
-'use strict';
-
-var directive = function directive($templateCache) {
-  return {
-    restrict: 'E',
-    replace: true,
-    template: $templateCache.get('/templates/no-results.html'),
-    scope: {
-      text: '@',
-      icon: '@'
-    }
-  };
-};
-
-directive.$inject = ['$templateCache'];
-angular.module('utils.foodio').directive('noResults', directive);
-'use strict';
-
-var directive = function directive($rootScope, $templateCache, printManager) {
-  return {
-    restrict: 'E',
-    replace: true,
-    template: $templateCache.get('/templates/print-button.html'),
-    scope: {
-      icon: '@',
-      layout: '@',
-      printData: '=',
-      printDataKey: '@'
-    },
-    link: function link(scope, el, attrs) {
-      el.on('click', function (e) {
-        e.stopPropagation();
-
-        if ($rootScope.socket && $rootScope.socket.connected) {
-          var data = {};
-          data[scope.printDataKey] = scope.printData;
-          printManager.print({ layout: scope.layout, data: data });
-        }
-      });
-    }
-  };
-};
-
-directive.$inject = ['$rootScope', '$templateCache', 'printManager'];
-angular.module('utils.foodio').directive('printButton', directive);
-'use strict';
-
-var directive = function directive() {
-  return {
-    restrict: 'E',
-    link: function link(scope, $el, attrs) {
-      $el[0].classList.add('form-control');
-    }
-  };
-};
-
-angular.module('utils.foodio').directive('select', directive);
-'use strict';
-
-var directive = function directive() {
-  return {
-    restrict: 'A',
-    require: 'ngModel',
-    link: function link(scope, $el, attrs, ngModel) {
-      if ($el.get(0).type === 'number') {
-        ngModel.$parsers.push(function (value) {
-          if (value) return value.toString();
-        });
-
-        ngModel.$formatters.push(function (value) {
-          if (value) return parseFloat(value, 10);
-        });
-      }
-    }
-  };
-};
-
-angular.module('utils.foodio').directive('step', directive);
-'use strict';
-
-var directive = function directive($templateCache) {
-  return {
-    restrict: 'E',
-    template: $templateCache.get('/templates/submit-form.html'),
-    replace: true,
-    transclude: true,
-    require: '^form',
-    scope: {
-      text: '@'
-    }
-  };
-};
-
-directive.$inject = ['$templateCache'];
-angular.module('utils.foodio').directive('submitForm', directive);
-"use strict";
-
-var directive = function directive() {
-  return {
-    restrict: 'E',
-    link: function link(scope, $el, attrs) {
-      $el.addClass("table table-hover table-striped").wrap("<div class='table-responsive'></div>");
-    }
-  };
-};
-
-angular.module('utils.foodio').directive('table', directive);
-'use strict';
-
-var directive = function directive() {
-  return {
-    restrict: 'E',
-    link: function link(scope, $el, attrs) {
-      var el = $el[0];
-      el.classList.add('form-control');
-    }
-  };
-};
-
-angular.module('utils.foodio').directive('textarea', directive);
-'use strict';
-
-var directive = function directive($templateCache, $interval) {
-  return {
-    restrict: 'E',
-    replace: true,
-    template: $templateCache.get('/templates/tik-tak.html'),
-    scope: {
-      interval: '@',
-      value: '=',
-      operator: '@'
-    },
-    link: function link(scope, $el, attrs) {
-      var operator = scope.operator && (scope.operator == '+' || scope.operator == '-') ? scope.operator : '-';
-
-      var operation = {
-        '+': function _(a, b) {
-          return parseFloat(a) + parseFloat(b);
-        },
-        '-': function _(a, b) {
-          return parseFloat(a) - parseFloat(b);
-        }
-      };
-
-      $interval(function () {
-        scope.value = operation[operator](scope.value, 1);
-      }, scope.interval);
-    }
-  };
-};
-
-directive.$inject = ['$templateCache', '$interval'];
-angular.module('utils.foodio').directive('tikTak', directive);
-'use strict';
-
-var directive = function directive(zipcodeApi) {
-  return {
-    restrict: 'A',
-    scope: {
-      zipcode: '&ngModel',
-      model: '=zipcodeModel'
-    },
-    link: function link(scope, $el, attrs) {
-      var _zipcode = null;
-
-      scope.$watch(scope.zipcode, function (value, oldValue) {
-        if (!value) return false;
-        if (value.length !== 8) return false;
-        if (value === oldValue) return false;
-        if (_zipcode === value) return false;
-
-        _zipcode = value;
-
-        var number = scope.model.number ? scope.model.number : null;
-
-        zipcodeApi.fetch({ zipcode: _zipcode, number: number }).then(function (response) {
-          var data = response.data;
-
-          scope.model.latitude = data.latitude;
-          scope.model.longitude = data.longitude;
-          scope.model.neighborhood = data.neighborhood;
-          scope.model.city = data.city;
-          scope.model.street = data.street;
-          scope.model.city_id = data.city.id;
-          scope.model.neighborhood_id = data.neighborhood.id;
-
-          $el.parents('.form-group').siblings().find("input[ng-model='address.number']").focus();
-        });
-      });
-    }
-  };
-};
-
-directive.$inject = ['zipcodeApi'];
-angular.module('utils.foodio').directive('zipcode', directive);

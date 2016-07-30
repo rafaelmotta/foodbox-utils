@@ -16,11 +16,13 @@ let ctrl = ($scope, $uibModalInstance, addressResolved, onSubmitResolved) => {
       this.toggleButtonState();
       let method = this._getMethod();
 
-      $scope.onSubmit({ address: $scope.address, method: method }).then(this._afterSubmit.bind(this));
+      $scope.onSubmit({ address: $scope.address, method: method }).then((response) => {
+        this._afterSubmit(response, method);
+      });
     }
 
     // @description Callback após enviar dados
-    _afterSubmit() {
+    _afterSubmit(response) {
       this.toggleButtonState();
       $uibModalInstance.close({ address: response.data, method: method });
     }

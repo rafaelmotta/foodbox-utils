@@ -6,7 +6,7 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('/templates/modal-address.html',
-    '<form name="addressForm" class="form-horizontal" ng-submit="ctrl.submit()">\n' +
+    '<form name="form" class="form-horizontal" ng-submit="ctrl.submit()">\n' +
     '    <div class="modal-header">\n' +
     '      <h4 class="modal-title" ng-hide="address.id">Adicionar endereço</h4>\n' +
     '      <h4 class="modal-title" ng-show="address.id">Editar endereço</h4>\n' +
