@@ -5,22 +5,39 @@ let ctrl = ($scope, $uibModalInstance, addressResolved, onSubmitResolved) => {
     constructor() {
       $scope.address = addressResolved;
       $scope.onSubmit = onSubmitResolved;
+
+      $scope.button = {
+        disabled: false
+      };
     }
 
+    // @description Envia dados - tratamento deve ser feito de acordo com a necessidade da view
     submit() {
+      this.toggleButtonState();
       let method = this._getMethod();
 
-      $scope.onSubmit({ address: $scope.address, method: method }).then((response) => {
-        $uibModalInstance.close({ address: response.data, method: method });
-      });
+      $scope.onSubmit({ address: $scope.address, method: method }).then(this._afterSubmit.bind(this));
     }
 
+    // @description Callback após enviar dados
+    _afterSubmit() {
+      this.toggleButtonState();
+      $uibModalInstance.close({ address: response.data, method: method });
+    }
+
+    // @description Fecha modal
     close() {
       $uibModalInstance.dismiss('close');
     }
 
+     // @description Retorna o método HTTP para se realizar
      _getMethod() {
       return $scope.address.id ? 'update' : 'create';
+    }
+
+    // @description Altera o estado do botão
+    toggleButtonState() {
+      $scope.button.disabled = !$scope.button.disabled;
     }
   };
 };

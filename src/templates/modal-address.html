@@ -1,9 +1,9 @@
-<div class="modal-header">
-  <h4 class="modal-title" ng-hide="address.id">Adicionar</h4>
-  <h4 class="modal-title" ng-show="address.id">Editar</h4>
-</div>
-<div class="modal-body clearfix">
-  <form name="addressForm" class="form-horizontal" ng-submit="ctrl.submit()">
+<form name="addressForm" class="form-horizontal" ng-submit="ctrl.submit()">
+    <div class="modal-header">
+      <h4 class="modal-title" ng-hide="address.id">Adicionar endereço</h4>
+      <h4 class="modal-title" ng-show="address.id">Editar endereço</h4>
+    </div>
+  <div class="modal-body clearfix">
     <form-group label="Nome" required="true">
       <input type="text" tabindex="1" ng-model="address.name" autofocus />
     </form-group>
@@ -26,10 +26,11 @@
       <textarea ng-model="address.complement" tabindex="7" rows="3"></textarea>
     </form-group>
     <div class="modal-footer">
-      <button class="btn btn-success" loading-spinner>
+      <button class="btn btn-success" type="submit" ng-disabled="button.disabled || form.$invalid">
+        <i class="fa fa-save" ng-show="button.disabled"></i>
         Salvar
       </button>
-      <button class="btn btn-default" type="button" ng-click="ctrl.close()">Cancelar</button>
+      <button class="btn btn-default" type="button" ng-click="ctrl.close()" ng-disabled="button.disabled">Cancelar</button>
     </div>
-  </form>
-</div>
+  </div>
+</form>

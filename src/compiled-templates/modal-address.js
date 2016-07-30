@@ -6,12 +6,12 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('/templates/modal-address.html',
-    '<div class="modal-header">\n' +
-    '  <h4 class="modal-title" ng-hide="address.id">Adicionar</h4>\n' +
-    '  <h4 class="modal-title" ng-show="address.id">Editar</h4>\n' +
-    '</div>\n' +
-    '<div class="modal-body clearfix">\n' +
-    '  <form name="addressForm" class="form-horizontal" ng-submit="ctrl.submit()">\n' +
+    '<form name="addressForm" class="form-horizontal" ng-submit="ctrl.submit()">\n' +
+    '    <div class="modal-header">\n' +
+    '      <h4 class="modal-title" ng-hide="address.id">Adicionar endereço</h4>\n' +
+    '      <h4 class="modal-title" ng-show="address.id">Editar endereço</h4>\n' +
+    '    </div>\n' +
+    '  <div class="modal-body clearfix">\n' +
     '    <form-group label="Nome" required="true">\n' +
     '      <input type="text" tabindex="1" ng-model="address.name" autofocus />\n' +
     '    </form-group>\n' +
@@ -34,13 +34,14 @@ module.run(['$templateCache', function($templateCache) {
     '      <textarea ng-model="address.complement" tabindex="7" rows="3"></textarea>\n' +
     '    </form-group>\n' +
     '    <div class="modal-footer">\n' +
-    '      <button class="btn btn-success" loading-spinner>\n' +
+    '      <button class="btn btn-success" type="submit" ng-disabled="button.disabled || form.$invalid">\n' +
+    '        <i class="fa fa-save" ng-show="button.disabled"></i>\n' +
     '        Salvar\n' +
     '      </button>\n' +
-    '      <button class="btn btn-default" type="button" ng-click="ctrl.close()">Cancelar</button>\n' +
+    '      <button class="btn btn-default" type="button" ng-click="ctrl.close()" ng-disabled="button.disabled">Cancelar</button>\n' +
     '    </div>\n' +
-    '  </form>\n' +
-    '</div>\n' +
+    '  </div>\n' +
+    '</form>\n' +
     '');
 }]);
 })();
