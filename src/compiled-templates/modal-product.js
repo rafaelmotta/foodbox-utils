@@ -36,12 +36,17 @@ module.run(['$templateCache', function($templateCache) {
     '    </p>\n' +
     '    <div class="product-description" ng-if="product.bonifications.length">\n' +
     '      <i class="fa fa-trophy"></i>\n' +
-    '      Receba:\n' +
+    '      Você tem direito a:\n' +
     '        <ul>\n' +
     '          <li ng-repeat="(key, b) in product.bonifications">\n' +
     '            <strong>{{ b.amount }}x</strong> {{ b.bonification.name }}\n' +
     '          </li>\n' +
     '        </ul>\n' +
+    '      <div>\n' +
+    '        <small>\n' +
+    '          Alguns desses itens devem ser adicionados manualmente, geralmente na aba \'Extras\'.\n' +
+    '        </small>\n' +
+    '      </div>\n' +
     '    </div>\n' +
     '  </aside>\n' +
     '  <div class="product-options pull-right">\n' +

@@ -202,7 +202,7 @@ var app = angular.module('utils.foodio', ['ngStorage', 'constants.foodio']);
     module = angular.module('utils.foodio', []);
   }
   module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/templates/modal-product.html', '<div class="modal-header">\n' + '  <button type="button" class="close" data-dismiss="modal" ng-click="ctrl.close()"><span aria-hidden="true">&times;</span></button>\n' + '  <div class="modal-title">\n' + '    <i class="fa fa-shopping-cart"></i>\n' + '    {{ product.name }}\n' + '  </div>\n' + '  <div class="product-total-price">\n' + '    {{ cartItem.total | currency: "R$" }}\n' + '  </div>\n' + '</div>\n' + '<div class="modal-body clearfix">\n' + '  <aside class="pull-left">\n' + '    <img class="product-image img-thumbnail" ng-src="{{ product.img.medium }}" width="280" height="280" alt="Foto do produto com nome {{ product.name }}">\n' + '    <p class="product-description">\n' + '      <i class="fa fa-shopping-cart"></i>\n' + '      {{ product.name }}\n' + '    </p>\n' + '    <p class="product-description">\n' + '      <i class="fa fa-money"></i>\n' + '      A partir de <strong>{{ product.price | currency: "R$" }}</strong>\n' + '    </p>\n' + '    <p class="product-description" ng-if="product.club_points">\n' + '      <i class="fa fa-trophy"></i>\n' + '      Ganhe <strong>{{ product.club_points }}</strong> pontos\n' + '      <a href="#" uib-tooltip="Ao comprar esse produto você ganha {{ product.club_points }} pontos no nosso programa de fidelidade" tooltip-placement="bottom" tooltip-append-to-body="true">\n' + '        <i class="fa fa-info-circle"></i>\n' + '      </a>\n' + '    </p>\n' + '    <div class="product-description" ng-if="product.bonifications.length">\n' + '      <i class="fa fa-trophy"></i>\n' + '      Receba:\n' + '        <ul>\n' + '          <li ng-repeat="(key, b) in product.bonifications">\n' + '            <strong>{{ b.amount }}x</strong> {{ b.bonification.name }}\n' + '          </li>\n' + '        </ul>\n' + '    </div>\n' + '  </aside>\n' + '  <div class="product-options pull-right">\n' + '    <div ng-show="product.description">\n' + '      <label>Descrição:</label>\n' + '      <blockquote ng-bind-html="product.description"></blockquote>\n' + '      <hr />\n' + '    </div>\n' + '    <label for="cart-item-amount">Selecione a quantidade:</label>\n' + '    <select id="cart-item-amount" ng-model="cartItem.amount" ng-options="i as i for i in [1,2,3,4,5,6,7,8,9,10]" ng-change="ctrl.updatePrice()"></select>\n' + '    <hr ng-show="product.product_addon_categories.length > 0">\n' + '    <div ng-repeat="(key, addonCategory) in product.product_addon_categories" class="addon-categories-list">\n' + '      <div class="addon-category-name">\n' + '        {{ addonCategory.name }}\n' + '        <small ng-show="!addonCategory.max && !addonCategory.min">Escolha quantos ingredientes desejar</span></small>\n' + '        <small ng-show="!addonCategory.max && addonCategory.min">\n' + '          Escolha pelo menos {{ addonCategory.min }} <span ng-show="addonCategory.min === 1">ingrediente</span><span ng-show="addonCategory.min > 1">ingredientes</span>\n' + '        </small>\n' + '        <small ng-show="addonCategory.max">\n' + '          <span ng-show="addonCategory.max === 1 && addonCategory.min === 1 || addonCategory.max === 1 && !addonCategory.min">Escolha ao menos 1 ingrediente</span>\n' + '          <span ng-show="addonCategory.max > 1 && addonCategory.min >= 1">Escolha entre {{ addonCategory.min }} à {{ addonCategory.max }} ingredientes</span>\n' + '          <span ng-show="addonCategory.max > 1 && !addonCategory.min">Escolha até {{ addonCategory.max }} ingredientes</span>\n' + '        </small>\n' + '      </div>\n' + '      <div class="addons-list">\n' + '        <div ng-repeat="(_key, addon) in addonCategory.product_addons" class="addon-item">\n' + '\n' + '          <label ng-disabled="!addon.available" ng-if="!addonCategory.multiple">\n' + '            <input type="radio" ng-model="cartItem.cart_item_addons[key]" ng-change="ctrl.updatePrice()" ng-disabled="!addon.available" ng-value="addon" />\n' + '            {{ addon.name }}\n' + '            <a ng-if="addon.club_points" href="#" uib-tooltip="Ao comprar esse ingrediente você ganha {{ addon.club_points }} pontos no nosso programa de fidelidade" tooltip-placement="bottom" tooltip-append-to-body="true">\n' + '              <i class="fa fa-trophy"></i>\n' + '            </a>\n' + '            <span class="addon-price" ng-show="addon.price > 0 && addon.available">({{ addon.price | currency: "R$" }})</span>\n' + '            <span class="addon-unavailable" ng-show="!addon.available">Ingrediente não disponível</span>\n' + '            <span class="addon-description" ng-show="addon.available && addon.description">{{ addon.description }}</span>\n' + '          </label>\n' + '\n' + '          <label ng-disabled="!addon.available" ng-if="addonCategory.multiple">\n' + '            <input type="checkbox" ng-model="cartItem.cart_item_addons[key][_key].selected" ng-change="ctrl.updatePrice()" ng-disabled="!addon.available" />\n' + '            {{ addon.name }}\n' + '            <a ng-if="addon.club_points" href="#" uib-tooltip="Ao comprar esse ingrediente você ganha {{ addon.club_points }} pontos no nosso programa de fidelidade" tooltip-placement="bottom" tooltip-append-to-body="true">\n' + '              <i class="fa fa-trophy"></i>\n' + '            </a>\n' + '            <span class="addon-price" ng-show="addon.price > 0 && addon.available">({{ addon.price | currency: "R$" }})</span>\n' + '            <span class="addon-unavailable" ng-show="!addon.available">Ingrediente não disponível</span>\n' + '          </label>\n' + '        </div>\n' + '      </div>\n' + '    </div>\n' + '    <hr>\n' + '    <label for="cart-item-note">Deseja fazer alguma observação?</label>\n' + '    <textarea id="cart-item-note" rows="3" ng-model="cartItem.note"></textarea>\n' + '    <limit maxlength="150" model="cartItem.note"></limit>\n' + '  </div>\n' + '</div>\n' + '<div class="modal-footer">\n' + '  <button class="btn btn-success" ng-click="ctrl.add()" ng-show="!cartItem.id" ng-disabled="buttons.disabled">\n' + '    <i class="fa" ng-class="{ \'fa-plus-square\': !buttons.disabled, \'fa-spinner fa-spin\': buttons.disabled }"></i>\n' + '    Adicionar\n' + '  </button>\n' + '  <button class="btn btn-success" ng-click="ctrl.add()" ng-show="cartItem.id" ng-disabled="buttons.disabled">\n' + '    <i class="fa" ng-class="{ \'fa-pencil\': !buttons.disabled, \'fa-spinner fa-spin\': buttons.disabled }"></i>\n' + '    Editar\n' + '  </button>\n' + '  <button class="btn btn-default" ng-click="ctrl.close()" ng-disabled="buttons.disabled">\n' + '    Cancelar\n' + '  </button>\n' + '</div>\n' + '');
+    $templateCache.put('/templates/modal-product.html', '<div class="modal-header">\n' + '  <button type="button" class="close" data-dismiss="modal" ng-click="ctrl.close()"><span aria-hidden="true">&times;</span></button>\n' + '  <div class="modal-title">\n' + '    <i class="fa fa-shopping-cart"></i>\n' + '    {{ product.name }}\n' + '  </div>\n' + '  <div class="product-total-price">\n' + '    {{ cartItem.total | currency: "R$" }}\n' + '  </div>\n' + '</div>\n' + '<div class="modal-body clearfix">\n' + '  <aside class="pull-left">\n' + '    <img class="product-image img-thumbnail" ng-src="{{ product.img.medium }}" width="280" height="280" alt="Foto do produto com nome {{ product.name }}">\n' + '    <p class="product-description">\n' + '      <i class="fa fa-shopping-cart"></i>\n' + '      {{ product.name }}\n' + '    </p>\n' + '    <p class="product-description">\n' + '      <i class="fa fa-money"></i>\n' + '      A partir de <strong>{{ product.price | currency: "R$" }}</strong>\n' + '    </p>\n' + '    <p class="product-description" ng-if="product.club_points">\n' + '      <i class="fa fa-trophy"></i>\n' + '      Ganhe <strong>{{ product.club_points }}</strong> pontos\n' + '      <a href="#" uib-tooltip="Ao comprar esse produto você ganha {{ product.club_points }} pontos no nosso programa de fidelidade" tooltip-placement="bottom" tooltip-append-to-body="true">\n' + '        <i class="fa fa-info-circle"></i>\n' + '      </a>\n' + '    </p>\n' + '    <div class="product-description" ng-if="product.bonifications.length">\n' + '      <i class="fa fa-trophy"></i>\n' + '      Você tem direito a:\n' + '        <ul>\n' + '          <li ng-repeat="(key, b) in product.bonifications">\n' + '            <strong>{{ b.amount }}x</strong> {{ b.bonification.name }}\n' + '          </li>\n' + '        </ul>\n' + '      <div>\n' + '        <small>\n' + '          Alguns desses itens devem ser adicionados manualmente, geralmente na aba \'Extras\'.\n' + '        </small>\n' + '      </div>\n' + '    </div>\n' + '  </aside>\n' + '  <div class="product-options pull-right">\n' + '    <div ng-show="product.description">\n' + '      <label>Descrição:</label>\n' + '      <blockquote ng-bind-html="product.description"></blockquote>\n' + '      <hr />\n' + '    </div>\n' + '    <label for="cart-item-amount">Selecione a quantidade:</label>\n' + '    <select id="cart-item-amount" ng-model="cartItem.amount" ng-options="i as i for i in [1,2,3,4,5,6,7,8,9,10]" ng-change="ctrl.updatePrice()"></select>\n' + '    <hr ng-show="product.product_addon_categories.length > 0">\n' + '    <div ng-repeat="(key, addonCategory) in product.product_addon_categories" class="addon-categories-list">\n' + '      <div class="addon-category-name">\n' + '        {{ addonCategory.name }}\n' + '        <small ng-show="!addonCategory.max && !addonCategory.min">Escolha quantos ingredientes desejar</span></small>\n' + '        <small ng-show="!addonCategory.max && addonCategory.min">\n' + '          Escolha pelo menos {{ addonCategory.min }} <span ng-show="addonCategory.min === 1">ingrediente</span><span ng-show="addonCategory.min > 1">ingredientes</span>\n' + '        </small>\n' + '        <small ng-show="addonCategory.max">\n' + '          <span ng-show="addonCategory.max === 1 && addonCategory.min === 1 || addonCategory.max === 1 && !addonCategory.min">Escolha ao menos 1 ingrediente</span>\n' + '          <span ng-show="addonCategory.max > 1 && addonCategory.min >= 1">Escolha entre {{ addonCategory.min }} à {{ addonCategory.max }} ingredientes</span>\n' + '          <span ng-show="addonCategory.max > 1 && !addonCategory.min">Escolha até {{ addonCategory.max }} ingredientes</span>\n' + '        </small>\n' + '      </div>\n' + '      <div class="addons-list">\n' + '        <div ng-repeat="(_key, addon) in addonCategory.product_addons" class="addon-item">\n' + '\n' + '          <label ng-disabled="!addon.available" ng-if="!addonCategory.multiple">\n' + '            <input type="radio" ng-model="cartItem.cart_item_addons[key]" ng-change="ctrl.updatePrice()" ng-disabled="!addon.available" ng-value="addon" />\n' + '            {{ addon.name }}\n' + '            <a ng-if="addon.club_points" href="#" uib-tooltip="Ao comprar esse ingrediente você ganha {{ addon.club_points }} pontos no nosso programa de fidelidade" tooltip-placement="bottom" tooltip-append-to-body="true">\n' + '              <i class="fa fa-trophy"></i>\n' + '            </a>\n' + '            <span class="addon-price" ng-show="addon.price > 0 && addon.available">({{ addon.price | currency: "R$" }})</span>\n' + '            <span class="addon-unavailable" ng-show="!addon.available">Ingrediente não disponível</span>\n' + '            <span class="addon-description" ng-show="addon.available && addon.description">{{ addon.description }}</span>\n' + '          </label>\n' + '\n' + '          <label ng-disabled="!addon.available" ng-if="addonCategory.multiple">\n' + '            <input type="checkbox" ng-model="cartItem.cart_item_addons[key][_key].selected" ng-change="ctrl.updatePrice()" ng-disabled="!addon.available" />\n' + '            {{ addon.name }}\n' + '            <a ng-if="addon.club_points" href="#" uib-tooltip="Ao comprar esse ingrediente você ganha {{ addon.club_points }} pontos no nosso programa de fidelidade" tooltip-placement="bottom" tooltip-append-to-body="true">\n' + '              <i class="fa fa-trophy"></i>\n' + '            </a>\n' + '            <span class="addon-price" ng-show="addon.price > 0 && addon.available">({{ addon.price | currency: "R$" }})</span>\n' + '            <span class="addon-unavailable" ng-show="!addon.available">Ingrediente não disponível</span>\n' + '          </label>\n' + '        </div>\n' + '      </div>\n' + '    </div>\n' + '    <hr>\n' + '    <label for="cart-item-note">Deseja fazer alguma observação?</label>\n' + '    <textarea id="cart-item-note" rows="3" ng-model="cartItem.note"></textarea>\n' + '    <limit maxlength="150" model="cartItem.note"></limit>\n' + '  </div>\n' + '</div>\n' + '<div class="modal-footer">\n' + '  <button class="btn btn-success" ng-click="ctrl.add()" ng-show="!cartItem.id" ng-disabled="buttons.disabled">\n' + '    <i class="fa" ng-class="{ \'fa-plus-square\': !buttons.disabled, \'fa-spinner fa-spin\': buttons.disabled }"></i>\n' + '    Adicionar\n' + '  </button>\n' + '  <button class="btn btn-success" ng-click="ctrl.add()" ng-show="cartItem.id" ng-disabled="buttons.disabled">\n' + '    <i class="fa" ng-class="{ \'fa-pencil\': !buttons.disabled, \'fa-spinner fa-spin\': buttons.disabled }"></i>\n' + '    Editar\n' + '  </button>\n' + '  <button class="btn btn-default" ng-click="ctrl.close()" ng-disabled="buttons.disabled">\n' + '    Cancelar\n' + '  </button>\n' + '</div>\n' + '');
   }]);
 })();
 'use strict';
@@ -265,6 +265,1214 @@ var app = angular.module('utils.foodio', ['ngStorage', 'constants.foodio']);
     $templateCache.put('/templates/tik-tak.html', '<span>\n' + '  {{ value }}\n' + '</span>');
   }]);
 })();
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var StoreCallbacks = function StoreCallbacks($q) {
+  return (function () {
+    function StoreCallbacks(store) {
+      _classCallCheck(this, StoreCallbacks);
+
+      if (store) this.setStore(store);
+      return this;
+    }
+
+    _createClass(StoreCallbacks, [{
+      key: 'setStore',
+      value: function setStore(store) {
+        this.store = store;
+      }
+    }, {
+      key: 'getDiffFromNow',
+      value: function getDiffFromNow(reference) {
+        return moment(reference).diff(moment(), 'seconds');
+      }
+    }, {
+      key: 'toOpen',
+      value: function toOpen() {
+        var _this = this;
+
+        return $q(function (resolve, reject) {
+          if (!_this.store.opening_time) {
+            return reject();
+          }
+
+          return resolve({ event: 'toOpen', seconds: _this.getDiffFromNow(_this.store.opening_time) });
+        });
+      }
+    }, {
+      key: 'toClose',
+      value: function toClose() {
+        var _this2 = this;
+
+        return $q(function (resolve, reject) {
+          if (!_this2.store.closing_time) {
+            return reject();
+          }
+
+          return resolve({ event: 'toClose', seconds: _this2.getDiffFromNow(_this2.store.closing_time) });
+        });
+      }
+    }]);
+
+    return StoreCallbacks;
+  })();
+};
+
+StoreCallbacks.$inject = ['$q'];
+angular.module('utils.foodio').factory('StoreCallbacks', StoreCallbacks);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var hint = function hint($timeout, $window, toaster, constants) {
+
+  return new ((function () {
+    function Hint() {
+      _classCallCheck(this, Hint);
+
+      this.notifications = [];
+      this.timeout = 5000;
+      this.notification = $window.Notification || $window.mozNotification || $window.webkitNotification;
+
+      if (!this.notification) {
+        return false;
+      }
+
+      this.notification.requestPermission();
+    }
+
+    _createClass(Hint, [{
+      key: 'success',
+      value: function success(message) {
+        var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+        this._notify('success', 'Sucesso :)', message, options);
+      }
+    }, {
+      key: 'error',
+      value: function error(message) {
+        var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+        this._notify('error', 'Ops...', message, options);
+      }
+    }, {
+      key: 'info',
+      value: function info(message) {
+        var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+        this._notify('info', 'Atenção', message, options);
+      }
+    }, {
+      key: '_notify',
+      value: function _notify(type, title, message, options) {
+        var _this = this;
+
+        if (options.title) {
+          title = options.title;
+        }
+
+        if (!options.timeout) {
+          options.timeout = this.timeout;
+        }
+
+        if (!options.autoClose) {
+          options.autoClose = true;
+        }
+
+        // Toca audio
+        var audio = new Audio(constants['static'] + '/notifications/audios/' + type + '.mp3').play();
+
+        if (!message) {
+          return false;
+        }
+
+        if (this.notification && this.notification.permission === 'granted') {
+
+          var settings = {
+            body: message,
+            icon: constants['static'] + '/notifications/icons/' + type + '.png'
+          };
+
+          // Só adiciona um hint se não houver nenhum hint com o mesmo conteudi
+          if (!this._hasMessage(settings.body)) {
+            var _notification = new this.notification(title, settings);
+            this.notifications.push(_notification);
+
+            if (options.autoClose) {
+              $timeout(function () {
+
+                // Acha posicão da notificação no array
+                var index = _this.notifications.indexOf(_notification);
+                _notification = _this.notifications[index];
+
+                // Força fechamento
+                _notification.close();
+
+                // Remove do array
+                _this.notifications.splice(index, 1);
+              }, options.timeout);
+            }
+          }
+        } else {
+          toaster.pop({
+            type: type,
+            title: title,
+            body: message,
+            timeout: options.timeout
+          });
+        }
+      }
+    }, {
+      key: '_hasMessage',
+      value: function _hasMessage(message) {
+        var hasMessage = false;
+
+        angular.forEach(this.notifications, function (notification) {
+          if (notification.body === message) {
+            hasMessage = true;
+          }
+        });
+
+        return hasMessage;
+      }
+    }, {
+      key: '_randonNumber',
+      value: function _randonNumber() {
+        return Math.floor(Math.random() * (99999999 - 1 + 1)) + 1;
+      }
+    }]);
+
+    return Hint;
+  })())();
+};
+
+hint.$inject = ['$timeout', '$window', 'toaster', 'constants'];
+angular.module('utils.foodio').factory('hint', hint);
+'use strict';
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var httpConfig = function httpConfig($httpProvider) {
+  return $httpProvider.interceptors.push("httpHintInterceptor");
+};
+
+httpConfig.$inject = ['$httpProvider'];
+
+var httpHintInterceptor = function httpHintInterceptor($q, $window, $rootScope) {
+  return {
+    request: function request(config) {
+      config.timeout = 30000;
+      return config || $q.when(config);
+    },
+    response: function response(_response) {
+      return _response || $q.when(_response);
+    },
+    responseError: function responseError(response) {
+      $rootScope.$emit('request:end', {
+        error: true
+      });
+
+      if (response && response.data && response.data.error) {
+        $rootScope.$emit('request:error', response.data.error);
+      }
+
+      return $q.reject(response);
+    }
+  };
+};
+
+httpHintInterceptor.$inject = ['$q', '$window', '$rootScope'];
+angular.module("utils.foodio").config(httpConfig).factory("httpHintInterceptor", httpHintInterceptor);
+
+var RestangularInterceptors = function RestangularInterceptors(Restangular, $rootScope) {
+  return new function RestangularInterceptors() {
+    _classCallCheck(this, RestangularInterceptors);
+
+    Restangular.addRequestInterceptor(function (element) {
+      $rootScope.$emit('request:start');
+
+      $('.with-loader').removeClass('hide');
+      $rootScope.withLoader = { inAction: true };
+
+      return element;
+    });
+
+    Restangular.addResponseInterceptor(function (data) {
+      $rootScope.$emit('request:end');
+
+      $('.with-loader').addClass('hide');
+      $rootScope.withLoader = { inAction: false };
+
+      return data;
+    });
+  }();
+};
+
+RestangularInterceptors.$inject = ['Restangular', '$rootScope'];
+angular.module('utils.foodio').factory('RestangularInterceptors', RestangularInterceptors);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var HttpToken = function HttpToken($q, $state, $http, hint, storage) {
+
+  return (function () {
+    function HttpToken(userKey) {
+      _classCallCheck(this, HttpToken);
+
+      this._setUserKey(userKey);
+      return this;
+    }
+
+    _createClass(HttpToken, [{
+      key: 'initialize',
+      value: function initialize() {
+        var _this = this;
+
+        return $q(function (resolve, reject) {
+          return _this.get().then(function (user) {
+            if (!user) return reject();
+
+            _this.set(user).then(function (user) {
+              resolve(user);
+            });
+          });
+        });
+      }
+    }, {
+      key: 'get',
+      value: function get() {
+        return storage.get('current' + this.key).then(function (currentUser) {
+          return currentUser;
+        });
+      }
+    }, {
+      key: 'set',
+      value: function set(user) {
+        var _this2 = this;
+
+        return $q(function (resolve, reject) {
+          $http.defaults.headers.common['X-' + _this2.key + '-Email'] = user.email;
+          $http.defaults.headers.common['X-' + _this2.key + '-Token'] = user.authentication_token;
+
+          if (user.store && user.store.id) {
+            $http.defaults.headers.common['X-Store-Id'] = user.store.id;
+          }
+
+          storage.set('current' + _this2.key, user);
+
+          resolve(_this2.get());
+        });
+      }
+    }, {
+      key: 'remove',
+      value: function remove() {
+        var _this3 = this;
+
+        return $q(function (resolve, reject) {
+          return storage.remove('current' + _this3.key).then(function () {
+            delete $http.defaults.headers.common['X-' + _this3.key + '-Email'];
+            delete $http.defaults.headers.common['X-' + _this3.key + '-Token'];
+            resolve();
+          });
+        });
+      }
+    }, {
+      key: '_setUserKey',
+      value: function _setUserKey() {
+        var key = arguments.length <= 0 || arguments[0] === undefined ? 'Employee' : arguments[0];
+
+        if (key !== 'Employee' && key !== 'Costumer') {
+          throw new Error('Chave para uso do serviço HttpToken deve ter os valores Employee ou Costumer');
+        }
+        this.key = key;
+      }
+    }]);
+
+    return HttpToken;
+  })();
+};
+
+HttpToken.$inject = ['$q', '$state', '$http', 'hint', 'storage'];
+angular.module('utils.foodio').factory('HttpToken', HttpToken);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var modalAddress = function modalAddress($uibModal, $templateCache) {
+
+  return new ((function () {
+    function ModalAddress() {
+      _classCallCheck(this, ModalAddress);
+    }
+
+    _createClass(ModalAddress, [{
+      key: 'open',
+      value: function open() {
+        var params = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+        if (!angular.isObject(params)) {
+          throw new Error('Modal Address params must be an object!');
+        }
+
+        if (!params.onSubmit || !angular.isFunction(params.onSubmit)) {
+          throw new Error('Modal Address Factory must have onSubmit function!');
+        }
+
+        return $uibModal.open({
+          template: $templateCache.get('/templates/modal-address.html'),
+          controller: 'ModalAddressCtrl as ctrl',
+          windowClass: 'modal-address',
+          resolve: {
+            addressResolved: function addressResolved() {
+              return params.address;
+            },
+            onSubmitResolved: function onSubmitResolved() {
+              return params.onSubmit;
+            }
+          }
+        });
+      }
+    }]);
+
+    return ModalAddress;
+  })())();
+};
+
+modalAddress.$inject = ['$uibModal', '$templateCache'];
+angular.module('utils.foodio').factory('modalAddress', modalAddress);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var modal = function modal($uibModal, $templateCache) {
+  return new ((function () {
+    function Modal() {
+      _classCallCheck(this, Modal);
+    }
+
+    _createClass(Modal, [{
+      key: 'open',
+      value: function open() {
+        var params = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+        return $uibModal.open({
+          template: $templateCache.get('/templates/modal-chat.html'),
+          controller: 'ModalChatCtrl as ctrl',
+          windowClass: 'modal-chat',
+          resolve: {
+            onScrollResolved: function onScrollResolved() {
+              return params.onScroll;
+            },
+            chatResolved: function chatResolved() {
+              return params.chat;
+            },
+            userResolved: function userResolved() {
+              return params.user;
+            },
+            userTypeResolved: function userTypeResolved() {
+              var userType = params.userType;
+
+              if (userType !== 'Costumer' && userType !== 'Employee') {
+                userType = 'Costumer';
+              }
+
+              return userType;
+            }
+          }
+        });
+      }
+    }]);
+
+    return Modal;
+  })())();
+};
+
+modal.$inject = ['$uibModal', '$templateCache'];
+angular.module('utils.foodio').factory('modalChat', modal);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var modalCustomPeriod = function modalCustomPeriod($uibModal, $templateCache) {
+  return new ((function () {
+    function ModalCustomPeriod() {
+      _classCallCheck(this, ModalCustomPeriod);
+    }
+
+    _createClass(ModalCustomPeriod, [{
+      key: 'open',
+      value: function open() {
+        var params = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+        return $uibModal.open({
+          template: $templateCache.get('/templates/modal-custom-period.html'),
+          controller: 'ModalCustomPeriodCtrl as ctrl',
+          windowClass: 'modal-custom-period',
+          resolve: {
+            datePeriodResolved: function datePeriodResolved() {
+              return params.datePeriod;
+            }
+          }
+        });
+      }
+    }]);
+
+    return ModalCustomPeriod;
+  })())();
+};
+
+modalCustomPeriod.$inject = ['$uibModal', '$templateCache'];
+angular.module('utils.foodio').factory('modalCustomPeriod', modalCustomPeriod);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var modalDestroyer = function modalDestroyer($interval) {
+  return new ((function () {
+    function ModalDestroyer() {
+      _classCallCheck(this, ModalDestroyer);
+
+      this.interval = null;
+    }
+
+    _createClass(ModalDestroyer, [{
+      key: 'destroyAll',
+      value: function destroyAll() {
+        $('.modal').remove();
+        $('.modal-backdrop').hide();
+        $('body').removeClass('modal-open');
+
+        if (this.interval) {
+          $interval.cancel(this.interval);
+        }
+
+        this.interval = $interval(function () {
+          var $modal = $('.modal');
+
+          if ($modal.length) {
+            $('.modal-backdrop').show();
+          } else {
+            $('.modal-backdrop').hide();
+          }
+        }, 100);
+      }
+    }]);
+
+    return ModalDestroyer;
+  })())();
+};
+
+modalDestroyer.$inject = ['$interval'];
+angular.module('utils.foodio').factory('modalDestroyer', modalDestroyer);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var modal = function modal($uibModal, $templateCache) {
+  return new ((function () {
+    function Modal() {
+      _classCallCheck(this, Modal);
+    }
+
+    _createClass(Modal, [{
+      key: 'open',
+      value: function open() {
+        var params = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+        return $uibModal.open({
+          template: $templateCache.get('/templates/modal-message.html'),
+          controller: 'ModalMessageCtrl as ctrl',
+          windowClass: 'modal-message',
+          resolve: {
+            messageResolved: function messageResolved() {
+              return params;
+            }
+          }
+        });
+      }
+    }]);
+
+    return Modal;
+  })())();
+};
+
+modal.$inject = ['$uibModal', '$templateCache'];
+angular.module('utils.foodio').factory('modalMessage', modal);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var modalProduct = function modalProduct($uibModal, menuApi, $templateCache) {
+  return new ((function () {
+    function ModalProduct() {
+      _classCallCheck(this, ModalProduct);
+    }
+
+    _createClass(ModalProduct, [{
+      key: 'open',
+      value: function open(params) {
+
+        if (!params.cart) {
+          throw new Error('Modal Product service must have a cart');
+        }
+
+        if (!params.product) {
+          throw new Error('Modal Product service must have a product');
+        }
+
+        if (!params.cartItem) {
+          params.cartItem = false;
+        }
+
+        return $uibModal.open({
+          template: $templateCache.get('/templates/modal-product.html'),
+          controller: 'ModalProductCtrl as ctrl',
+          windowClass: 'modal-product',
+          resolve: {
+            bonificationResolved: function bonificationResolved() {
+              return params.product.bonification;
+            },
+            cartResolved: function cartResolved() {
+              return params.cart;
+            },
+            productResolved: function productResolved() {
+              return menuApi.show(params.product).then(function (response) {
+                return response.data;
+              });
+            },
+            cartItemResolved: function cartItemResolved() {
+              return params.cartItem;
+            }
+          }
+        });
+      }
+    }]);
+
+    return ModalProduct;
+  })())();
+};
+
+modalProduct.$inject = ['$uibModal', 'menuApi', '$templateCache'];
+angular.module('utils.foodio').factory('modalProduct', modalProduct);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var modalRating = function modalRating($uibModal, $templateCache) {
+  return new ((function () {
+    function ModalRating() {
+      _classCallCheck(this, ModalRating);
+    }
+
+    _createClass(ModalRating, [{
+      key: 'open',
+      value: function open(order) {
+        return $uibModal.open({
+          template: $templateCache.get('/templates/modal-rating.html'),
+          controller: 'ModalRatingCtrl as ctrl',
+          windowClass: 'modal-rating',
+          resolve: {
+            orderResolvedd: function orderResolvedd() {
+              return order;
+            }
+          }
+        });
+      }
+    }]);
+
+    return ModalRating;
+  })())();
+};
+
+modalRating.$inject = ['$uibModal', '$templateCache'];
+angular.module('utils.foodio').factory('modalRating', modalRating);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var popup = function popup($window, $q) {
+  return new ((function () {
+    function Popup() {
+      _classCallCheck(this, Popup);
+    }
+
+    _createClass(Popup, [{
+      key: 'open',
+      value: function open(pageURL, width, height) {
+        return $q(function (resolve, reject) {
+          var left = Number(screen.width / 2 - width / 2);
+          var top = Number(screen.height / 2 - height / 2);
+
+          var popup = $window.open(pageURL, '', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' + width + ', height=' + height + ', top=' + top + ', left=' + left);
+          resolve(popup);
+        });
+      }
+    }]);
+
+    return Popup;
+  })())();
+};
+
+popup.$inject = ['$window', '$q'];
+angular.module('utils.foodio').factory('popup', popup);
+'use strict';
+
+var printManager = function printManager($rootScope, $localStorage, hint, printerApi, orderApi, $uibModal, $templateCache) {
+
+  var socket = null;
+  var printers = [];
+
+  return {
+
+    // @name connect
+    // @description Conecta com o socket
+    connect: function connect() {
+      var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+      var channel = duel.channel('socket');
+
+      // Seta impressoras
+      if (options.printers && options.printers.length) {
+        printers = options.printers;
+      }
+
+      return new Promise(function (resolve, reject) {
+
+        // Previne de criar se já está criado
+        if (socket) {
+          return resolve(socket);
+        }
+
+        var address = options.port ? 'http://localhost:' + options.port : 'http://localhost:7333';
+        socket = io(address);
+
+        channel.broadcast('socket:connected', { connected: true });
+
+        // Adiciona evento de erro
+        socket.on('print:error', function (data) {
+          hint[data.type](data.description);
+        });
+
+        return resolve(socket);
+      });
+    },
+
+    // @name disconnect
+    // @description Desconecta socket
+    disconnect: function disconnect() {
+      var channel = duel.channel('socket');
+
+      return new Promise(function (resolve, reject) {
+        channel.broadcast('socket:disconnected', { disconnected: true });
+        resolve(socket = null);
+      });
+    },
+
+    // @name print
+    // @description Realiza impressão utilizando socket.io
+    // @params {Object} options - Layout, impressora e dados opcionais para impressão
+    print: function print(options) {
+      var _this = this;
+
+      return new Promise(function (resolve, reject) {
+        return _this._getPrinter(options).then(function (printer) {
+          return _this._getData(options).then(function (data) {
+
+            if (options.layout === 'delivery' && data.order.order_type.type !== 'delivery') {
+              return _this._throwError(reject, "Para imprimir uma via delivery é necessário que o pedido seja do tipo delivery");
+            }
+
+            socket.emit('print:start');
+            return resolve(socket.emit('print', { layout: options.layout, copies: options.copies, printer: printer, data: data }));
+          });
+        });
+      });
+    },
+
+    // @name _getPrinter
+    // @description Valida dados e escolhe impressora
+    // @params {Object} options - Layout, impressora e dados opcionais para impressão
+    _getPrinter: function _getPrinter(options) {
+      var _this2 = this;
+
+      return new Promise(function (resolve, reject) {
+
+        // Evita de tentar imprimir se o programa de impressão não estiver
+        if (!socket || socket.disconnected) {
+          return _this2._throwError(reject, "O programa de impressão não encontra-se ativo. Instale-o e inicie para prosseguir!");
+        }
+
+        if (options.printer) {
+          return resolve(options.printer);
+        }
+
+        // Não há impressora cadastrada
+        if (!printers.length) {
+          return _this2._throwError(reject, "Você não possui nenhuma impressora cadastrada. Cadastre uma para prosseguir!");
+        }
+
+        // Só há uma impressora, dessa forma usa ela
+        if (printers.length === 1) {
+          return resolve(printers[0]);
+        }
+
+        // Exibe modal para escolher impressora
+        if (printers.length > 1) {
+          _this2.openModal({ printerChooser: true }).result.then(function (result) {
+            return resolve(result.printer);
+          });
+        }
+      });
+    },
+
+    _getData: function _getData(options) {
+      return new Promise(function (resolve, reject) {
+        var data = {
+          company: $rootScope.company,
+          store: $rootScope.currentStore
+        };
+
+        if (options.data && options.data.order) {
+          orderApi.show({ id: options.data.order.id }).then(function (response) {
+            data.order = response.data;
+            return resolve(data);
+          });
+        } else {
+          return resolve(data);
+        }
+      });
+    },
+
+    // @name openModal
+    // @description Abre modal
+    openModal: function openModal() {
+      var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+      var modal = $uibModal.open({
+        template: $templateCache.get('/templates/modal-print-manager.html'),
+        controller: 'ModalPrintManagerController as ctrl',
+        windowClass: 'modal-printer',
+        resolve: {
+          printersResolved: function printersResolved() {
+            return printerApi.fetch().then(function (response) {
+              printers = response.data;
+              return printers;
+            });
+          },
+          printerChooseResolved: function printerChooseResolved() {
+            return options.printerChooser || false;
+          }
+        }
+      });
+
+      return modal;
+    },
+
+    // @name _throwError
+    // @description Exibe erro e rejeita prommessa
+    // @param {Fn} reject - Reject promise
+    // @param {String} errorMsg - Mensagem de erro
+    _throwError: function _throwError(reject, errorMsg) {
+      hint.error(errorMsg);
+      reject(errorMsg);
+    },
+
+    // @name _fetchPrinters
+    // @description Busca impressoras
+    _fetchPrinters: function _fetchPrinters() {
+      return printerApi.fetch();
+    },
+
+    // @name _resetSocket
+    // @description Realiza impressão utilizando socket.io
+    _resetSocket: function _resetSocket() {
+      return socket = {
+        disconnected: true,
+        connected: false
+      };
+    }
+  };
+};
+
+printManager.$inject = ['$rootScope', '$localStorage', 'hint', 'printerApi', 'orderApi', '$uibModal', '$templateCache'];
+angular.module('utils.foodio').factory('printManager', printManager);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var factory = function factory($rootScope, $state, hint) {
+
+  return (function () {
+    function RequestError() {
+      var _this = this;
+
+      var params = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+      _classCallCheck(this, RequestError);
+
+      if (params.onError && angular.isFunction(params.onError)) {
+        this.onError = params.onError;
+      }
+
+      $rootScope.$on('request:error', function ($event, data) {
+        _this._onError(data);
+      });
+    }
+
+    // Exibe mensagem
+    // @param {Object} data com descrição do erro
+
+    _createClass(RequestError, [{
+      key: '_onError',
+      value: function _onError(data) {
+        if (typeof data === 'undefined') {
+          return false;
+        }
+
+        if (data.code === 0) {
+          data = { code: 408, description: 'Não foi possível conectar com o servidor. Tente mais tarde. ' };
+        }
+
+        if (angular.isArray(data.description)) {
+          angular.forEach(data.description, function (message) {
+            hint.error(message);
+          });
+        } else {
+          hint.error(data.description);
+        }
+
+        if (this.onError) {
+          this.onError(data);
+        }
+      }
+    }]);
+
+    return RequestError;
+  })();
+};
+
+factory.$inject = ['$rootScope', '$state', 'hint'];
+angular.module('utils.foodio').factory('RequestError', factory);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var roleVerificator = function roleVerificator() {
+  return new ((function () {
+    function RoleVerificator() {
+      _classCallCheck(this, RoleVerificator);
+    }
+
+    _createClass(RoleVerificator, [{
+      key: 'hasRole',
+      value: function hasRole(roleToVerify, availableRoles) {
+        var found = false;
+
+        angular.forEach(availableRoles, function (roleAlias) {
+          if (roleAlias === roleToVerify.alias) {
+            found = true;
+          }
+        });
+
+        return found;
+      }
+    }]);
+
+    return RoleVerificator;
+  })())();
+};
+
+angular.module('utils.foodio').factory('roleVerificator', roleVerificator);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var scrollTop = function scrollTop() {
+  return new ((function () {
+    function ScrollTop() {
+      _classCallCheck(this, ScrollTop);
+    }
+
+    _createClass(ScrollTop, [{
+      key: 'goTop',
+      value: function goTop() {
+        var delay = arguments.length <= 0 || arguments[0] === undefined ? 500 : arguments[0];
+
+        var position = 0;
+        $('html, body').animate({ scrollTop: position }, delay);
+      }
+    }]);
+
+    return ScrollTop;
+  })())();
+};
+
+angular.module('utils.foodio').factory('scrollTop', scrollTop);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var storage = function storage($localStorage, $q) {
+  return new ((function () {
+    function Storage() {
+      _classCallCheck(this, Storage);
+    }
+
+    _createClass(Storage, [{
+      key: 'get',
+      value: function get(key) {
+        return $q(function (resolve, reject) {
+          var response = $localStorage[key] || null;
+          resolve(response);
+        });
+      }
+    }, {
+      key: 'set',
+      value: function set(key, value) {
+        return $q(function (resolve, reject) {
+          $localStorage[key] = value;
+          resolve();
+        });
+      }
+    }, {
+      key: 'remove',
+      value: function remove(key) {
+        return $q(function (resolve, reject) {
+          delete $localStorage[key];
+          var response = $localStorage[key] || null;
+          resolve(response);
+        });
+      }
+    }]);
+
+    return Storage;
+  })())();
+};
+
+storage.$inject = ['$localStorage', '$q'];
+angular.module('utils.foodio').factory('storage', storage);
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var tempCart = function tempCart() {
+  return (function () {
+    function TempCart($scope, cartItem) {
+      _classCallCheck(this, TempCart);
+
+      this.$scope = $scope;
+      $scope.isEditing = cartItem ? true : false;
+
+      if ($scope.isEditing) {
+        cartItem.customization_fields = JSON.parse(cartItem.customization_fields);
+      }
+
+      $scope.cartItem = cartItem || { amount: 1, note: null, total: $scope.product.price * 1, product: $scope.product, customization_fields: {}, addons: [] };
+
+      this._setCustomizationFields();
+      this._listenScopeEvents();
+    }
+
+    _createClass(TempCart, [{
+      key: '_setCustomizationFields',
+      value: function _setCustomizationFields() {
+        var _this = this;
+
+        if (this.$scope.isEditing) {
+          return false;
+        }
+
+        angular.forEach(this.$scope.product.addon_categories, function (addonCategory) {
+          _this.$scope.cartItem.customization_fields[addonCategory.id] = {};
+
+          angular.forEach(addonCategory.addons, function (addon) {
+            if (addonCategory.max === 1) {
+              _this.$scope.cartItem.customization_fields[addonCategory.id] = addonCategory.addons[0].id;
+            } else {
+              var fill = addonCategory.auto_fill && !parseFloat(addon.price) && addon.available ? true : false;
+              _this.$scope.cartItem.customization_fields[addonCategory.id][addon.id] = fill;
+            }
+          });
+        });
+      }
+    }, {
+      key: '_listenScopeEvents',
+      value: function _listenScopeEvents() {
+        var _this2 = this;
+
+        var findAndInsert = function findAndInsert(addonId) {
+          var _addon = null;
+
+          angular.forEach(_this2.$scope.product.addon_categories, function (addonCategory) {
+            var find = _.findWhere(addonCategory.addons, { id: parseInt(addonId, 10) });
+            if (find) {
+              _addon = find;
+            }
+          });
+
+          if (!_addon) {
+            return false;
+          }
+
+          _this2.$scope.cartItem.addons.push({
+            id: _addon.id,
+            name: _addon.name,
+            price: _addon.price,
+            product_addon_id: _addon.product_addon_id
+          });
+        };
+
+        this.$scope.$watch('cartItem', function (newObject, oldObject) {
+          _this2.$scope.cartItem.addons = [];
+
+          angular.forEach(_this2.$scope.cartItem.customization_fields, function (addon) {
+            if (!_.isObject(addon)) {
+              return findAndInsert(addon);
+            }
+
+            angular.forEach(addon, function (checked, addonId) {
+              if (!checked) {
+                return false;
+              }
+
+              return findAndInsert(addonId);
+            });
+          });
+        }, true);
+
+        this.$scope.$watch('cartItem', function (newValue, oldValue) {
+          var addonsPrice = 0;
+
+          angular.forEach(_this2.$scope.cartItem.addons, function (addon) {
+            addonsPrice += parseFloat(addon.price);
+          });
+
+          _this2.$scope.cartItem.total = (parseFloat(_this2.$scope.product.price) + addonsPrice) * _this2.$scope.cartItem.amount;
+        }, true);
+      }
+    }]);
+
+    return TempCart;
+  })();
+};
+
+angular.module('utils.foodio').factory('TempCart', tempCart);
+'use strict';
+
+var pusher = function pusher() {
+  var self = this;
+
+  var _settings = {
+    key: null,
+    authTransport: 'ajax',
+    baseUrl: 'http://foodio.com.br/admin'
+  };
+
+  var connection = null;
+  var channels = {};
+  var headers = null;
+
+  self.setKey = function (value) {
+    _settings.key = value;
+  };
+
+  self.setBaseUrl = function (value) {
+    _settings.baseUrl = value;
+  };
+
+  self.setAuthTransport = function (authTransport) {
+    if (authTransport !== 'ajax' && authTransport !== 'jsonp') {
+      authTransport = 'ajax';
+    }
+
+    _settings.authTransport = authTransport;
+  };
+
+  self.$get = ["$localStorage", "$rootScope", function ($localStorage, $rootScope) {
+    return {
+      subscribe: function subscribe(channel) {
+        if (!_settings.key) {
+          throw new Error('É necessário uma chave para utilizar esse serviço');
+        }
+
+        if (!channel) {
+          throw new Error('Deve ser passado um canal para se inscrever');
+        }
+
+        var costumer = $localStorage['currentCostumer'];
+        var employee = $localStorage['currentEmployee'];
+
+        var _headers = {
+          'X-Employee-Email': employee ? employee.email : null,
+          'X-Employee-Token': employee ? employee.authentication_token : null,
+          'X-Costumer-Email': costumer ? costumer.email : null,
+          'X-Costumer-Token': costumer ? costumer.authentication_token : null,
+          'X-Store-Id': employee ? employee.store.id : null
+        };
+
+        var headersChanged = headers && JSON.stringify(headers) === JSON.stringify(_headers) ? false : true;
+        if (!connection || connection && headersChanged) {
+          headers = _headers;
+          connection = new Pusher(_settings.key, { authEndpoint: _settings.baseUrl + '/companies/' + $rootScope.company.id + '/sessions/pusher/authentication', auth: { headers: headers }, authTransport: _settings.authTransport });
+        }
+
+        if (!channels[channel]) {
+          channels[channel] = connection.subscribe(channel);
+        }
+
+        return channels[channel];
+      },
+      unsubscribe: function unsubscribe(channel) {
+        if (!channel) {
+          throw new Error('Deve ser passado um canal para se desinscrever');
+        }
+
+        if (channels[channel]) {
+          delete channels[channel];
+        }
+
+        return pusher.unsubscribe(channel);
+      }
+    };
+  }];
+};
+
+angular.module('utils.foodio').provider('pusher', pusher);
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -1477,1211 +2685,3 @@ var directive = function directive(zipcodeApi) {
 
 directive.$inject = ['zipcodeApi'];
 angular.module('utils.foodio').directive('zipcode', directive);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var StoreCallbacks = function StoreCallbacks($q) {
-  return (function () {
-    function StoreCallbacks(store) {
-      _classCallCheck(this, StoreCallbacks);
-
-      if (store) this.setStore(store);
-      return this;
-    }
-
-    _createClass(StoreCallbacks, [{
-      key: 'setStore',
-      value: function setStore(store) {
-        this.store = store;
-      }
-    }, {
-      key: 'getDiffFromNow',
-      value: function getDiffFromNow(reference) {
-        return moment(reference).diff(moment(), 'seconds');
-      }
-    }, {
-      key: 'toOpen',
-      value: function toOpen() {
-        var _this = this;
-
-        return $q(function (resolve, reject) {
-          if (!_this.store.opening_time) {
-            return reject();
-          }
-
-          return resolve({ event: 'toOpen', seconds: _this.getDiffFromNow(_this.store.opening_time) });
-        });
-      }
-    }, {
-      key: 'toClose',
-      value: function toClose() {
-        var _this2 = this;
-
-        return $q(function (resolve, reject) {
-          if (!_this2.store.closing_time) {
-            return reject();
-          }
-
-          return resolve({ event: 'toClose', seconds: _this2.getDiffFromNow(_this2.store.closing_time) });
-        });
-      }
-    }]);
-
-    return StoreCallbacks;
-  })();
-};
-
-StoreCallbacks.$inject = ['$q'];
-angular.module('utils.foodio').factory('StoreCallbacks', StoreCallbacks);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var hint = function hint($timeout, $window, toaster, constants) {
-
-  return new ((function () {
-    function Hint() {
-      _classCallCheck(this, Hint);
-
-      this.notifications = [];
-      this.timeout = 5000;
-      this.notification = $window.Notification || $window.mozNotification || $window.webkitNotification;
-
-      if (!this.notification) {
-        return false;
-      }
-
-      this.notification.requestPermission();
-    }
-
-    _createClass(Hint, [{
-      key: 'success',
-      value: function success(message) {
-        var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-        this._notify('success', 'Sucesso :)', message, options);
-      }
-    }, {
-      key: 'error',
-      value: function error(message) {
-        var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-        this._notify('error', 'Ops...', message, options);
-      }
-    }, {
-      key: 'info',
-      value: function info(message) {
-        var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-        this._notify('info', 'Atenção', message, options);
-      }
-    }, {
-      key: '_notify',
-      value: function _notify(type, title, message, options) {
-        var _this = this;
-
-        if (options.title) {
-          title = options.title;
-        }
-
-        if (!options.timeout) {
-          options.timeout = this.timeout;
-        }
-
-        if (!options.autoClose) {
-          options.autoClose = true;
-        }
-
-        // Toca audio
-        var audio = new Audio(constants['static'] + '/notifications/audios/' + type + '.mp3').play();
-
-        if (!message) {
-          return false;
-        }
-
-        if (this.notification && this.notification.permission === 'granted') {
-
-          var settings = {
-            body: message,
-            icon: constants['static'] + '/notifications/icons/' + type + '.png'
-          };
-
-          // Só adiciona um hint se não houver nenhum hint com o mesmo conteudi
-          if (!this._hasMessage(settings.body)) {
-            var _notification = new this.notification(title, settings);
-            this.notifications.push(_notification);
-
-            if (options.autoClose) {
-              $timeout(function () {
-
-                // Acha posicão da notificação no array
-                var index = _this.notifications.indexOf(_notification);
-                _notification = _this.notifications[index];
-
-                // Força fechamento
-                _notification.close();
-
-                // Remove do array
-                _this.notifications.splice(index, 1);
-              }, options.timeout);
-            }
-          }
-        } else {
-          toaster.pop({
-            type: type,
-            title: title,
-            body: message,
-            timeout: options.timeout
-          });
-        }
-      }
-    }, {
-      key: '_hasMessage',
-      value: function _hasMessage(message) {
-        var hasMessage = false;
-
-        angular.forEach(this.notifications, function (notification) {
-          if (notification.body === message) {
-            hasMessage = true;
-          }
-        });
-
-        return hasMessage;
-      }
-    }, {
-      key: '_randonNumber',
-      value: function _randonNumber() {
-        return Math.floor(Math.random() * (99999999 - 1 + 1)) + 1;
-      }
-    }]);
-
-    return Hint;
-  })())();
-};
-
-hint.$inject = ['$timeout', '$window', 'toaster', 'constants'];
-angular.module('utils.foodio').factory('hint', hint);
-'use strict';
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var httpConfig = function httpConfig($httpProvider) {
-  return $httpProvider.interceptors.push("httpHintInterceptor");
-};
-
-httpConfig.$inject = ['$httpProvider'];
-
-var httpHintInterceptor = function httpHintInterceptor($q, $window, $rootScope) {
-  return {
-    request: function request(config) {
-      config.timeout = 30000;
-      return config || $q.when(config);
-    },
-    response: function response(_response) {
-      return _response || $q.when(_response);
-    },
-    responseError: function responseError(response) {
-      $rootScope.$emit('request:end', {
-        error: true
-      });
-
-      if (response && response.data && response.data.error) {
-        $rootScope.$emit('request:error', response.data.error);
-      }
-
-      return $q.reject(response);
-    }
-  };
-};
-
-httpHintInterceptor.$inject = ['$q', '$window', '$rootScope'];
-angular.module("utils.foodio").config(httpConfig).factory("httpHintInterceptor", httpHintInterceptor);
-
-var RestangularInterceptors = function RestangularInterceptors(Restangular, $rootScope) {
-  return new function RestangularInterceptors() {
-    _classCallCheck(this, RestangularInterceptors);
-
-    Restangular.addRequestInterceptor(function (element) {
-      $rootScope.$emit('request:start');
-
-      $('.with-loader').removeClass('hide');
-      $rootScope.withLoader = { inAction: true };
-
-      return element;
-    });
-
-    Restangular.addResponseInterceptor(function (data) {
-      $rootScope.$emit('request:end');
-
-      $('.with-loader').addClass('hide');
-      $rootScope.withLoader = { inAction: false };
-
-      return data;
-    });
-  }();
-};
-
-RestangularInterceptors.$inject = ['Restangular', '$rootScope'];
-angular.module('utils.foodio').factory('RestangularInterceptors', RestangularInterceptors);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var HttpToken = function HttpToken($q, $state, $http, hint, storage) {
-
-  return (function () {
-    function HttpToken(userKey) {
-      _classCallCheck(this, HttpToken);
-
-      this._setUserKey(userKey);
-      return this;
-    }
-
-    _createClass(HttpToken, [{
-      key: 'initialize',
-      value: function initialize() {
-        var _this = this;
-
-        return $q(function (resolve, reject) {
-          return _this.get().then(function (user) {
-            if (!user) return reject();
-
-            _this.set(user).then(function (user) {
-              resolve(user);
-            });
-          });
-        });
-      }
-    }, {
-      key: 'get',
-      value: function get() {
-        return storage.get('current' + this.key).then(function (currentUser) {
-          return currentUser;
-        });
-      }
-    }, {
-      key: 'set',
-      value: function set(user) {
-        var _this2 = this;
-
-        return $q(function (resolve, reject) {
-          $http.defaults.headers.common['X-' + _this2.key + '-Email'] = user.email;
-          $http.defaults.headers.common['X-' + _this2.key + '-Token'] = user.authentication_token;
-
-          if (user.store && user.store.id) {
-            $http.defaults.headers.common['X-Store-Id'] = user.store.id;
-          }
-
-          storage.set('current' + _this2.key, user);
-
-          resolve(_this2.get());
-        });
-      }
-    }, {
-      key: 'remove',
-      value: function remove() {
-        var _this3 = this;
-
-        return $q(function (resolve, reject) {
-          return storage.remove('current' + _this3.key).then(function () {
-            delete $http.defaults.headers.common['X-' + _this3.key + '-Email'];
-            delete $http.defaults.headers.common['X-' + _this3.key + '-Token'];
-            resolve();
-          });
-        });
-      }
-    }, {
-      key: '_setUserKey',
-      value: function _setUserKey() {
-        var key = arguments.length <= 0 || arguments[0] === undefined ? 'Employee' : arguments[0];
-
-        if (key !== 'Employee' && key !== 'Costumer') {
-          throw new Error('Chave para uso do serviço HttpToken deve ter os valores Employee ou Costumer');
-        }
-        this.key = key;
-      }
-    }]);
-
-    return HttpToken;
-  })();
-};
-
-HttpToken.$inject = ['$q', '$state', '$http', 'hint', 'storage'];
-angular.module('utils.foodio').factory('HttpToken', HttpToken);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var modalAddress = function modalAddress($uibModal, $templateCache) {
-
-  return new ((function () {
-    function ModalAddress() {
-      _classCallCheck(this, ModalAddress);
-    }
-
-    _createClass(ModalAddress, [{
-      key: 'open',
-      value: function open() {
-        var params = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
-        if (!angular.isObject(params)) {
-          throw new Error('Modal Address params must be an object!');
-        }
-
-        if (!params.onSubmit || !angular.isFunction(params.onSubmit)) {
-          throw new Error('Modal Address Factory must have onSubmit function!');
-        }
-
-        return $uibModal.open({
-          template: $templateCache.get('/templates/modal-address.html'),
-          controller: 'ModalAddressCtrl as ctrl',
-          windowClass: 'modal-address',
-          resolve: {
-            addressResolved: function addressResolved() {
-              return params.address;
-            },
-            onSubmitResolved: function onSubmitResolved() {
-              return params.onSubmit;
-            }
-          }
-        });
-      }
-    }]);
-
-    return ModalAddress;
-  })())();
-};
-
-modalAddress.$inject = ['$uibModal', '$templateCache'];
-angular.module('utils.foodio').factory('modalAddress', modalAddress);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var modal = function modal($uibModal, $templateCache) {
-  return new ((function () {
-    function Modal() {
-      _classCallCheck(this, Modal);
-    }
-
-    _createClass(Modal, [{
-      key: 'open',
-      value: function open() {
-        var params = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
-        return $uibModal.open({
-          template: $templateCache.get('/templates/modal-chat.html'),
-          controller: 'ModalChatCtrl as ctrl',
-          windowClass: 'modal-chat',
-          resolve: {
-            onScrollResolved: function onScrollResolved() {
-              return params.onScroll;
-            },
-            chatResolved: function chatResolved() {
-              return params.chat;
-            },
-            userResolved: function userResolved() {
-              return params.user;
-            },
-            userTypeResolved: function userTypeResolved() {
-              var userType = params.userType;
-
-              if (userType !== 'Costumer' && userType !== 'Employee') {
-                userType = 'Costumer';
-              }
-
-              return userType;
-            }
-          }
-        });
-      }
-    }]);
-
-    return Modal;
-  })())();
-};
-
-modal.$inject = ['$uibModal', '$templateCache'];
-angular.module('utils.foodio').factory('modalChat', modal);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var modalCustomPeriod = function modalCustomPeriod($uibModal, $templateCache) {
-  return new ((function () {
-    function ModalCustomPeriod() {
-      _classCallCheck(this, ModalCustomPeriod);
-    }
-
-    _createClass(ModalCustomPeriod, [{
-      key: 'open',
-      value: function open() {
-        var params = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
-        return $uibModal.open({
-          template: $templateCache.get('/templates/modal-custom-period.html'),
-          controller: 'ModalCustomPeriodCtrl as ctrl',
-          windowClass: 'modal-custom-period',
-          resolve: {
-            datePeriodResolved: function datePeriodResolved() {
-              return params.datePeriod;
-            }
-          }
-        });
-      }
-    }]);
-
-    return ModalCustomPeriod;
-  })())();
-};
-
-modalCustomPeriod.$inject = ['$uibModal', '$templateCache'];
-angular.module('utils.foodio').factory('modalCustomPeriod', modalCustomPeriod);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var modalDestroyer = function modalDestroyer($interval) {
-  return new ((function () {
-    function ModalDestroyer() {
-      _classCallCheck(this, ModalDestroyer);
-
-      this.interval = null;
-    }
-
-    _createClass(ModalDestroyer, [{
-      key: 'destroyAll',
-      value: function destroyAll() {
-        $('.modal').remove();
-        $('.modal-backdrop').hide();
-        $('body').removeClass('modal-open');
-
-        if (this.interval) {
-          $interval.cancel(this.interval);
-        }
-
-        this.interval = $interval(function () {
-          var $modal = $('.modal');
-
-          if ($modal.length) {
-            $('.modal-backdrop').show();
-          } else {
-            $('.modal-backdrop').hide();
-          }
-        }, 100);
-      }
-    }]);
-
-    return ModalDestroyer;
-  })())();
-};
-
-modalDestroyer.$inject = ['$interval'];
-angular.module('utils.foodio').factory('modalDestroyer', modalDestroyer);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var modal = function modal($uibModal, $templateCache) {
-  return new ((function () {
-    function Modal() {
-      _classCallCheck(this, Modal);
-    }
-
-    _createClass(Modal, [{
-      key: 'open',
-      value: function open() {
-        var params = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
-        return $uibModal.open({
-          template: $templateCache.get('/templates/modal-message.html'),
-          controller: 'ModalMessageCtrl as ctrl',
-          windowClass: 'modal-message',
-          resolve: {
-            messageResolved: function messageResolved() {
-              return params;
-            }
-          }
-        });
-      }
-    }]);
-
-    return Modal;
-  })())();
-};
-
-modal.$inject = ['$uibModal', '$templateCache'];
-angular.module('utils.foodio').factory('modalMessage', modal);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var modalProduct = function modalProduct($uibModal, menuApi, $templateCache) {
-  return new ((function () {
-    function ModalProduct() {
-      _classCallCheck(this, ModalProduct);
-    }
-
-    _createClass(ModalProduct, [{
-      key: 'open',
-      value: function open(params) {
-
-        if (!params.cart) {
-          throw new Error('Modal Product service must have a cart');
-        }
-
-        if (!params.product) {
-          throw new Error('Modal Product service must have a product');
-        }
-
-        if (!params.cartItem) {
-          params.cartItem = false;
-        }
-
-        return $uibModal.open({
-          template: $templateCache.get('/templates/modal-product.html'),
-          controller: 'ModalProductCtrl as ctrl',
-          windowClass: 'modal-product',
-          resolve: {
-            bonificationResolved: function bonificationResolved() {
-              return params.product.bonification;
-            },
-            cartResolved: function cartResolved() {
-              return params.cart;
-            },
-            productResolved: function productResolved() {
-              return menuApi.show(params.product).then(function (response) {
-                return response.data;
-              });
-            },
-            cartItemResolved: function cartItemResolved() {
-              return params.cartItem;
-            }
-          }
-        });
-      }
-    }]);
-
-    return ModalProduct;
-  })())();
-};
-
-modalProduct.$inject = ['$uibModal', 'menuApi', '$templateCache'];
-angular.module('utils.foodio').factory('modalProduct', modalProduct);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var modalRating = function modalRating($uibModal, $templateCache) {
-  return new ((function () {
-    function ModalRating() {
-      _classCallCheck(this, ModalRating);
-    }
-
-    _createClass(ModalRating, [{
-      key: 'open',
-      value: function open(order) {
-        return $uibModal.open({
-          template: $templateCache.get('/templates/modal-rating.html'),
-          controller: 'ModalRatingCtrl as ctrl',
-          windowClass: 'modal-rating',
-          resolve: {
-            orderResolvedd: function orderResolvedd() {
-              return order;
-            }
-          }
-        });
-      }
-    }]);
-
-    return ModalRating;
-  })())();
-};
-
-modalRating.$inject = ['$uibModal', '$templateCache'];
-angular.module('utils.foodio').factory('modalRating', modalRating);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var popup = function popup($window, $q) {
-  return new ((function () {
-    function Popup() {
-      _classCallCheck(this, Popup);
-    }
-
-    _createClass(Popup, [{
-      key: 'open',
-      value: function open(pageURL, width, height) {
-        return $q(function (resolve, reject) {
-          var left = Number(screen.width / 2 - width / 2);
-          var top = Number(screen.height / 2 - height / 2);
-
-          var popup = $window.open(pageURL, '', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' + width + ', height=' + height + ', top=' + top + ', left=' + left);
-          resolve(popup);
-        });
-      }
-    }]);
-
-    return Popup;
-  })())();
-};
-
-popup.$inject = ['$window', '$q'];
-angular.module('utils.foodio').factory('popup', popup);
-'use strict';
-
-var printManager = function printManager($rootScope, $localStorage, hint, printerApi, orderApi, $uibModal, $templateCache) {
-
-  var socket = null;
-  var printers = [];
-
-  return {
-
-    // @name connect
-    // @description Conecta com o socket
-    connect: function connect() {
-      var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
-      var channel = duel.channel('socket');
-
-      // Seta impressoras
-      if (options.printers && options.printers.length) {
-        printers = options.printers;
-      }
-
-      return new Promise(function (resolve, reject) {
-
-        // Previne de criar se já está criado
-        if (socket) {
-          return resolve(socket);
-        }
-
-        var address = options.port ? 'http://localhost:' + options.port : 'http://localhost:7333';
-        socket = io(address);
-
-        channel.broadcast('socket:connected', { connected: true });
-
-        // Adiciona evento de erro
-        socket.on('print:error', function (data) {
-          hint[data.type](data.description);
-        });
-
-        return resolve(socket);
-      });
-    },
-
-    // @name disconnect
-    // @description Desconecta socket
-    disconnect: function disconnect() {
-      var channel = duel.channel('socket');
-
-      return new Promise(function (resolve, reject) {
-        channel.broadcast('socket:disconnected', { disconnected: true });
-        resolve(socket = null);
-      });
-    },
-
-    // @name print
-    // @description Realiza impressão utilizando socket.io
-    // @params {Object} options - Layout, impressora e dados opcionais para impressão
-    print: function print(options) {
-      var _this = this;
-
-      return new Promise(function (resolve, reject) {
-        return _this._getPrinter(options).then(function (printer) {
-          return _this._getData(options).then(function (data) {
-
-            if (options.layout === 'delivery' && data.order.order_type.type !== 'delivery') {
-              return _this._throwError(reject, "Para imprimir uma via delivery é necessário que o pedido seja do tipo delivery");
-            }
-
-            socket.emit('print:start');
-            return resolve(socket.emit('print', { layout: options.layout, copies: options.copies, printer: printer, data: data }));
-          });
-        });
-      });
-    },
-
-    // @name _getPrinter
-    // @description Valida dados e escolhe impressora
-    // @params {Object} options - Layout, impressora e dados opcionais para impressão
-    _getPrinter: function _getPrinter(options) {
-      var _this2 = this;
-
-      return new Promise(function (resolve, reject) {
-
-        // Evita de tentar imprimir se o programa de impressão não estiver
-        if (!socket || socket.disconnected) {
-          return _this2._throwError(reject, "O programa de impressão não encontra-se ativo. Instale-o e inicie para prosseguir!");
-        }
-
-        if (options.printer) {
-          return resolve(options.printer);
-        }
-
-        // Não há impressora cadastrada
-        if (!printers.length) {
-          return _this2._throwError(reject, "Você não possui nenhuma impressora cadastrada. Cadastre uma para prosseguir!");
-        }
-
-        // Só há uma impressora, dessa forma usa ela
-        if (printers.length === 1) {
-          return resolve(printers[0]);
-        }
-
-        // Exibe modal para escolher impressora
-        if (printers.length > 1) {
-          _this2.openModal({ printerChooser: true }).result.then(function (result) {
-            return resolve(result.printer);
-          });
-        }
-      });
-    },
-
-    _getData: function _getData(options) {
-      return new Promise(function (resolve, reject) {
-        var data = {
-          company: $rootScope.company,
-          store: $rootScope.currentStore
-        };
-
-        if (options.data && options.data.order) {
-          orderApi.show({ id: options.data.order.id }).then(function (response) {
-            data.order = response.data;
-            return resolve(data);
-          });
-        } else {
-          return resolve(data);
-        }
-      });
-    },
-
-    // @name openModal
-    // @description Abre modal
-    openModal: function openModal() {
-      var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
-      var modal = $uibModal.open({
-        template: $templateCache.get('/templates/modal-print-manager.html'),
-        controller: 'ModalPrintManagerController as ctrl',
-        windowClass: 'modal-printer',
-        resolve: {
-          printersResolved: function printersResolved() {
-            return printerApi.fetch().then(function (response) {
-              printers = response.data;
-              return printers;
-            });
-          },
-          printerChooseResolved: function printerChooseResolved() {
-            return options.printerChooser || false;
-          }
-        }
-      });
-
-      return modal;
-    },
-
-    // @name _throwError
-    // @description Exibe erro e rejeita prommessa
-    // @param {Fn} reject - Reject promise
-    // @param {String} errorMsg - Mensagem de erro
-    _throwError: function _throwError(reject, errorMsg) {
-      hint.error(errorMsg);
-      reject(errorMsg);
-    },
-
-    // @name _fetchPrinters
-    // @description Busca impressoras
-    _fetchPrinters: function _fetchPrinters() {
-      return printerApi.fetch();
-    },
-
-    // @name _resetSocket
-    // @description Realiza impressão utilizando socket.io
-    _resetSocket: function _resetSocket() {
-      return socket = {
-        disconnected: true,
-        connected: false
-      };
-    }
-  };
-};
-
-printManager.$inject = ['$rootScope', '$localStorage', 'hint', 'printerApi', 'orderApi', '$uibModal', '$templateCache'];
-angular.module('utils.foodio').factory('printManager', printManager);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var factory = function factory($rootScope, $state, hint) {
-
-  return (function () {
-    function RequestError() {
-      var _this = this;
-
-      var params = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
-      _classCallCheck(this, RequestError);
-
-      if (params.onError && angular.isFunction(params.onError)) {
-        this.onError = params.onError;
-      }
-
-      $rootScope.$on('request:error', function ($event, data) {
-        _this._onError(data);
-      });
-    }
-
-    // Exibe mensagem
-    // @param {Object} data com descrição do erro
-
-    _createClass(RequestError, [{
-      key: '_onError',
-      value: function _onError(data) {
-        if (typeof data === 'undefined') {
-          return false;
-        }
-
-        if (data.code === 0) {
-          data = { code: 408, description: 'Não foi possível conectar com o servidor. Tente mais tarde. ' };
-        }
-
-        if (angular.isArray(data.description)) {
-          angular.forEach(data.description, function (message) {
-            hint.error(message);
-          });
-        } else {
-          hint.error(data.description);
-        }
-
-        if (this.onError) {
-          this.onError(data);
-        }
-      }
-    }]);
-
-    return RequestError;
-  })();
-};
-
-factory.$inject = ['$rootScope', '$state', 'hint'];
-angular.module('utils.foodio').factory('RequestError', factory);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var roleVerificator = function roleVerificator() {
-  return new ((function () {
-    function RoleVerificator() {
-      _classCallCheck(this, RoleVerificator);
-    }
-
-    _createClass(RoleVerificator, [{
-      key: 'hasRole',
-      value: function hasRole(roleToVerify, availableRoles) {
-        var found = false;
-
-        angular.forEach(availableRoles, function (roleAlias) {
-          if (roleAlias === roleToVerify.alias) {
-            found = true;
-          }
-        });
-
-        return found;
-      }
-    }]);
-
-    return RoleVerificator;
-  })())();
-};
-
-angular.module('utils.foodio').factory('roleVerificator', roleVerificator);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var scrollTop = function scrollTop() {
-  return new ((function () {
-    function ScrollTop() {
-      _classCallCheck(this, ScrollTop);
-    }
-
-    _createClass(ScrollTop, [{
-      key: 'goTop',
-      value: function goTop() {
-        var delay = arguments.length <= 0 || arguments[0] === undefined ? 500 : arguments[0];
-
-        var position = 0;
-        $('html, body').animate({ scrollTop: position }, delay);
-      }
-    }]);
-
-    return ScrollTop;
-  })())();
-};
-
-angular.module('utils.foodio').factory('scrollTop', scrollTop);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var storage = function storage($localStorage, $q) {
-  return new ((function () {
-    function Storage() {
-      _classCallCheck(this, Storage);
-    }
-
-    _createClass(Storage, [{
-      key: 'get',
-      value: function get(key) {
-        return $q(function (resolve, reject) {
-          var response = $localStorage[key] || null;
-          resolve(response);
-        });
-      }
-    }, {
-      key: 'set',
-      value: function set(key, value) {
-        return $q(function (resolve, reject) {
-          $localStorage[key] = value;
-          resolve();
-        });
-      }
-    }, {
-      key: 'remove',
-      value: function remove(key) {
-        return $q(function (resolve, reject) {
-          delete $localStorage[key];
-          var response = $localStorage[key] || null;
-          resolve(response);
-        });
-      }
-    }]);
-
-    return Storage;
-  })())();
-};
-
-storage.$inject = ['$localStorage', '$q'];
-angular.module('utils.foodio').factory('storage', storage);
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var tempCart = function tempCart() {
-  return (function () {
-    function TempCart($scope, cartItem) {
-      _classCallCheck(this, TempCart);
-
-      this.$scope = $scope;
-      $scope.isEditing = cartItem ? true : false;
-
-      if ($scope.isEditing) {
-        cartItem.customization_fields = JSON.parse(cartItem.customization_fields);
-      }
-
-      $scope.cartItem = cartItem || { amount: 1, note: null, total: $scope.product.price * 1, product: $scope.product, customization_fields: {}, addons: [] };
-
-      this._setCustomizationFields();
-      this._listenScopeEvents();
-    }
-
-    _createClass(TempCart, [{
-      key: '_setCustomizationFields',
-      value: function _setCustomizationFields() {
-        var _this = this;
-
-        if (this.$scope.isEditing) {
-          return false;
-        }
-
-        angular.forEach(this.$scope.product.addon_categories, function (addonCategory) {
-          _this.$scope.cartItem.customization_fields[addonCategory.id] = {};
-
-          angular.forEach(addonCategory.addons, function (addon) {
-            if (addonCategory.max === 1) {
-              _this.$scope.cartItem.customization_fields[addonCategory.id] = addonCategory.addons[0].id;
-            } else {
-              var fill = addonCategory.auto_fill && !parseFloat(addon.price) && addon.available ? true : false;
-              _this.$scope.cartItem.customization_fields[addonCategory.id][addon.id] = fill;
-            }
-          });
-        });
-      }
-    }, {
-      key: '_listenScopeEvents',
-      value: function _listenScopeEvents() {
-        var _this2 = this;
-
-        var findAndInsert = function findAndInsert(addonId) {
-          var _addon = null;
-
-          angular.forEach(_this2.$scope.product.addon_categories, function (addonCategory) {
-            var find = _.findWhere(addonCategory.addons, { id: parseInt(addonId, 10) });
-            if (find) {
-              _addon = find;
-            }
-          });
-
-          if (!_addon) {
-            return false;
-          }
-
-          _this2.$scope.cartItem.addons.push({
-            id: _addon.id,
-            name: _addon.name,
-            price: _addon.price,
-            product_addon_id: _addon.product_addon_id
-          });
-        };
-
-        this.$scope.$watch('cartItem', function (newObject, oldObject) {
-          _this2.$scope.cartItem.addons = [];
-
-          angular.forEach(_this2.$scope.cartItem.customization_fields, function (addon) {
-            if (!_.isObject(addon)) {
-              return findAndInsert(addon);
-            }
-
-            angular.forEach(addon, function (checked, addonId) {
-              if (!checked) {
-                return false;
-              }
-
-              return findAndInsert(addonId);
-            });
-          });
-        }, true);
-
-        this.$scope.$watch('cartItem', function (newValue, oldValue) {
-          var addonsPrice = 0;
-
-          angular.forEach(_this2.$scope.cartItem.addons, function (addon) {
-            addonsPrice += parseFloat(addon.price);
-          });
-
-          _this2.$scope.cartItem.total = (parseFloat(_this2.$scope.product.price) + addonsPrice) * _this2.$scope.cartItem.amount;
-        }, true);
-      }
-    }]);
-
-    return TempCart;
-  })();
-};
-
-angular.module('utils.foodio').factory('TempCart', tempCart);
-'use strict';
-
-var pusher = function pusher() {
-  var self = this;
-
-  var _settings = {
-    key: null,
-    authTransport: 'ajax',
-    baseUrl: 'http://foodio.com.br/admin'
-  };
-
-  var connection = null;
-  var channels = {};
-  var headers = null;
-
-  self.setKey = function (value) {
-    _settings.key = value;
-  };
-
-  self.setBaseUrl = function (value) {
-    _settings.baseUrl = value;
-  };
-
-  self.setAuthTransport = function (authTransport) {
-    if (authTransport !== 'ajax' && authTransport !== 'jsonp') {
-      authTransport = 'ajax';
-    }
-
-    _settings.authTransport = authTransport;
-  };
-
-  self.$get = ["$localStorage", "$rootScope", function ($localStorage, $rootScope) {
-    return {
-      subscribe: function subscribe(channel) {
-        if (!_settings.key) {
-          throw new Error('É necessário uma chave para utilizar esse serviço');
-        }
-
-        if (!channel) {
-          throw new Error('Deve ser passado um canal para se inscrever');
-        }
-
-        var costumer = $localStorage['currentCostumer'];
-        var employee = $localStorage['currentEmployee'];
-
-        var _headers = {
-          'X-Employee-Email': employee ? employee.email : null,
-          'X-Employee-Token': employee ? employee.authentication_token : null,
-          'X-Costumer-Email': costumer ? costumer.email : null,
-          'X-Costumer-Token': costumer ? costumer.authentication_token : null,
-          'X-Store-Id': employee ? employee.store.id : null
-        };
-
-        var headersChanged = headers && JSON.stringify(headers) === JSON.stringify(_headers) ? false : true;
-        if (!connection || connection && headersChanged) {
-          headers = _headers;
-          connection = new Pusher(_settings.key, { authEndpoint: _settings.baseUrl + '/companies/' + $rootScope.company.id + '/sessions/pusher/authentication', auth: { headers: headers }, authTransport: _settings.authTransport });
-        }
-
-        if (!channels[channel]) {
-          channels[channel] = connection.subscribe(channel);
-        }
-
-        return channels[channel];
-      },
-      unsubscribe: function unsubscribe(channel) {
-        if (!channel) {
-          throw new Error('Deve ser passado um canal para se desinscrever');
-        }
-
-        if (channels[channel]) {
-          delete channels[channel];
-        }
-
-        return pusher.unsubscribe(channel);
-      }
-    };
-  }];
-};
-
-angular.module('utils.foodio').provider('pusher', pusher);
