@@ -6,7 +6,7 @@ let scrollTop = () => {
     }
 
     goTo(elementId, delay) {
-      let position = $(element).offset().top
+      let position = $(elementId).offset().top
       $('html, body').animate({ scrollTop: position }, delay);
     }
   };

@@ -2447,7 +2447,7 @@ var scrollTop = function scrollTop() {
     }, {
       key: 'goTo',
       value: function goTo(elementId, delay) {
-        var position = $(element).offset().top;
+        var position = $(elementId).offset().top;
         $('html, body').animate({ scrollTop: position }, delay);
       }
     }]);
