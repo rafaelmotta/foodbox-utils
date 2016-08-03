@@ -74,7 +74,7 @@ let directive = ($templateCache) => {
 
           if(angular.isFunction(m.onDrag)) {
             google.maps.event.addListener(marker, 'dragend', (event) => {
-              marker.onDrag({ latitude: event.latLng.lat(), longitude: event.latLng.lng() });
+              m.onDrag({ latitude: event.latLng.lat(), longitude: event.latLng.lng() });
             });
           }
 
