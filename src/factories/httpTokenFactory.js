@@ -1,4 +1,4 @@
-let HttpToken = ($q, $state, $http, hint, storage) => {
+let HttpToken = ($q, $state, $http, storage) => {
 
   return class HttpToken {
 
@@ -59,5 +59,5 @@ let HttpToken = ($q, $state, $http, hint, storage) => {
   }
 };
 
-HttpToken.$inject = ['$q', '$state', '$http', 'hint', 'storage'];
+HttpToken.$inject = ['$q', '$state', '$http', 'storage'];
 angular.module('utils.foodio').factory('HttpToken', HttpToken);
