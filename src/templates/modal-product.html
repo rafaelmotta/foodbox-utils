@@ -28,7 +28,10 @@
     </p>
     <p class="product-description" ng-if="product.enable_to_change_in_club">
       <i class="fa fa-exchange"></i>
-      Este produto está disponível para troca atráves do nosso clube de recompensas. A partir de {{ product.club_price }} pontos por unidade.
+      Disponível para troca
+      <a href="#" uib-tooltip="Produto disponível para troca no nosso clube de recompensas. A partir de {{ product.club_price }} pontos por unidade." tooltip-placement="bottom" tooltip-append-to-body="true">
+        <i class="fa fa-info-circle"></i>
+      </a>
     </p>
     <div class="product-description" ng-if="product.bonifications.length">
       <i class="fa fa-trophy"></i>
