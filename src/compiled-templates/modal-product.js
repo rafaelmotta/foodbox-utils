@@ -37,7 +37,7 @@ module.run(['$templateCache', function($templateCache) {
     '    <p class="product-description" ng-if="product.enable_to_change_in_club">\n' +
     '      <i class="fa fa-exchange"></i>\n' +
     '      Disponível para troca\n' +
-    '      <a href="#" uib-tooltip="Produto disponível para troca no nosso clube de recompensas. A partir de {{ product.club_price }} pontos por unidade." tooltip-placement="bottom" tooltip-append-to-body="true">\n' +
+    '      <a href="#" uib-tooltip="Produto disponível para troca no nosso programa de fidelidade. A partir de {{ product.club_price }} pontos por unidade." tooltip-placement="bottom" tooltip-append-to-body="true">\n' +
     '        <i class="fa fa-info-circle"></i>\n' +
     '      </a>\n' +
     '    </p>\n' +
