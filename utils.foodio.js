@@ -202,7 +202,7 @@ var app = angular.module('utils.foodio', ['ngStorage', 'constants.foodio']);
     module = angular.module('utils.foodio', []);
   }
   module.run(['$templateCache', function ($templateCache) {
-    $templateCache.put('/templates/modal-product.html', '<div class="modal-header">\n' + '  <button type="button" class="close" data-dismiss="modal" ng-click="ctrl.close()"><span aria-hidden="true">&times;</span></button>\n' + '  <div class="modal-title">\n' + '    <i class="fa fa-shopping-cart"></i>\n' + '    {{ product.name }}\n' + '  </div>\n' + '  <div class="product-total-price">\n' + '    {{ cartItem.total | currency: "R$" }}\n' + '  </div>\n' + '</div>\n' + '<div class="modal-body clearfix">\n' + '  <aside class="pull-left">\n' + '    <img class="product-image img-thumbnail" ng-src="{{ product.img.medium }}" width="280" height="280" alt="Foto do produto com nome {{ product.name }}">\n' + '    <p class="product-description">\n' + '      <i class="fa fa-shopping-cart"></i>\n' + '      {{ product.name }}\n' + '    </p>\n' + '    <p class="product-description">\n' + '      <i class="fa fa-money"></i>\n' + '      A partir de <strong>{{ product.price | currency: "R$" }}</strong>\n' + '    </p>\n' + '    <p class="product-description" ng-if="product.club_points">\n' + '      <i class="fa fa-trophy"></i>\n' + '      Ganhe <strong>{{ product.club_points }}</strong> pontos\n' + '      <a href="#" uib-tooltip="Ao comprar esse produto você ganha {{ product.club_points }} pontos no nosso programa de fidelidade" tooltip-placement="bottom" tooltip-append-to-body="true">\n' + '        <i class="fa fa-info-circle"></i>\n' + '      </a>\n' + '    </p>\n' + '    <div class="product-description" ng-if="product.bonifications.length">\n' + '      <i class="fa fa-trophy"></i>\n' + '      Você tem direito a:\n' + '        <ul>\n' + '          <li ng-repeat="(key, b) in product.bonifications">\n' + '            <strong>{{ b.amount }}x</strong> {{ b.bonification.name }}\n' + '          </li>\n' + '        </ul>\n' + '      <div>\n' + '        <small>\n' + '          Alguns desses itens devem ser adicionados manualmente, geralmente na aba \'Extras\'.\n' + '        </small>\n' + '      </div>\n' + '    </div>\n' + '  </aside>\n' + '  <div class="product-options pull-right">\n' + '    <div ng-show="product.description">\n' + '      <label>Descrição:</label>\n' + '      <blockquote ng-bind-html="product.description"></blockquote>\n' + '      <hr />\n' + '    </div>\n' + '    <label for="cart-item-amount">Selecione a quantidade:</label>\n' + '    <select id="cart-item-amount" ng-model="cartItem.amount" ng-options="i as i for i in [1,2,3,4,5,6,7,8,9,10]" ng-change="ctrl.updatePrice()"></select>\n' + '    <hr ng-show="product.product_addon_categories.length > 0">\n' + '    <div ng-repeat="(key, addonCategory) in product.product_addon_categories" class="addon-categories-list">\n' + '      <div class="addon-category-name">\n' + '        {{ addonCategory.name }}\n' + '        <small ng-show="!addonCategory.max && !addonCategory.min">Escolha quantos ingredientes desejar</span></small>\n' + '        <small ng-show="!addonCategory.max && addonCategory.min">\n' + '          Escolha pelo menos {{ addonCategory.min }} <span ng-show="addonCategory.min === 1">ingrediente</span><span ng-show="addonCategory.min > 1">ingredientes</span>\n' + '        </small>\n' + '        <small ng-show="addonCategory.max">\n' + '          <span ng-show="addonCategory.max === 1 && addonCategory.min === 1 || addonCategory.max === 1 && !addonCategory.min">Escolha ao menos 1 ingrediente</span>\n' + '          <span ng-show="addonCategory.max > 1 && addonCategory.min >= 1">Escolha entre {{ addonCategory.min }} à {{ addonCategory.max }} ingredientes</span>\n' + '          <span ng-show="addonCategory.max > 1 && !addonCategory.min">Escolha até {{ addonCategory.max }} ingredientes</span>\n' + '        </small>\n' + '      </div>\n' + '      <div class="addons-list">\n' + '        <div ng-repeat="(_key, addon) in addonCategory.product_addons" class="addon-item">\n' + '\n' + '          <label ng-disabled="!addon.available" ng-if="!addonCategory.multiple">\n' + '            <input type="radio" ng-model="cartItem.cart_item_addons[key]" ng-change="ctrl.updatePrice()" ng-disabled="!addon.available" ng-value="addon" />\n' + '            {{ addon.name }}\n' + '            <a ng-if="addon.club_points" href="#" uib-tooltip="Ao comprar esse ingrediente você ganha {{ addon.club_points }} pontos no nosso programa de fidelidade" tooltip-placement="bottom" tooltip-append-to-body="true">\n' + '              <i class="fa fa-trophy"></i>\n' + '            </a>\n' + '            <span class="addon-price" ng-show="addon.price > 0 && addon.available">({{ addon.price | currency: "R$" }})</span>\n' + '            <span class="addon-unavailable" ng-show="!addon.available">Ingrediente não disponível</span>\n' + '            <span class="addon-description" ng-show="addon.available && addon.description">{{ addon.description }}</span>\n' + '          </label>\n' + '\n' + '          <label ng-disabled="!addon.available" ng-if="addonCategory.multiple">\n' + '            <input type="checkbox" ng-model="cartItem.cart_item_addons[key][_key].selected" ng-change="ctrl.updatePrice()" ng-disabled="!addon.available" />\n' + '            {{ addon.name }}\n' + '            <a ng-if="addon.club_points" href="#" uib-tooltip="Ao comprar esse ingrediente você ganha {{ addon.club_points }} pontos no nosso programa de fidelidade" tooltip-placement="bottom" tooltip-append-to-body="true">\n' + '              <i class="fa fa-trophy"></i>\n' + '            </a>\n' + '            <span class="addon-price" ng-show="addon.price > 0 && addon.available">({{ addon.price | currency: "R$" }})</span>\n' + '            <span class="addon-unavailable" ng-show="!addon.available">Ingrediente não disponível</span>\n' + '          </label>\n' + '        </div>\n' + '      </div>\n' + '    </div>\n' + '    <hr>\n' + '    <label for="cart-item-note">Deseja fazer alguma observação?</label>\n' + '    <textarea id="cart-item-note" rows="3" ng-model="cartItem.note"></textarea>\n' + '    <limit maxlength="150" model="cartItem.note"></limit>\n' + '  </div>\n' + '</div>\n' + '<div class="modal-footer">\n' + '  <button class="btn btn-success" ng-click="ctrl.add()" ng-show="!cartItem.id" ng-disabled="buttons.disabled">\n' + '    <i class="fa" ng-class="{ \'fa-plus-square\': !buttons.disabled, \'fa-spinner fa-spin\': buttons.disabled }"></i>\n' + '    Adicionar\n' + '  </button>\n' + '  <button class="btn btn-success" ng-click="ctrl.add()" ng-show="cartItem.id" ng-disabled="buttons.disabled">\n' + '    <i class="fa" ng-class="{ \'fa-pencil\': !buttons.disabled, \'fa-spinner fa-spin\': buttons.disabled }"></i>\n' + '    Editar\n' + '  </button>\n' + '  <button class="btn btn-default" ng-click="ctrl.close()" ng-disabled="buttons.disabled">\n' + '    Cancelar\n' + '  </button>\n' + '</div>\n' + '');
+    $templateCache.put('/templates/modal-product.html', '<div class="modal-header">\n' + '  <button type="button" class="close" data-dismiss="modal" ng-click="ctrl.close()"><span aria-hidden="true">&times;</span></button>\n' + '  <div class="modal-title">\n' + '    <i class="fa fa-shopping-cart"></i>\n' + '    {{ product.name }}\n' + '  </div>\n' + '  <div class="product-total-price">\n' + '    {{ cartItem.total | currency: "R$" }}\n' + '  </div>\n' + '</div>\n' + '<div class="modal-body clearfix">\n' + '  <aside class="pull-left">\n' + '    <img class="product-image img-thumbnail" ng-src="{{ product.img.medium }}" width="280" height="280" alt="Foto do produto com nome {{ product.name }}">\n' + '    <p class="product-description">\n' + '      <i class="fa fa-shopping-cart"></i>\n' + '      {{ product.name }}\n' + '    </p>\n' + '    <p class="product-description">\n' + '      <i class="fa fa-money"></i>\n' + '      A partir de <strong>{{ product.price | currency: "R$" }}</strong>\n' + '    </p>\n' + '    <p class="product-description" ng-if="product.club_points">\n' + '      <i class="fa fa-trophy"></i>\n' + '      Ganhe <strong>{{ cartItem.amount * product.club_points }}</strong> pontos\n' + '      <a href="#" uib-tooltip="Ao comprar esse produto você ganha {{ product.club_points }} pontos no nosso programa de fidelidade" tooltip-placement="bottom" tooltip-append-to-body="true">\n' + '        <i class="fa fa-info-circle"></i>\n' + '      </a>\n' + '    </p>\n' + '    <p class="product-description" ng-if="product.enable_to_change_in_club">\n' + '      <i class="fa fa-exchange"></i>\n' + '      Este produto está disponível para troca atráves do nosso clube de recompensas. A partir de {{ product.club_price }} pontos por unidade.\n' + '    </p>\n' + '    <div class="product-description" ng-if="product.bonifications.length">\n' + '      <i class="fa fa-trophy"></i>\n' + '      Você tem direito a:\n' + '        <ul>\n' + '          <li ng-repeat="(key, b) in product.bonifications">\n' + '            <strong>{{ b.amount }}x</strong> {{ b.bonification.name }}\n' + '          </li>\n' + '        </ul>\n' + '      <div>\n' + '        <small>\n' + '          Alguns desses itens devem ser adicionados manualmente, geralmente na aba \'Extras\'.\n' + '        </small>\n' + '      </div>\n' + '    </div>\n' + '  </aside>\n' + '  <div class="product-options pull-right">\n' + '    <div ng-show="product.description">\n' + '      <label>Descrição:</label>\n' + '      <blockquote ng-bind-html="product.description"></blockquote>\n' + '      <hr />\n' + '    </div>\n' + '    <label for="cart-item-amount">Selecione a quantidade:</label>\n' + '    <select id="cart-item-amount" ng-model="cartItem.amount" ng-options="i as i for i in [1,2,3,4,5,6,7,8,9,10]" ng-change="ctrl.updatePrice()"></select>\n' + '    <hr ng-show="product.product_addon_categories.length > 0">\n' + '    <div ng-repeat="(key, addonCategory) in product.product_addon_categories" class="addon-categories-list">\n' + '      <div class="addon-category-name">\n' + '        {{ addonCategory.name }}\n' + '        <small ng-show="!addonCategory.max && !addonCategory.min">Escolha quantos ingredientes desejar</span></small>\n' + '        <small ng-show="!addonCategory.max && addonCategory.min">\n' + '          Escolha pelo menos {{ addonCategory.min }} <span ng-show="addonCategory.min === 1">ingrediente</span><span ng-show="addonCategory.min > 1">ingredientes</span>\n' + '        </small>\n' + '        <small ng-show="addonCategory.max">\n' + '          <span ng-show="addonCategory.max === 1 && addonCategory.min === 1 || addonCategory.max === 1 && !addonCategory.min">Escolha ao menos 1 ingrediente</span>\n' + '          <span ng-show="addonCategory.max > 1 && addonCategory.min >= 1">Escolha entre {{ addonCategory.min }} à {{ addonCategory.max }} ingredientes</span>\n' + '          <span ng-show="addonCategory.max > 1 && !addonCategory.min">Escolha até {{ addonCategory.max }} ingredientes</span>\n' + '        </small>\n' + '      </div>\n' + '      <div class="addons-list">\n' + '        <div ng-repeat="(_key, addon) in addonCategory.product_addons" class="addon-item">\n' + '\n' + '          <label ng-disabled="!addon.available" ng-if="!addonCategory.multiple">\n' + '            <input type="radio" ng-model="cartItem.cart_item_addons[key]" ng-change="ctrl.updatePrice()" ng-disabled="!addon.available" ng-value="addon" />\n' + '            {{ addon.name }}\n' + '            <a ng-if="addon.club_points" href="#" uib-tooltip="Ao comprar esse ingrediente você ganha {{ addon.club_points }} pontos no nosso programa de fidelidade" tooltip-placement="bottom" tooltip-append-to-body="true">\n' + '              <i class="fa fa-trophy"></i>\n' + '            </a>\n' + '            <span class="addon-price" ng-show="addon.price > 0 && addon.available">({{ addon.price | currency: "R$" }})</span>\n' + '            <span class="addon-unavailable" ng-show="!addon.available">Ingrediente não disponível</span>\n' + '            <span class="addon-description" ng-show="addon.available && addon.description">{{ addon.description }}</span>\n' + '          </label>\n' + '\n' + '          <label ng-disabled="!addon.available" ng-if="addonCategory.multiple">\n' + '            <input type="checkbox" ng-model="cartItem.cart_item_addons[key][_key].selected" ng-change="ctrl.updatePrice()" ng-disabled="!addon.available" />\n' + '            {{ addon.name }}\n' + '            <a ng-if="addon.club_points" href="#" uib-tooltip="Ao comprar esse ingrediente você ganha {{ addon.club_points }} pontos no nosso programa de fidelidade" tooltip-placement="bottom" tooltip-append-to-body="true">\n' + '              <i class="fa fa-trophy"></i>\n' + '            </a>\n' + '            <span class="addon-price" ng-show="addon.price > 0 && addon.available">({{ addon.price | currency: "R$" }})</span>\n' + '            <span class="addon-unavailable" ng-show="!addon.available">Ingrediente não disponível</span>\n' + '          </label>\n' + '        </div>\n' + '      </div>\n' + '    </div>\n' + '    <hr>\n' + '    <label for="cart-item-note">Deseja fazer alguma observação?</label>\n' + '    <textarea id="cart-item-note" rows="3" ng-model="cartItem.note"></textarea>\n' + '    <limit maxlength="150" model="cartItem.note"></limit>\n' + '  </div>\n' + '</div>\n' + '<div class="modal-footer">\n' + '  <button class="btn btn-success" ng-click="ctrl.add()" ng-show="!cartItem.id" ng-disabled="buttons.disabled">\n' + '    <i class="fa" ng-class="{ \'fa-plus-square\': !buttons.disabled, \'fa-spinner fa-spin\': buttons.disabled }"></i>\n' + '    Adicionar\n' + '  </button>\n' + '  <button class="btn btn-success" ng-click="ctrl.add()" ng-show="cartItem.id" ng-disabled="buttons.disabled">\n' + '    <i class="fa" ng-class="{ \'fa-pencil\': !buttons.disabled, \'fa-spinner fa-spin\': buttons.disabled }"></i>\n' + '    Editar\n' + '  </button>\n' + '  <button class="btn btn-default" ng-click="ctrl.close()" ng-disabled="buttons.disabled">\n' + '    Cancelar\n' + '  </button>\n' + '</div>\n' + '');
   }]);
 })();
 'use strict';
@@ -887,596 +887,85 @@ ctrl.$inject = ['$scope', '$uibModalInstance'];
 angular.module('utils.foodio').controller('ModalRatingCtrl', ctrl);
 'use strict';
 
-var directive = function directive($window) {
-  return {
-    restrict: 'A',
-    link: function link($scope, $element, attrs) {
-      var win = angular.element($window);
-      var topOffset = $element[0].offsetTop;
+var pusher = function pusher() {
+  var self = this;
 
-      var width = $element.width();
-      $element.css('width', width);
-
-      function affixElement() {
-        if ($window.pageYOffset > attrs.affixer) {
-          $element.css('position', 'fixed');
-          $element.css('top', '0px');
-        } else {
-          $element.css('position', '');
-          $element.css('top', '');
-        }
-      }
-
-      $scope.$on('$routeChangeStart', function () {
-        win.unbind('scroll', affixElement);
-      });
-
-      win.bind('scroll', affixElement);
-    }
+  var _settings = {
+    key: null,
+    authTransport: 'ajax',
+    baseUrl: 'http://foodio.com.br/admin'
   };
-};
 
-directive.$inject = ['$window'];
-angular.module('utils.foodio').directive('affixed', directive);
-'use strict';
+  var connection = null;
+  var channels = {};
+  var headers = null;
 
-var directive = function directive($templateCache) {
-  return {
-    restrict: 'E',
-    replace: true,
-    transclude: true,
-    template: $templateCache.get('/templates/box.html'),
-    scope: {
-      title: '@',
-      icon: '@',
-      containerClass: '@'
-    }
+  self.setKey = function (value) {
+    _settings.key = value;
   };
-};
 
-directive.$inject = ['$templateCache'];
-angular.module('utils.foodio').directive('box', directive);
-'use strict';
-
-var directive = function directive($templateCache) {
-  return {
-    restrict: 'E',
-    replace: true,
-    template: $templateCache.get('/templates/coupon.html'),
-    scope: {
-      options: '='
-    }
+  self.setBaseUrl = function (value) {
+    _settings.baseUrl = value;
   };
-};
 
-directive.$inject = ['$templateCache'];
-angular.module('utils.foodio').directive('coupon', directive);
-'use strict';
-
-var directive = function directive($templateCache) {
-  return {
-    restrict: 'E',
-    replace: true,
-    template: $templateCache.get('/templates/delete-button.html'),
-    scope: {
-      'class': '@',
-      icon: '@'
+  self.setAuthTransport = function (authTransport) {
+    if (authTransport !== 'ajax' && authTransport !== 'jsonp') {
+      authTransport = 'ajax';
     }
+
+    _settings.authTransport = authTransport;
   };
-};
 
-directive.$inject = ['$templateCache'];
-angular.module('utils.foodio').directive('deleteButton', directive);
-'use strict';
-
-var directive = function directive($templateCache) {
-  return {
-    restrict: 'E',
-    replace: true,
-    template: $templateCache.get('/templates/edit-button.html'),
-    scope: {
-      'class': '@',
-      icon: '@'
-    }
-  };
-};
-
-directive.$inject = ['$templateCache'];
-angular.module('utils.foodio').directive('editButton', directive);
-'use strict';
-
-var directive = function directive($templateCache) {
-  return {
-    restrict: 'E',
-    require: '^form',
-    transclude: true,
-    replace: true,
-    template: $templateCache.get('/templates/form-group.html'),
-    priority: 10000,
-    scope: {
-      label: '@',
-      vertical: '@',
-      required: '@'
-    },
-    link: function link(scope, $el, attrs) {
-      scope.id = 'field-' + Math.floor(Math.random() * 50000 + 1);
-      $el.find('input, textarea').attr('id', scope.id);
-    }
-  };
-};
-
-directive.$inject = ['$templateCache'];
-angular.module("utils.foodio").directive('formGroup', directive);
-'use strict';
-
-var directive = function directive() {
-  return {
-    restrict: 'E',
-    link: function link(scope, $el, attrs) {
-      $el.append('<input type="text" style="display:none" />').append('<input type="password" style="display:none" />');
-    }
-  };
-};
-
-angular.module('utils.foodio').directive('form', directive);
-'use strict';
-
-var directive = function directive() {
-  return {
-    restrict: 'E',
-    link: function link(scope, $el, attrs) {
-      var el = $el[0];
-
-      if (el.type !== 'radio' && el.type !== 'checkbox') {
-        el.classList.add('form-control');
-      }
-    }
-  };
-};
-
-angular.module('utils.foodio').directive('input', directive);
-'use strict';
-
-var directive = function directive($templateCache) {
-  return {
-    restrict: 'E',
-    template: $templateCache.get('/templates/limit.html'),
-    replace: true,
-    scope: {
-      maxlength: '=',
-      model: '='
-    },
-    link: function link(scope, $el, attrs) {
-      scope.maxlength = parseInt(scope.maxlength, 10);
-
-      if (_.isNaN(scope.maxlength) || !_.isNumber(scope.maxlength)) {
-        throw new Error('Valor do atributo maxlength da directiva limit deve ser numeral.');
-      }
-
-      // Verifica se o elemento antes da directiva é um input
-      var $textarea = $el.prev();
-      var type = $textarea.get(0).type;
-
-      if (type !== 'textarea') {
-        throw new Error('Elemento antes da directiva limit deve ser um textarea');
-      }
-
-      // Adiciona atributo maxlength no HTML para previnir de usuário digitar um valor com mais de 300 carácteres
-      $textarea.attr('maxlength', scope.maxlength);
-
-      // Usamos o valor length para lidar com o tamanho de chars do textarea
-      scope.length = 0;
-      scope.$watch('model', function (message) {
-        scope.length = message ? message.length : 0;
-      });
-    }
-  };
-};
-
-directive.$inject = ['$templateCache'];
-angular.module('utils.foodio').directive('limit', directive);
-'use strict';
-
-var directive = function directive($compile) {
-  return {
-    restrict: 'A',
-    link: function link(scope, $el, attrs) {
-      attrs.$set('ngDisabled', 'withLoader.inAction');
-      $el.prepend('<i class="fa fa-circle-o-notch fa-spin with-loader hide"></i> ');
-
-      $el.removeAttr('loading-spinner');
-
-      $compile($el)(scope);
-    }
-  };
-};
-
-directive.$inject = ['$compile'];
-angular.module('utils.foodio').directive('loadingSpinner', directive);
-'use strict';
-
-var directive = function directive($templateCache) {
-  return {
-    restrict: 'E',
-    template: $templateCache.get('/templates/map.html'),
-    replace: true,
-    scope: {
-      latitude: '=',
-      longitude: '=',
-      scrollWheel: '=',
-      zoom: '=',
-      markers: '=',
-      route: '=',
-      disableButtons: '='
-    },
-    link: function link(scope, $el, attrs) {
-      var markers = [];
-
-      scope.$watch('[latitude, longitude, markers]', function () {
-        scope.map ? reset() : initialize();
-      }, true);
-
-      var initialize = function initialize() {
-        if (!scope.latitude || !scope.longitude) {
-          return false;
+  self.$get = ["$localStorage", "$rootScope", function ($localStorage, $rootScope) {
+    return {
+      subscribe: function subscribe(channel) {
+        if (!_settings.key) {
+          throw new Error('É necessário uma chave para utilizar esse serviço');
         }
 
-        scope.map = new GMaps({
-          div: $el.get(0),
-          lat: scope.latitude,
-          lng: scope.longitude,
-          zoom: scope.zoom || 15,
-          scrollwheel: scope.scrollWheel || false,
-          disableDefaultUI: scope.disableButtons || false
-        });
-
-        if (scope.markers) {
-          addMarkers();
+        if (!channel) {
+          throw new Error('Deve ser passado um canal para se inscrever');
         }
 
-        if (scope.route) {
-          drawRoute();
-        }
-      };
+        var costumer = $localStorage['currentCostumer'];
+        var employee = $localStorage['currentEmployee'];
 
-      var addMarkers = function addMarkers() {
-        for (var i in markers) {
-          var marker = markers[i];
-          marker.setMap(null);
-        }
-
-        markers = [];
-
-        if (!angular.isArray(scope.markers)) {
-          throw new Error('Markers must be an array');
-        }
-
-        var _loop = function (i) {
-          var m = scope.markers[i];
-
-          if (!m.latitude || !m.longitude) {
-            throw new Error('Marker must have a latitude and longitude');
-          }
-
-          var marker = scope.map.addMarker({
-            lat: m.latitude,
-            lng: m.longitude,
-            infoWindow: m.title ? { content: '<p>' + m.title + '</p>' } : null,
-            draggable: angular.isFunction(m.onDrag) ? true : false
-          });
-
-          if (m.animate) {
-            marker.setAnimation(google.maps.Animation.BOUNCE);
-          }
-
-          if (angular.isFunction(m.onDrag)) {
-            google.maps.event.addListener(marker, 'dragend', function (event) {
-              m.onDrag({ latitude: event.latLng.lat(), longitude: event.latLng.lng() });
-            });
-          }
-
-          markers.push(marker);
+        var _headers = {
+          'X-Employee-Email': employee ? employee.email : null,
+          'X-Employee-Token': employee ? employee.authentication_token : null,
+          'X-Costumer-Email': costumer ? costumer.email : null,
+          'X-Costumer-Token': costumer ? costumer.authentication_token : null,
+          'X-Store-Id': employee ? employee.store.id : null
         };
 
-        for (var i in scope.markers) {
-          _loop(i);
-        }
-      };
-
-      var drawRoute = function drawRoute() {
-        if (!scope.route.destination || !scope.route.origin) {
-          throw new Error('Route must have a destination and a origin');
+        var headersChanged = headers && JSON.stringify(headers) === JSON.stringify(_headers) ? false : true;
+        if (!connection || connection && headersChanged) {
+          headers = _headers;
+          connection = new Pusher(_settings.key, { authEndpoint: _settings.baseUrl + '/companies/' + $rootScope.company.id + '/sessions/pusher/authentication', auth: { headers: headers }, authTransport: _settings.authTransport });
         }
 
-        scope.map.drawRoute({
-          destination: [scope.route.destination.latitude, scope.route.destination.longitude],
-          origin: [scope.route.origin.latitude, scope.route.origin.longitude],
-          travelMode: 'driving',
-          strokeColor: '#DD390D',
-          strokeOpacity: 0.6,
-          strokeWeight: 6
-        });
-      };
-
-      var reset = function reset() {
-        if (scope.markers) {
-          addMarkers();
+        if (!channels[channel]) {
+          channels[channel] = connection.subscribe(channel);
         }
 
-        var position = new google.maps.LatLng(scope.latitude, scope.longitude);
-        scope.map.panTo(position);
-      };
-    }
-  };
-};
-
-directive.$inject = ['$templateCache'];
-angular.module('utils.foodio').directive('map', directive);
-'use strict';
-
-var directive = function directive() {
-  return {
-    restrict: 'A',
-    link: function link(scope, $el, attrs) {
-      if (attrs.mask === 'phone') {
-        return $el.inputmask('(99) 9999-9999[9]');
-      }
-
-      if (attrs.mask === 'date') {
-        return $el.inputmask('99/99/9999');
-      }
-
-      if (attrs.mask === 'zipcode') {
-        return $el.inputmask('99999-999', { autoUnmask: true });
-      }
-
-      $el.inputmask(attrs.mask, { autoUnmask: attrs.autoUnmask || false });
-    }
-  };
-};
-
-angular.module('utils.foodio').directive('mask', directive);
-'use strict';
-
-var directive = function directive($uibModal, $templateCache, $parse, $timeout, Cropper) {
-  return {
-    restrict: 'A',
-    scope: false,
-    require: 'ngModel',
-    scope: {
-      model: '=ngModel'
-    },
-    link: function link(scope, $el, attrs, ngModel) {
-
-      if ($el.get(0).type.toLowerCase() !== 'file') {
-        return false;
-      }
-
-      $el.on('change', function (e) {
-        var file = $el.get(0).files[0];
-        var data = null;
-        var blob = null;
-
-        return Cropper.encode(blob = file).then(function (url) {
-          return $uibModal.open({
-            template: $templateCache.get('/templates/modal-crop.html'),
-            windowClass: 'modal-crop',
-            controller: 'ModalCropController as ctrl',
-            resolve: {
-              imgUrlResolved: function imgUrlResolved() {
-                return url;
-              },
-              fileResolved: function fileResolved() {
-                return file;
-              },
-              scopeResolved: function scopeResolved() {
-                return scope;
-              }
-            }
-          });
-        });
-      });
-    }
-  };
-};
-
-directive.$inject = ['$uibModal', '$templateCache', '$parse', '$timeout', 'Cropper'];
-angular.module("utils.foodio").directive('modalCrop', directive);
-'use strict';
-
-var directive = function directive($templateCache) {
-  return {
-    restrict: 'E',
-    replace: true,
-    template: $templateCache.get('/templates/no-results.html'),
-    scope: {
-      text: '@',
-      icon: '@'
-    }
-  };
-};
-
-directive.$inject = ['$templateCache'];
-angular.module('utils.foodio').directive('noResults', directive);
-'use strict';
-
-var directive = function directive($rootScope, $templateCache, printManager) {
-  return {
-    restrict: 'E',
-    replace: true,
-    template: $templateCache.get('/templates/print-button.html'),
-    scope: {
-      icon: '@',
-      layout: '@',
-      printData: '=',
-      printDataKey: '@'
-    },
-    link: function link(scope, el, attrs) {
-      el.on('click', function (e) {
-        e.stopPropagation();
-
-        if ($rootScope.socket && $rootScope.socket.connected) {
-          var data = {};
-          data[scope.printDataKey] = scope.printData;
-          printManager.print({ layout: scope.layout, data: data });
+        return channels[channel];
+      },
+      unsubscribe: function unsubscribe(channel) {
+        if (!channel) {
+          throw new Error('Deve ser passado um canal para se desinscrever');
         }
-      });
-    }
-  };
-};
 
-directive.$inject = ['$rootScope', '$templateCache', 'printManager'];
-angular.module('utils.foodio').directive('printButton', directive);
-'use strict';
-
-var directive = function directive() {
-  return {
-    restrict: 'E',
-    link: function link(scope, $el, attrs) {
-      $el[0].classList.add('form-control');
-    }
-  };
-};
-
-angular.module('utils.foodio').directive('select', directive);
-'use strict';
-
-var directive = function directive() {
-  return {
-    restrict: 'A',
-    require: 'ngModel',
-    link: function link(scope, $el, attrs, ngModel) {
-      if ($el.get(0).type === 'number') {
-        ngModel.$parsers.push(function (value) {
-          if (value) return value.toString();
-        });
-
-        ngModel.$formatters.push(function (value) {
-          if (value) return parseFloat(value, 10);
-        });
-      }
-    }
-  };
-};
-
-angular.module('utils.foodio').directive('step', directive);
-'use strict';
-
-var directive = function directive($templateCache) {
-  return {
-    restrict: 'E',
-    template: $templateCache.get('/templates/submit-form.html'),
-    replace: true,
-    transclude: true,
-    require: '^form',
-    scope: {
-      text: '@'
-    }
-  };
-};
-
-directive.$inject = ['$templateCache'];
-angular.module('utils.foodio').directive('submitForm', directive);
-"use strict";
-
-var directive = function directive() {
-  return {
-    restrict: 'E',
-    link: function link(scope, $el, attrs) {
-      $el.addClass("table table-hover table-striped").wrap("<div class='table-responsive'></div>");
-    }
-  };
-};
-
-angular.module('utils.foodio').directive('table', directive);
-'use strict';
-
-var directive = function directive() {
-  return {
-    restrict: 'E',
-    link: function link(scope, $el, attrs) {
-      var el = $el[0];
-      el.classList.add('form-control');
-    }
-  };
-};
-
-angular.module('utils.foodio').directive('textarea', directive);
-'use strict';
-
-var directive = function directive($templateCache, $interval) {
-  return {
-    restrict: 'E',
-    replace: true,
-    template: $templateCache.get('/templates/tik-tak.html'),
-    scope: {
-      interval: '@',
-      value: '=',
-      operator: '@'
-    },
-    link: function link(scope, $el, attrs) {
-      var operator = scope.operator && (scope.operator == '+' || scope.operator == '-') ? scope.operator : '-';
-
-      var operation = {
-        '+': function _(a, b) {
-          return parseFloat(a) + parseFloat(b);
-        },
-        '-': function _(a, b) {
-          return parseFloat(a) - parseFloat(b);
+        if (channels[channel]) {
+          delete channels[channel];
         }
-      };
 
-      $interval(function () {
-        scope.value = operation[operator](scope.value, 1);
-      }, scope.interval);
-    }
-  };
+        return pusher.unsubscribe(channel);
+      }
+    };
+  }];
 };
 
-directive.$inject = ['$templateCache', '$interval'];
-angular.module('utils.foodio').directive('tikTak', directive);
-'use strict';
-
-var directive = function directive(zipcodeApi) {
-  return {
-    restrict: 'A',
-    scope: {
-      zipcode: '&ngModel',
-      model: '=zipcodeModel'
-    },
-    link: function link(scope, $el, attrs) {
-      var _zipcode = null;
-
-      scope.$watch(scope.zipcode, function (value, oldValue) {
-        if (!value) return false;
-        if (value.length !== 8) return false;
-        if (value === oldValue) return false;
-        if (_zipcode === value) return false;
-
-        _zipcode = value;
-
-        var number = scope.model.number ? scope.model.number : null;
-
-        zipcodeApi.fetch({ zipcode: _zipcode, number: number }).then(function (response) {
-          var data = response.data;
-
-          scope.model.latitude = data.latitude;
-          scope.model.longitude = data.longitude;
-          scope.model.neighborhood = data.neighborhood;
-          scope.model.city = data.city;
-          scope.model.street = data.street;
-          scope.model.city_id = data.city.id;
-          scope.model.neighborhood_id = data.neighborhood.id;
-
-          $el.parents('.form-group').siblings().find("input[ng-model='address.number']").focus();
-        });
-      });
-    }
-  };
-};
-
-directive.$inject = ['zipcodeApi'];
-angular.module('utils.foodio').directive('zipcode', directive);
+angular.module('utils.foodio').provider('pusher', pusher);
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -2608,82 +2097,593 @@ var tempCart = function tempCart() {
 angular.module('utils.foodio').factory('TempCart', tempCart);
 'use strict';
 
-var pusher = function pusher() {
-  var self = this;
+var directive = function directive($window) {
+  return {
+    restrict: 'A',
+    link: function link($scope, $element, attrs) {
+      var win = angular.element($window);
+      var topOffset = $element[0].offsetTop;
 
-  var _settings = {
-    key: null,
-    authTransport: 'ajax',
-    baseUrl: 'http://foodio.com.br/admin'
-  };
+      var width = $element.width();
+      $element.css('width', width);
 
-  var connection = null;
-  var channels = {};
-  var headers = null;
-
-  self.setKey = function (value) {
-    _settings.key = value;
-  };
-
-  self.setBaseUrl = function (value) {
-    _settings.baseUrl = value;
-  };
-
-  self.setAuthTransport = function (authTransport) {
-    if (authTransport !== 'ajax' && authTransport !== 'jsonp') {
-      authTransport = 'ajax';
-    }
-
-    _settings.authTransport = authTransport;
-  };
-
-  self.$get = ["$localStorage", "$rootScope", function ($localStorage, $rootScope) {
-    return {
-      subscribe: function subscribe(channel) {
-        if (!_settings.key) {
-          throw new Error('É necessário uma chave para utilizar esse serviço');
+      function affixElement() {
+        if ($window.pageYOffset > attrs.affixer) {
+          $element.css('position', 'fixed');
+          $element.css('top', '0px');
+        } else {
+          $element.css('position', '');
+          $element.css('top', '');
         }
-
-        if (!channel) {
-          throw new Error('Deve ser passado um canal para se inscrever');
-        }
-
-        var costumer = $localStorage['currentCostumer'];
-        var employee = $localStorage['currentEmployee'];
-
-        var _headers = {
-          'X-Employee-Email': employee ? employee.email : null,
-          'X-Employee-Token': employee ? employee.authentication_token : null,
-          'X-Costumer-Email': costumer ? costumer.email : null,
-          'X-Costumer-Token': costumer ? costumer.authentication_token : null,
-          'X-Store-Id': employee ? employee.store.id : null
-        };
-
-        var headersChanged = headers && JSON.stringify(headers) === JSON.stringify(_headers) ? false : true;
-        if (!connection || connection && headersChanged) {
-          headers = _headers;
-          connection = new Pusher(_settings.key, { authEndpoint: _settings.baseUrl + '/companies/' + $rootScope.company.id + '/sessions/pusher/authentication', auth: { headers: headers }, authTransport: _settings.authTransport });
-        }
-
-        if (!channels[channel]) {
-          channels[channel] = connection.subscribe(channel);
-        }
-
-        return channels[channel];
-      },
-      unsubscribe: function unsubscribe(channel) {
-        if (!channel) {
-          throw new Error('Deve ser passado um canal para se desinscrever');
-        }
-
-        if (channels[channel]) {
-          delete channels[channel];
-        }
-
-        return pusher.unsubscribe(channel);
       }
-    };
-  }];
+
+      $scope.$on('$routeChangeStart', function () {
+        win.unbind('scroll', affixElement);
+      });
+
+      win.bind('scroll', affixElement);
+    }
+  };
 };
 
-angular.module('utils.foodio').provider('pusher', pusher);
+directive.$inject = ['$window'];
+angular.module('utils.foodio').directive('affixed', directive);
+'use strict';
+
+var directive = function directive($templateCache) {
+  return {
+    restrict: 'E',
+    replace: true,
+    transclude: true,
+    template: $templateCache.get('/templates/box.html'),
+    scope: {
+      title: '@',
+      icon: '@',
+      containerClass: '@'
+    }
+  };
+};
+
+directive.$inject = ['$templateCache'];
+angular.module('utils.foodio').directive('box', directive);
+'use strict';
+
+var directive = function directive($templateCache) {
+  return {
+    restrict: 'E',
+    replace: true,
+    template: $templateCache.get('/templates/coupon.html'),
+    scope: {
+      options: '='
+    }
+  };
+};
+
+directive.$inject = ['$templateCache'];
+angular.module('utils.foodio').directive('coupon', directive);
+'use strict';
+
+var directive = function directive($templateCache) {
+  return {
+    restrict: 'E',
+    replace: true,
+    template: $templateCache.get('/templates/delete-button.html'),
+    scope: {
+      'class': '@',
+      icon: '@'
+    }
+  };
+};
+
+directive.$inject = ['$templateCache'];
+angular.module('utils.foodio').directive('deleteButton', directive);
+'use strict';
+
+var directive = function directive($templateCache) {
+  return {
+    restrict: 'E',
+    replace: true,
+    template: $templateCache.get('/templates/edit-button.html'),
+    scope: {
+      'class': '@',
+      icon: '@'
+    }
+  };
+};
+
+directive.$inject = ['$templateCache'];
+angular.module('utils.foodio').directive('editButton', directive);
+'use strict';
+
+var directive = function directive($templateCache) {
+  return {
+    restrict: 'E',
+    require: '^form',
+    transclude: true,
+    replace: true,
+    template: $templateCache.get('/templates/form-group.html'),
+    priority: 10000,
+    scope: {
+      label: '@',
+      vertical: '@',
+      required: '@'
+    },
+    link: function link(scope, $el, attrs) {
+      scope.id = 'field-' + Math.floor(Math.random() * 50000 + 1);
+      $el.find('input, textarea').attr('id', scope.id);
+    }
+  };
+};
+
+directive.$inject = ['$templateCache'];
+angular.module("utils.foodio").directive('formGroup', directive);
+'use strict';
+
+var directive = function directive() {
+  return {
+    restrict: 'E',
+    link: function link(scope, $el, attrs) {
+      $el.append('<input type="text" style="display:none" />').append('<input type="password" style="display:none" />');
+    }
+  };
+};
+
+angular.module('utils.foodio').directive('form', directive);
+'use strict';
+
+var directive = function directive() {
+  return {
+    restrict: 'E',
+    link: function link(scope, $el, attrs) {
+      var el = $el[0];
+
+      if (el.type !== 'radio' && el.type !== 'checkbox') {
+        el.classList.add('form-control');
+      }
+    }
+  };
+};
+
+angular.module('utils.foodio').directive('input', directive);
+'use strict';
+
+var directive = function directive($templateCache) {
+  return {
+    restrict: 'E',
+    template: $templateCache.get('/templates/limit.html'),
+    replace: true,
+    scope: {
+      maxlength: '=',
+      model: '='
+    },
+    link: function link(scope, $el, attrs) {
+      scope.maxlength = parseInt(scope.maxlength, 10);
+
+      if (_.isNaN(scope.maxlength) || !_.isNumber(scope.maxlength)) {
+        throw new Error('Valor do atributo maxlength da directiva limit deve ser numeral.');
+      }
+
+      // Verifica se o elemento antes da directiva é um input
+      var $textarea = $el.prev();
+      var type = $textarea.get(0).type;
+
+      if (type !== 'textarea') {
+        throw new Error('Elemento antes da directiva limit deve ser um textarea');
+      }
+
+      // Adiciona atributo maxlength no HTML para previnir de usuário digitar um valor com mais de 300 carácteres
+      $textarea.attr('maxlength', scope.maxlength);
+
+      // Usamos o valor length para lidar com o tamanho de chars do textarea
+      scope.length = 0;
+      scope.$watch('model', function (message) {
+        scope.length = message ? message.length : 0;
+      });
+    }
+  };
+};
+
+directive.$inject = ['$templateCache'];
+angular.module('utils.foodio').directive('limit', directive);
+'use strict';
+
+var directive = function directive($compile) {
+  return {
+    restrict: 'A',
+    link: function link(scope, $el, attrs) {
+      attrs.$set('ngDisabled', 'withLoader.inAction');
+      $el.prepend('<i class="fa fa-circle-o-notch fa-spin with-loader hide"></i> ');
+
+      $el.removeAttr('loading-spinner');
+
+      $compile($el)(scope);
+    }
+  };
+};
+
+directive.$inject = ['$compile'];
+angular.module('utils.foodio').directive('loadingSpinner', directive);
+'use strict';
+
+var directive = function directive($templateCache) {
+  return {
+    restrict: 'E',
+    template: $templateCache.get('/templates/map.html'),
+    replace: true,
+    scope: {
+      latitude: '=',
+      longitude: '=',
+      scrollWheel: '=',
+      zoom: '=',
+      markers: '=',
+      route: '=',
+      disableButtons: '='
+    },
+    link: function link(scope, $el, attrs) {
+      var markers = [];
+
+      scope.$watch('[latitude, longitude, markers]', function () {
+        scope.map ? reset() : initialize();
+      }, true);
+
+      var initialize = function initialize() {
+        if (!scope.latitude || !scope.longitude) {
+          return false;
+        }
+
+        scope.map = new GMaps({
+          div: $el.get(0),
+          lat: scope.latitude,
+          lng: scope.longitude,
+          zoom: scope.zoom || 15,
+          scrollwheel: scope.scrollWheel || false,
+          disableDefaultUI: scope.disableButtons || false
+        });
+
+        if (scope.markers) {
+          addMarkers();
+        }
+
+        if (scope.route) {
+          drawRoute();
+        }
+      };
+
+      var addMarkers = function addMarkers() {
+        for (var i in markers) {
+          var marker = markers[i];
+          marker.setMap(null);
+        }
+
+        markers = [];
+
+        if (!angular.isArray(scope.markers)) {
+          throw new Error('Markers must be an array');
+        }
+
+        var _loop = function (i) {
+          var m = scope.markers[i];
+
+          if (!m.latitude || !m.longitude) {
+            throw new Error('Marker must have a latitude and longitude');
+          }
+
+          var marker = scope.map.addMarker({
+            lat: m.latitude,
+            lng: m.longitude,
+            infoWindow: m.title ? { content: '<p>' + m.title + '</p>' } : null,
+            draggable: angular.isFunction(m.onDrag) ? true : false
+          });
+
+          if (m.animate) {
+            marker.setAnimation(google.maps.Animation.BOUNCE);
+          }
+
+          if (angular.isFunction(m.onDrag)) {
+            google.maps.event.addListener(marker, 'dragend', function (event) {
+              m.onDrag({ latitude: event.latLng.lat(), longitude: event.latLng.lng() });
+            });
+          }
+
+          markers.push(marker);
+        };
+
+        for (var i in scope.markers) {
+          _loop(i);
+        }
+      };
+
+      var drawRoute = function drawRoute() {
+        if (!scope.route.destination || !scope.route.origin) {
+          throw new Error('Route must have a destination and a origin');
+        }
+
+        scope.map.drawRoute({
+          destination: [scope.route.destination.latitude, scope.route.destination.longitude],
+          origin: [scope.route.origin.latitude, scope.route.origin.longitude],
+          travelMode: 'driving',
+          strokeColor: '#DD390D',
+          strokeOpacity: 0.6,
+          strokeWeight: 6
+        });
+      };
+
+      var reset = function reset() {
+        if (scope.markers) {
+          addMarkers();
+        }
+
+        var position = new google.maps.LatLng(scope.latitude, scope.longitude);
+        scope.map.panTo(position);
+      };
+    }
+  };
+};
+
+directive.$inject = ['$templateCache'];
+angular.module('utils.foodio').directive('map', directive);
+'use strict';
+
+var directive = function directive() {
+  return {
+    restrict: 'A',
+    link: function link(scope, $el, attrs) {
+      if (attrs.mask === 'phone') {
+        return $el.inputmask('(99) 9999-9999[9]');
+      }
+
+      if (attrs.mask === 'date') {
+        return $el.inputmask('99/99/9999');
+      }
+
+      if (attrs.mask === 'zipcode') {
+        return $el.inputmask('99999-999', { autoUnmask: true });
+      }
+
+      $el.inputmask(attrs.mask, { autoUnmask: attrs.autoUnmask || false });
+    }
+  };
+};
+
+angular.module('utils.foodio').directive('mask', directive);
+'use strict';
+
+var directive = function directive($uibModal, $templateCache, $parse, $timeout, Cropper) {
+  return {
+    restrict: 'A',
+    scope: false,
+    require: 'ngModel',
+    scope: {
+      model: '=ngModel'
+    },
+    link: function link(scope, $el, attrs, ngModel) {
+
+      if ($el.get(0).type.toLowerCase() !== 'file') {
+        return false;
+      }
+
+      $el.on('change', function (e) {
+        var file = $el.get(0).files[0];
+        var data = null;
+        var blob = null;
+
+        return Cropper.encode(blob = file).then(function (url) {
+          return $uibModal.open({
+            template: $templateCache.get('/templates/modal-crop.html'),
+            windowClass: 'modal-crop',
+            controller: 'ModalCropController as ctrl',
+            resolve: {
+              imgUrlResolved: function imgUrlResolved() {
+                return url;
+              },
+              fileResolved: function fileResolved() {
+                return file;
+              },
+              scopeResolved: function scopeResolved() {
+                return scope;
+              }
+            }
+          });
+        });
+      });
+    }
+  };
+};
+
+directive.$inject = ['$uibModal', '$templateCache', '$parse', '$timeout', 'Cropper'];
+angular.module("utils.foodio").directive('modalCrop', directive);
+'use strict';
+
+var directive = function directive($templateCache) {
+  return {
+    restrict: 'E',
+    replace: true,
+    template: $templateCache.get('/templates/no-results.html'),
+    scope: {
+      text: '@',
+      icon: '@'
+    }
+  };
+};
+
+directive.$inject = ['$templateCache'];
+angular.module('utils.foodio').directive('noResults', directive);
+'use strict';
+
+var directive = function directive($rootScope, $templateCache, printManager) {
+  return {
+    restrict: 'E',
+    replace: true,
+    template: $templateCache.get('/templates/print-button.html'),
+    scope: {
+      icon: '@',
+      layout: '@',
+      printData: '=',
+      printDataKey: '@'
+    },
+    link: function link(scope, el, attrs) {
+      el.on('click', function (e) {
+        e.stopPropagation();
+
+        if ($rootScope.socket && $rootScope.socket.connected) {
+          var data = {};
+          data[scope.printDataKey] = scope.printData;
+          printManager.print({ layout: scope.layout, data: data });
+        }
+      });
+    }
+  };
+};
+
+directive.$inject = ['$rootScope', '$templateCache', 'printManager'];
+angular.module('utils.foodio').directive('printButton', directive);
+'use strict';
+
+var directive = function directive() {
+  return {
+    restrict: 'E',
+    link: function link(scope, $el, attrs) {
+      $el[0].classList.add('form-control');
+    }
+  };
+};
+
+angular.module('utils.foodio').directive('select', directive);
+'use strict';
+
+var directive = function directive() {
+  return {
+    restrict: 'A',
+    require: 'ngModel',
+    link: function link(scope, $el, attrs, ngModel) {
+      if ($el.get(0).type === 'number') {
+        ngModel.$parsers.push(function (value) {
+          if (value) return value.toString();
+        });
+
+        ngModel.$formatters.push(function (value) {
+          if (value) return parseFloat(value, 10);
+        });
+      }
+    }
+  };
+};
+
+angular.module('utils.foodio').directive('step', directive);
+'use strict';
+
+var directive = function directive($templateCache) {
+  return {
+    restrict: 'E',
+    template: $templateCache.get('/templates/submit-form.html'),
+    replace: true,
+    transclude: true,
+    require: '^form',
+    scope: {
+      text: '@'
+    }
+  };
+};
+
+directive.$inject = ['$templateCache'];
+angular.module('utils.foodio').directive('submitForm', directive);
+"use strict";
+
+var directive = function directive() {
+  return {
+    restrict: 'E',
+    link: function link(scope, $el, attrs) {
+      $el.addClass("table table-hover table-striped").wrap("<div class='table-responsive'></div>");
+    }
+  };
+};
+
+angular.module('utils.foodio').directive('table', directive);
+'use strict';
+
+var directive = function directive() {
+  return {
+    restrict: 'E',
+    link: function link(scope, $el, attrs) {
+      var el = $el[0];
+      el.classList.add('form-control');
+    }
+  };
+};
+
+angular.module('utils.foodio').directive('textarea', directive);
+'use strict';
+
+var directive = function directive($templateCache, $interval) {
+  return {
+    restrict: 'E',
+    replace: true,
+    template: $templateCache.get('/templates/tik-tak.html'),
+    scope: {
+      interval: '@',
+      value: '=',
+      operator: '@'
+    },
+    link: function link(scope, $el, attrs) {
+      var operator = scope.operator && (scope.operator == '+' || scope.operator == '-') ? scope.operator : '-';
+
+      var operation = {
+        '+': function _(a, b) {
+          return parseFloat(a) + parseFloat(b);
+        },
+        '-': function _(a, b) {
+          return parseFloat(a) - parseFloat(b);
+        }
+      };
+
+      $interval(function () {
+        scope.value = operation[operator](scope.value, 1);
+      }, scope.interval);
+    }
+  };
+};
+
+directive.$inject = ['$templateCache', '$interval'];
+angular.module('utils.foodio').directive('tikTak', directive);
+'use strict';
+
+var directive = function directive(zipcodeApi) {
+  return {
+    restrict: 'A',
+    scope: {
+      zipcode: '&ngModel',
+      model: '=zipcodeModel'
+    },
+    link: function link(scope, $el, attrs) {
+      var _zipcode = null;
+
+      scope.$watch(scope.zipcode, function (value, oldValue) {
+        if (!value) return false;
+        if (value.length !== 8) return false;
+        if (value === oldValue) return false;
+        if (_zipcode === value) return false;
+
+        _zipcode = value;
+
+        var number = scope.model.number ? scope.model.number : null;
+
+        zipcodeApi.fetch({ zipcode: _zipcode, number: number }).then(function (response) {
+          var data = response.data;
+
+          scope.model.latitude = data.latitude;
+          scope.model.longitude = data.longitude;
+          scope.model.neighborhood = data.neighborhood;
+          scope.model.city = data.city;
+          scope.model.street = data.street;
+          scope.model.city_id = data.city.id;
+          scope.model.neighborhood_id = data.neighborhood.id;
+
+          $el.parents('.form-group').siblings().find("input[ng-model='address.number']").focus();
+        });
+      });
+    }
+  };
+};
+
+directive.$inject = ['zipcodeApi'];
+angular.module('utils.foodio').directive('zipcode', directive);

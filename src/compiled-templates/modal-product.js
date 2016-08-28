@@ -29,10 +29,14 @@ module.run(['$templateCache', function($templateCache) {
     '    </p>\n' +
     '    <p class="product-description" ng-if="product.club_points">\n' +
     '      <i class="fa fa-trophy"></i>\n' +
-    '      Ganhe <strong>{{ product.club_points }}</strong> pontos\n' +
+    '      Ganhe <strong>{{ cartItem.amount * product.club_points }}</strong> pontos\n' +
     '      <a href="#" uib-tooltip="Ao comprar esse produto você ganha {{ product.club_points }} pontos no nosso programa de fidelidade" tooltip-placement="bottom" tooltip-append-to-body="true">\n' +
     '        <i class="fa fa-info-circle"></i>\n' +
     '      </a>\n' +
+    '    </p>\n' +
+    '    <p class="product-description" ng-if="product.enable_to_change_in_club">\n' +
+    '      <i class="fa fa-exchange"></i>\n' +
+    '      Este produto está disponível para troca atráves do nosso clube de recompensas. A partir de {{ product.club_price }} pontos por unidade.\n' +
     '    </p>\n' +
     '    <div class="product-description" ng-if="product.bonifications.length">\n' +
     '      <i class="fa fa-trophy"></i>\n' +
