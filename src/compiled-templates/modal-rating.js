@@ -12,7 +12,7 @@ module.run(['$templateCache', function($templateCache) {
     '  </h4>\n' +
     '</div>\n' +
     '<div class="modal-body">\n' +
-    '  <p>1. Em uma escala de 1 a 10, sendo 1 altamente improvavel e 10 altamente provavel, qual a probabilidade de você indicar o speedy food a um amigo(a)?</p>\n' +
+    '  <p>1. Em uma escala de 1 a 10, sendo 1 altamente improvavel e 10 altamente provavel, qual a probabilidade de você nos indicar a um amigo(a)?</p>\n' +
     '  <uib-rating ng-model="rating.score" max="10" state-on="\'fa fa-star fa-star-filled\'" state-off="\'fa fa-star-o\'"></uib-rating>\n' +
     '  <hr />\n' +
     '  <p>2. Qual a nota você daria para qualidade dos nossos produtos?</p>\n' +
@@ -35,6 +35,7 @@ module.run(['$templateCache', function($templateCache) {
     '  <button class="btn btn-default" ng-click="ctrl.close()">\n' +
     '    Cancelar\n' +
     '  </button>\n' +
-    '</div>');
+    '</div>\n' +
+    '');
 }]);
 })();
