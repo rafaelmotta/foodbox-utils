@@ -1,4 +1,4 @@
-let ctrl = ($scope, $uibModalInstance, cartItemApi, cartResolved, productResolved, cartItemResolved, bonificationResolved) => {
+let ctrl = ($scope, $uibModalInstance, hint, cartItemApi, cartResolved, productResolved, cartItemResolved, bonificationResolved) => {
 
   return new class ModalProductCustomizationCtrl {
     constructor() {
@@ -107,9 +107,10 @@ let ctrl = ($scope, $uibModalInstance, cartItemApi, cartResolved, productResolve
     }
 
     increment(i, j) {
-      // if($scope.product.product_addon_categories[i].max) {
-      //
-      // }
+      if(this.hasReachedMaxByAddonCategory(i)) {
+        hint.error(`Você já selecionou o máximo de ingredientes permitidos para esta categoria`)
+        return;
+      }
 
       var item = $scope.cartItem.cart_item_addons[i][j];
       item.amount += 1;
@@ -125,8 +126,24 @@ let ctrl = ($scope, $uibModalInstance, cartItemApi, cartResolved, productResolve
       }
     }
 
-    toggleButtonState() {
+    hasReachedMaxByAddonCategory(i) {
+      let max = $scope.product.product_addon_categories[i].max;
 
+      if(!max) {
+        return false;
+      }
+
+      let used = 0;
+      for(let j in $scope.cartItem.cart_item_addons[i]) {
+        let cartItemAddon = $scope.cartItem.cart_item_addons[i][j];
+        used+= cartItemAddon.amount;
+      }
+
+      if(used === max) {
+        return true;
+      }
+
+      return false;
     }
 
     // @name close
@@ -141,5 +158,5 @@ let ctrl = ($scope, $uibModalInstance, cartItemApi, cartResolved, productResolve
   };
 };
 
-ctrl.$inject = ['$scope', '$uibModalInstance', 'cartItemApi', 'cartResolved', 'productResolved', 'cartItemResolved', 'bonificationResolved'];
+ctrl.$inject = ['$scope', '$uibModalInstance', 'hint', 'cartItemApi', 'cartResolved', 'productResolved', 'cartItemResolved', 'bonificationResolved'];
 angular.module('utils.foodio').controller('ModalProductCtrl', ctrl);
