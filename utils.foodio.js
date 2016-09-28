@@ -929,8 +929,9 @@ var ctrl = function ctrl($scope, $uibModalInstance, hint, cartItemApi, cartResol
               var amount = 0;
 
               if (cartItemResolved && cartItemResolved.cart_item_addons_to_put.length) {
-                if (_.findWhere(cartItemResolved.cart_item_addons_to_put, { product_addon_id: addon.id })) {
-                  amount = 1;
+                var cartItemAddon = _.findWhere(cartItemResolved.cart_item_addons_to_put, { product_addon_id: addon.id });
+                if (cartItemAddon) {
+                  amount = cartItemAddon.amount;
                 }
               } else {
                 if (addonCategory.auto_fill) {
