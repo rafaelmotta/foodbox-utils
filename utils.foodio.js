@@ -792,7 +792,12 @@ var ctrl = function ctrl($scope, $uibModalInstance, hint, cartItemApi, cartResol
 
                 for (var j in $scope.cartItem.cart_item_addons[i]) {
                   var cartItemAddon = $scope.cartItem.cart_item_addons[i][j];
-                  used += cartItemAddon.amount;
+
+                  if (!$scope.product.product_addon_categories[i].multiple) {
+                    used += 1;
+                  } else {
+                    used += cartItemAddon.amount;
+                  }
                 }
 
                 if (used < min) {

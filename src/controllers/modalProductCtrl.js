@@ -61,17 +61,22 @@ let ctrl = ($scope, $uibModalInstance, hint, cartItemApi, cartResolved, productR
           if(addonCategory.min) {
             let min = $scope.product.product_addon_categories[i].min;
 
-            if(min) {
-              let used = 0;
+            if (min) {
+              var used = 0;
 
-              for(let j in $scope.cartItem.cart_item_addons[i]) {
-                let cartItemAddon = $scope.cartItem.cart_item_addons[i][j];
-                used+= cartItemAddon.amount;
+              for (var j in $scope.cartItem.cart_item_addons[i]) {
+                var cartItemAddon = $scope.cartItem.cart_item_addons[i][j];
+
+                if(!$scope.product.product_addon_categories[i].multiple) {
+                  used += 1;
+                } else {
+                  used += cartItemAddon.amount;
+                }
               }
 
-              if(used < min) {
+              if (used < min) {
                 errors = true;
-                hint.error(`Você precisa selecionar pelo menos ${min} ingredientes na categoria ${addonCategory.name}`);
+                hint.error('Você precisa selecionar pelo menos ' + min + ' ingredientes na categoria ' + addonCategory.name);
 
                 break;
               }
