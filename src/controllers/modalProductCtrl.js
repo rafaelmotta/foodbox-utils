@@ -39,18 +39,16 @@ let ctrl = ($scope, $uibModalInstance, cartItemApi, cartResolved, productResolve
         for(let j in $scope.product.product_addon_categories[i].product_addons) {
           let addon = $scope.product.product_addon_categories[i].product_addons[j];
 
-          if((addonCategory.max === 1 && addonCategory.min === 1) || (addonCategory.max === 1 && !addonCategory.min)|| (!addonCategory.max && addonCategory.min === 1))  {
-
-          } else {
-            let selected = false;
+          if(addonCategory.multiple)  {
+            let amount = 0;
 
             if(cartItemResolved && cartItemResolved.cart_item_addons_to_put.length) {
               if(_.findWhere(cartItemResolved.cart_item_addons_to_put, { product_addon_id: addon.id })) {
-                selected = true;
+                amount = 1;
               }
             } else {
               if(addonCategory.auto_fill) {
-                selected = true;
+                amount = 1;
               }
             }
 
@@ -61,7 +59,7 @@ let ctrl = ($scope, $uibModalInstance, cartItemApi, cartResolved, productResolve
             defaultCartItem.cart_item_addons[i][j] = {
               id: addon.id,
               price: addon.price,
-              selected: selected
+              amount: amount
             };
           }
         }
@@ -84,8 +82,8 @@ let ctrl = ($scope, $uibModalInstance, cartItemApi, cartResolved, productResolve
           for(let j in a) {
             let addon = a[j];
 
-            if(addon.amount) {
-              addonsPrice += parseFloat(addon.price);
+            if (addon.amount) {
+              addonsPrice += parseFloat(addon.price) * addon.amount;
             }
           }
         }
@@ -106,6 +104,29 @@ let ctrl = ($scope, $uibModalInstance, cartItemApi, cartResolved, productResolve
       }, () => {
         $scope.buttons.disabled = false;
       });
+    }
+
+    increment(i, j) {
+      // if($scope.product.product_addon_categories[i].max) {
+      //
+      // }
+
+      var item = $scope.cartItem.cart_item_addons[i][j];
+      item.amount += 1;
+      this.updatePrice();
+    }
+
+    decrement(i, j) {
+      var item = $scope.cartItem.cart_item_addons[i][j];
+
+      if(item.amount) {
+        item.amount -= 1;
+        this.updatePrice();
+      }
+    }
+
+    toggleButtonState() {
+
     }
 
     // @name close
