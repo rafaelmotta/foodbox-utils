@@ -91,7 +91,7 @@ module.run(['$templateCache', function($templateCache) {
     '            </label>\n' +
     '\n' +
     '            <label class="clearfix" ng-disabled="!addon.available" ng-if="addonCategory.multiple && addonCategory.allow_amount">\n' +
-    '              {{ addon.name }}\n' +
+    '              <span class="addon-name">{{ addon.name }}</span>\n' +
     '              <a ng-if="addon.club_points" href="#" uib-tooltip="Ao comprar esse ingrediente você ganha {{ addon.club_points }} pontos no nosso programa de fidelidade" tooltip-placement="bottom" tooltip-append-to-body="true">\n' +
     '                <i class="fa fa-trophy"></i>\n' +
     '              </a>\n' +
