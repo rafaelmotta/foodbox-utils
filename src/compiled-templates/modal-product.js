@@ -56,14 +56,14 @@ module.run(['$templateCache', function($templateCache) {
     '      <div ng-repeat="(key, addonCategory) in product.product_addon_categories" class="addon-categories-list">\n' +
     '        <div class="addon-category-name">\n' +
     '          {{ addonCategory.name }}\n' +
-    '          <small ng-show="!addonCategory.max && !addonCategory.min">Escolha quantos ingredientes desejar</span></small>\n' +
+    '          <small ng-show="!addonCategory.max && !addonCategory.min">Escolha quantas opções desejar</span></small>\n' +
     '          <small ng-show="!addonCategory.max && addonCategory.min">\n' +
-    '            Escolha pelo menos {{ addonCategory.min }} <span ng-show="addonCategory.min === 1">ingrediente</span><span ng-show="addonCategory.min > 1">ingredientes</span>\n' +
+    '            Escolha pelo menos {{ addonCategory.min }} <span ng-show="addonCategory.min === 1">opção</span><span ng-show="addonCategory.min > 1">opções</span>\n' +
     '          </small>\n' +
     '          <small ng-show="addonCategory.max">\n' +
     '            <span ng-show="addonCategory.max === 1 && addonCategory.min === 1 || addonCategory.max === 1 && !addonCategory.min">Escolha ao menos 1 ingrediente</span>\n' +
-    '            <span ng-show="addonCategory.max > 1 && addonCategory.min >= 1">Escolha entre {{ addonCategory.min }} à {{ addonCategory.max }} ingredientes</span>\n' +
-    '            <span ng-show="addonCategory.max > 1 && !addonCategory.min">Escolha até {{ addonCategory.max }} ingredientes</span>\n' +
+    '            <span ng-show="addonCategory.max > 1 && addonCategory.min >= 1">Escolha entre {{ addonCategory.min }} à {{ addonCategory.max }} opções</span>\n' +
+    '            <span ng-show="addonCategory.max > 1 && !addonCategory.min">Escolha até {{ addonCategory.max }} opções</span>\n' +
     '          </small>\n' +
     '        </div>\n' +
     '        <div class="addons-list">\n' +
